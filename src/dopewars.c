@@ -1,6 +1,6 @@
 /************************************************************************
  * dopewars.c     dopewars - general purpose routines and init          *
- * Copyright (C)  1998-2022  Ben Webb                                   *
+ * Copyright (C)  1998-2024  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
  *                WWW: https://dopewars.sourceforge.io/                 *
  *                                                                      *
