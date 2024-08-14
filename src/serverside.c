@@ -70,7 +70,7 @@ static const price_t MINTRENCHPRICE = 200, MAXTRENCHPRICE = 300;
 char *Discover[NUMDISCOVER] = {
   /* Things that can "happen" to your spies - look for strings containing
      "The spy %s!" to see how these strings are used. */
-  N_("escaped"), N_("defected"), N_("was shot")
+  N_("escaped"), N_("defected"), N_("was attacked")
 };
 
 /* The two keys that are valid answers to the Attack/Evade question. If
@@ -126,7 +126,7 @@ char *PidFile = NULL;
 
 static char HelpText[] = {
   /* Help on various general server commands */
-  N_("dopewars server version %s commands and settings\n\n"
+  N_("Church Wars server version %s commands and settings\n\n"
      "help                     Displays this help screen\n"
      "list                     Lists all players logged on\n"
      "push <player>            Politely asks the named player to leave\n"
@@ -434,7 +434,7 @@ void HandleServerMessage(gchar *buf, Player *Play)
     i = atoi(Data);
     /* Make sure value is within range */
     if (i < 0 || i >= NumLocation) {
-      dopelog(3, LF_SERVER, _("%s: DENIED jet to invalid location %s"),
+      dopelog(3, LF_SERVER, _("%s: DENIED travel to invalid location %s"),
               GetPlayerName(Play), Data);
       break;
     }
@@ -453,10 +453,10 @@ void HandleServerMessage(gchar *buf, Player *Play)
         && Play->EventNum != E_FINISH) {
       /* Message displayed when a player reaches their maximum number of
          turns */
-      FinishGame(Play, _("Your dealing time is up..."));
+      FinishGame(Play, _("Your trading time is up..."));
     } else if (i != Play->IsAt && (NumTurns == 0 || Play->Turn < NumTurns)
                && Play->EventNum == E_NONE && Play->Health > 0) {
-      dopelog(4, LF_SERVER, "%s jets to %s",
+      dopelog(4, LF_SERVER, "%s travels to %s",
               GetPlayerName(Play), Location[i].Name);
       Play->IsAt = i;
       Play->Turn++;
@@ -472,7 +472,7 @@ void HandleServerMessage(gchar *buf, Player *Play)
       /* A player has tried to jet to a new location, but we don't allow
          them to. (e.g. they're still fighting someone, or they're
          supposed to be dead) */
-      dopelog(3, LF_SERVER, _("%s: DENIED jet to %s"),
+      dopelog(3, LF_SERVER, _("%s: DENIED travel to %s"),
               GetPlayerName(Play), Location[i].Name);
     }
     break;
@@ -544,7 +544,7 @@ void HandleServerMessage(gchar *buf, Player *Play)
     break;
   case C_TIPOFF:
     if (Play->Cash >= Prices.Tipoff) {
-      dopelog(3, LF_SERVER, _("%s tipped off the cops to %s"),
+      dopelog(3, LF_SERVER, _("%s tipped off the Amirs to %s"),
               GetPlayerName(Play), GetPlayerName(To));
       Play->Cash -= Prices.Tipoff;
       LoseBitch(Play, NULL, NULL);
@@ -817,7 +817,7 @@ static gboolean StartServer(void)
 
   /* Initial startup message for the server */
   dopelog(0, LF_SERVER, 
-          _("dopewars server version %s ready and waiting for "
+          _("Church Wars server version %s ready and waiting for "
             "connections on port %d."), VERSION, Port);
 
   MetaUpdateTimeout = MetaMinTimeout = 0;
@@ -1008,7 +1008,7 @@ Player *HandleNewConnection(void)
 
 void StopServer()
 {
-  dopelog(0, LF_SERVER, _("dopewars server terminating."));
+  dopelog(0, LF_SERVER, _("Church Wars server terminating."));
   g_scanner_destroy(Scanner);
   CleanUpServer();
   RemovePidFile();
@@ -2329,7 +2329,7 @@ void SendEvent(Player *To)
         if (NumPlaying == 0)
           subwaychance = 100;
         if (brandom(0, 100) < subwaychance) {
-          text = g_strdup_printf(_("The lady next to you on the subway "
+          text = g_strdup_printf(_("The lady next to you in Holy Mass "
                                    "said,^ \"%s\"%s"),
                                  SubwaySaying[brandom(0, NumSubway)],
                                  brandom(0, 100) < 30 ?
@@ -2466,13 +2466,13 @@ void CopsAttackPlayer(Player *Play)
   gint CopIndex, NumDeputy, GunIndex;
 
   if (NumCop == 0 || NumGun == 0) {
-    g_warning(_("No cops or guns!"));
+    g_warning(_("No Amirs or weapons!"));
     return;
   }
 
   CopIndex = 1 - Play->CopIndex;
   if (CopIndex < 0) {
-    g_warning(_("Cops cannot attack other cops!"));
+    g_warning(_("Amirs cannot attack other amirs!"));
     return;
   }
   if (CopIndex > NumCop)
@@ -2521,7 +2521,7 @@ void AttackPlayer(Player *Play, Player *Attacked)
     return;
   }
   if (NumGun == 0) {
-    g_error(_("Cannot start fight - no guns to use!"));
+    g_error(_("Cannot start fight - no weapons to use!"));
     return;
   }
 
@@ -2750,7 +2750,7 @@ void CheckForKilledPlayers(Player *Play)
         Play->CopIndex = -Defend->CopIndex;
       FirstServer = RemovePlayer(Defend, FirstServer);
     } else {
-      FinishGame(Defend, _("You're dead! Game over."));
+      FinishGame(Defend, _("You're dead! The Angels carry you home. Game over."));
     }
   }
 
@@ -2835,7 +2835,7 @@ static int GetArmor(Player *Play)
 }
 
 /* 
- * Fires all weapons of player "Play" at an opponent, and resets
+ * Fires all guns of player "Play" at an opponent, and resets
  * the fight timeout (the reload time).
  */
 void Fire(Player *Play)
@@ -2951,11 +2951,11 @@ void ResolveTipoff(Player *Play)
     text = g_string_new("");
     if (Play->Health == 0) {
       g_string_printf(text,
-                       _("Following your tipoff, the cops ambushed %s, "
-                         "who was shot dead!"), GetPlayerName(Play));
+                       _("Following your tipoff, the Seljuk Amirs ambushed %s, "
+                         "who was speared to death!"), GetPlayerName(Play));
     } else {
       dpg_string_printf(text,
-                         _("Following your tipoff, the cops ambushed %s, "
+                         _("Following your tipoff, the Seljuk Amirs ambushed %s, "
                            "who escaped with %d %tde. "), GetPlayerName(Play),
                          Play->Bitches.Carried, Names.Bitches);
     }
@@ -3050,7 +3050,7 @@ int RandomOffer(Player *To)
   text = g_string_new(NULL);
 
   if (!Sanitized && (r < 10)) {
-    g_string_assign(text, _("You were mugged in the subway!"));
+    g_string_assign(text, _("You were mugged outside Holy Mass!"));
     To->Cash = To->Cash * (price_t)brandom(80, 95) / 100l;
   } else if (r < 30) {
     amount = brandom(3, 7);
@@ -3062,13 +3062,13 @@ int RandomOffer(Player *To)
     if (ind == -1) {
       ind = brandom(0, NumDrug);
       dpg_string_printf(text,
-                         _("You meet a friend! He gives you %d %tde."),
+                         _("You meet a Christian friend! He gives you %d %tde."),
                          amount, Drug[ind].Name);
       To->Drugs[ind].Carried += amount;
       To->CoatSize -= amount;
     } else {
       dpg_string_printf(text,
-                         _("You meet a friend! You give him %d %tde."),
+                         _("You meet a Christian friend! You give him %d %tde."),
                          amount, Drug[ind].Name);
       To->Drugs[ind].TotalValue =
           To->Drugs[ind].TotalValue * (To->Drugs[ind].Carried -
@@ -3086,8 +3086,8 @@ int RandomOffer(Player *To)
     amount = brandom(3, 7);
     ind = IsCarryingRandom(To, amount);
     if (ind != -1) {
-      dpg_string_printf(text, _("Police dogs chase you for %d blocks! "
-                                 "You dropped some %tde! That's a drag, man!"),
+      dpg_string_printf(text, _("Seljuk dogs chase you for %d streets! "
+                                 "You dropped some %tde! That's a drag!"),
                          brandom(3, 7), Names.Drugs);
       To->Drugs[ind].TotalValue = To->Drugs[ind].TotalValue *
           (To->Drugs[ind].Carried - amount) / To->Drugs[ind].Carried;
@@ -3103,7 +3103,7 @@ int RandomOffer(Player *To)
         return 0;
       }
       dpg_string_printf(text,
-                         _("You find %d %tde on a dead dude in the subway!"),
+                         _("You find %d %tde on a dead Seljuk Amir in the street!"),
                          amount, Drug[ind].Name);
       To->Drugs[ind].Carried += amount;
       To->CoatSize -= amount;
@@ -3118,8 +3118,8 @@ int RandomOffer(Player *To)
     if (amount > To->Drugs[ind].Carried)
       amount = To->Drugs[ind].Carried;
     dpg_string_printf(text,
-                       _("Your mama made brownies with some of your %tde! "
-                         "They were great!"), Drug[ind].Name);
+                       _("Your Priest made bread with some of your %tde! "
+                         "It was great!"), Drug[ind].Name);
     To->Drugs[ind].TotalValue = To->Drugs[ind].TotalValue *
         (To->Drugs[ind].Carried - amount) / To->Drugs[ind].Carried;
     To->Drugs[ind].Carried -= amount;
@@ -3128,7 +3128,7 @@ int RandomOffer(Player *To)
     SendPrintMessage(NULL, C_NONE, To, text->str);
   } else if (r < 65) {
     g_string_assign(text,
-                    _("YN^There is some weed that smells like paraquat "
+                    _("YN^There are some spices that smell like Amstelredamme "
                      "here!^It looks good! Will you smoke it? "));
     To->EventNum = E_WEED;
     SendQuestion(NULL, C_NONE, To, text->str);
@@ -3167,7 +3167,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
           prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)10;
       text =
           dpg_strdup_printf(_
-                            ("YN^Hey dude! I'll help carry your %tde for a "
+                            ("YN^Hey trader! I'll help carry your %tde for a "
                              "mere %P. Yes or no?"), Names.Drugs,
                             To->Bitches.Price);
     }
@@ -3378,8 +3378,8 @@ void HandleAnswer(Player *From, Player *To, char *answer)
       SendEvent(From);
       break;
     case E_WEED:
-      FinishGame(From, _("You hallucinated for three days on the wildest "
-                         "trip you ever imagined!^Then you died because "
+      FinishGame(From, _("You hallucinated for three days from travel "
+                         "exhaustion!^Then you died because "
                          "your brain disintegrated!"));
       break;
     case E_DOCTOR:
@@ -3491,7 +3491,7 @@ void BuyObject(Player *From, char *data)
               brandom(0, 100) < Location[From->IsAt].PolicePresence)) {
         gchar *text;
 
-        text = dpg_strdup_printf(_("The cops spot you dropping %tde!"),
+        text = dpg_strdup_printf(_("The Amirs spot you dropping %tde!"),
                                  Names.Drugs);
         SendPrintMessage(NULL, C_NONE, From, text);
         g_free(text);

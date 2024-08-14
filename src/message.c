@@ -1337,15 +1337,15 @@ void FormatFightMessage(Player *To, GString *text, Player *Attacker,
     Armament = ArmPercent < 10 ? _("pitifully armed") :
         ArmPercent < 25 ? _("lightly armed") :
         ArmPercent < 60 ? _("moderately well armed") :
-        ArmPercent < 80 ? _("heavily armed") : _("armed to the teeth");
+        ArmPercent < 80 ? _("heavily armed") : _("armed to the 3rd heavens");
     if (DefendName[0]) {
       if (IsCop(Defender) && !AttackName[0]) {
         if (Bitches == 0) {
-          dpg_string_append_printf(text, _("%s - %s - is chasing you, man!"),
+          dpg_string_append_printf(text, _("%s - %s - is chasing you!"),
                               DefendName, Armament);
         } else {
           dpg_string_append_printf(text,
-                              _("%s and %d %tde - %s - are chasing you, man!"),
+                              _("%s and %d %tde - %s - are chasing you!"),
                               DefendName, Bitches, BitchesName, Armament);
         }
       } else {
@@ -1387,15 +1387,15 @@ void FormatFightMessage(Player *To, GString *text, Player *Attacker,
     break;
   case F_RELOAD:
     if (!AttackName[0]) {
-      g_string_append(text, _("Guns reloaded..."));
+      g_string_append(text, _("Weapons readied..."));
     }
     break;
   case F_MISS:
     if (AttackName[0] && DefendName[0]) {
-      g_string_append_printf(text, _("%s shoots at %s... and misses!"),
+      g_string_append_printf(text, _("%s attacks %s... and fails!"),
                         AttackName, DefendName);
     } else if (AttackName[0]) {
-      g_string_append_printf(text, _("%s shoots at you... and misses!"),
+      g_string_append_printf(text, _("%s swings at you... and misses!"),
                         AttackName);
     } else if (DefendName[0]) {
       g_string_append_printf(text, _("You missed %s!"), DefendName);
@@ -1404,25 +1404,25 @@ void FormatFightMessage(Player *To, GString *text, Player *Attacker,
   case F_HIT:
     if (AttackName[0] && DefendName[0]) {
       if (Health == 0 && Bitches == 0) {
-        g_string_append_printf(text, _("%s shoots %s dead."),
+        g_string_append_printf(text, _("%s charges %s to death."),
                           AttackName, DefendName);
       } else if (BitchesKilled) {
-        dpg_string_append_printf(text, _("%s shoots at %s and kills a %tde!"),
+        dpg_string_append_printf(text, _("%s attacks at %s and kills a %tde!"),
                             AttackName, DefendName, BitchName);
       } else {
-        g_string_append_printf(text, _("%s shoots at %s."),
+        g_string_append_printf(text, _("%s attacks %s."),
                           AttackName, DefendName);
       }
     } else if (AttackName[0]) {
       if (Health == 0 && Bitches == 0) {
-        g_string_append_printf(text, _("%s wasted you, man! What a drag!"),
+        g_string_append_printf(text, _("%s killed you! The Angels carry you home."),
                           AttackName);
       } else if (BitchesKilled) {
         dpg_string_append_printf(text,
-                            _("%s shoots at you... and kills a %tde!"),
+                            _("%s charges at you... and kills a %tde!"),
                             AttackName, BitchName);
       } else {
-        g_string_append_printf(text, _("%s hits you, man!"), AttackName);
+        g_string_append_printf(text, _("%s hits you!"), AttackName);
       }
     } else if (DefendName[0]) {
       if (Health == 0 && Bitches == 0) {
@@ -1436,7 +1436,7 @@ void FormatFightMessage(Player *To, GString *text, Player *Attacker,
       if (Loot > 0) {
         dpg_string_append_printf(text, _(" You find %P on the body!"), Loot);
       } else if (Loot < 0) {
-        g_string_append(text, _(" You loot the body!"));
+        g_string_append(text, _(" You prayerfully loot the body!"));
       }
     }
     break;

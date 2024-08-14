@@ -542,7 +542,7 @@ void HandleClientMessage(char *pt, Player *Play)
       tmp->Flags &= ~FIGHTING;
     }
     /* Message displayed when the player "jets" to a new location */
-    text = dpg_strdup_printf(_("Jetting to %tde"),
+    text = dpg_strdup_printf(_("Travelling to %tde"),
                              Location[(int)Play->IsAt].Name);
     PrintMessage(text, "jet");
     g_free(text);
@@ -1444,7 +1444,7 @@ void Jet(GtkWidget *parent)
 
   dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   /* Title of 'Jet' dialog */
-  gtk_window_set_title(GTK_WINDOW(dialog), _("Jet to location"));
+  gtk_window_set_title(GTK_WINDOW(dialog), _("Travel to location"));
   my_set_dialog_position(GTK_WINDOW(dialog));
 
   gtk_container_set_border_width(GTK_CONTAINER(dialog), 7);
@@ -1457,7 +1457,7 @@ void Jet(GtkWidget *parent)
   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 7);
 
   /* Prompt in 'Jet' dialog */
-  label = gtk_label_new(_("Where to, dude ? "));
+  label = gtk_label_new(_("Where to, trader ? "));
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   /* Generate a square box of buttons for all locations */
@@ -2140,7 +2140,7 @@ void SetJetButtonTitle(GtkAccelGroup *accel_group)
     caption = _("_Fight");
   } else {
     /* Caption of 'Jet' button in main window */
-    caption = _("_Jet!");
+    caption = _("_Travel!");
   }
   ClientData.JetAccel = SetAccelerator(button, caption, button,
                                        "clicked", accel_group, FALSE);
@@ -2366,16 +2366,16 @@ void display_intro(GtkWidget *widget, gpointer data)
   GtkAccelGroup *accel_group;
   gchar *table_data[8][3] = {
     /* Credits labels in GTK+ 'about' dialog */
-    {N_("English Translation"), N_("Ben Webb"), NULL},
-    {N_("Icons and graphics"), "Ocelot Mantis", NULL},
-    {N_("Sounds"), "Robin Kohli, 19.5degs.com", NULL},
-    {N_("Drug Dealing and Research"), "Dan Wolf", NULL},
-    {N_("Play Testing"), "Phil Davis", "Owen Walsh"},
-    {N_("Extensive Play Testing"), "Katherine Holt",
-     "Caroline Moore"},
-    {N_("Constructive Criticism"), "Andrea Elliot-Smith",
-     "Pete Winn"},
-    {N_("Unconstructive Criticism"), "James Matthews", NULL}
+    {N_("English Translation"), N_("O Batstone"), NULL},
+    {N_("Icons and graphics"), "O Batstone", NULL},
+    {N_("Sounds"), "freesound.org, 19.5degs.com", NULL},
+    {N_("History and Research"), "O Batstone", NULL},
+    {N_("Play Testing"), "L Evans", "O Batstone"},
+    {N_("Extensive Play Testing"), "L Evans",
+     "O Batstone"},
+    {N_("Constructive Criticism"), "L Evans",
+     "O Batstone"},
+    {N_("Unconstructive Criticism"), "R Batstone", NULL}
   };
 
   dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -2383,7 +2383,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   gtk_window_add_accel_group(GTK_WINDOW(dialog), accel_group);
 
   /* Title of GTK+ 'about' dialog */
-  gtk_window_set_title(GTK_WINDOW(dialog), _("About dopewars"));
+  gtk_window_set_title(GTK_WINDOW(dialog), _("About Church Wars"));
   my_set_dialog_position(GTK_WINDOW(dialog));
 
   gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
@@ -2394,23 +2394,32 @@ void display_intro(GtkWidget *widget, gpointer data)
   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
   /* Main content of GTK+ 'about' dialog */
-  label = gtk_label_new(_("Based on John E. Dell's old Drug Wars game, "
-                          "dopewars is a simulation of an\nimaginary drug "
-                          "market.  dopewars is an All-American game which "
-                          "features\nbuying, selling, and trying to get "
-                          "past the cops!\n\nThe first thing you need to "
-                          "do is pay off your debt to the Loan Shark. "
+  label = gtk_label_new(_("It's AD 1095, and the Crusades are about to begin. "
+                          "As a dedicated Trader-Saint, \nPope Urban II has "
+                          "entrusted you with a crucial mission: navigate "
+                          "the bustling \nmedieval cities and trade valuable " 
+                          "goods to amass significant wealth. \nYour efforts "
+                          "will directly support the Holy Christian Church's "
+                          "forthcoming crusade. \n\nThe Empire of the Holy "
+                          "Trinity relies on you!\n\n"
+  
+                          "Based on John E. Dell's old Drug Wars game, "
+                          "Church Wars is a simulation of an\nimaginary Crusader "
+                          "market.  Church Wars is a Crusades game which "
+                          "features\nbuying, selling, and funding the Holy "
+                          "Christian Empire!\n\nThe first thing you need to "
+                          "do is pay off your debt to the Pope's Loan Collector. "
                           "After\nthat, your goal is to make as much "
                           "money as possible (and stay alive)! You\n"
-                          "have one month of game time to make "
+                          "have 30 travels of game time to make "
                           "your fortune.\n"));
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   /* Version and copyright notice in GTK+ 'about' dialog */
   VersionStr = g_strdup_printf(_("Version %s     "
-                                 "Copyright (C) 1998-2022  "
-                                 "Ben Webb benwebb@users.sf.net\n"
-                                 "dopewars is released under the "
+                                 "Copyright (C) 2024  "
+                                 "O Batstone theprawn26@gmail.com\n"
+                                 "Church Wars is released under the "
                                  "GNU General Public License\n"), VERSION);
   label = gtk_label_new(VersionStr);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
@@ -2420,7 +2429,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   gtk_grid_set_row_spacing(GTK_GRID(grid), 3);
   gtk_grid_set_column_spacing(GTK_GRID(grid), 3);
   for (i = 0; i < rows; i++) {
-    if (i > 0 || strcmp(_(table_data[i][1]), "Ben Webb") != 0) {
+    if (i > 0 || strcmp(_(table_data[i][1]), "O Batstone") != 0) {
       for (j = 0; j < cols; j++) {
         if (table_data[i][j]) {
           if (j == 0 || i == 0) {
@@ -2958,8 +2967,8 @@ void ErrandDialog(gint ErrandType)
     /* Informative text for "tip off cops" dialog. (%tde = "bitch",
        "bitch", "guns", "drugs", respectively, by default) */
     text = dpg_strdup_printf(_("Please choose the player to tip off "
-                               "the cops to. Your %tde will\nhelp "
-                               "the cops to attack that player, "
+                               "the Amirs to. Your %tde will\nhelp "
+                               "the Amirs to attack that player, "
                                "and then report back to you\non "
                                "the encounter. Remember that the "
                                "%tde will leave you temporarily,\n"

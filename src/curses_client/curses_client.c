@@ -331,27 +331,27 @@ void display_intro(void)
   attrset(TitleAttr);
 
   /* Curses client introduction screen */
-  text = g_string_new(_("D O P E W A R S"));
+  text = g_string_new(_("C H U R C H W A R S"));
   mvaddcentstr(0, text->str);
 
   attrset(TextAttr);
 
-  mvaddcentstr(2, _("Based on John E. Dell's old Drug Wars game, dopewars "
+  mvaddcentstr(2, _("Based on John E. Dell's old Drug Wars game, Church Wars "
                     "is a simulation of an"));
-  mvaddcentstr(3, _("imaginary drug market.  dopewars is an All-American "
+  mvaddcentstr(3, _("imaginary Crusader market.  Church Wars is a Crusades "
                     "game which features"));
-  mvaddcentstr(4, _("buying, selling, and trying to get past the cops!"));
+  mvaddcentstr(4, _("buying, selling, and funding the Holy Christian Empire!"));
 
   mvaddcentstr(6, _("The first thing you need to do is pay off your "
-                    "debt to the Loan Shark. After"));
+                    "debt to the Pope's Loan Collector. After"));
   mvaddcentstr(7, _("that, your goal is to make as much money as "
                     "possible (and stay alive)!"));
-  mvaddcentstr(8, _("You have one month of game time to make your fortune."));
+  mvaddcentstr(8, _("You have 30 travels of game time to make your fortune."));
 
-  g_string_printf(text, _("Version %-8s Copyright (C) 1998-2022  Ben Webb "
-                           "benwebb@users.sf.net"), VERSION);
+  g_string_printf(text, _("Version %-8s Copyright (C) 2024  O Batstone "
+                           "theprawn26@gmail.com"), VERSION);
   mvaddcentstr(10, text->str);
-  g_string_assign(text, _("dopewars is released under the GNU "
+  g_string_assign(text, _("Church Wars is released under the GNU "
                           "General Public License"));
   mvaddcentstr(11, text->str);
 
@@ -359,16 +359,16 @@ void display_intro(void)
   if (strcmp(text->str, translation) != 0) {
     mvaddstr(12, 7, text->str);
   }
-  mvaddstr(13, 7, _("Icons and Graphics            Ocelot Mantis"));
-  mvaddstr(14, 7, _("Sounds                        Robin Kohli, 19.5degs.com"));
-  mvaddstr(15, 7, _("Drug Dealing and Research     Dan Wolf"));
-  mvaddstr(16, 7, _("Play Testing                  Phil Davis           "
-                    "Owen Walsh"));
-  mvaddstr(17, 7, _("Extensive Play Testing        Katherine Holt       "
-                    "Caroline Moore"));
-  mvaddstr(18, 7, _("Constructive Criticism        Andrea Elliot-Smith  "
-                    "Pete Winn"));
-  mvaddstr(19, 7, _("Unconstructive Criticism      James Matthews"));
+  mvaddstr(13, 7, _("Icons and Graphics            O Batstone"));
+  mvaddstr(14, 7, _("Sounds                        freesound.org, 19.5degs.com"));
+  mvaddstr(15, 7, _("History and Research    O Batstone"));
+  mvaddstr(16, 7, _("Play Testing                  L Evans           "
+                    "O Batstone"));
+  mvaddstr(17, 7, _("Extensive Play Testing        L Evans       "
+                    "O Batstone"));
+  mvaddstr(18, 7, _("Constructive Criticism        L Evans  "
+                    "O Batstone"));
+  mvaddstr(19, 7, _("Unconstructive Criticism      R Batstone"));
 
   mvaddcentstr(21, _("For information on the command line options, type "
                      "dopewars -h at your"));
@@ -836,7 +836,7 @@ static gboolean jet(Player *Play, gboolean AllowReturn)
   attrset(PromptAttr);
 
   /* Prompt when the player chooses to "jet" to a new location */
-  mvaddstr(get_prompt_line(), 22, _("Where to, dude ? "));
+  mvaddstr(get_prompt_line(), 22, _("Where to, trader ? "));
   attrset(TextAttr);
   curs_set(1);
   do {
@@ -1015,11 +1015,11 @@ static void GiveErrand(Player *Play)
   attrset(PromptAttr);
   if (Play->Bitches.Carried > 0) {
     dpg_string_printf(text,
-                       _("   S>py on another dealer                  "
+                       _("   S>py on another trader                  "
                          "(cost: %P)"), Prices.Spy);
     mvaddstr(y++, 2, text->str);
     dpg_string_printf(text,
-                       _("   T>ip off the cops to another dealer     "
+                       _("   T>ip off the cops to another trader     "
                          "(cost: %P)"), Prices.Tipoff);
     mvaddstr(y++, 2, text->str);
     mvaddstr(y++, 2, _("   G>et stuffed"));
@@ -1045,7 +1045,7 @@ static void GiveErrand(Player *Play)
       break;
     case 'T':
       To = ListPlayers(Play, TRUE,
-                       _("Whom do you want to tip the cops off to? "));
+                       _("Whom do you want to tip the Amirs off to? "));
       if (To)
         SendClientMessage(Play, C_NONE, C_TIPOFF, To, NULL);
       break;
@@ -1225,7 +1225,7 @@ void HandleClientMessage(char *Message, Player *Play)
     }
     SoundPlay(Sounds.Jet);
     for (i = 0; i < 4; i++) {
-      print_location(_("S U B W A Y"));
+      print_location(_("H O L Y M A S S"));
       refresh();
       MicroSleep(100000);
       print_location("");
@@ -2457,7 +2457,7 @@ static void Curses_DoGame(Player *Play)
   } else {
     do {
       g_free(buf);
-      buf = nice_input(_("Hey dude, what's your name? "),
+      buf = nice_input(_("Hey there! What's your name? "),
                        get_ui_area_top() + 1, 1, FALSE, OldName, '\0');
     } while (buf[0] == 0);
   }

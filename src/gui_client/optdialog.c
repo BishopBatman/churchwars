@@ -810,9 +810,9 @@ void OptDialog(GtkWidget *widget, gpointer data)
   GtkTreeSelection *treesel;
 
   struct ConfigMembers locmembers[] = {
-    { N_("Police presence"), "PolicePresence" },
-    { N_("Minimum no. of drugs"), "MinDrug" },
-    { N_("Maximum no. of drugs"), "MaxDrug" },
+    { N_("Seljuk Amir presence"), "PolicePresence" },
+    { N_("Minimum no. of goods"), "MinDrug" },
+    { N_("Maximum no. of goods"), "MaxDrug" },
     { NULL, NULL }
   };
   struct ConfigMembers drugmembers[] = {
@@ -830,12 +830,12 @@ void OptDialog(GtkWidget *widget, gpointer data)
     { NULL, NULL }
   };
   struct ConfigMembers copmembers[] = {
-    { N_("Name of one deputy"), "DeputyName" },
-    { N_("Name of several deputies"), "DeputiesName" },
-    { N_("Minimum no. of deputies"), "MinDeputies" },
-    { N_("Maximum no. of deputies"), "MaxDeputies" },
-    { N_("Cop armor"), "Armor" },
-    { N_("Deputy armor"), "DeputyArmor" },
+    { N_("Name of one Janissary"), "DeputyName" },
+    { N_("Name of several Janissaries"), "DeputiesName" },
+    { N_("Minimum no. of Janissaries"), "MinDeputies" },
+    { N_("Maximum no. of Janissaries"), "MaxDeputies" },
+    { N_("Amir armour"), "Armor" },
+    { N_("Janissary armour"), "DeputyArmor" },
     { NULL, NULL }
   };
 
@@ -939,17 +939,17 @@ void OptDialog(GtkWidget *widget, gpointer data)
   dp_gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1, TRUE);
   gtk_box_pack_start(GTK_BOX(vbox2), grid, FALSE, FALSE, 0);
 
-  label = gtk_label_new(_("Drugs"));
+  label = gtk_label_new(_("Goods"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox2, label);
 
   hbox = CreateList("Gun", gunmembers);
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 7);
-  label = gtk_label_new(_("Guns"));
+  label = gtk_label_new(_("Weapons"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), hbox, label);
 
   hbox = CreateList("Cop", copmembers);
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 7);
-  label = gtk_label_new(_("Cops"));
+  label = gtk_label_new(_("Amirs"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), hbox, label);
 
 #ifdef NETWORKING

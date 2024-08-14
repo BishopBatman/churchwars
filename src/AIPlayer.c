@@ -357,7 +357,7 @@ int HandleAIMessage(char *Message, Player *AIPlay)
     }
     break;
   case C_SUBWAYFLASH:
-    dpg_print(_("Jetting to %tde with %P cash and %P debt\n"),
+    dpg_print(_("Travelling to %tde with %P cash and %P debt\n"),
               Location[AIPlay->IsAt].Name, AIPlay->Cash,
               AIPlay->Debt);
     /* Use bselect rather than sleep, as this is portable to Win32 */
@@ -525,7 +525,7 @@ void AIGunShop(Player *AIPlay)
         AIPlay->CoatSize -= Gun[i].Space;
         AIPlay->Guns[i].Carried++;
         Bought++;
-        dpg_print(_("Buying a %tde for %P at the gun shop\n"),
+        dpg_print(_("Buying a %tde for %P at the Hall of Arms\n"),
                   Gun[i].Name, Gun[i].Price);
         text = g_strdup_printf("gun^%d^1", i);
         SendClientMessage(AIPlay, C_NONE, C_BUYOBJECT, NULL, text);
@@ -576,7 +576,7 @@ void AIPayLoan(Player *AIPlay)
     prstr = pricetostr(AIPlay->Debt);
     SendClientMessage(AIPlay, C_NONE, C_PAYLOAN, NULL, prstr);
     g_free(prstr);
-    dpg_print(_("Debt of %P paid off to loan shark\n"), AIPlay->Debt);
+    dpg_print(_("Debt of %P paid off to loan collector\n"), AIPlay->Debt);
   }
   SendClientMessage(AIPlay, C_NONE, C_DONE, NULL, NULL);
 }
@@ -608,7 +608,7 @@ void AIHandleQuestion(char *Data, AICode AI, Player *AIPlay, Player *From)
   switch (AI) {
   case C_ASKLOAN:
     if (RealLoanShark == -1) {
-      g_print(_("Loan shark located at %s\n"),
+      g_print(_("Loan collector located at %s\n"),
               Location[AIPlay->IsAt].Name);
     }
     RealLoanShark = AIPlay->IsAt;
@@ -668,11 +668,11 @@ void AISendRandomMessage(Player *AIPlay)
 {
   char *RandomInsult[5] = {
     /* Random messages to send from the AI player to other players */
-    N_("Call yourselves drug dealers?"),
+    N_("Call yourselves Trader-Saints?"),
     N_("A trained monkey could do better..."),
-    N_("Think you\'re hard enough to deal with the likes of me?"),
-    N_("Zzzzz... are you dealing in candy or what?"),
-    N_("Reckon I'll just have to shoot you for your own good.")
+    N_("Think you\'re wise enough to deal with the likes of me?"),
+    N_("Zzzzz... are you trading in pennies or what?"),
+    N_("Reckon I'll just have to kill you for your own good.")
   };
 
   SendClientMessage(AIPlay, C_NONE, C_MSG, NULL,
