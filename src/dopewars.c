@@ -1,6 +1,6 @@
 /************************************************************************
  * dopewars.c     dopewars - general purpose routines and init          *
- * Copyright (C)  1998-2024  Ben Webb                                   *
+ * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
  *                WWW: https://dopewars.sourceforge.io/                 *
  *                                                                      *
@@ -84,7 +84,7 @@ gchar *HiScoreFile = NULL, *ServerName = NULL;
 gchar *ServerMOTD = NULL, *BindAddress = NULL, *PlayerName = NULL;
 
 struct DATE StartDate = {
-  1, 12, 1984
+  5, 1, 1095
 };
 
 #ifdef CYGWIN
@@ -176,25 +176,25 @@ struct NAMES DefaultNames = {
      object) then read doc/i18n.html about the %tde (etc.) notation. N.B.
      This notation can be used for most of the translatable strings in
      dopewars. */
-  N_("bitch"),
+  N_("cleric"),
   /* Word used for two or more bitches */
-  N_("bitches"),
+  N_("clerics"),
   /* Word used for a single gun */
-  N_("gun"),
+  N_("weapon"),
   /* Word used for two or more guns */
-  N_("guns"),
+  N_("weapons"),
   /* Word used for a single drug */
-  N_("drug"),
+  N_("goods"),
   /* Word used for two or more drugs */
-  N_("drugs"),
+  N_("goods"),
   /* String for displaying the game date or turn number. This is passed
      to the strftime() function, with the exception that %T is used to
      mean the turn number rather than the calendar date. */
   N_("%m-%d-%Y"),
   /* Names of the loan shark, the bank, the gun shop, and the pub,
      respectively */
-  N_("the Loan Shark"), N_("the Bank"),
-  N_("Dan\'s House of Guns"), N_("the pub")
+  N_("the Loan Collector"), N_("the Merchant Bank"),
+  N_("the Hall of Arms"), N_("Holy Mass")
 };
 
 struct CURRENCY Currency = {
@@ -657,24 +657,24 @@ char *DefaultPlaying[] = {
   /* Default list of songs that you can hear playing (N.B. this can be
      overridden in the configuration file with the "Playing" variable) -
      look for "You hear someone playing %s" to see how these are used. */
-  N_("`Are you Experienced` by Jimi Hendrix"),
-  N_("`Cheeba Cheeba` by Tone Loc"),
-  N_("`Comin` in to Los Angeles` by Arlo Guthrie"),
-  N_("`Commercial` by Spanky and Our Gang"),
-  N_("`Late in the Evening` by Paul Simon"),
-  N_("`Light Up` by Styx"),
-  N_("`Mexico` by Jefferson Airplane"),
-  N_("`One toke over the line` by Brewer & Shipley"),
-  N_("`The Smokeout` by Shel Silverstein"),
-  N_("`White Rabbit` by Jefferson Airplane"),
-  N_("`Itchycoo Park` by Small Faces"),
-  N_("`White Punks on Dope` by the Tubes"),
-  N_("`Legend of a Mind` by the Moody Blues"),
-  N_("`Eight Miles High` by the Byrds"),
-  N_("`Acapulco Gold` by Riders of the Purple Sage"),
-  N_("`Kicks` by Paul Revere & the Raiders"),
-  N_("the Nixon tapes"),
-  N_("`Legalize It` by Mojo Nixon & Skid Roper")
+  N_("The Song of Moses"),
+  N_("The Song of Deborah"),
+  N_("The Canticle of Hannah"),
+  N_("Magnificat"),
+  N_("The Benedictus"),
+  N_("The Nunc Dimittis"),
+  N_("Veni Creator Spiritus"),
+  N_("Pange Lingua Gloriosi"),
+  N_("Salve Regina"),
+  N_("Gloria in Excelsis Deo"),
+  N_("Dies Irae"),
+  N_("Ubi Caritas"),
+  N_("Te Deum Laudamus"),
+  N_("O Fortuna"),
+  N_("Phos Hilaron"),
+  N_("The Lord's Prayer"),
+  N_("Sub Tuum Praesidium"),
+  N_("Kyrie Eleison")
 };
 
 char **StoppedTo = NULL;
@@ -683,75 +683,75 @@ char *DefaultStoppedTo[] = {
      cost you a little money). These can be overridden with the "StoppedTo"
      variable in the configuration file. See the later string "You stopped
      to %s." to see how these strings are used. */
-  N_("have a beer"),
-  N_("smoke a joint"),
-  N_("smoke a cigar"),
-  N_("smoke a Djarum"),
-  N_("smoke a cigarette")
+  N_("practice your needlework"),
+  N_("translate the Church Fathers"),
+  N_("recite the Lord\'s Prayer"),
+  N_("memorise the Pentateuch"),
+  N_("celebrate the Eucharist")
 };
 
 struct COP DefaultCop[] = {
   /* Name of the first police officer to attack you */
-  {N_("Officer Hardass"),
+  {N_("Seljuk Malik-shah"),
    /* Name of a single deputy of the first police officer */
-   N_("deputy"),
+   N_("Janissary"),
    /* Word used for more than one deputy of the first police officer */
-   N_("deputies"), 4, 3, 30, 30, 2, 8, 0, 1, 1},
+   N_("Janissaries"), 4, 3, 30, 30, 2, 8, 0, 1, 1},
   /* Ditto, for the other police officers */
-  {N_("Officer Bob"), N_("deputy"), N_("deputies"), 15, 4, 30, 20, 4, 10,
+  {N_("Ahmad Sanjar"), N_("Janissary"), N_("Janissaries"), 15, 4, 30, 20, 4, 10,
    0, 2, 1},
-  {N_("Agent Smith"), N_("cop"), N_("cops"), 50, 6, 20, 20, 6, 18, 1, 3, 2}
+  {N_("Mahmud II"), N_("Amir"), N_("Amirs"), 50, 6, 20, 20, 6, 18, 1, 3, 2}
 };
 
 struct GUN DefaultGun[] = {
   /* The names of the default guns */
-  {N_("Baretta"), 3000, 4, 5},
-  {N_(".38 Special"), 3500, 4, 9},
-  {N_("Ruger"), 2900, 4, 4},
-  {N_("Saturday Night Special"), 3100, 4, 7}
+  {N_("Mace"), 3000, 4, 5},
+  {N_("Crossbow"), 3500, 4, 9},
+  {N_("Spear"), 2900, 4, 4},
+  {N_("Battle Axe"), 3100, 4, 7}
 };
 
 struct DRUG DefaultDrug[] = {
   /* The names of the default drugs, and the messages displayed when they
      are specially cheap or expensive */
-  {N_("Acid"), 1000, 4400, TRUE, FALSE,
-   N_("The market is flooded with cheap home-made acid!")},
-  {N_("Cocaine"), 15000, 29000, FALSE, TRUE, ""},
-  {N_("Hashish"), 480, 1280, TRUE, FALSE,
-   N_("The Marrakesh Express has arrived!")},
-  {N_("Heroin"), 5500, 13000, FALSE, TRUE, ""},
-  {N_("Ludes"), 11, 60, TRUE, FALSE,
-   N_("Rival drug dealers raided a pharmacy and are selling cheap ludes!")},
-  {N_("MDA"), 1500, 4400, FALSE, FALSE, ""},
-  {N_("Opium"), 540, 1250, FALSE, TRUE, ""},
-  {N_("PCP"), 1000, 2500, FALSE, FALSE, ""},
-  {N_("Peyote"), 220, 700, FALSE, FALSE, ""},
-  {N_("Shrooms"), 630, 1300, FALSE, FALSE, ""},
-  {N_("Speed"), 90, 250, FALSE, TRUE, ""},
-  {N_("Weed"), 315, 890, TRUE, FALSE,
-   N_("Colombian freighter dusted the Coast Guard! "
-      "Weed prices have bottomed out!")}
+  {N_("Byzantine Icons"), 1000, 4400, TRUE, FALSE,
+   N_("The market is flooded with cheap home-made icons!")},
+  {N_("Spices"), 480, 1280, FALSE, TRUE, ""},
+  {N_("Holy Relics"), 15000, 29000, TRUE, FALSE,
+   N_("Traders from Constantinople have arrived!")},
+  {N_("Elephants"), 5500, 13000, FALSE, TRUE, ""},
+  {N_("Medicines"), 11, 60, TRUE, FALSE,
+   N_("Exiled alchemists are selling cheap medicines!")},
+  {N_("Weapons"), 1500, 4400, FALSE, FALSE, ""},
+  {N_("Horses"), 540, 1250, FALSE, TRUE, ""},
+  {N_("True Cross splinters"), 1000, 2500, FALSE, FALSE, ""},
+  {N_("Food"), 220, 700, FALSE, FALSE, ""},
+  {N_("Silk"), 630, 1300, FALSE, FALSE, ""},
+  {N_("Gold"), 90, 250, FALSE, TRUE, ""},
+  {N_("Holy Scriptures"), 315, 890, TRUE, FALSE,
+   N_("Alexandrian scholars have sent parchments! "
+      "Scripture prices have bottomed out!")}
 };
 
 #define NUMDRUG (sizeof(DefaultDrug)/sizeof(DefaultDrug[0]))
 
 struct LOCATION DefaultLocation[] = {
   /* The names of the default locations */
-  {N_("Bronx"), 10, NUMDRUG / 2 + 1, NUMDRUG},
-  {N_("Ghetto"), 5, NUMDRUG / 2 + 2, NUMDRUG},
-  {N_("Central Park"), 15, NUMDRUG / 2, NUMDRUG},
-  {N_("Manhattan"), 90, NUMDRUG / 2 - 2, NUMDRUG - 2},
-  {N_("Coney Island"), 20, NUMDRUG / 2, NUMDRUG},
-  {N_("Brooklyn"), 70, NUMDRUG / 2 - 2, NUMDRUG - 1},
-  {N_("Queens"), 50, NUMDRUG / 2, NUMDRUG},
-  {N_("Staten Island"), 20, NUMDRUG / 2, NUMDRUG}
+  {N_("Jerusalem"), 10, NUMDRUG / 2 + 1, NUMDRUG},
+  {N_("Hagia Sophia"), 5, NUMDRUG / 2 + 2, NUMDRUG},
+  {N_("Acre"), 15, NUMDRUG / 2, NUMDRUG},
+  {N_("Antioch"), 90, NUMDRUG / 2 - 2, NUMDRUG - 2},
+  {N_("Damascus"), 20, NUMDRUG / 2, NUMDRUG},
+  {N_("Iconium"), 70, NUMDRUG / 2 - 2, NUMDRUG - 1},
+  {N_("Edessa"), 50, NUMDRUG / 2, NUMDRUG},
+  {N_("Nicaea"), 20, NUMDRUG / 2, NUMDRUG}
 };
 
 struct DRUGS Drugs = { NULL, NULL, 0, 0 };
 struct DRUGS DefaultDrugs = {
   /* Messages displayed for drug busts, etc. */
-  N_("Cops made a big %tde bust! Prices are outrageous!"),
-  N_("Addicts are buying %tde at ridiculous prices!"),
+  N_("Seljuk Amirs made a big %tde bust! Prices are outrageous!"),
+  N_("Traders are buying %tde at ridiculous prices!"),
   4, 4
 };
 
@@ -761,38 +761,38 @@ char *DefaultSubwaySaying[] = {
      (N.B. can be overridden with the "SubwaySaying" config. file
      variable). Look for "the lady next to you" to see how these strings
      are used. */
-  N_("Wouldn\'t it be funny if everyone suddenly quacked at once?"),
+  N_("Wouldn\'t it be funny if everyone suddenly converted at once?"),
   N_("The Pope was once Jewish, you know"),
   N_("I\'ll bet you have some really interesting dreams"),
-  N_("So I think I\'m going to Amsterdam this year"),
-  N_("Son, you need a yellow haircut"),
+  N_("So I think I\'m going to Alexandria this year"),
+  N_("Son, you need a yellow horse"),
   N_("I think it\'s wonderful what they\'re doing with incense these days"),
   N_("I wasn\'t always a woman, you know"),
-  N_("Does your mother know you\'re a dope dealer?"),
-  N_("Are you high on something?"),
-  N_("Oh, you must be from California"),
-  N_("I used to be a hippie, myself"),
+  N_("Does your mother know you\'re a war monger?"),
+  N_("Are you praying something?"),
+  N_("Oh, you must be from Constantinople"),
+  N_("I used to be a Manichaean, myself"),
   N_("There\'s nothing like having lots of money"),
   N_("You look like an aardvark!"),
-  N_("I don\'t believe in Ronald Reagan"),
-  N_("Courage!  Bush is a noodle!"),
-  N_("Haven\'t I seen you on TV?"),
-  N_("I think hemorrhoid commercials are really neat!"),
-  N_("We\'re winning the war for drugs!"),
-  N_("A day without dope is like night"),
+  N_("I don\'t believe in Pope Urban II"),
+  N_("Courage!  Justinian and Theodora!"),
+  N_("Haven\'t I seen you at the Tavern?"),
+  N_("I have seen the nails of Christ!"),
+  N_("We\'re winning the war for Empire!"),
+  N_("A day without grace is like night"),
   /* xgettext:no-c-format */
   N_("We only use 20% of our brains, so why not burn out the other 80%"),
-  N_("I\'m soliciting contributions for Zombies for Christ"),
-  N_("I\'d like to sell you an edible poodle"),
-  N_("Winners don\'t do drugs... unless they do"),
-  N_("Kill a cop for Christ!"),
-  N_("I am the walrus!"),
+  N_("I\'m soliciting contributions for a protestant movement"),
+  N_("I\'d like to sell you the Holy Grail"),
+  N_("Saints don\'t do Confession... unless they do"),
+  N_("Christos Anesti! Alithos Anesti!"),
+  N_("On you rests this duty!"),
   N_("Jesus loves you more than you will know"),
-  N_("I feel an unaccountable urge to dye my hair blue"),
-  N_("Wasn\'t Jane Fonda wonderful in Barbarella"),
-  N_("Just say No... well, maybe... ok, what the hell!"),
-  N_("Would you like a jelly baby?"),
-  N_("Drugs can be your friend!")
+  N_("Deus Vult!"),
+  N_("I can resist anything except temptation"),
+  N_("Moses speaks of Christ!"),
+  N_("Would you like a cabbage?"),
+  N_("Homoousios!")
 };
 
 static gboolean SetConfigValue(int GlobalIndex, int StructIndex,
@@ -2415,7 +2415,7 @@ static void SetupParameters(GSList *extraconfigs, gboolean antique)
 
   g_free(Currency.Symbol);
   /* The currency symbol */
-  Currency.Symbol = g_strdup(_("$"));
+  Currency.Symbol = g_strdup(_("£"));
   Currency.Prefix = (strcmp("Currency.Prefix=TRUE",
   /* Translate this to "Currency.Prefix=FALSE" if you want your currency
      symbol to follow all prices. */
@@ -2600,7 +2600,7 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   PluginHelp();
   g_print(_("  -h, --help              display this help information\n\
   -v, --version           output version information and exit\n\n\
-dopewars is Copyright (C) Ben Webb 1998-2022, and released under the GNU GPL\n\
+Church Wars is Copyright (C) O Batstone 2024, and released under the GNU GPL\n\
 Report bugs to the author at benwebb@users.sf.net\n"));
 #else
            /* Usage information, printed when the user runs "dopewars -h"
@@ -2636,7 +2636,7 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   PluginHelp();
 g_print(_("  -h       display this help information\n\
   -v       output version information and exit\n\n\
-dopewars is Copyright (C) Ben Webb 1998-2022, and released under the GNU GPL\n\
+Church Wars is Copyright (C) O Batstone 2024, and released under the GNU GPL\n\
 Report bugs to the author at benwebb@users.sf.net\n"));
 #endif
 }
