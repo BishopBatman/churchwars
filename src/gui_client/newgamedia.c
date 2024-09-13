@@ -530,7 +530,7 @@ void NewGameDialog(Player *play)
 #endif
                                    /* Prompt for player's name in 'New
                                       Game' dialog */
-                                   _("Hey dude, what's your _name?"));
+                                   _("Greetings Trader, what's your _name?"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
   entry = stgam.name = gtk_entry_new();
@@ -601,11 +601,11 @@ void NewGameDialog(Player *play)
   stgam.antique = gtk_check_button_new_with_label("");
 
   /* Checkbox to activate 'antique mode' in single-player games */
-  SetAccelerator(stgam.antique, _("_Antique mode"), stgam.antique,
-                 "clicked", accel_group, TRUE);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(stgam.antique),
-                               WantAntique);
-  gtk_box_pack_start(GTK_BOX(vbox2), stgam.antique, FALSE, FALSE, 0);
+  //SetAccelerator(stgam.antique, _("_Antique mode"), stgam.antique,
+  //               "clicked", accel_group, TRUE);
+  //gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(stgam.antique),
+  //                             WantAntique);
+  //gtk_box_pack_start(GTK_BOX(vbox2), stgam.antique, FALSE, FALSE, 0);
   button = gtk_button_new_with_label("");
 
   /* Button to start a new single-player (standalone, non-network) game */

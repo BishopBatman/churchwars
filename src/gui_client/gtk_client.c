@@ -162,7 +162,7 @@ static DPGtkItemFactoryEntry menu_items[] = {
   {N_("/_Game"), NULL, NULL, 0, "<Branch>"},
   {N_("/Game/_New..."), "<control>N", NewGame, 0, NULL},
   {N_("/Game/_Abandon..."), "<control>A", AbandonGame, 0, NULL},
-  {N_("/Game/_Options..."), "<control>O", OptDialog, 0, NULL},
+  //{N_("/Game/_Options..."), "<control>O", OptDialog, 0, NULL},
   {N_("/Game/Enable _sound"), NULL, ToggleSound, 0, "<CheckItem>"},
   {N_("/Game/_Quit..."), "<control>Q", QuitGame, 0, NULL},
   {N_("/_Talk"), NULL, NULL, 0, "<Branch>"},
@@ -2032,9 +2032,9 @@ void UpdateMenus(void)
   gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget(ClientData.Menu,
                                                           "<main>/Talk"),
                            InGame && Network);
-  gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-                           (ClientData.Menu, "<main>/Game/Options..."),
-                           !InGame);
+  //gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
+  //                         (ClientData.Menu, "<main>/Game/Options..."),
+  //                         !InGame);
   gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
                            (ClientData.Menu, "<main>/Game/Abandon..."),
                            InGame);
