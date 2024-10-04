@@ -190,7 +190,8 @@ struct NAMES DefaultNames = {
   /* String for displaying the game date or turn number. This is passed
      to the strftime() function, with the exception that %T is used to
      mean the turn number rather than the calendar date. */
-  N_("%m-%d-%Y"),
+  //N_("%m-%d-%Y"),
+  N_("Turn %T"),
   /* Names of the loan shark, the bank, the gun shop, and the pub,
      respectively */
   N_("the Loan Collector"), N_("the Merchant Bank"),
