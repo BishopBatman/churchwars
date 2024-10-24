@@ -877,7 +877,7 @@ GSList *AddPlayer(int fd, Player *NewPlayer, GSList *First)
   NewPlayer->Cash = StartCash;
   NewPlayer->Debt = StartDebt;
   NewPlayer->Bank = 0;
-  NewPlayer->Bitches.Carried = 8;
+  NewPlayer->Bitches.Carried = 3;
   NewPlayer->CopIndex = 0;
   NewPlayer->Health = 100;
   NewPlayer->CoatSize = 100;
