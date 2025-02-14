@@ -508,6 +508,7 @@ void HandleServerMessage(gchar *buf, Player *Play)
     break;
   case C_BUYOBJECT:
     BuyObject(Play, Data);
+    SoundPlay(Sounds.CoinBuy);
     break;
   case C_FIGHTACT:
     if (Data[0] == 'R')

@@ -2439,6 +2439,7 @@ static void SetupParameters(GSList *extraconfigs, gboolean antique)
   AssignName(&Sounds.TalkPrivate, SNDPATH"murmur.wav");
   AssignName(&Sounds.TalkToAll, SNDPATH"message.wav");
   AssignName(&Sounds.EndGame, SNDPATH"bye.wav");
+  AssignName(&Sounds.CoinBuy, SNDPATH"coinbuy.wav");
 
   LoanSharkLoc = DEFLOANSHARK;
   BankLoc = DEFBANK;
