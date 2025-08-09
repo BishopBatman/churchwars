@@ -472,7 +472,7 @@ static gboolean Socks5Connect(NetworkBuffer *NetBuf)
   netport = htons(NetBuf->port);
   g_assert(sizeof(netport) == 2);
 
-  addlen = hostlen + 7;
+  addlen = hostlen + 8;
   addpt = ExpandWriteBuffer(conn, addlen, &NetBuf->error);
   if (!addpt)
     return FALSE;
@@ -481,8 +481,9 @@ static gboolean Socks5Connect(NetworkBuffer *NetBuf)
   addpt[2] = 0;                 /* reserved - must be zero */
   addpt[3] = 3;                 /* Address type - FQDN */
   addpt[4] = hostlen;           /* Length of address */
-  strcpy(&addpt[5], NetBuf->host);
+  memcpy(&addpt[5], NetBuf->host, hostlen);
   memcpy(&addpt[5 + hostlen], &netport, sizeof(netport));
+  addpt[5 + hostlen + sizeof(netport)] = '\0';
 
   NetBuf->sockstat = NBSS_CONNECT;
 
