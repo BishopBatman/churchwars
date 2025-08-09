@@ -142,9 +142,6 @@ typedef enum {
 typedef enum {
   FIRSTTURN   = 1 << 0,
   DEADHARDASS = 1 << 1,
-  TIPPEDOFF   = 1 << 2,
-  SPIEDON     = 1 << 3,
-  SPYINGON    = 1 << 4,
   FIGHTING    = 1 << 5,
   CANSHOOT    = 1 << 6,
   TRADING     = 1 << 7
@@ -275,18 +272,6 @@ typedef struct INVENTORY Inventory;
 struct PLAYER_T;
 typedef struct PLAYER_T Player;
 
-struct TDopeEntry {
-  Player *Play;
-  int Turns;
-};
-typedef struct TDopeEntry DopeEntry;
-
-struct TDopeList {
-  DopeEntry *Data;
-  int Number;
-};
-typedef struct TDopeList DopeList;
-
 struct PLAYER_T {
   guint ID;
   int Turn;
@@ -302,7 +287,6 @@ struct PLAYER_T {
   time_t FightTimeout, IdleTimeout, ConnectTimeout;
   guint tiebreak;
   price_t DocPrice;
-  DopeList SpyList, TipList;
   Player *OnBehalfOf;
 #ifdef NETWORKING
   NetworkBuffer NetBuf;
@@ -384,13 +368,6 @@ void ClearInventory(Inventory *Guns, Inventory *Drugs);
 int IsCarryingRandom(Player *Play, int amount);
 void ChangeSpaceForInventory(Inventory *Guns, Inventory *Drugs,
                              Player *Play);
-void InitList(DopeList *List);
-void AddListEntry(DopeList *List, DopeEntry *NewEntry);
-void RemoveListEntry(DopeList *List, int Entry);
-int GetListEntry(DopeList *List, Player *Play);
-void RemoveListPlayer(DopeList *List, Player *Play);
-void RemoveAllEntries(DopeList *List, Player *Play);
-void ClearList(DopeList *List);
 int TotalGunsCarried(Player *Play);
 int read_string(FILE *fp, char **buf);
 int brandom(int bot, int top);

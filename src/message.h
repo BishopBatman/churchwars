@@ -39,8 +39,8 @@ typedef enum {
   C_BANK, C_QUESTION, C_UNUSED, C_HISCORE, C_STARTHISCORE, C_ENDHISCORE,
   C_BUYOBJECT, C_DONE, C_REQUESTJET, C_PAYLOAN, C_ANSWER, C_DEPOSIT, C_PUSH,
   C_QUIT = 'a',
-  C_RENAME, C_NAME, C_SACKBITCH, C_TIPOFF, C_SPYON, C_WANTQUIT,
-  C_CONTACTSPY, C_KILL, C_REQUESTSCORE, C_INIT, C_DATA,
+  C_RENAME, C_NAME, C_SACKBITCH, C_WANTQUIT,
+  C_KILL, C_REQUESTSCORE, C_INIT, C_DATA,
   C_FIGHTPRINT, C_FIGHTACT, C_TRADE, C_CHANGEDISP,
   C_NETMESSAGE, C_ABILITIES
 } MsgCode;
@@ -113,7 +113,6 @@ void SendInventory(Player *From, AICode AI, MsgCode Code, Player *To,
                    Inventory *Guns, Inventory *Drugs);
 void ReceiveInventory(char *Data, Inventory *Guns, Inventory *Drugs);
 void SendPlayerData(Player *To);
-void SendSpyReport(Player *To, Player *SpiedOn);
 void ReceivePlayerData(Player *Play, char *text, Player *From);
 void SendInitialData(Player *To);
 void ReceiveInitialData(Player *Play, char *data);

@@ -598,52 +598,40 @@ void ReceiveInventory(char *Data, Inventory *Guns, Inventory *Drugs)
  */
 void SendPlayerData(Player *To)
 {
-  SendSpyReport(To, To);
-}
-
-/* 
- * Sends pertinent data about player "SpiedOn" from the server
- * to player "To".
- */
-void SendSpyReport(Player *To, Player *SpiedOn)
-{
   gchar *cashstr, *debtstr, *bankstr;
   GString *text;
   int i;
 
   text = g_string_new(NULL);
   g_string_printf(text, "%s^%s^%s^%d^%d^%d^%d^%d^",
-                   (cashstr = pricetostr(SpiedOn->Cash)),
-                   (debtstr = pricetostr(SpiedOn->Debt)),
-                   (bankstr = pricetostr(SpiedOn->Bank)),
-                   SpiedOn->Health, SpiedOn->CoatSize,
-                   SpiedOn->IsAt, SpiedOn->Turn, SpiedOn->Flags);
+                   (cashstr = pricetostr(To->Cash)),
+                   (debtstr = pricetostr(To->Debt)),
+                   (bankstr = pricetostr(To->Bank)),
+                   To->Health, To->CoatSize,
+                   To->IsAt, To->Turn, To->Flags);
   g_free(cashstr);
   g_free(debtstr);
   g_free(bankstr);
-  if (HaveAbility(SpiedOn, A_DATE)) {
-    g_string_append_printf(text, "%d^%d^%d^", g_date_get_day(SpiedOn->date),
-                      g_date_get_month(SpiedOn->date),
-                      g_date_get_year(SpiedOn->date));
+  if (HaveAbility(To, A_DATE)) {
+    g_string_append_printf(text, "%d^%d^%d^", g_date_get_day(To->date),
+                      g_date_get_month(To->date),
+                      g_date_get_year(To->date));
   }
   for (i = 0; i < NumGun; i++) {
-    g_string_append_printf(text, "%d^", SpiedOn->Guns[i].Carried);
+    g_string_append_printf(text, "%d^", To->Guns[i].Carried);
   }
   for (i = 0; i < NumDrug; i++) {
-    g_string_append_printf(text, "%d^", SpiedOn->Drugs[i].Carried);
+    g_string_append_printf(text, "%d^", To->Drugs[i].Carried);
   }
   if (HaveAbility(To, A_DRUGVALUE))
     for (i = 0; i < NumDrug; i++) {
       g_string_append_printf(text, "%s^",
                         (cashstr =
-                         pricetostr(SpiedOn->Drugs[i].TotalValue)));
+                         pricetostr(To->Drugs[i].TotalValue)));
       g_free(cashstr);
     }
-  g_string_append_printf(text, "%d", SpiedOn->Bitches.Carried);
-  if (To != SpiedOn)
-    SendServerMessage(SpiedOn, C_NONE, C_UPDATE, To, text->str);
-  else
-    SendServerMessage(NULL, C_NONE, C_UPDATE, To, text->str);
+  g_string_append_printf(text, "%d", To->Bitches.Carried);
+  SendServerMessage(NULL, C_NONE, C_UPDATE, To, text->str);
   g_string_free(text, TRUE);
 }
 
