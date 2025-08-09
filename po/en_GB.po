@@ -526,14 +526,6 @@ msgstr ""
 msgid "strftime() format string for displaying the game turn"
 msgstr ""
 
-#: src/dopewars.c:623
-msgid "Cost for a bitch to spy on the enemy"
-msgstr ""
-
-#: src/dopewars.c:626
-msgid "Cost for a bitch to tipoff the cops to an enemy"
-msgstr ""
-
 #: src/dopewars.c:629
 msgid "Minimum price to hire a bitch"
 msgstr ""
@@ -1546,44 +1538,8 @@ msgstr ""
 msgid "How many do you sell? "
 msgstr ""
 
-#: src/curses_client/curses_client.c:1012
-#, c-format
-msgid "Choose an errand to give one of your %tde..."
-msgstr ""
-
-#: src/curses_client/curses_client.c:1018
-msgid "   S>py on another dealer                  (cost: %P)"
-msgstr ""
-
-#: src/curses_client/curses_client.c:1022
-msgid "   T>ip off the cops to another dealer     (cost: %P)"
-msgstr ""
-
-#: src/curses_client/curses_client.c:1025
-msgid "   G>et stuffed"
-msgstr ""
-
 #: src/curses_client/curses_client.c:1028
 msgid "or C>ontact your spies and receive reports"
-msgstr ""
-
-#: src/curses_client/curses_client.c:1030
-msgid "or N>o errand ? "
-msgstr ""
-
-#. Translate these 5 keys to match the above options, keeping the
-#. original order the same (S>py, T>ip off, G>et stuffed, C>ontact spy,
-#. N>o errand)
-#: src/curses_client/curses_client.c:1037
-msgid "STGCN"
-msgstr ""
-
-#: src/curses_client/curses_client.c:1042
-msgid "Whom do you want to spy on? "
-msgstr ""
-
-#: src/curses_client/curses_client.c:1048
-msgid "Whom do you want to tip the cops off to? "
 msgstr ""
 
 #. Prompt for confirmation of sacking a bitch
@@ -1849,22 +1805,6 @@ msgstr ""
 msgid "%-22tde %3d"
 msgstr ""
 
-#: src/curses_client/curses_client.c:2163
-#, c-format
-msgid "Spy reports for %s"
-msgstr ""
-
-#. Message displayed with a spy's list of drugs (%Tde="Drugs" by
-#. default)
-#: src/curses_client/curses_client.c:2169
-msgid "%/Spy: Drugs/%Tde..."
-msgstr ""
-
-#. Message displayed with a spy's list of guns (%Tde="Guns" by default)
-#: src/curses_client/curses_client.c:2177
-msgid "%/Spy: Guns/%Tde..."
-msgstr ""
-
 #: src/curses_client/curses_client.c:2205
 msgid "No other players are currently logged on!"
 msgstr ""
@@ -1914,10 +1854,6 @@ msgstr ""
 msgid ", L>ist"
 msgstr ""
 
-#: src/curses_client/curses_client.c:2514
-msgid ", G>ive"
-msgstr ""
-
 #: src/curses_client/curses_client.c:2517
 msgid ", F>ight"
 msgstr ""
@@ -1963,7 +1899,6 @@ msgstr ""
 
 #. N.B. You must keep the order of these keys the same as the
 #. original when you translate (B>uy, S>ell, D>rop, T>alk, P>age,
-#. L>ist, G>ive errand, F>ight, J>et, Q>uit)
 #: src/curses_client/curses_client.c:2633
 msgid "BSDTPLGFJQ"
 msgstr ""
@@ -2051,22 +1986,6 @@ msgstr ""
 msgid "/List/_Inventory..."
 msgstr ""
 
-#: src/gui_client/gtk_client.c:175
-msgid "/_Errands"
-msgstr ""
-
-#: src/gui_client/gtk_client.c:176
-msgid "/Errands/_Spy..."
-msgstr ""
-
-#: src/gui_client/gtk_client.c:177
-msgid "/Errands/_Tipoff..."
-msgstr ""
-
-#: src/gui_client/gtk_client.c:181
-msgid "/Errands/_Get spy reports..."
-msgstr ""
-
 #: src/gui_client/gtk_client.c:182
 msgid "/_Help"
 msgstr ""
@@ -2144,22 +2063,6 @@ msgstr ""
 #: src/gui_client/gtk_client.c:545
 #, c-format
 msgid "Jetting to %tde"
-msgstr ""
-
-#. Text for the Errands/Sack Bitch menu item
-#: src/gui_client/gtk_client.c:556
-msgid "%/Sack Bitch menu item/S_ack %Tde..."
-msgstr ""
-
-#. Text to update the Errands/Spy menu item with the price for spying
-#: src/gui_client/gtk_client.c:565
-msgid "_Spy (%P)"
-msgstr ""
-
-#. Text to update the Errands/Tipoff menu item with the price for a
-#. tipoff
-#: src/gui_client/gtk_client.c:571
-msgid "_Tipoff (%P)"
 msgstr ""
 
 #. Title of the GTK+ high score dialog
@@ -2533,23 +2436,6 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#. Title of dialog to select a player to spy on
-#: src/gui_client/gtk_client.c:2937
-msgid "Spy On Player"
-msgstr ""
-
-#. Informative text for "spy on player" dialog. (%tde = "bitch",
-#. "bitch", "guns", "drugs", respectively, by default)
-#: src/gui_client/gtk_client.c:2941
-#, c-format
-msgid ""
-"Please choose the player to spy on. Your %tde will\n"
-"then offer his services to the player, and if successful,\n"
-"you will be able to view the player's stats with the\n"
-"\"Get spy reports\" menu. Remember that the %tde will leave\n"
-"you, so any %tde or %tde that he's carrying may be lost!"
-msgstr ""
-
 #. Title of dialog to select a player to tip the cops off to
 #: src/gui_client/gtk_client.c:2956
 msgid "Tip Off The Cops"
@@ -2635,11 +2521,6 @@ msgstr ""
 #. by default)
 #: src/gui_client/gtk_client.c:3244
 msgid "%/GTK GunShop window title/%Tde"
-msgstr ""
-
-#. Title of window to display reports from spies with other players
-#: src/gui_client/gtk_client.c:3311
-msgid "Spy reports"
 msgstr ""
 
 #: src/gui_client/optdialog.c:420
@@ -3002,16 +2883,6 @@ msgstr ""
 #. Title of the Windows window used for AI player output
 #: src/winmain.c:369
 msgid "dopewars AI"
-msgstr ""
-
-#. Things that can "happen" to your spies - look for strings containing
-#. "The spy %s!" to see how these strings are used.
-#: src/serverside.c:73
-msgid "escaped"
-msgstr ""
-
-#: src/serverside.c:73
-msgid "defected"
 msgstr ""
 
 #: src/serverside.c:73
@@ -3384,26 +3255,6 @@ msgstr ""
 msgid "(R.I.P.)"
 msgstr ""
 
-#: src/serverside.c:2267
-#, c-format
-msgid "%s: Tipoff from %s"
-msgstr ""
-
-#: src/serverside.c:2275
-#, c-format
-msgid "%s: Spy offered by %s"
-msgstr ""
-
-#: src/serverside.c:2289
-#, c-format
-msgid "One of your %tde was spying for %s.^The spy %s!"
-msgstr ""
-
-#: src/serverside.c:2298
-#, c-format
-msgid "Your spy working with %s has been discovered!^The spy %s!"
-msgstr ""
-
 #: src/serverside.c:2332
 #, c-format
 msgid "The lady next to you on the subway said,^ \"%s\"%s"
@@ -3465,11 +3316,6 @@ msgstr ""
 #: src/serverside.c:2954
 #, c-format
 msgid "Following your tipoff, the cops ambushed %s, who was shot dead!"
-msgstr ""
-
-#: src/serverside.c:2958
-#, c-format
-msgid "Following your tipoff, the cops ambushed %s, who escaped with %d %tde. "
 msgstr ""
 
 #: src/serverside.c:3024
