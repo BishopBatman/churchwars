@@ -419,12 +419,6 @@ struct GLOBALS Globals[] = {
   {NULL, NULL, NULL, &Sounds.Jet, NULL, "Sounds.Jet",
    N_("Sound file played on arriving at a new location"), NULL, NULL, 0, "",
    NULL, NULL, FALSE, 0, 0},
-  {NULL, NULL, NULL, &Sounds.TalkToAll, NULL, "Sounds.TalkToAll",
-   N_("Sound file played when a player sends a public chat message"),
-   NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
-  {NULL, NULL, NULL, &Sounds.TalkPrivate, NULL, "Sounds.TalkPrivate",
-   N_("Sound file played when a player sends a private chat message"),
-   NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
   {NULL, NULL, NULL, &Sounds.JoinGame, NULL, "Sounds.JoinGame",
    N_("Sound file played when a player joins the game"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
@@ -2341,8 +2335,6 @@ static void SetupParameters(GSList *extraconfigs, gboolean antique)
   AssignName(&Sounds.EnemyFlee, SNDPATH"run.wav");
   AssignName(&Sounds.Flee, SNDPATH"run.wav");
   AssignName(&Sounds.Jet, SNDPATH"train.wav");
-  AssignName(&Sounds.TalkPrivate, SNDPATH"murmur.wav");
-  AssignName(&Sounds.TalkToAll, SNDPATH"message.wav");
   AssignName(&Sounds.EndGame, SNDPATH"bye.wav");
   AssignName(&Sounds.CoinBuy, SNDPATH"coinbuy.wav");
 

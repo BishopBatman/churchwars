@@ -481,16 +481,14 @@ void HandleClientMessage(char *pt, Player *Play)
     break;
   case C_MSG:
     text = g_strdup_printf("%s: %s", GetPlayerName(From), Data);
-    PrintMessage(text, "talk");
+    PrintMessage(text, NULL);
     g_free(text);
-    SoundPlay(Sounds.TalkToAll);
     break;
   case C_MSGTO:
     text = g_strdup_printf("%s->%s: %s", GetPlayerName(From),
                            GetPlayerName(Play), Data);
     PrintMessage(text, "page");
     g_free(text);
-    SoundPlay(Sounds.TalkPrivate);
     break;
   case C_JOIN:
     text = g_strdup_printf(_("%s joins the game!"), Data);
@@ -2091,8 +2089,6 @@ static void make_tags(GtkTextView *textview)
 
   gtk_text_buffer_create_tag(buffer, "jet", "foreground",
                              "#00000000FFFF", NULL);
-  gtk_text_buffer_create_tag(buffer, "talk", "foreground",
-                             "#FFFF00000000", NULL);
   gtk_text_buffer_create_tag(buffer, "page", "foreground",
                              "#FFFF0000FFFF", NULL);
   gtk_text_buffer_create_tag(buffer, "join", "foreground",
