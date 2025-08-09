@@ -1106,18 +1106,19 @@ gchar *FormatPrice(price_t price)
   char thou[10];
   gboolean First = TRUE;
   price_t absprice;
+  gboolean negative = FALSE;
 
   PriceStr = g_string_new(NULL);
-  if (price < 0)
+  if (price < 0) {
     absprice = -price;
-  else
+    negative = TRUE;
+  } else
     absprice = price;
   while (First || absprice > 0) {
     if (absprice >= 1000)
       sprintf(thou, "%03d", (int)(absprice % 1000l));
     else
-      sprintf(thou, "%d", (int)(price % 1000l));
-    price /= 1000l;
+      sprintf(thou, "%d", (int)(absprice % 1000l));
     absprice /= 1000l;
     if (!First)
       g_string_prepend_c(PriceStr, ',');
@@ -1128,6 +1129,8 @@ gchar *FormatPrice(price_t price)
     g_string_prepend(PriceStr, Currency.Symbol);
   else
     g_string_append(PriceStr, Currency.Symbol);
+  if (negative)
+    g_string_prepend_c(PriceStr, '-');
 
   NewBuffer = PriceStr->str;
   /* Free the string structure only, not the char data */
