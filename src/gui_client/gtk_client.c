@@ -172,13 +172,13 @@ static DPGtkItemFactoryEntry menu_items[] = {
   {N_("/List/_Players..."), NULL, ListPlayers, 0, NULL},
   {N_("/List/_Scores..."), NULL, ListScores, 0, NULL},
   {N_("/List/_Inventory..."), NULL, ListInventory, 0, NULL},
-  {N_("/_Errands"), NULL, NULL, 0, "<Branch>"},
-  {N_("/Errands/_Spy..."), NULL, SpyOnPlayer, 0, NULL},
-  {N_("/Errands/_Tipoff..."), NULL, TipOff, 0, NULL},
-  /* N.B. "Sack Bitch" has to be recreated (and thus translated) at the
-   * start of each game, below, so is not marked for gettext here */
-  {"/Errands/S_ack Bitch...", NULL, SackBitch, 0, NULL},
-  {N_("/Errands/_Get spy reports..."), NULL, GetSpyReports, 0, NULL},
+  // {N_("/_Errands"), NULL, NULL, 0, "<Branch>"},
+  // {N_("/Errands/_Spy..."), NULL, SpyOnPlayer, 0, NULL},
+  // {N_("/Errands/_Tipoff..."), NULL, TipOff, 0, NULL},
+  // /* N.B. "Sack Bitch" has to be recreated (and thus translated) at the
+  //  * start of each game, below, so is not marked for gettext here */
+  // {"/Errands/S_ack Bitch...", NULL, SackBitch, 0, NULL},
+  // {N_("/Errands/_Get spy reports..."), NULL, GetSpyReports, 0, NULL},
   {N_("/_Help"), NULL, NULL, 0, "<Branch>"},
   {N_("/Help/_About..."), "F1", display_intro, 0, NULL}
 };
@@ -2044,21 +2044,21 @@ void UpdateMenus(void)
   gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
                            (ClientData.Menu, "<main>/List/Players..."),
                            InGame && Network);
-  gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-                           (ClientData.Menu, "<main>/Errands"), InGame);
-  gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-                           (ClientData.Menu, "<main>/Errands/Spy..."),
-                           InGame && MultiPlayer);
-  gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-                           (ClientData.Menu, "<main>/Errands/Tipoff..."),
-                           InGame && MultiPlayer);
-  gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-                           (ClientData.Menu,
-                            "<main>/Errands/Sack Bitch..."), Bitches > 0);
-  gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-                           (ClientData.Menu,
-                            "<main>/Errands/Get spy reports..."), InGame
-                           && MultiPlayer);
+    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
+    //                          (ClientData.Menu, "<main>/Errands"), InGame);
+    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
+    //                          (ClientData.Menu, "<main>/Errands/Spy..."),
+    //                          InGame && MultiPlayer);
+    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
+    //                          (ClientData.Menu, "<main>/Errands/Tipoff..."),
+    //                          InGame && MultiPlayer);
+    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
+    //                          (ClientData.Menu,
+    //                           "<main>/Errands/Sack Bitch..."), Bitches > 0);
+    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
+    //                          (ClientData.Menu,
+    //                           "<main>/Errands/Get spy reports..."), InGame
+    //                          && MultiPlayer);
 }
 
 GtkWidget *CreateStatusWidgets(struct StatusWidgets *Status)
