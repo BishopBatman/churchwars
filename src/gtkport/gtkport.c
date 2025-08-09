@@ -5262,11 +5262,36 @@ guint SetAccelerator(GtkWidget *labelparent, gchar *Text,
                      GtkWidget *sendto, gchar *signal,
                      GtkAccelGroup *accel_group, gboolean needalt)
 {
+  GtkWidget *label = NULL;
+
+  if (!labelparent) {
+    g_warning("SetAccelerator: labelparent is NULL");
+    return 0;
+  }
+
+  if (GTK_IS_LABEL(labelparent)) {
+    label = labelparent;
+  } else if (GTK_IS_BIN(labelparent)) {
+#if GTK_MAJOR_VERSION == 2
+    label = GTK_BIN(labelparent)->child;
+#else
+    label = gtk_bin_get_child(GTK_BIN(labelparent));
+#endif
+  } else {
+    g_warning("SetAccelerator: unexpected widget type '%s'",
+              G_OBJECT_TYPE_NAME(labelparent));
+    return 0;
+  }
+
+  if (!label || !GTK_IS_LABEL(label)) {
+    g_warning("SetAccelerator: unable to find GtkLabel");
+    return 0;
+  }
+
 #if GTK_MAJOR_VERSION == 2
   guint AccelKey;
 
-  AccelKey =
-      gtk_label_parse_uline(GTK_LABEL(GTK_BIN(labelparent)->child), Text);
+  AccelKey = gtk_label_parse_uline(GTK_LABEL(label), Text);
   if (sendto && AccelKey) {
     gtk_widget_add_accelerator(sendto, signal, accel_group, AccelKey,
                                needalt ? GDK_MOD1_MASK : 0,
@@ -5274,11 +5299,9 @@ guint SetAccelerator(GtkWidget *labelparent, gchar *Text,
   }
   return AccelKey;
 #else
-  gtk_label_set_text_with_mnemonic(
-                   GTK_LABEL(gtk_bin_get_child(GTK_BIN(labelparent))), Text);
+  gtk_label_set_text_with_mnemonic(GTK_LABEL(label), Text);
   if (sendto) {
-    gtk_label_set_mnemonic_widget(
-                   GTK_LABEL(gtk_bin_get_child(GTK_BIN(labelparent))), sendto);
+    gtk_label_set_mnemonic_widget(GTK_LABEL(label), sendto);
   }
   return 0;
 #endif
