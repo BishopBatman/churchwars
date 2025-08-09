@@ -51,7 +51,10 @@ SoundDriver *sound_cocoa_init(void);
 static SoundDriver *driver = NULL;
 static GSList *driverlist = NULL;
 typedef SoundDriver *(*InitFunc)(void);
-static gboolean sound_enabled = TRUE;
+/*
+ * Sound is disabled by default until a driver is explicitly opened.
+ */
+static gboolean sound_enabled = FALSE;
 
 gchar *GetPluginList(void)
 {
