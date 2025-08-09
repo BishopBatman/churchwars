@@ -1099,14 +1099,12 @@ void HandleClientMessage(char *Message, Player *Play)
     text = g_strdup_printf("%s: %s", GetPlayerName(From), Data);
     display_message(text);
     g_free(text);
-    SoundPlay(Sounds.TalkToAll);
     break;
   case C_MSGTO:
     text = g_strdup_printf("%s->%s: %s", GetPlayerName(From),
                            GetPlayerName(Play), Data);
     display_message(text);
     g_free(text);
-    SoundPlay(Sounds.TalkPrivate);
     break;
   case C_JOIN:
     text = g_strdup_printf(_("%s joins the game!"), Data);
@@ -2334,7 +2332,7 @@ static void DisplayDrugsHere(Player *Play)
  */
 static void Curses_DoGame(Player *Play)
 {
-  gchar *buf, *OldName, *TalkMsg;
+  gchar *buf, *OldName;
   GString *text;
   int i, c;
   char IsCarrying;
@@ -2596,37 +2594,6 @@ static void Curses_DoGame(Player *Play)
           DisplayMode = DM_NONE;
           SendClientMessage(Play, C_NONE, C_REQUESTSCORE, NULL, NULL);
         }
-      } else if (c == 'P' && Network) {
-        tmp = ListPlayers(Play, TRUE,
-                          _("Whom do you want to page "
-                            "(talk privately to) ? "));
-        if (tmp) {
-          attrset(TextAttr);
-          clear_line(get_prompt_line());
-          /* Prompt for sending player-player messages */
-          TalkMsg = nice_input(_("Talk: "), get_prompt_line(), 0, FALSE,
-                               NULL, '\0');
-          if (TalkMsg[0]) {
-            SendClientMessage(Play, C_NONE, C_MSGTO, tmp, TalkMsg);
-            buf = g_strdup_printf("%s->%s: %s", GetPlayerName(Play),
-                                  GetPlayerName(tmp), TalkMsg);
-            display_message(buf);
-            g_free(buf);
-          }
-          g_free(TalkMsg);
-        }
-      } else if (c == 'T' && Client) {
-        attrset(TextAttr);
-        clear_line(get_prompt_line());
-        TalkMsg = nice_input(_("Talk: "), get_prompt_line(), 0,
-                             FALSE, NULL, '\0');
-        if (TalkMsg[0]) {
-          SendClientMessage(Play, C_NONE, C_MSG, NULL, TalkMsg);
-          buf = g_strdup_printf("%s: %s", GetPlayerName(Play), TalkMsg);
-          display_message(buf);
-          g_free(buf);
-        }
-        g_free(TalkMsg);
       }
     } else if (DisplayMode == DM_FIGHT) {
       switch (c) {
