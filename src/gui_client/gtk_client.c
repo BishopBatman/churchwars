@@ -47,9 +47,6 @@
 #define BT_SELL (GINT_TO_POINTER(2))
 #define BT_DROP (GINT_TO_POINTER(3))
 
-#define ET_SPY    0
-#define ET_TIPOFF 1
-
 struct InventoryWidgets {
   GtkWidget *HereList, *CarriedList;
   GtkWidget *HereFrame, *CarriedFrame;
@@ -138,10 +135,6 @@ static void TalkToPlayers(GtkWidget *widget, gpointer data);
 static void TalkDialog(gboolean TalkToAll);
 static GtkWidget *CreatePlayerList(void);
 static void UpdatePlayerList(GtkWidget *clist, gboolean IncludeSelf);
-static void TipOff(GtkWidget *widget, gpointer data);
-static void SpyOnPlayer(GtkWidget *widget, gpointer data);
-static void ErrandDialog(gint ErrandType);
-static void SackBitch(GtkWidget *widget, gpointer data);
 static void DestroyShowing(GtkWidget *widget, gpointer data);
 static void SetShowing(GtkWidget *window, gboolean *showing);
 static gint DisallowDelete(GtkWidget *widget, GdkEvent * event,
@@ -154,7 +147,6 @@ static void CreateInventory(GtkWidget *hbox, gchar *Objects,
                             gboolean CreateButtons, gboolean CreateHere,
                             struct InventoryWidgets *widgets,
                             GCallback CallBack);
-static void GetSpyReports(GtkWidget *widget, gpointer data);
 static void DisplaySpyReports(Player *Play);
 
 static DPGtkItemFactoryEntry menu_items[] = {
@@ -172,13 +164,6 @@ static DPGtkItemFactoryEntry menu_items[] = {
   {N_("/List/_Players..."), NULL, ListPlayers, 0, NULL},
   {N_("/List/_Scores..."), NULL, ListScores, 0, NULL},
   {N_("/List/_Inventory..."), NULL, ListInventory, 0, NULL},
-  {N_("/_Errands"), NULL, NULL, 0, "<Branch>"},
-  {N_("/Errands/_Spy..."), NULL, SpyOnPlayer, 0, NULL},
-  {N_("/Errands/_Tipoff..."), NULL, TipOff, 0, NULL},
-  /* N.B. "Sack Bitch" has to be recreated (and thus translated) at the
-   * start of each game, below, so is not marked for gettext here */
-  {"/Errands/S_ack Bitch...", NULL, SackBitch, 0, NULL},
-  {N_("/Errands/_Get spy reports..."), NULL, GetSpyReports, 0, NULL},
   {N_("/_Help"), NULL, NULL, 0, "<Branch>"},
   {N_("/Help/_About..."), "F1", display_intro, 0, NULL}
 };
@@ -446,7 +431,6 @@ void HandleClientMessage(char *pt, Player *Play)
   Player *From, *tmp;
   gchar *text;
   gboolean Handled;
-  GtkWidget *MenuItem;
   GSList *list;
 
   if (ProcessMessage(pt, Play, &From, &AI, &Code,
@@ -548,39 +532,11 @@ void HandleClientMessage(char *pt, Player *Play)
     g_free(text);
     SoundPlay(Sounds.Jet);
     break;
-    case C_ENDLIST:
-      MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
-                                                "<main>/Errands/Sack Bitch...");
-      if (!MenuItem)
-        break;
-
-      /* Text for the Errands/Sack Bitch menu item */
-      text = dpg_strdup_printf(_("%/Sack Bitch menu item/S_ack %Tde..."),
-                               Names.Bitch);
-      SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
-      g_free(text);
-
-      MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
-                                                "<main>/Errands/Spy...");
-      if (MenuItem) {
-        /* Text to update the Errands/Spy menu item with the price for spying */
-        text = dpg_strdup_printf(_("_Spy (%P)"), Prices.Spy);
-        SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
-        g_free(text);
-      }
-
-      /* Text to update the Errands/Tipoff menu item with the price for a tipoff */
-      MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
-                                                "<main>/Errands/Tipoff...");
-      if (MenuItem) {
-        text = dpg_strdup_printf(_("_Tipoff (%P)"), Prices.Tipoff);
-        SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
-        g_free(text);
-      }
-      if (FirstClient->next)
-        ListPlayers(NULL, NULL);
-      UpdateMenus();
-      break;
+  case C_ENDLIST:
+    if (FirstClient->next)
+      ListPlayers(NULL, NULL);
+    UpdateMenus();
+    break;
   case C_UPDATE:
     if (From == &Noone) {
       ReceivePlayerData(Play, Data, Play);
@@ -2027,12 +1983,6 @@ static gint DrugSortByPrice(GtkTreeModel *model, GtkTreeIter *a,
 
 void UpdateMenus(void)
 {
-  gboolean MultiPlayer;
-  gint Bitches;
-
-  MultiPlayer = (FirstClient && FirstClient->next != NULL);
-  Bitches = InGame && ClientData.Play ? ClientData.Play->Bitches.Carried : 0;
-
   gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget(ClientData.Menu,
                                                           "<main>/Talk"),
                            InGame && Network);
@@ -2044,25 +1994,10 @@ void UpdateMenus(void)
                            InGame);
   gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
                            (ClientData.Menu, "<main>/List/Inventory..."),
-			   InGame);
+                           InGame);
   gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
                            (ClientData.Menu, "<main>/List/Players..."),
                            InGame && Network);
-    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-    //                          (ClientData.Menu, "<main>/Errands"), InGame);
-    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-    //                          (ClientData.Menu, "<main>/Errands/Spy..."),
-    //                          InGame && MultiPlayer);
-    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-    //                          (ClientData.Menu, "<main>/Errands/Tipoff..."),
-    //                          InGame && MultiPlayer);
-    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-    //                          (ClientData.Menu,
-    //                           "<main>/Errands/Sack Bitch..."), Bitches > 0);
-    // gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
-    //                          (ClientData.Menu,
-    //                           "<main>/Errands/Get spy reports..."), InGame
-    //                          && MultiPlayer);
 }
 
 GtkWidget *CreateStatusWidgets(struct StatusWidgets *Status)
@@ -2892,154 +2827,6 @@ void UpdatePlayerList(GtkWidget *clist, gboolean IncludeSelf)
   g_object_unref(store);
 }
 
-static void ErrandOK(GtkWidget *widget, GtkWidget *clist)
-{
-  GtkTreeSelection *treesel;
-  GtkTreeModel *model;
-  GtkTreeIter iter;
-  GtkWidget *dialog;
-  gint ErrandType;
-
-
-  dialog = GTK_WIDGET(g_object_get_data(G_OBJECT(widget), "dialog"));
-  ErrandType = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget),
-                                                 "errandtype"));
-  treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(clist));
-  if (gtk_tree_selection_get_selected(treesel, &model, &iter)) {
-    Player *Play;
-    gtk_tree_model_get(model, &iter, PLAYER_COL_PT, &Play, -1);
-    if (ErrandType == ET_SPY) {
-      SendClientMessage(ClientData.Play, C_NONE, C_SPYON, Play, NULL);
-    } else {
-      SendClientMessage(ClientData.Play, C_NONE, C_TIPOFF, Play, NULL);
-    }
-    gtk_widget_destroy(dialog);
-  }
-}
-
-void SpyOnPlayer(GtkWidget *widget, gpointer data)
-{
-  ErrandDialog(ET_SPY);
-}
-
-void TipOff(GtkWidget *widget, gpointer data)
-{
-  ErrandDialog(ET_TIPOFF);
-}
-
-void ErrandDialog(gint ErrandType)
-{
-  GtkWidget *dialog, *clist, *button, *vbox, *hbbox, *hsep, *label;
-  GtkAccelGroup *accel_group;
-  gchar *text;
-
-  dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  accel_group = gtk_accel_group_new();
-  gtk_window_add_accel_group(GTK_WINDOW(dialog), accel_group);
-
-  gtk_container_set_border_width(GTK_CONTAINER(dialog), 7);
-
-  gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
-  gtk_window_set_transient_for(GTK_WINDOW(dialog),
-                               GTK_WINDOW(ClientData.window));
-
-  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 7);
-
-  if (ErrandType == ET_SPY) {
-    /* Title of dialog to select a player to spy on */
-    gtk_window_set_title(GTK_WINDOW(dialog), _("Spy On Player"));
-
-    /* Informative text for "spy on player" dialog. (%tde = "bitch",
-       "bitch", "guns", "drugs", respectively, by default) */
-    text = dpg_strdup_printf(_("Please choose the player to spy on. "
-                               "Your %tde will\nthen offer his "
-                               "services to the player, and if "
-                               "successful,\nyou will be able to "
-                               "view the player's stats with the\n"
-                               "\"Get spy reports\" menu. Remember "
-                               "that the %tde will leave\nyou, so "
-                               "any %tde or %tde that he's "
-                               "carrying may be lost!"), Names.Bitch,
-                             Names.Bitch, Names.Guns, Names.Drugs);
-    label = gtk_label_new(text);
-    g_free(text);
-  } else {
-
-    /* Title of dialog to select a player to tip the cops off to */
-    gtk_window_set_title(GTK_WINDOW(dialog), _("Tip Off The Cops"));
-
-    /* Informative text for "tip off cops" dialog. (%tde = "bitch",
-       "bitch", "guns", "drugs", respectively, by default) */
-    text = dpg_strdup_printf(_("Please choose the player to tip off "
-                               "the Amirs to. Your %tde will\nhelp "
-                               "the Amirs to attack that player, "
-                               "and then report back to you\non "
-                               "the encounter. Remember that the "
-                               "%tde will leave you temporarily,\n"
-                               "so any %tde or %tde that he's "
-                               "carrying may be lost!"), Names.Bitch,
-                             Names.Bitch, Names.Guns, Names.Drugs);
-    label = gtk_label_new(text);
-    g_free(text);
-  }
-  my_set_dialog_position(GTK_WINDOW(dialog));
-
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-
-  clist = ClientData.PlayerList = CreatePlayerList();
-  UpdatePlayerList(clist, FALSE);
-  gtk_box_pack_start(GTK_BOX(vbox), clist, TRUE, TRUE, 0);
-
-  hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_box_pack_start(GTK_BOX(vbox), hsep, FALSE, FALSE, 0);
-
-  hbbox = my_hbbox_new();
-  button = gtk_button_new_with_mnemonic(_("_OK"));
-  g_object_set_data(G_OBJECT(button), "dialog", dialog);
-  g_object_set_data(G_OBJECT(button), "errandtype",
-                    GINT_TO_POINTER(ErrandType));
-  g_signal_connect(G_OBJECT(button), "clicked",
-                   G_CALLBACK(ErrandOK), (gpointer)clist);
-  my_gtk_box_pack_start_defaults(GTK_BOX(hbbox), button);
-  button = gtk_button_new_with_mnemonic(_("_Cancel"));
-  g_signal_connect_swapped(G_OBJECT(button), "clicked",
-                           G_CALLBACK(gtk_widget_destroy),
-                           G_OBJECT(dialog));
-  my_gtk_box_pack_start_defaults(GTK_BOX(hbbox), button);
-
-  gtk_box_pack_start(GTK_BOX(vbox), hbbox, FALSE, FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(dialog), vbox);
-  gtk_widget_show_all(dialog);
-}
-
-void SackBitch(GtkWidget *widget, gpointer data)
-{
-  char *title, *text;
-
-  /* Cannot sack bitches if you don't have any! */
-  if (ClientData.Play->Bitches.Carried <= 0)
-    return;
-
-  /* Title of dialog to sack a bitch (%Tde = "Bitch" by default) */
-  title = dpg_strdup_printf(_("%/Sack Bitch dialog title/Sack %Tde"),
-                            Names.Bitch);
-
-  /* Confirmation message for sacking a bitch. (%tde = "guns", "drugs",
-     "bitch", respectively, by default) */
-  text = dpg_strdup_printf(_("Are you sure? (Any %tde or %tde carried\n"
-                             "by this %tde may be lost!)"), Names.Guns,
-                           Names.Drugs, Names.Bitch);
-
-  if (GtkMessageBox(ClientData.window, text, title, GTK_MESSAGE_QUESTION,
-                    MB_YESNO) == IDYES) {
-    ClientData.Play->Bitches.Carried--;
-    UpdateMenus();
-    SendClientMessage(ClientData.Play, C_NONE, C_SACKBITCH, NULL, NULL);
-  }
-  g_free(text);
-  g_free(title);
-}
-
 void CreateInventory(GtkWidget *hbox, gchar *Objects,
                      GtkAccelGroup *accel_group, gboolean CreateButtons,
                      gboolean CreateHere, struct InventoryWidgets *widgets,
@@ -3298,11 +3085,6 @@ void UpdatePlayerLists(void)
   if (IsShowingTalkList) {
     UpdatePlayerList(ClientData.TalkList, FALSE);
   }
-}
-
-void GetSpyReports(GtkWidget *Widget, gpointer data)
-{
-  SendClientMessage(ClientData.Play, C_NONE, C_CONTACTSPY, NULL, NULL);
 }
 
 static void DestroySpyReports(GtkWidget *widget, gpointer data)
