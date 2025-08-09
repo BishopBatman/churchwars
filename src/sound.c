@@ -26,6 +26,7 @@
 
 #include <glib.h>
 #include <string.h>
+#include <errno.h>
 
 #ifdef PLUGINS
 #include <sys/types.h>
@@ -95,8 +96,10 @@ static void OpenModule(const gchar *modname, const gchar *fullname)
 
     soundmodule = dlopen(fullname, RTLD_NOW);
     if (!soundmodule) {
-      /* FIXME: using dlerror() here causes a segfault later in the program */
-      dopelog(3, 0, "dlopen of %s failed: %s", fullname, dlerror());
+      /* Avoid calling dlerror() directly as it has been associated with
+       * crashes on some platforms.  Use strerror on errno instead so we still
+       * get a useful message without risking a segfault. */
+      dopelog(3, 0, "dlopen of %s failed: %s", fullname, g_strerror(errno));
       return;
     }
 
@@ -108,7 +111,8 @@ static void OpenModule(const gchar *modname, const gchar *fullname)
     if (ifunc) {
       AddPlugin(ifunc, soundmodule);
     } else {
-      dopelog(3, 0, "dlsym (%s) failed: %s", funcname->str, dlerror());
+      dopelog(3, 0, "dlsym (%s) failed: %s", funcname->str,
+              g_strerror(errno));
       dlclose(soundmodule);
     }
     g_string_free(funcname, TRUE);
@@ -201,7 +205,8 @@ void SoundOpen(gchar *drivername)
       g_free(err);
     }
   }
-  sound_enabled = TRUE;
+  /* Only report sound as enabled if a driver was successfully loaded. */
+  sound_enabled = (driver != NULL);
 }
 
 void SoundClose(void)
@@ -225,6 +230,7 @@ void SoundClose(void)
 #endif
   g_slist_free(driverlist);
   driverlist = NULL;
+  sound_enabled = FALSE;
 }
 
 void SoundPlay(const gchar *snd)
