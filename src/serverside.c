@@ -326,7 +326,6 @@ void HandleServerMessage(gchar *buf, Player *Play)
   AICode AI;
   MsgCode Code;
   gchar *text;
-  DopeEntry NewEntry;
   int i;
   price_t money;
 
@@ -479,15 +478,6 @@ void HandleServerMessage(gchar *buf, Player *Play)
   case C_REQUESTSCORE:
     SendHighScores(Play, FALSE, NULL);
     break;
-  case C_CONTACTSPY:
-    for (list = FirstServer; list; list = g_slist_next(list)) {
-      tmp = (Player *)list->data;
-      i = GetListEntry(&(tmp->SpyList), Play);
-      if (tmp != Play && i >= 0 && tmp->SpyList.Data[i].Turns >= 0) {
-        SendSpyReport(Play, tmp);
-      }
-    }
-    break;
   case C_DEPOSIT:
     money = strtoprice(Data);
     if (Play->EventNum == E_BANK && Play->Bank + money >= 0
@@ -528,36 +518,6 @@ void HandleServerMessage(gchar *buf, Player *Play)
       SendEvent(Play);
     }
     break;
-  case C_SPYON:
-    if (Play->Cash >= Prices.Spy) {
-      dopelog(3, LF_SERVER, _("%s now spying on %s"), GetPlayerName(Play),
-              GetPlayerName(To));
-      Play->Cash -= Prices.Spy;
-      LoseBitch(Play, NULL, NULL);
-      NewEntry.Play = Play;
-      NewEntry.Turns = -1;
-      AddListEntry(&(To->SpyList), &NewEntry);
-      SendPlayerData(Play);
-    } else {
-      dopelog(2, LF_SERVER, _("%s spy on %s: DENIED"), GetPlayerName(Play),
-                GetPlayerName(To));
-    }
-    break;
-  case C_TIPOFF:
-    if (Play->Cash >= Prices.Tipoff) {
-      dopelog(3, LF_SERVER, _("%s tipped off the Amirs to %s"),
-              GetPlayerName(Play), GetPlayerName(To));
-      Play->Cash -= Prices.Tipoff;
-      LoseBitch(Play, NULL, NULL);
-      NewEntry.Play = Play;
-      NewEntry.Turns = 0;
-      AddListEntry(&(To->TipList), &NewEntry);
-      SendPlayerData(Play);
-    } else {
-      g_warning(_("%s tipoff about %s: DENIED"), GetPlayerName(Play),
-                GetPlayerName(To));
-    }
-    break;
   case C_SACKBITCH:
     if (Play->Bitches.Carried > 0) {
       LoseBitch(Play, NULL, NULL);
@@ -582,21 +542,11 @@ void HandleServerMessage(gchar *buf, Player *Play)
  */
 void ClientLeftServer(Player *Play)
 {
-  Player *tmp;
-  GSList *list;
-
   if (!IsConnectedPlayer(Play))
     return;
 
   if (Play->EventNum == E_FIGHT || Play->EventNum == E_FIGHTASK) {
     WithdrawFromCombat(Play);
-  }
-  for (list = FirstServer; list; list = g_slist_next(list)) {
-    tmp = (Player *)list->data;
-    if (tmp != Play) {
-      RemoveAllEntries(&(tmp->TipList), Play);
-      RemoveAllEntries(&(tmp->SpyList), Play);
-    }
   }
   BroadcastToClients(C_NONE, C_LEAVE, GetPlayerName(Play), Play, Play);
 }
@@ -2263,52 +2213,6 @@ void SendEvent(Player *To)
       SendServerMessage(NULL, C_NONE, C_SUBWAYFLASH, To, NULL);
       break;
     case E_OFFOBJECT:
-      To->OnBehalfOf = NULL;
-      for (i = 0; i < To->TipList.Number; i++) {
-        dopelog(3, LF_SERVER, _("%s: Tipoff from %s"), GetPlayerName(To),
-                GetPlayerName(To->TipList.Data[i].Play));
-        To->OnBehalfOf = To->TipList.Data[i].Play;
-        SendCopOffer(To, FORCECOPS);
-        return;
-      }
-      for (i = 0; i < To->SpyList.Number; i++) {
-        if (To->SpyList.Data[i].Turns < 0) {
-          dopelog(3, LF_SERVER, _("%s: Spy offered by %s"), GetPlayerName(To),
-                  GetPlayerName(To->SpyList.Data[i].Play));
-          To->OnBehalfOf = To->SpyList.Data[i].Play;
-          SendCopOffer(To, FORCEBITCH);
-          return;
-        }
-        To->SpyList.Data[i].Turns++;
-        if (To->SpyList.Data[i].Turns > 3 &&
-            brandom(0, 100) < 10 + To->SpyList.Data[i].Turns) {
-          if (TotalGunsCarried(To) > 0)
-            j = brandom(0, NUMDISCOVER);
-          else
-            j = brandom(0, NUMDISCOVER - 1);
-          text =
-              dpg_strdup_printf(_("One of your %tde was spying for %s."
-                                  "^The spy %s!"), Names.Bitches,
-                                GetPlayerName(To->SpyList.Data[i].Play),
-                                _(Discover[j]));
-          if (j != DEFECT)
-            LoseBitch(To, NULL, NULL);
-          SendPlayerData(To);
-          SendPrintMessage(NULL, C_NONE, To, text);
-          g_free(text);
-          text = g_strdup_printf(_("Your spy working with %s has "
-                                   "been discovered!^The spy %s!"),
-                                 GetPlayerName(To), _(Discover[j]));
-          if (j == ESCAPE)
-            GainBitch(To->SpyList.Data[i].Play);
-          To->SpyList.Data[i].Play->Flags &= ~SPYINGON;
-          SendPlayerData(To->SpyList.Data[i].Play);
-          SendPrintMessage(NULL, C_NONE, To->SpyList.Data[i].Play, text);
-          g_free(text);
-          RemoveListEntry(&(To->SpyList), i);
-          i--;
-        }
-      }
       if (Money > 3000000)
         i = 130;
       else if (Money > 1000000)
@@ -2443,8 +2347,6 @@ int SendCopOffer(Player *To, OfferForce Force)
     i = 100;
   else if (Force == FORCEBITCH)
     i = 0;
-  else
-    To->OnBehalfOf = NULL;
   if (i < 33) {
     return (OfferObject(To, Force == FORCEBITCH));
   } else if (i < 50) {
@@ -2938,36 +2840,6 @@ Player *GetNextShooter(Player *Play)
   return MinPlay;
 }
 
-void ResolveTipoff(Player *Play)
-{
-  GString *text;
-
-  if (IsCop(Play) || !CanRunHere(Play))
-    return;
-
-  if (g_slist_find(FirstServer, (gpointer)Play->OnBehalfOf)) {
-    dopelog(4, LF_SERVER, _("%s: tipoff by %s finished OK."),
-            GetPlayerName(Play), GetPlayerName(Play->OnBehalfOf));
-    RemoveListPlayer(&(Play->TipList), Play->OnBehalfOf);
-    text = g_string_new("");
-    if (Play->Health == 0) {
-      g_string_printf(text,
-                       _("Following your tipoff, the Seljuk Amirs ambushed %s, "
-                         "who was speared to death!"), GetPlayerName(Play));
-    } else {
-      dpg_string_printf(text,
-                         _("Following your tipoff, the Seljuk Amirs ambushed %s, "
-                           "who escaped with %d %tde. "), GetPlayerName(Play),
-                         Play->Bitches.Carried, Names.Bitches);
-    }
-    GainBitch(Play->OnBehalfOf);
-    SendPlayerData(Play->OnBehalfOf);
-    SendPrintMessage(NULL, C_NONE, Play->OnBehalfOf, text->str);
-    g_string_free(text, TRUE);
-  }
-  Play->OnBehalfOf = NULL;
-}
-
 /* 
  * Cleans up combat after player "Play" has left.
  */
@@ -2988,7 +2860,6 @@ void WithdrawFromCombat(Player *Play)
   if (!Play->FightArray)
     return;
 
-  ResolveTipoff(Play);
   FightDone = TRUE;
   for (AttackInd = 0; AttackInd < Play->FightArray->len; AttackInd++) {
     Attack = (Player *)g_ptr_array_index(Play->FightArray, AttackInd);
@@ -3010,7 +2881,6 @@ void WithdrawFromCombat(Player *Play)
     for (DefendInd = 0; DefendInd < Play->FightArray->len; DefendInd++) {
       Defend = (Player *)g_ptr_array_index(Play->FightArray, DefendInd);
       Defend->FightArray = NULL;
-      ResolveTipoff(Defend);
       if (IsCop(Defend)) {
         FirstServer = RemovePlayer(Defend, FirstServer);
       } else if (Defend->Health == 0) {
@@ -3323,22 +3193,6 @@ void HandleAnswer(Player *From, Player *To, char *answer)
   } else if (answer[0] == 'Y')
     switch (From->EventNum) {
     case E_OFFOBJECT:
-      if (g_slist_find(FirstServer, (gpointer)From->OnBehalfOf)) {
-        dopelog(3, LF_SERVER, _("%s: offer was on behalf of %s"),
-                GetPlayerName(From), GetPlayerName(From->OnBehalfOf));
-        if (From->Bitches.Price) {
-          text = dpg_strdup_printf(_("%s has accepted your %tde!"
-                                     "^Use the G key to contact your spy."),
-                                   GetPlayerName(From), Names.Bitch);
-          From->OnBehalfOf->Flags |= SPYINGON;
-          SendPlayerData(From->OnBehalfOf);
-          SendPrintMessage(NULL, C_NONE, From->OnBehalfOf, text);
-          g_free(text);
-          i = GetListEntry(&(From->SpyList), From->OnBehalfOf);
-          if (i >= 0)
-            From->SpyList.Data[i].Turns = 0;
-        }
-      }
       if (From->Bitches.Price) {
         text = g_strdup_printf("bitch^0^1");
         BuyObject(From, text);
@@ -3433,19 +3287,6 @@ void HandleAnswer(Player *From, Player *To, char *answer)
     case E_LOANSHARK:
     case E_OFFOBJECT:
     case E_WEED:
-      if (g_slist_find(FirstServer, (gpointer)From->OnBehalfOf)) {
-        dopelog(3, LF_SERVER, _("%s: offer was on behalf of %s"),
-                GetPlayerName(From), GetPlayerName(From->OnBehalfOf));
-        if (From->Bitches.Price && From->EventNum == E_OFFOBJECT) {
-          text = dpg_strdup_printf(_("%s has rejected your %tde!"),
-                                   GetPlayerName(From), Names.Bitch);
-          GainBitch(From->OnBehalfOf);
-          SendPlayerData(From->OnBehalfOf);
-          SendPrintMessage(NULL, C_NONE, From->OnBehalfOf, text);
-          g_free(text);
-          RemoveListPlayer(&(From->SpyList), From->OnBehalfOf);
-        }
-      }
       From->EventNum++;
       SendEvent(From);
       break;

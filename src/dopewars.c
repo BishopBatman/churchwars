@@ -869,8 +869,6 @@ GSList *AddPlayer(int fd, Player *NewPlayer, GSList *First)
       NewPlayer->IdleTimeout = 0;
   NewPlayer->Guns = (Inventory *)g_malloc0(NumGun * sizeof(Inventory));
   NewPlayer->Drugs = (Inventory *)g_malloc0(NumDrug * sizeof(Inventory));
-  InitList(&(NewPlayer->SpyList));
-  InitList(&(NewPlayer->TipList));
   NewPlayer->Turn = 1;
   NewPlayer->date = g_date_new_dmy(StartDate.day, StartDate.month,
                                    StartDate.year);
@@ -929,8 +927,6 @@ GSList *RemovePlayer(Player *Play, GSList *First)
   if (!IsCop(Play))
     ShutdownNetworkBuffer(&Play->NetBuf);
 #endif
-  ClearList(&(Play->SpyList));
-  ClearList(&(Play->TipList));
   g_date_free(Play->date);
   g_free(Play->Name);
   g_free(Play->Guns);
@@ -1413,100 +1409,6 @@ int GetNextDrugIndex(int OldIndex, Player *Play)
     }
   }
   return MaxIndex;
-}
-
-/* 
- * A DopeList is akin to a Vector class; it is a list of DopeEntry
- * structures, which can be dynamically extended or compressed. This
- * function initializes the newly-created list pointed to by "List"
- * (A DopeEntry contains a Player pointer and a counter, and is used
- * by the server to keep track of tipoffs and spies.)
- */
-void InitList(DopeList *List)
-{
-  List->Data = NULL;
-  List->Number = 0;
-}
-
-/* 
- * Clears the list pointed to by "List".
- */
-void ClearList(DopeList *List)
-{
-  g_free(List->Data);
-  InitList(List);
-}
-
-/* 
- * Adds a new DopeEntry (pointed to by "NewEntry") to the list "List".
- * A copy of NewEntry is placed into the list, so the original
- * structure pointed to by NewEntry can be reused.
- */
-void AddListEntry(DopeList *List, DopeEntry *NewEntry)
-{
-  if (!NewEntry || !List)
-    return;
-  List->Number++;
-  List->Data = (DopeEntry *)g_realloc(List->Data, List->Number *
-                                      sizeof(DopeEntry));
-  memmove(&(List->Data[List->Number - 1]), NewEntry, sizeof(DopeEntry));
-}
-
-/* 
- * Removes the DopeEntry at index "Index" from list "List".
- */
-void RemoveListEntry(DopeList *List, int Index)
-{
-  if (!List || Index < 0 || Index >= List->Number)
-    return;
-
-  if (Index < List->Number - 1) {
-    memmove(&(List->Data[Index]), &(List->Data[Index + 1]),
-              (List->Number - 1 - Index) * sizeof(DopeEntry));
-  }
-  List->Number--;
-  List->Data = (DopeEntry *)g_realloc(List->Data, List->Number *
-                                      sizeof(DopeEntry));
-  if (List->Number == 0)
-    List->Data = NULL;
-}
-
-/* 
- * Returns the index of the DopeEntry matching "Play" in list "List"
- * or -1 if this is not found.
- */
-int GetListEntry(DopeList *List, Player *Play)
-{
-  int i;
-
-  for (i = List->Number - 1; i >= 0; i--) {
-    if (List->Data[i].Play == Play)
-      return i;
-  }
-  return -1;
-}
-
-/* 
- * Removes (if it exists) the DopeEntry in list "List" matching "Play".
- */
-void RemoveListPlayer(DopeList *List, Player *Play)
-{
-  RemoveListEntry(List, GetListEntry(List, Play));
-}
-
-/* 
- * Similar to RemoveListPlayer, except that if the list contains "Play" more
- * than once, all the matching entries are removed, not just the first.
- */
-void RemoveAllEntries(DopeList *List, Player *Play)
-{
-  int i;
-
-  do {
-    i = GetListEntry(List, Play);
-    if (i >= 0)
-      RemoveListEntry(List, i);
-  } while (i >= 0);
 }
 
 void ResizeLocations(int NewNum)
