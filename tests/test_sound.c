@@ -18,6 +18,8 @@ static SoundDriver *failing_init(void) {
 
 int main(void) {
   SoundInit();
+  /* Sound should start disabled until a driver is opened. */
+  assert(IsSoundEnabled() == FALSE);
 
   /* Opening with no name uses the first available driver, if any. */
   SoundDriver *drv = GetPlugin(NULL);
@@ -34,6 +36,7 @@ int main(void) {
 
   /* Register a driver that fails to open and ensure sound stays disabled. */
   SoundInit();
+  assert(IsSoundEnabled() == FALSE);
   AddPlugin(failing_init, NULL);
   SoundOpen("failing-driver");
   assert(IsSoundEnabled() == FALSE);
