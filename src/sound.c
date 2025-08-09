@@ -191,7 +191,13 @@ void SoundOpen(gchar *drivername)
     if (driver) {
       if (driver->open) {
         dopelog(3, 0, "Using plugin %s", driver->name);
-        driver->open();
+        /* Only enable sound if the driver opens successfully. */
+        gboolean opened = driver->open();
+        if (!opened) {
+          g_log(NULL, G_LOG_LEVEL_CRITICAL,
+                _("Failed to open sound driver \"%s\"."), driver->name);
+          driver = NULL;
+        }
       }
     } else if (drivername) {
       gchar *plugins, *err;
