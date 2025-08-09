@@ -551,28 +551,38 @@ void HandleClientMessage(char *pt, Player *Play)
   case C_ENDLIST:
     MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
                                               "<main>/Errands/Sack Bitch...");
-
-    /* Text for the Errands/Sack Bitch menu item */
-    text = dpg_strdup_printf(_("%/Sack Bitch menu item/S_ack %Tde..."),
-                             Names.Bitch);
-    SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
-    g_free(text);
+    if (MenuItem) {
+      /* Text for the Errands/Sack Bitch menu item */
+      text = dpg_strdup_printf(_("%/Sack Bitch menu item/S_ack %Tde..."),
+                               Names.Bitch);
+      SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
+      g_free(text);
+    } else {
+      g_warning("Failed to find menu item <main>/Errands/Sack Bitch...");
+    }
 
     MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
                                               "<main>/Errands/Spy...");
-
-    /* Text to update the Errands/Spy menu item with the price for spying */
-    text = dpg_strdup_printf(_("_Spy (%P)"), Prices.Spy);
-    SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
-    g_free(text);
+    if (MenuItem) {
+      /* Text to update the Errands/Spy menu item with the price for spying */
+      text = dpg_strdup_printf(_("_Spy (%P)"), Prices.Spy);
+      SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
+      g_free(text);
+    } else {
+      g_warning("Failed to find menu item <main>/Errands/Spy...");
+    }
 
     /* Text to update the Errands/Tipoff menu item with the price for a
        tipoff */
-    text = dpg_strdup_printf(_("_Tipoff (%P)"), Prices.Tipoff);
     MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
                                               "<main>/Errands/Tipoff...");
-    SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
-    g_free(text);
+    if (MenuItem) {
+      text = dpg_strdup_printf(_("_Tipoff (%P)"), Prices.Tipoff);
+      SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
+      g_free(text);
+    } else {
+      g_warning("Failed to find menu item <main>/Errands/Tipoff...");
+    }
     if (FirstClient->next)
       ListPlayers(NULL, NULL);
     UpdateMenus();
