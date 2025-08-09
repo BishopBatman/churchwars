@@ -497,8 +497,8 @@ void HandleServerMessage(gchar *buf, Player *Play)
     }
     break;
   case C_BUYOBJECT:
-    BuyObject(Play, Data);
-    SoundPlay(Sounds.CoinBuy);
+    if (BuyObject(Play, Data))
+      SoundPlay(Sounds.CoinBuy);
     break;
   case C_FIGHTACT:
     if (Data[0] == 'R')
@@ -3195,13 +3195,15 @@ void HandleAnswer(Player *From, Player *To, char *answer)
     case E_OFFOBJECT:
       if (From->Bitches.Price) {
         text = g_strdup_printf("bitch^0^1");
-        BuyObject(From, text);
+        if (BuyObject(From, text))
+          SoundPlay(Sounds.CoinBuy);
         g_free(text);
       } else {
         for (i = 0; i < NumGun; i++)
           if (From->Guns[i].Price) {
             text = g_strdup_printf("gun^%d^1", i);
-            BuyObject(From, text);
+            if (BuyObject(From, text))
+              SoundPlay(Sounds.CoinBuy);
             g_free(text);
             break;
           }
@@ -3223,7 +3225,8 @@ void HandleAnswer(Player *From, Player *To, char *answer)
       break;
     case E_HIREBITCH:
       text = g_strdup_printf("bitch^0^1");
-      BuyObject(From, text);
+      if (BuyObject(From, text))
+        SoundPlay(Sounds.CoinBuy);
       g_free(text);
       From->EventNum++;
       SendEvent(From);
@@ -3301,7 +3304,7 @@ void HandleAnswer(Player *From, Player *To, char *answer)
  * Objects can be sold if the amount given in "data" is negative, and
  * given away if their current price is zero.
  */
-void BuyObject(Player *From, char *data)
+gboolean BuyObject(Player *From, char *data)
 {
   char *cp, *type;
   int index, i, amount;
@@ -3339,6 +3342,7 @@ void BuyObject(Player *From, char *data)
         g_free(text);
         CopsAttackPlayer(From);
       }
+      return TRUE;
     }
   } else if (strcmp(type, "gun") == 0) {
     if (index >= 0 && index < NumGun
@@ -3351,6 +3355,7 @@ void BuyObject(Player *From, char *data)
       From->CoatSize -= amount * Gun[index].Space;
       From->Cash -= amount * From->Guns[index].Price;
       SendPlayerData(From);
+      return TRUE;
     }
   } else if (strcmp(type, "bitch") == 0) {
     if (From->Bitches.Carried + amount >= 0
@@ -3361,8 +3366,10 @@ void BuyObject(Player *From, char *data)
       if (amount > 0)
         From->Cash -= amount * From->Bitches.Price;
       SendPlayerData(From);
+      return TRUE;
     }
   }
+  return FALSE;
 }
 
 /* 
