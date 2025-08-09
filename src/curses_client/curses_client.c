@@ -992,85 +992,6 @@ static void DealDrugs(Player *Play, gboolean Buy)
 }
 
 /* 
- * Prompts the user (player "Play") to give an errand to one of his/her
- * bitches. The decision is relayed to the server for implementation.
- */
-static void GiveErrand(Player *Play)
-{
-  int c, y;
-  GString *text;
-  Player *To;
-
-  text = g_string_new("");
-  attrset(TextAttr);
-  clear_bottom();
-  y = get_ui_area_top() + 1;
-
-  /* Prompt for sending your bitches out to spy etc. (%tde = "bitches" by
-   * default) */
-  dpg_string_printf(text,
-                     _("Choose an errand to give one of your %tde..."),
-                     Names.Bitches);
-  mvaddstr(y++, 1, text->str);
-  attrset(PromptAttr);
-  if (Play->Bitches.Carried > 0) {
-    dpg_string_printf(text,
-                       _("   S>py on another trader                  "
-                         "(cost: %P)"), Prices.Spy);
-    mvaddstr(y++, 2, text->str);
-    dpg_string_printf(text,
-                       _("   T>ip off the cops to another trader     "
-                         "(cost: %P)"), Prices.Tipoff);
-    mvaddstr(y++, 2, text->str);
-    mvaddstr(y++, 2, _("   G>et stuffed"));
-  }
-  if (Play->Flags & SPYINGON) {
-    mvaddstr(y++, 2, _("or C>ontact your spies and receive reports"));
-  }
-  mvaddstr(y++, 2, _("or N>o errand ? "));
-  curs_set(1);
-  attrset(TextAttr);
-
-  /* Translate these 5 keys to match the above options, keeping the
-     original order the same (S>py, T>ip off, G>et stuffed, C>ontact spy,
-     N>o errand) */
-  c = GetKey(N_("STGCN"), TRUE, FALSE, FALSE);
-
-  if (Play->Bitches.Carried > 0 || c == 'C')
-    switch (c) {
-    case 'S':
-      To = ListPlayers(Play, TRUE, _("Whom do you want to spy on? "));
-      if (To)
-        SendClientMessage(Play, C_NONE, C_SPYON, To, NULL);
-      break;
-    case 'T':
-      To = ListPlayers(Play, TRUE,
-                       _("Whom do you want to tip the Amirs off to? "));
-      if (To)
-        SendClientMessage(Play, C_NONE, C_TIPOFF, To, NULL);
-      break;
-    case 'G':
-      attrset(PromptAttr);
-      /* Prompt for confirmation of sacking a bitch */
-      addstr(_(" Are you sure? "));
-
-      /* The two keys that are valid for answering Yes/No - if you
-         translate them, keep them in the same order - i.e. "Yes" before
-         "No" */
-      c = GetKey(N_("YN"), FALSE, TRUE, FALSE);
-
-      if (c == 'Y')
-        SendClientMessage(Play, C_NONE, C_SACKBITCH, NULL, NULL);
-      break;
-    case 'C':
-      if (Play->Flags & SPYINGON) {
-        SendClientMessage(Play, C_NONE, C_CONTACTSPY, NULL, NULL);
-      }
-      break;
-    }
-}
-
-/* 
  * Asks the user if he/she _really_ wants to quit dopewars.
  */
 static int want_to_quit(void)
@@ -2509,10 +2430,6 @@ static void Curses_DoGame(Player *Play)
       if (Network)
         g_string_append(text, _(", T>alk, P>age"));
       g_string_append(text, _(", L>ist"));
-      if (!WantAntique && (Play->Bitches.Carried > 0 ||
-                           Play->Flags & SPYINGON)) {
-        g_string_append(text, _(", G>ive"));
-      }
       if (Play->Flags & FIGHTING) {
         g_string_append(text, _(", F>ight"));
       } else {
@@ -2629,8 +2546,8 @@ static void Curses_DoGame(Player *Play)
     if (DisplayMode == DM_STREET) {
       /* N.B. You must keep the order of these keys the same as the
          original when you translate (B>uy, S>ell, D>rop, T>alk, P>age,
-         L>ist, G>ive errand, F>ight, J>et, Q>uit) */
-      c = GetKey(N_("BSDTPLGFJQ"), TRUE, FALSE, FALSE);
+         L>ist, F>ight, J>et, Q>uit) */
+      c = GetKey(N_("BSDTPLFJQ"), TRUE, FALSE, FALSE);
 
     } else if (DisplayMode == DM_FIGHT) {
       /* N.B. You must keep the order of these keys the same as the
@@ -2656,8 +2573,6 @@ static void Curses_DoGame(Player *Play)
         DealDrugs(Play, FALSE);
       } else if (c == 'D' && HaveWorthless && !WantAntique) {
         DropDrugs(Play);
-      } else if (c == 'G' && !WantAntique && Play->Bitches.Carried > 0) {
-        GiveErrand(Play);
       } else if (c == 'Q') {
         if (want_to_quit() == 1) {
           DisplayMode = DM_NONE;
