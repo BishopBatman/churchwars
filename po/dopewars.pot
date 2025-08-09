@@ -1852,16 +1852,6 @@ msgstr ""
 msgid "PS"
 msgstr ""
 
-#: src/curses_client/curses_client.c:2686
-msgid "Whom do you want to page (talk privately to) ? "
-msgstr ""
-
-#. Prompt for sending player-player messages
-#: src/curses_client/curses_client.c:2692
-#: src/curses_client/curses_client.c:2706
-msgid "Talk: "
-msgstr ""
-
 #: src/curses_client/curses_client.c:2832
 msgid "Play again? "
 msgstr ""
@@ -1889,18 +1879,6 @@ msgstr ""
 
 #: src/gui_client/gtk_client.c:167
 msgid "/Game/_Quit..."
-msgstr ""
-
-#: src/gui_client/gtk_client.c:168
-msgid "/_Talk"
-msgstr ""
-
-#: src/gui_client/gtk_client.c:169
-msgid "/Talk/To _All..."
-msgstr ""
-
-#: src/gui_client/gtk_client.c:170
-msgid "/Talk/To _Player..."
 msgstr ""
 
 #: src/gui_client/gtk_client.c:171
@@ -2345,16 +2323,6 @@ msgstr ""
 #. Title of player list dialog
 #: src/gui_client/gtk_client.c:2663
 msgid "Player List"
-msgstr ""
-
-#. Title of talk dialog
-#: src/gui_client/gtk_client.c:2775
-msgid "Talk to player(s)"
-msgstr ""
-
-#. Checkbutton set if you want to talk to all players
-#: src/gui_client/gtk_client.c:2797
-msgid "Talk to all players"
 msgstr ""
 
 #. Prompt for you to enter the message to be sent to other players

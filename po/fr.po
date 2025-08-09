@@ -1929,16 +1929,6 @@ msgstr "Lister quoi? J>oueurs ou S>cores? "
 msgid "PS"
 msgstr "JS"
 
-#: src/curses_client/curses_client.c:2686
-msgid "Whom do you want to page (talk privately to) ? "
-msgstr "A qui tu veux parler en prive ? "
-
-#. Prompt for sending player-player messages
-#: src/curses_client/curses_client.c:2692
-#: src/curses_client/curses_client.c:2706
-msgid "Talk: "
-msgstr "Parler: "
-
 #: src/curses_client/curses_client.c:2832
 msgid "Play again? "
 msgstr "Rejouer? "
@@ -1967,18 +1957,6 @@ msgstr ""
 #: src/gui_client/gtk_client.c:167
 msgid "/Game/_Quit..."
 msgstr "/Jeu/_Quitter"
-
-#: src/gui_client/gtk_client.c:168
-msgid "/_Talk"
-msgstr "/_Parler"
-
-#: src/gui_client/gtk_client.c:169
-msgid "/Talk/To _All..."
-msgstr "/Parler/A _Tous..."
-
-#: src/gui_client/gtk_client.c:170
-msgid "/Talk/To _Player..."
-msgstr "/Parler/A _joueur..."
 
 #: src/gui_client/gtk_client.c:171
 msgid "/_List"
@@ -2434,16 +2412,6 @@ msgstr "Tout payer"
 #: src/gui_client/gtk_client.c:2663
 msgid "Player List"
 msgstr "Liste des joueurs"
-
-#. Title of talk dialog
-#: src/gui_client/gtk_client.c:2775
-msgid "Talk to player(s)"
-msgstr "Parler au joueur(s)"
-
-#. Checkbutton set if you want to talk to all players
-#: src/gui_client/gtk_client.c:2797
-msgid "Talk to all players"
-msgstr "Parler a tout les joueurs"
 
 #. Prompt for you to enter the message to be sent to other players
 #: src/gui_client/gtk_client.c:2803
