@@ -172,13 +172,13 @@ static DPGtkItemFactoryEntry menu_items[] = {
   {N_("/List/_Players..."), NULL, ListPlayers, 0, NULL},
   {N_("/List/_Scores..."), NULL, ListScores, 0, NULL},
   {N_("/List/_Inventory..."), NULL, ListInventory, 0, NULL},
-  // {N_("/_Errands"), NULL, NULL, 0, "<Branch>"},
-  // {N_("/Errands/_Spy..."), NULL, SpyOnPlayer, 0, NULL},
-  // {N_("/Errands/_Tipoff..."), NULL, TipOff, 0, NULL},
-  // /* N.B. "Sack Bitch" has to be recreated (and thus translated) at the
-  //  * start of each game, below, so is not marked for gettext here */
-  // {"/Errands/S_ack Bitch...", NULL, SackBitch, 0, NULL},
-  // {N_("/Errands/_Get spy reports..."), NULL, GetSpyReports, 0, NULL},
+  {N_("/_Errands"), NULL, NULL, 0, "<Branch>"},
+  {N_("/Errands/_Spy..."), NULL, SpyOnPlayer, 0, NULL},
+  {N_("/Errands/_Tipoff..."), NULL, TipOff, 0, NULL},
+  /* N.B. "Sack Bitch" has to be recreated (and thus translated) at the
+   * start of each game, below, so is not marked for gettext here */
+  {"/Errands/S_ack Bitch...", NULL, SackBitch, 0, NULL},
+  {N_("/Errands/_Get spy reports..."), NULL, GetSpyReports, 0, NULL},
   {N_("/_Help"), NULL, NULL, 0, "<Branch>"},
   {N_("/Help/_About..."), "F1", display_intro, 0, NULL}
 };
@@ -548,45 +548,39 @@ void HandleClientMessage(char *pt, Player *Play)
     g_free(text);
     SoundPlay(Sounds.Jet);
     break;
-  case C_ENDLIST:
-    MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
-                                              "<main>/Errands/Sack Bitch...");
-    if (MenuItem) {
+    case C_ENDLIST:
+      MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
+                                                "<main>/Errands/Sack Bitch...");
+      if (!MenuItem)
+        break;
+
       /* Text for the Errands/Sack Bitch menu item */
       text = dpg_strdup_printf(_("%/Sack Bitch menu item/S_ack %Tde..."),
                                Names.Bitch);
       SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
       g_free(text);
-    } else {
-      g_warning("Failed to find menu item <main>/Errands/Sack Bitch...");
-    }
 
-    MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
-                                              "<main>/Errands/Spy...");
-    if (MenuItem) {
-      /* Text to update the Errands/Spy menu item with the price for spying */
-      text = dpg_strdup_printf(_("_Spy (%P)"), Prices.Spy);
-      SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
-      g_free(text);
-    } else {
-      g_warning("Failed to find menu item <main>/Errands/Spy...");
-    }
+      MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
+                                                "<main>/Errands/Spy...");
+      if (MenuItem) {
+        /* Text to update the Errands/Spy menu item with the price for spying */
+        text = dpg_strdup_printf(_("_Spy (%P)"), Prices.Spy);
+        SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
+        g_free(text);
+      }
 
-    /* Text to update the Errands/Tipoff menu item with the price for a
-       tipoff */
-    MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
-                                              "<main>/Errands/Tipoff...");
-    if (MenuItem) {
-      text = dpg_strdup_printf(_("_Tipoff (%P)"), Prices.Tipoff);
-      SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
-      g_free(text);
-    } else {
-      g_warning("Failed to find menu item <main>/Errands/Tipoff...");
-    }
-    if (FirstClient->next)
-      ListPlayers(NULL, NULL);
-    UpdateMenus();
-    break;
+      /* Text to update the Errands/Tipoff menu item with the price for a tipoff */
+      MenuItem = dp_gtk_item_factory_get_widget(ClientData.Menu,
+                                                "<main>/Errands/Tipoff...");
+      if (MenuItem) {
+        text = dpg_strdup_printf(_("_Tipoff (%P)"), Prices.Tipoff);
+        SetAccelerator(MenuItem, text, NULL, NULL, NULL, FALSE);
+        g_free(text);
+      }
+      if (FirstClient->next)
+        ListPlayers(NULL, NULL);
+      UpdateMenus();
+      break;
   case C_UPDATE:
     if (From == &Noone) {
       ReceivePlayerData(Play, Data, Play);
