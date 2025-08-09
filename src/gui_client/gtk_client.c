@@ -2411,7 +2411,7 @@ void display_intro(GtkWidget *widget, gpointer data)
                           "do is pay off your debt to the Pope's Loan Collector. "
                           "After\nthat, your goal is to make as much "
                           "money as possible (and stay alive)! You\n"
-                          "have 30 travels of game time to make "
+                          "have 31 travels of game time to make "
                           "your fortune.\n"));
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 

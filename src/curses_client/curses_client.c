@@ -346,7 +346,7 @@ void display_intro(void)
                     "debt to the Pope's Loan Collector. After"));
   mvaddcentstr(7, _("that, your goal is to make as much money as "
                     "possible (and stay alive)!"));
-  mvaddcentstr(8, _("You have 30 travels of game time to make your fortune."));
+  mvaddcentstr(8, _("You have 31 travels of game time to make your fortune."));
 
   g_string_printf(text, _("Version %-8s Copyright (C) 2024  O Batstone "
                            "theprawn26@gmail.com"), VERSION);
