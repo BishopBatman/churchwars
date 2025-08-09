@@ -3558,11 +3558,6 @@ msgstr "YN^¿Quiere comprar un %tde por %P?"
 msgid "%s: offer was on behalf of %s"
 msgstr "%s: la oferta era en nombre de %s"
 
-#: src/serverside.c:3329
-#, c-format
-msgid "%s has accepted your %tde!^Use the G key to contact your spy."
-msgstr "¡%s ha aceptado su %tde!^Use la tecla G para contactar con su espía."
-
 #: src/serverside.c:3381
 msgid ""
 "You hallucinated for three days on the wildest trip you ever imagined!^Then "

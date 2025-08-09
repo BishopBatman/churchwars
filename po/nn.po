@@ -3511,11 +3511,6 @@ msgstr "YN^Vil du kjøpa ein %tue for %P?"
 msgid "%s: offer was on behalf of %s"
 msgstr "%s: Tilbodet var på vegne av %s"
 
-#: src/serverside.c:3329
-#, c-format
-msgid "%s has accepted your %tde!^Use the G key to contact your spy."
-msgstr "%s har godteke %tbe di! Bruk G-knappen for å kontakta spionen din."
-
 #: src/serverside.c:3381
 msgid ""
 "You hallucinated for three days on the wildest trip you ever imagined!^Then "
