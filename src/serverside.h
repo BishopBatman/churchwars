@@ -44,7 +44,7 @@ void FinishGame(Player *Play, char *Message);
 void SendHighScores(Player *Play, gboolean EndGame, char *Message);
 void SendEvent(Player *To);
 void SendDrugsHere(Player *To, gboolean DisplayBusts);
-void BuyObject(Player *From, char *data);
+gboolean BuyObject(Player *From, char *data);
 int RandomOffer(Player *To);
 void HandleAnswer(Player *From, Player *To, char *answer);
 void ClearPrices(Player *Play);
