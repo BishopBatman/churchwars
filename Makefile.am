@@ -20,7 +20,7 @@ install-data-local:
 	${INSTALL} -m 0644 ${srcdir}/${DESKTOP} ${DESKTOPDIR}
 
 uninstall-local:
-        /bin/rm -f ${SCORE} ${DESKTOPDIR}/${DESKTOP}
+	/bin/rm -f ${SCORE} ${DESKTOPDIR}/${DESKTOP}
 
 .PHONY: update-po
 update-po: ; $(MAKE) -C po update-po
