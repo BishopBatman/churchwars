@@ -17,6 +17,6 @@ install-data-local:
 
 uninstall-local:
 	for doc in ${DOCS}; do \
-          /bin/rm -f ${DOCPATH}/$${doc}; \
+	/bin/rm -f ${DOCPATH}/$${doc}; \
 	done
 	/bin/rm -f ${DOCPATH}/LICENCE
