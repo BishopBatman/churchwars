@@ -1980,9 +1980,10 @@ static gint DrugSortByPrice(GtkTreeModel *model, GtkTreeIter *a,
 
 void UpdateMenus(void)
 {
-  gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget(ClientData.Menu,
-                                                          "<main>/Talk"),
-                           InGame && Network);
+  GtkWidget *talk_widget =
+      dp_gtk_item_factory_get_widget(ClientData.Menu, "<main>/Talk");
+  if (talk_widget != NULL)
+    gtk_widget_set_sensitive(talk_widget, InGame && Network);
   //gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
   //                         (ClientData.Menu, "<main>/Game/Options..."),
   //                         !InGame);
