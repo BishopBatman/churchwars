@@ -29,6 +29,7 @@
 #include <string.h>
 #include <esd.h>
 #include <glib.h>
+#include "../nls.h"
 #include "../sound.h"
 
 #define MAXCACHE 6
@@ -46,6 +47,10 @@ static gboolean SoundOpen_ESD(void)
   int i;
 
   sock = esd_open_sound(NULL);
+  if (sock == -1) {
+    g_warning(_("Cannot connect to ESD sound server"));
+    return FALSE;
+  }
   for (i = 0; i < MAXCACHE; i++) {
     cache[i].esdid = -1;
     cache[i].name = NULL;

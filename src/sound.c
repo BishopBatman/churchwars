@@ -203,19 +203,21 @@ SoundDriver *SoundGetPlugin(const gchar *drivername)
 
 void SoundOpen(gchar *drivername)
 {
+  sound_enabled = FALSE;
   if (!drivername || strcmp(drivername, NOPLUGIN) != 0) {
     driver = GetPlugin(drivername);
     if (driver) {
+      gboolean opened = TRUE;
       if (driver->open) {
         dopelog(3, 0, "Using plugin %s", driver->name);
-        /* Only enable sound if the driver opens successfully. */
-        gboolean opened = driver->open();
+        opened = driver->open();
         if (!opened) {
           g_log(NULL, G_LOG_LEVEL_CRITICAL,
                 _("Failed to open sound driver \"%s\"."), driver->name);
           driver = NULL;
         }
       }
+      sound_enabled = opened && (driver != NULL);
     } else if (drivername) {
       gchar *plugins, *err;
 
@@ -228,8 +230,6 @@ void SoundOpen(gchar *drivername)
       g_free(err);
     }
   }
-  /* Only report sound as enabled if a driver was successfully loaded. */
-  sound_enabled = (driver != NULL);
 }
 
 void SoundClose(void)
