@@ -334,13 +334,6 @@ void HandleServerMessage(gchar *buf, Player *Play)
     return;
   }
   switch (Code) {
-  case C_MSGTO:
-    if (Network) {
-      dopelog(3, LF_SERVER, "%s->%s: %s", GetPlayerName(Play),
-              GetPlayerName(To), Data);
-    }
-    SendServerMessage(Play, AI, Code, To, Data);
-    break;
   case C_ABILITIES:
     ReceiveAbilities(Play, Data);
     break;
@@ -523,11 +516,6 @@ void HandleServerMessage(gchar *buf, Player *Play)
       LoseBitch(Play, NULL, NULL);
       SendPlayerData(Play);
     }
-    break;
-  case C_MSG:
-    if (Network)
-      dopelog(3, LF_SERVER, "%s: %s", GetPlayerName(Play), Data);
-    BroadcastToClients(C_NONE, C_MSG, Data, Play, Play);
     break;
   default:
     dopelog(0, LF_SERVER, _("Unknown message: %s:%c:%s:%s"),
@@ -891,8 +879,6 @@ static void HandleServerCommand(char *string, NetworkBuffer *netbuf,
       ServerHelp();
     } else if (g_ascii_strncasecmp(string, "quit", 4) == 0) {
       RequestServerShutdown();
-    } else if (g_ascii_strncasecmp(string, "msg:", 4) == 0) {
-      BroadcastToClients(C_NONE, C_MSG, string + 4, NULL, NULL);
     } else if (g_ascii_strncasecmp(string, "save ", 5) == 0) {
       ServerSaveConfigFile(string + 5);
     } else if (g_ascii_strncasecmp(string, "save", 4) == 0) {
