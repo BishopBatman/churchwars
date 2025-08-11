@@ -2606,6 +2606,7 @@ struct CMDLINE *ParseCmdLine(int argc, char *argv[])
     case 'h':
     case 0:
     case '?':
+    case ':':
       cmdline->help = TRUE;
       break;
     case 'f':
