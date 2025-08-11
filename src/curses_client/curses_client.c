@@ -1095,9 +1095,6 @@ void HandleClientMessage(char *Message, Player *Play)
     SwitchToSinglePlayer(Play);
     print_status(Play, TRUE);
     break;
-  case C_MSG:
-  case C_MSGTO:
-    break;
   case C_JOIN:
     text = g_strdup_printf(_("%s joins the game!"), Data);
     display_message(text);
