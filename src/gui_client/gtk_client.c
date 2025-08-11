@@ -2093,7 +2093,7 @@ gboolean GtkLoop(int *argc, char **argv[],
 #endif
 {
   GtkWidget *window, *vbox, *vbox2, *hbox, *frame, *grid, *menubar, *text,
-      *vpaned, *button, *tv, *widget;
+      *vpaned, *button, *tv, *widget, *talk_item;
   GtkAccelGroup *accel_group;
   GtkTreeSortable *sortable;
   int i;
@@ -2160,15 +2160,16 @@ gboolean GtkLoop(int *argc, char **argv[],
 
   dp_gtk_item_factory_create_items(item_factory, nmenu_items, menu_items,
                                    NULL);
-  GtkWidget *talk_menu =
+  talk_item =
     dp_gtk_item_factory_get_widget(item_factory, "<main>/Talk");
   gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
   menubar = dp_gtk_item_factory_get_widget(item_factory, "<main>");
 
   vbox2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
   gtk_box_pack_start(GTK_BOX(vbox2), menubar, FALSE, FALSE, 0);
+  if (talk_item && menubar)
+    gtk_container_remove(GTK_CONTAINER(menubar), talk_item);
   gtk_widget_show_all(menubar);
-  gtk_widget_hide(talk_menu);
   UpdateMenus();
   SoundEnable(UseSounds);
   widget = dp_gtk_item_factory_get_widget(ClientData.Menu,
