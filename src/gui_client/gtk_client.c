@@ -283,7 +283,9 @@ void ToggleSound(GtkWidget *widget, gpointer data)
                                           "<main>/Game/Enable sound");
   if (widget) {
     enable = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
-    SoundEnable(enable);
+    enable = SoundEnable(enable);
+    UseSounds = enable;
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget), enable);
   }
 }
 
@@ -2189,7 +2191,7 @@ gboolean GtkLoop(int *argc, char **argv[],
   gtk_box_pack_start(GTK_BOX(vbox2), menubar, FALSE, FALSE, 0);
   gtk_widget_show_all(menubar);
   UpdateMenus();
-  SoundEnable(UseSounds);
+  UseSounds = SoundEnable(UseSounds);
   widget = dp_gtk_item_factory_get_widget(ClientData.Menu,
                                           "<main>/Game/Enable sound");
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget), UseSounds);

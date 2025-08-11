@@ -263,9 +263,15 @@ void SoundPlay(const gchar *snd)
   }
 }
 
-void SoundEnable(gboolean enable)
+gboolean SoundEnable(gboolean enable)
 {
+  if (enable && driver == NULL) {
+    sound_enabled = FALSE;
+    return FALSE;
+  }
+
   sound_enabled = enable;
+  return sound_enabled;
 }
 
 gboolean IsSoundEnabled(void)
