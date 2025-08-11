@@ -289,6 +289,8 @@ gboolean StartNetworkBufferConnect(NetworkBuffer *NetBuf,
 
     if (NetBuf->socks
         && !StartSocksNegotiation(NetBuf, RemoteHost, RemotePort)) {
+      /* Clean up the partial connection to prevent descriptor leaks. */
+      ShutdownNetworkBuffer(NetBuf);
       return FALSE;
     }
 
