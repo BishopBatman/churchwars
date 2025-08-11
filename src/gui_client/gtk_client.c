@@ -479,10 +479,6 @@ void HandleClientMessage(char *pt, Player *Play)
   case C_GUNSHOP:
     GunShopDialog();
     break;
-  case C_MSG:
-  case C_MSGTO:
-    /* Chat messages are ignored in the GTK client */
-    break;
   case C_JOIN:
     text = g_strdup_printf(_("%s joins the game!"), Data);
     PrintMessage(text, "join");

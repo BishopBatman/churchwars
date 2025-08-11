@@ -74,8 +74,8 @@ terminated by the message terminator, \n - although it always will be, it
 should also be first terminated by the field separator, the ^ character.
 This allows the client to ignore extra fields, if later versions
 of the protocol should add them. (N.B. This does not apply to free-form text
-fields, as in the C_QUESTION, C_PRINTMESSAGE, C_MSG, C_MSGTO, and C_FIGHTPRINT
-messages, which _do_ extend to the end of the message; for these messages,
+ fields, as in the C_QUESTION, C_PRINTMESSAGE, and C_FIGHTPRINT messages,
+ which _do_ extend to the end of the message; for these messages,
 the caret is generally interpreted as a line break.) Note also that older
 servers may not send all the fields, so if fewer fields than expected are
 received, the client should substitute default values.</p>
@@ -150,21 +150,6 @@ N.B. This is always sent at the start of the game, before protocol negotiation,
 so uses the old format, e.g. "^^AD"<br />
 <b>Answer required:</b> yes - must send a suitable C_NAME message to
 proceed<p /></dd>
-
-<dt><b>C_MSG</b> ('<tt>E</tt>')</dt>
-<dd>Contains a message from one player (or the server admin) broadcast to all
-connected players.<br />
-<tt>data</tt> = the message to display<br />
-<tt>ID</tt> = the ID of the player that sent the message<br />
-e.g. "1^AEHello world"<br />
-<b>Answer required:</b> no<p /></dd>
-
-<dt><b>C_MSGTO</b> ('<tt>F</tt>')</dt>
-<dd>Contains a private message from one player to another<br />
-<tt>data</tt> = the message to display<br />
-<tt>ID</tt> = the ID of the player that sent the message<br />
-e.g. "1^AFHello player"<br />
-<b>Answer required:</b> no<p /></dd>
 
 <dt><b>C_JOIN</b> ('<tt>G</tt>')</dt>
 <dd>Sent by the server to all players when a new player joins the game
@@ -462,18 +447,6 @@ the server. Note also that some of these messages are also valid when sent
 from the server to the client.</p>
 
 <dl>
-
-<dt><b>C_MSG</b> ('<tt>E</tt>')</dt>
-<dd>Contains a message from one player to be broadcast to all connected
-players<br />
-<tt>data</tt> = the message to display<br />
-e.g. "^AEHello world"<p /></dd>
-
-<dt><b>C_MSGTO</b> ('<tt>F</tt>')</dt>
-<dd>Contains a private message from one player to another<br />
-<tt>data</tt> = the message to display<br />
-<tt>ID</tt> = the ID of the player to send the message to<br />
-e.g. "1^AFHello player"<p /></dd>
 
 <dt><b>C_BUYOBJECT</b> ('<tt>T</tt>')</dt>
 <dd>Requests the server to buy or sell an object<br />
