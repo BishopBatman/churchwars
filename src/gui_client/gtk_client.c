@@ -480,15 +480,8 @@ void HandleClientMessage(char *pt, Player *Play)
     GunShopDialog();
     break;
   case C_MSG:
-    text = g_strdup_printf("%s: %s", GetPlayerName(From), Data);
-    PrintMessage(text, NULL);
-    g_free(text);
-    break;
   case C_MSGTO:
-    text = g_strdup_printf("%s->%s: %s", GetPlayerName(From),
-                           GetPlayerName(Play), Data);
-    PrintMessage(text, "page");
-    g_free(text);
+    /* Chat messages are ignored in the GTK client */
     break;
   case C_JOIN:
     text = g_strdup_printf(_("%s joins the game!"), Data);
@@ -2089,8 +2082,6 @@ static void make_tags(GtkTextView *textview)
 
   gtk_text_buffer_create_tag(buffer, "jet", "foreground",
                              "#00000000FFFF", NULL);
-  gtk_text_buffer_create_tag(buffer, "page", "foreground",
-                             "#FFFF0000FFFF", NULL);
   gtk_text_buffer_create_tag(buffer, "join", "foreground",
                              "#000000008B8B", NULL);
   gtk_text_buffer_create_tag(buffer, "leave", "foreground",
