@@ -86,6 +86,15 @@ static void AddPlugin(InitFunc ifunc, void *module)
   }
 }
 
+/*
+ * Public wrappers for unit tests to register and query plugins without
+ * exposing the internal static helpers.
+ */
+void SoundAddPlugin(SoundDriver *(*ifunc)(void), void *module)
+{
+  AddPlugin(ifunc, module);
+}
+
 #ifdef PLUGINS
 static void OpenModule(const gchar *modname, const gchar *fullname)
 {
@@ -172,7 +181,7 @@ void SoundInit(void)
   driver = NULL;
 }
 
-static SoundDriver *GetPlugin(gchar *drivername)
+static SoundDriver *GetPlugin(const gchar *drivername)
 {
   GSList *listpt;
 
@@ -185,6 +194,11 @@ static SoundDriver *GetPlugin(gchar *drivername)
     }
   }
   return NULL;
+}
+
+SoundDriver *SoundGetPlugin(const gchar *drivername)
+{
+  return GetPlugin(drivername);
 }
 
 void SoundOpen(gchar *drivername)
