@@ -2160,6 +2160,9 @@ gboolean GtkLoop(int *argc, char **argv[],
 
   dp_gtk_item_factory_create_items(item_factory, nmenu_items, menu_items,
                                    NULL);
+  GtkWidget *talk_menu =
+    dp_gtk_item_factory_get_widget(item_factory, "<main>/Talk");
+  gtk_widget_hide(talk_menu);
   gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
   menubar = dp_gtk_item_factory_get_widget(item_factory, "<main>");
 
