@@ -2162,13 +2162,13 @@ gboolean GtkLoop(int *argc, char **argv[],
                                    NULL);
   GtkWidget *talk_menu =
     dp_gtk_item_factory_get_widget(item_factory, "<main>/Talk");
-  gtk_widget_hide(talk_menu);
   gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
   menubar = dp_gtk_item_factory_get_widget(item_factory, "<main>");
 
   vbox2 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
   gtk_box_pack_start(GTK_BOX(vbox2), menubar, FALSE, FALSE, 0);
   gtk_widget_show_all(menubar);
+  gtk_widget_hide(talk_menu);
   UpdateMenus();
   SoundEnable(UseSounds);
   widget = dp_gtk_item_factory_get_widget(ClientData.Menu,
