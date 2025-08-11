@@ -54,6 +54,8 @@ int getopt(int argc, char *const argv[], const char *str)
   int i, c;
   char *pt;
 
+  optarg = NULL;
+
   while (apos < argc && argv[apos]) {
     if (argv[apos][0] != '-') {
       apos++;
@@ -61,6 +63,8 @@ int getopt(int argc, char *const argv[], const char *str)
     }
     for (i = 1; i < strlen(argv[apos]); i++) {
       c = argv[apos][i];
+      if (c == '-')
+        continue;
       pt = strchr(str, c);
       if (pt) {
         argv[apos][i] = '-';
@@ -69,10 +73,17 @@ int getopt(int argc, char *const argv[], const char *str)
             apos++;
             optarg = argv[apos];
             apos++;
-          } else
-            return 0;
+          } else {
+            optarg = NULL;
+            apos++;
+            return ':';
+          }
         }
         return c;
+      } else {
+        argv[apos][i] = '-';
+        optarg = NULL;
+        return '?';
       }
     }
     apos++;
