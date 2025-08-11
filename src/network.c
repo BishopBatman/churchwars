@@ -888,7 +888,7 @@ void CommitWriteBuffer(NetworkBuffer *NetBuf, ConnBuf *conn,
  * error if the buffer reaches its maximum size (although this error will
  * be detected when an attempt is made to write the buffer to the wire).
  */
-void QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data)
+gboolean QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data)
 {
   gchar *addpt;
   guint addlen;
@@ -897,16 +897,19 @@ void QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data)
   conn = &NetBuf->WriteBuf;
 
   if (!data)
-    return;
+    return FALSE;
   addlen = strlen(data) + 1;
-  addpt = ExpandWriteBuffer(conn, addlen, NULL);
-  if (!addpt)
-    return;
+  addpt = ExpandWriteBuffer(conn, addlen, &NetBuf->error);
+  if (!addpt) {
+    g_warning("Failed to expand write buffer for outgoing message");
+    return FALSE;
+  }
 
   memcpy(addpt, data, addlen);
   addpt[addlen - 1] = NetBuf->Terminator;
 
   CommitWriteBuffer(NetBuf, conn, addpt, addlen);
+  return TRUE;
 }
 
 static void SetNetworkError(LastError **error) {
