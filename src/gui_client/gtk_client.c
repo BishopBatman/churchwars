@@ -2093,7 +2093,7 @@ gboolean GtkLoop(int *argc, char **argv[],
 #endif
 {
   GtkWidget *window, *vbox, *vbox2, *hbox, *frame, *grid, *menubar, *text,
-      *vpaned, *button, *tv, *widget, *talk_item;
+      *vpaned, *button, *tv, *widget, *talk_menu, *talk_item;
   GtkAccelGroup *accel_group;
   GtkTreeSortable *sortable;
   int i;
@@ -2160,8 +2160,9 @@ gboolean GtkLoop(int *argc, char **argv[],
 
   dp_gtk_item_factory_create_items(item_factory, nmenu_items, menu_items,
                                    NULL);
-  talk_item =
+  talk_menu =
     dp_gtk_item_factory_get_widget(item_factory, "<main>/Talk");
+  talk_item = talk_menu ? gtk_widget_get_parent(talk_menu) : NULL;
   gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
   menubar = dp_gtk_item_factory_get_widget(item_factory, "<main>");
 
