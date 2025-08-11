@@ -332,14 +332,6 @@ msgstr "Lyd som blir spelt når du klarer å koma deg unna"
 msgid "Sound file played on arriving at a new location"
 msgstr "Lyd som blir spelt når du kjem til ein ny stad"
 
-#: src/dopewars.c:423
-msgid "Sound file played when a player sends a public chat message"
-msgstr "Lyd som blir spelt når du sender ei offentleg melding"
-
-#: src/dopewars.c:426
-msgid "Sound file played when a player sends a private chat message"
-msgstr "Lyd som blir spelt når du sender ei privat melding"
-
 #: src/dopewars.c:429
 msgid "Sound file played when a player joins the game"
 msgstr "Lyd som blir spelt når ein annan blir med i spelet"

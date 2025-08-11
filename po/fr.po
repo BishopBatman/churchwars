@@ -317,14 +317,6 @@ msgstr ""
 msgid "Sound file played on arriving at a new location"
 msgstr ""
 
-#: src/dopewars.c:423
-msgid "Sound file played when a player sends a public chat message"
-msgstr ""
-
-#: src/dopewars.c:426
-msgid "Sound file played when a player sends a private chat message"
-msgstr ""
-
 #: src/dopewars.c:429
 msgid "Sound file played when a player joins the game"
 msgstr ""

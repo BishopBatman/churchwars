@@ -322,14 +322,6 @@ msgstr "Sound-Datei für eine gelungene Flucht von dir"
 msgid "Sound file played on arriving at a new location"
 msgstr "Sound-Datei für die Ankunft an einem neuen Ort"
 
-#: src/dopewars.c:423
-msgid "Sound file played when a player sends a public chat message"
-msgstr "Sound-Datei für eine Öffentliche Chat-Nachricht"
-
-#: src/dopewars.c:426
-msgid "Sound file played when a player sends a private chat message"
-msgstr "Sound-Datei für eine private Chat-Nachricht"
-
 #: src/dopewars.c:429
 msgid "Sound file played when a player joins the game"
 msgstr "Sound-Datei für den Beitritt eines Spielers zu einem Spiel"
