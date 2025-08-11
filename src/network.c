@@ -1018,7 +1018,7 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
   addpt[1] = 1;                 /* CONNECT */
   memcpy(&addpt[2], &netport, sizeof(netport));
   memcpy(&addpt[4], haddr, sizeof(struct in_addr));
-  strcpy(&addpt[8], username);
+  g_strlcpy(&addpt[8], username, addlen - 8);
   g_free(username);
   addpt[addlen - 1] = '\0';
 
