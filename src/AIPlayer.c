@@ -341,13 +341,13 @@ int HandleAIMessage(char *Message, Player *AIPlay)
       AIJet(AIPlay);
     }
     break;
-  case C_MSG:
-    g_print("%s: %s\n", GetPlayerName(From), Data);
-    break;
-  case C_MSGTO:
-    g_print("%s->%s: %s\n", GetPlayerName(From), GetPlayerName(AIPlay),
-            Data);
-    break;
+  /* case C_MSG: */
+  /*   g_print("%s: %s\n", GetPlayerName(From), Data); */
+  /*   break; */
+  /* case C_MSGTO: */
+  /*   g_print("%s->%s: %s\n", GetPlayerName(From), GetPlayerName(AIPlay), */
+  /*           Data); */
+  /*   break; */
   case C_JOIN:
     g_print(_("%s joins the game.\n"), Data);
     break;
@@ -675,8 +675,9 @@ void AISendRandomMessage(Player *AIPlay)
     N_("Reckon I'll just have to kill you for your own good.")
   };
 
-  SendClientMessage(AIPlay, C_NONE, C_MSG, NULL,
-                    _(RandomInsult[brandom(0, 5)]));
+  /* AI players should not send chat messages */
+  /* SendClientMessage(AIPlay, C_NONE, C_MSG, NULL, */
+  /*                   _(RandomInsult[brandom(0, 5)])); */
 }
 
 #else /* NETWORKING */
