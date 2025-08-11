@@ -183,7 +183,7 @@ gboolean NetBufHandleNetwork(NetworkBuffer *NetBuf, gboolean ReadReady,
                              gboolean *DoneOK);
 gboolean ReadDataFromWire(NetworkBuffer *NetBuf);
 gboolean WriteDataToWire(NetworkBuffer *NetBuf);
-void QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data);
+gboolean QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data);
 gint CountWaitingMessages(NetworkBuffer *NetBuf);
 gchar *GetWaitingMessage(NetworkBuffer *NetBuf);
 void SendSocks5UserPasswd(NetworkBuffer *NetBuf, gchar *user,
