@@ -88,7 +88,21 @@ static void SoundPlay_SDL(const gchar *snd)
 
   chan_num = Mix_PlayChannel(-1, chunk, 0);
   if (chan_num < 0) {
-    g_warning("Mix_PlayChannel failed for %s: %s", snd, Mix_GetError());
+    int total_channels = Mix_AllocateChannels(-1);
+    int i;
+    for (i = 0; i < total_channels; i++) {
+      if (Mix_Playing(i)) {
+        Mix_HaltChannel(i);
+        chan_num = Mix_PlayChannel(-1, chunk, 0);
+        if (chan_num >= 0) {
+          g_message("Recovered playback for %s by halting channel %d", snd, i);
+          break;
+        }
+      }
+    }
+    if (chan_num < 0) {
+      g_warning("Mix_PlayChannel failed for %s: %s", snd, Mix_GetError());
+    }
   }
 }
 

@@ -36,5 +36,17 @@ int main(void) {
   SoundOpen("failing-driver");
   assert(IsSoundEnabled() == FALSE);
 
+  /* Stress test rapid playback to ensure busy channels recover. */
+  SoundInit();
+  SoundOpen(NULL);
+  if (IsSoundEnabled()) {
+    int i;
+    for (i = 0; i < 100; i++) {
+      SoundPlay("sounds/19.5degs/gun.wav");
+    }
+  }
+  SoundClose();
+  assert(IsSoundEnabled() == FALSE);
+
   return 0;
 }
