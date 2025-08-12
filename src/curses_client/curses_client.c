@@ -2347,7 +2347,6 @@ static void Curses_DoGame(Player *Play)
 #endif
   int MaxSock;
   char HaveWorthless;
-  Player *tmp;
   struct sigaction sact;
 
   DisplayMode = DM_NONE;
