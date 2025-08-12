@@ -261,11 +261,11 @@ msgid "Sound file played when guns are reloaded"
 msgstr ""
 
 #: src/dopewars.c:397
-msgid "Sound file played when an enemy bitch/deputy is killed"
+msgid "Sound file played when an enemy cleric/deputy is killed"
 msgstr ""
 
 #: src/dopewars.c:400
-msgid "Sound file played when one of your bitches is killed"
+msgid "Sound file played when one of your clerics is killed"
 msgstr ""
 
 #: src/dopewars.c:403
@@ -365,8 +365,8 @@ msgid "% resistance to gunshots of each player"
 msgstr "% de resistance aux coups de fusil de chaque joueur"
 
 #: src/dopewars.c:482 src/dopewars.c:485
-msgid "% resistance to gunshots of each bitch"
-msgstr "% de resistance aux coups de fusil de chaque chienne"
+msgid "% resistance to gunshots of each cleric"
+msgstr "% de resistance aux coups de fusil de chaque clerc"
 
 #: src/dopewars.c:488
 msgid "Name of each cop"
@@ -470,12 +470,12 @@ msgid "Damage done by each weapon"
 msgstr "Dommage inflige par chaque flingue"
 
 #: src/dopewars.c:598
-msgid "Word used to denote a single \"bitch\""
-msgstr "Mot utilise pour decrire 1 \"chienne\""
+msgid "Word used to denote a single \"cleric\""
+msgstr "Mot utilise pour decrire 1 \"clerc\""
 
 #: src/dopewars.c:601
-msgid "Word used to denote two or more \"bitches\""
-msgstr "Mot utilise pour decrire 2 \"chiennes\" ou plus"
+msgid "Word used to denote two or more \"clerics\""
+msgstr "Mot utilise pour decrire 2 \"clercs\" ou plus"
 
 #: src/dopewars.c:604
 msgid "Word used to denote a single gun or equivalent"
@@ -498,20 +498,20 @@ msgid "strftime() format string for displaying the game turn"
 msgstr ""
 
 #: src/dopewars.c:619
-msgid "Cost for a bitch to spy on the enemy"
-msgstr ""
+msgid "Cost for a cleric to spy on the enemy"
+msgstr "Coût pour qu'un clerc espionne l'ennemi"
 
 #: src/dopewars.c:622
-msgid "Cost for a bitch to tipoff the cops to an enemy"
-msgstr ""
+msgid "Cost for a cleric to tipoff the cops to an enemy"
+msgstr "Coût pour qu'un clerc dénonce un ennemi aux flics"
 
 #: src/dopewars.c:625
-msgid "Minimum price to hire a bitch"
-msgstr "Prix minimum pour employer une salope"
+msgid "Minimum price to hire a cleric"
+msgstr "Prix minimum pour engager un clerc"
 
 #: src/dopewars.c:628
-msgid "Maximum price to hire a bitch"
-msgstr "Prix MAX pour employer une chienne"
+msgid "Maximum price to hire a cleric"
+msgstr "Prix MAX pour engager un clerc"
 
 #: src/dopewars.c:631
 msgid "List of things which you overhear on the subway"
@@ -2402,11 +2402,11 @@ msgid "Symbol prefixes prices"
 msgstr ""
 
 #: src/gui_client/optdialog.c:892
-msgid "Name of one bitch"
+msgid "Name of one cleric"
 msgstr ""
 
 #: src/gui_client/optdialog.c:897
-msgid "Name of several bitches"
+msgid "Name of several clerics"
 msgstr ""
 
 #: src/gui_client/optdialog.c:903
@@ -3649,11 +3649,6 @@ msgstr ""
 #~ msgid "Metaserver"
 #~ msgstr "Metaserver"
 
-#~ msgid "bitch"
-#~ msgstr "chienne"
-
-#~ msgid "bitches"
-#~ msgstr "chiennes"
 
 #~ msgid "gun"
 #~ msgstr "flingue"

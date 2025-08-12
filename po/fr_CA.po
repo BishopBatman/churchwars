@@ -259,12 +259,12 @@ msgid "Sound file played when guns are reloaded"
 msgstr "Son d'un gun qui est rechargé"
 
 #: src/dopewars.c:397
-msgid "Sound file played when an enemy bitch/deputy is killed"
-msgstr "Son accompagnant la mort d'une pute ou d'un adjoint ennemi"
+msgid "Sound file played when an enemy cleric/deputy is killed"
+msgstr "Son accompagnant la mort d'un clerc ou d'un adjoint ennemi"
 
 #: src/dopewars.c:400
-msgid "Sound file played when one of your bitches is killed"
-msgstr "Son accompagnant la more d'une de vos putes"
+msgid "Sound file played when one of your clerics is killed"
+msgstr "Son accompagnant la mort d'un de vos clercs"
 
 #: src/dopewars.c:403
 msgid "Sound file played when another player or cop is killed"
@@ -364,8 +364,8 @@ msgid "% resistance to gunshots of each player"
 msgstr "% de résistance aux coups de gun de chaque joueur"
 
 #: src/dopewars.c:482 src/dopewars.c:485
-msgid "% resistance to gunshots of each bitch"
-msgstr "% de résistance aux coups de gun de chaque pute"
+msgid "% resistance to gunshots of each cleric"
+msgstr "% de résistance aux coups de gun de chaque clerc"
 
 #: src/dopewars.c:488
 msgid "Name of each cop"
@@ -474,12 +474,12 @@ msgid "Damage done by each weapon"
 msgstr "Dommage infligé par chaque gun"
 
 #: src/dopewars.c:598
-msgid "Word used to denote a single \"bitch\""
-msgstr "Mot utilisé pour décrire une \"pute\""
+msgid "Word used to denote a single \"cleric\""
+msgstr "Mot utilisé pour décrire un \"clerc\""
 
 #: src/dopewars.c:601
-msgid "Word used to denote two or more \"bitches\""
-msgstr "Mot utilisé pour décrire deux \"putes\" ou plus"
+msgid "Word used to denote two or more \"clerics\""
+msgstr "Mot utilisé pour décrire deux \"clercs\" ou plus"
 
 #: src/dopewars.c:604
 msgid "Word used to denote a single gun or equivalent"
@@ -502,20 +502,20 @@ msgid "strftime() format string for displaying the game turn"
 msgstr "Chaîne de formattage strftime() pour l'affichage du tour"
 
 #: src/dopewars.c:619
-msgid "Cost for a bitch to spy on the enemy"
-msgstr ""
+msgid "Cost for a cleric to spy on the enemy"
+msgstr "Coût pour qu'un clerc espionne l'ennemi"
 
 #: src/dopewars.c:622
-msgid "Cost for a bitch to tipoff the cops to an enemy"
-msgstr ""
+msgid "Cost for a cleric to tipoff the cops to an enemy"
+msgstr "Coût pour qu'un clerc dénonce un ennemi aux flics"
 
 #: src/dopewars.c:625
-msgid "Minimum price to hire a bitch"
-msgstr "Prix minimum pour employer une pute"
+msgid "Minimum price to hire a cleric"
+msgstr "Prix minimum pour employer un clerc"
 
 #: src/dopewars.c:628
-msgid "Maximum price to hire a bitch"
-msgstr "Prix maximum pour employer une pute"
+msgid "Maximum price to hire a cleric"
+msgstr "Prix maximum pour employer un clerc"
 
 #: src/dopewars.c:631
 msgid "List of things which you overhear on the subway"
@@ -2391,7 +2391,7 @@ msgstr "Nom du prêteur à gages"
 
 #: src/gui_client/optdialog.c:834
 msgid "Name of several Janissaries"
-msgstr "Nom de plusieurs putes"
+msgstr "Nom de plusieurs clercs"
 
 #: src/gui_client/optdialog.c:835
 msgid "Minimum no. of Janissaries"
@@ -2442,12 +2442,12 @@ msgid "Symbol prefixes prices"
 msgstr "Le symbole monétaire précède les prix"
 
 #: src/gui_client/optdialog.c:892
-msgid "Name of one bitch"
-msgstr "Nom d'une pute"
+msgid "Name of one cleric"
+msgstr "Nom d'un clerc"
 
 #: src/gui_client/optdialog.c:897
-msgid "Name of several bitches"
-msgstr "Nom de plusieurs putes"
+msgid "Name of several clerics"
+msgstr "Nom de plusieurs clercs"
 
 #: src/gui_client/optdialog.c:903
 msgid "Web browser"
@@ -3736,11 +3736,6 @@ msgstr ""
 #~ msgid "SOCKS Authentication Required"
 #~ msgstr "Authentification SOCKS nécessaire"
 
-#~ msgid "bitch"
-#~ msgstr "pute"
-
-#~ msgid "bitches"
-#~ msgstr "putes"
 
 #~ msgid "gun"
 #~ msgstr "gun"
@@ -4039,7 +4034,7 @@ msgstr ""
 #~ "donc tout ce qu'elle porte (%tde ou %tde) pourra être perdu!"
 
 #~ msgid "%/Sack Bitch dialog title/Sack %Tde"
-#~ msgstr "%/Renvoyer une pute dialog title/Renvoyer %Tde"
+#~ msgstr "%/Renvoyer un clerc dialog title/Renvoyer %Tde"
 
 #, c-format
 #~ msgid ""
