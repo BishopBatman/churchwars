@@ -3371,7 +3371,7 @@ msgstr "Oye a alguien poner %s"
 #: src/serverside.c:2280
 #, c-format
 msgid "YN^Would you like to visit %tde?"
-msgstr "YN^¿Quiere visitar %tal?"
+msgstr "YN^¿Quiere visitar %tde?"
 
 #: src/serverside.c:2293
 msgid "YN^^Would you like to hire a %tde for %P?"
@@ -3706,7 +3706,7 @@ msgstr "¡Pánico! ¡No puede escapar!"
 #: src/message.c:1366
 #, c-format
 msgid "%s has got away to %tde!"
-msgstr "¡%s ha conseguido escapar %tal!"
+msgstr "¡%s ha conseguido escapar a %tde!"
 
 #: src/message.c:1369
 #, c-format
