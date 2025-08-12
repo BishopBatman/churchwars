@@ -97,7 +97,7 @@ static void WindowPrintFunc(const gchar *string)
 
 static void WindowPrintEnd()
 {
-  MessageBox(NULL, TextOutput->str, "dopewars",
+  MessageBox(NULL, TextOutput->str, "Church Wars",
              MB_OK | MB_ICONINFORMATION);
   g_string_free(TextOutput, TRUE);
   TextOutput = NULL;
@@ -316,7 +316,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
   /* Informational comment placed at the start of the Windows log file
      (this is used for messages printed during processing of the config
      files - under Unix these are just printed to stdout) */
-  g_print(_("# This is the dopewars startup log, containing any\n"
+  g_print(_("# This is the Church Wars startup log, containing any\n"
             "# informative messages resulting from configuration\n"
             "# file processing and the like.\n\n"));
 
@@ -357,7 +357,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
       GuiServerLoop(cmdline, FALSE);
 #else
       AllocConsole();
-      SetConsoleTitle(_("dopewars server"));
+      SetConsoleTitle(_("Church Wars server"));
       g_log_set_handler(NULL,
                         LogMask() | G_LOG_LEVEL_MESSAGE |
                         G_LOG_LEVEL_WARNING, ServerLogMessage, NULL);
@@ -378,7 +378,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
       AllocConsole();
 
       /* Title of the Windows window used for AI player output */
-      SetConsoleTitle(_("dopewars AI"));
+      SetConsoleTitle(_("Church Wars AI"));
 
       g_log_set_handler(NULL,
                         LogMask() | G_LOG_LEVEL_MESSAGE |
@@ -390,7 +390,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
       case CLIENT_AUTO:
         if (!GtkLoop(hInstance, hPrevInstance, cmdline, TRUE)) {
           AllocConsole();
-          SetConsoleTitle(_("dopewars"));
+          SetConsoleTitle(_("Church Wars"));
           CursesLoop(cmdline);
         }
         break;
@@ -399,7 +399,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         break;
       case CLIENT_CURSES:
         AllocConsole();
-        SetConsoleTitle(_("dopewars"));
+        SetConsoleTitle(_("Church Wars"));
         CursesLoop(cmdline);
         break;
       }

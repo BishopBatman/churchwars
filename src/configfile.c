@@ -232,7 +232,7 @@ gboolean UpdateConfigFile(const gchar *cfgfile, gboolean ForceUTF8)
   gchar *defaultfile;
   static gchar *header =
       "\n### Everything from here on is written automatically by\n"
-      "### the dopewars program; you can edit it manually, but any\n"
+      "### the Church Wars program; you can edit it manually, but any\n"
       "### formatting (comments, etc.) will be lost at the next rewrite.\n\n";
 
   defaultfile = GetLocalConfigFile();

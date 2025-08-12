@@ -371,7 +371,7 @@ void display_intro(void)
   mvaddstr(19, 7, _("Unconstructive Criticism      R Batstone"));
 
   mvaddcentstr(21, _("For information on the command line options, type "
-                     "dopewars -h at your"));
+                     "Church Wars -h at your"));
   mvaddcentstr(22, _("Unix prompt. This will display a help screen, listing "
                      "the available options."));
 
@@ -398,7 +398,7 @@ static void SelectServerManually(void)
   mvaddstr(top + 1, 1,
            /* Prompts for hostname and port when selecting a server
               manually */
-           _("Please enter the hostname and port of a dopewars server:-"));
+           _("Please enter the hostname and port of a Church Wars server:-"));
   text = nice_input(_("Hostname: "), top + 2, 1, FALSE, ServerName, '\0');
   AssignName(&ServerName, text);
   g_free(text);
@@ -696,7 +696,7 @@ static gboolean ConnectToServer(Player *Play)
     clear_bottom();
     if (MetaOK && !firstrun) {
       mvaddstr(top + 1, 1, _("Please wait... attempting to contact "
-                             "dopewars server..."));
+                             "Church Wars server..."));
       refresh();
       NetOK = DoConnect(Play, errstr);
     }
@@ -714,7 +714,7 @@ static gboolean ConnectToServer(Player *Play)
         /* Display of an error message while trying to contact a dopewars
            server (the error message itself is displayed on the next
            screen line) */
-        mvaddstr(top, 1, _("Could not start multiplayer dopewars"));
+        mvaddstr(top, 1, _("Could not start multiplayer Church Wars"));
         text = g_strdup_printf("   (%s)",
                                errstr->str[0] ? errstr->str
                                   : _("connection to server failed"));
@@ -724,13 +724,13 @@ static gboolean ConnectToServer(Player *Play)
       MetaOK = NetOK = TRUE;
       attrset(PromptAttr);
       mvaddstr(top + 2, 1,
-               _("Will you... C>onnect to a named dopewars server"));
+               _("Will you... C>onnect to a named Church Wars server"));
       mvaddstr(top + 3, 1,
                _("            L>ist the servers on the metaserver, and "
                  "select one"));
       mvaddstr(top + 4, 1,
                _("            Q>uit (where you can start a server "
-                 "by typing \"dopewars -s\")"));
+                 "by typing \"Church Wars -s\")"));
       mvaddstr(top + 5, 1, _("         or P>lay single-player ? "));
       attrset(TextAttr);
 
