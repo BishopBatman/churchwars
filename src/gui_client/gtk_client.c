@@ -2283,8 +2283,7 @@ gboolean GtkLoop(int *argc, char **argv[],
   return TRUE;
 }
 
-static void PackCentredURL(GtkWidget *vbox, gchar *title, gchar *target,
-                           gchar *browser)
+static void PackCentredURL(GtkWidget *vbox, gchar *title, gchar *target)
 {
   GtkWidget *hbox, *label, *url;
 
@@ -2294,7 +2293,7 @@ static void PackCentredURL(GtkWidget *vbox, gchar *title, gchar *target,
   label = gtk_label_new("");
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 
-  url = gtk_url_new(title, target, browser);
+  url = gtk_url_new(title, target);
   gtk_box_pack_start(GTK_BOX(hbox), url, FALSE, FALSE, 0);
 
   label = gtk_label_new("");
@@ -2395,7 +2394,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
   PackCentredURL(vbox, _("Original Church Wars information here"),
-                 "https://churchwars.sourceforge.io/", OurWebBrowser);
+                 "https://churchwars.sourceforge.io/");
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_box_pack_start(GTK_BOX(vbox), hsep, FALSE, FALSE, 0);

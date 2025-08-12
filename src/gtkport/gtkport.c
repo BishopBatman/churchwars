@@ -24,14 +24,6 @@
 #include <config.h>
 #endif
 
-#ifndef CYGWIN
-#include <sys/types.h>          /* For pid_t (fork) */
-#include <sys/wait.h>           /* For wait */
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>             /* For fork and execv */
-#endif
-#endif /* !CYGWIN */
-
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -842,7 +834,7 @@ LRESULT CALLBACK GtkPanedProc(HWND hwnd, UINT msg, WPARAM wParam,
   return FALSE;
 }
 
-void DisplayHTML(GtkWidget *parent, const gchar *bin, const gchar *target)
+void DisplayHTML(GtkWidget *parent, const gchar *target)
 {
   ShellExecute(parent->hWnd, "open", target, NULL, NULL, 0);
 }
@@ -875,7 +867,7 @@ LRESULT CALLBACK GtkUrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
   } else if (msg == WM_LBUTTONUP) {
     widget = GTK_WIDGET(GetWindowLongPtrW(hwnd, GWLP_USERDATA));
 
-    DisplayHTML(widget, NULL, GTK_URL(widget)->target);
+    DisplayHTML(widget, GTK_URL(widget)->target);
     return FALSE;
   } else
     return DefWindowProcW(hwnd, msg, wParam, lParam);
@@ -1886,8 +1878,7 @@ GtkWidget *gtk_label_new(const gchar *text)
   return GTK_WIDGET(label);
 }
 
-GtkWidget *gtk_url_new(const gchar *text, const gchar *target,
-                       const gchar *bin)
+GtkWidget *gtk_url_new(const gchar *text, const gchar *target)
 {
   GtkUrl *url;
 
@@ -1895,8 +1886,6 @@ GtkWidget *gtk_url_new(const gchar *text, const gchar *target,
 
   GTK_LABEL(url)->text = g_strdup(text);
   url->target = g_strdup(target);
-
-  /* N.B. "bin" argument is ignored under Win32 */
 
   return GTK_WIDGET(url);
 }
@@ -5454,39 +5443,24 @@ gint GtkMessageBox(GtkWidget *parent, const gchar *Text,
   return retval;
 }
 
-void DisplayHTML(GtkWidget *parent, const gchar *bin, const gchar *target)
+void DisplayHTML(GtkWidget *parent, const gchar *target)
 {
 #ifdef APPLE
   mac_open_url(target);
-#elif defined(HAVE_FORK)
-  char *args[3];
-  pid_t pid;
-  int status;
-
-  if (target && target[0] && bin && bin[0]) {
-    args[0] = (char *)bin;
-    args[1] = (char *)target;
-    args[2] = NULL;
-    /* Fork twice so that the spawned process gets init as its parent */
-    pid = fork();
-    if (pid > 0) {
-      wait(&status);
-    } else if (pid == 0) {
-      pid = fork();
-      if (pid == 0) {
-        execv(bin, args);
-        g_print("Church Wars: cannot execute %s\n", bin);
-        _exit(EXIT_FAILURE);
-      } else {
-        _exit(EXIT_SUCCESS);
-      }
+#else
+  if (target && *target) {
+    GError *error = NULL;
+    gtk_show_uri_on_window(GTK_WINDOW(parent), target, GDK_CURRENT_TIME,
+                           &error);
+    if (error) {
+      g_warning("Church Wars: cannot open %s: %s", target, error->message);
+      g_error_free(error);
     }
   }
 #endif
 }
 
-GtkWidget *gtk_url_new(const gchar *text, const gchar *target,
-                       const gchar *bin)
+GtkWidget *gtk_url_new(const gchar *text, const gchar *target)
 {
   GtkWidget *button;
   button = gtk_link_button_new(text);
