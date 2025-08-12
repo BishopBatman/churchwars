@@ -2282,8 +2282,7 @@ char *nice_input(char *prompt, int sy, int sx, gboolean digitsonly,
   } while (c != '\n' && c != KEY_ENTER);
   curs_set(0);
   move(sy, x);
-  ReturnString = text->str;
-  g_string_free(text, FALSE);   /* Leave the buffer to return */
+  ReturnString = g_string_free(text, FALSE);   /* Leave the buffer to return */
   return ReturnString;
 }
 
