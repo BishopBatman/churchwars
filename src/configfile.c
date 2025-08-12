@@ -46,8 +46,9 @@ gchar *LocalCfgEncoding = NULL;
 static void PrintEscaped(FILE *fp, gchar *str)
 {
   guint i;
+  guint len = strlen(str);
 
-  for (i = 0; i < strlen(str); i++) {
+  for (i = 0; i < len; i++) {
     int ch = (int)(guchar)str[i];
     switch(ch) {
     case '"':
