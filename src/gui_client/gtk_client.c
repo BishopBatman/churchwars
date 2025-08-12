@@ -2354,6 +2354,7 @@ void display_intro(GtkWidget *widget, gpointer data)
                           "\n"
                           "“Though a mighty army surrounds me, my heart will not\n"
                           "be afraid!”\n"));
+  gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   /* Version and copyright notice in GTK+ 'about' dialog */
