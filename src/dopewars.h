@@ -114,7 +114,13 @@ struct PRICES {
   price_t Spy, Tipoff;
 };
 
-struct BITCH {
+/*
+ * Configuration for hiring clerics.  These values were historically named
+ * "Bitch" in the original codebase but have since been renamed throughout the
+ * project.  The structure holds the minimum and maximum prices a cleric can be
+ * offered for.
+ */
+struct CLERIC {
   price_t MinPrice, MaxPrice;
 };
 
@@ -185,7 +191,7 @@ extern int DrugSortMethod, FightTimeout, IdleTimeout, ConnectTimeout;
 extern int MaxClients, AITurnPause;
 extern struct CURRENCY Currency;
 extern struct PRICES Prices;
-extern struct BITCH Bitch;
+extern struct CLERIC Cleric;
 extern price_t StartCash, StartDebt;
 extern struct NAMES Names;
 extern struct SOUNDS Sounds;
@@ -197,7 +203,7 @@ extern gboolean UseSocks;
 #endif
 
 extern int NumTurns;
-extern int PlayerArmor, BitchArmor;
+extern int PlayerArmor, ClericArmor;
 
 #define MAXLOG        6
 
