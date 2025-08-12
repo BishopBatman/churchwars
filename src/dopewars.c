@@ -171,14 +171,14 @@ struct SOUNDS Sounds = {
 /* N.B. The slightly over-enthusiastic comments here are for the benefit
  * of translators ;) */
 struct NAMES DefaultNames = {
-  /* Name of a single bitch - if you need to use different words for
-     "bitch" depending on where in the sentence it occurs (e.g. subject or
+  /* Name of a single cleric - if you need to use different words for
+     "cleric" depending on where in the sentence it occurs (e.g. subject or
      object) then read doc/i18n.html about the %tde (etc.) notation. N.B.
      This notation can be used for most of the translatable strings in
      dopewars. */
   N_("cleric"),
-  /* Word used for two or more bitches */
-  N_("clerics"),
+  /* Word used for two or more clerics */
+    N_("clerics"),
   /* Word used for a single gun */
   N_("weapon"),
   /* Word used for two or more guns */
@@ -389,11 +389,11 @@ struct GLOBALS Globals[] = {
   {NULL, NULL, NULL, &Sounds.FightReload, NULL, "Sounds.FightReload",
    N_("Sound file played when guns are reloaded"), NULL, NULL, 0, "",
    NULL, NULL, FALSE, 0, 0},
-  {NULL, NULL, NULL, &Sounds.EnemyBitchKilled, NULL, "Sounds.EnemyBitchKilled",
-   N_("Sound file played when an enemy bitch/deputy is killed"),
+{NULL, NULL, NULL, &Sounds.EnemyBitchKilled, NULL, "Sounds.EnemyBitchKilled",
+   N_("Sound file played when an enemy cleric/deputy is killed"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
-  {NULL, NULL, NULL, &Sounds.BitchKilled, NULL, "Sounds.BitchKilled",
-   N_("Sound file played when one of your bitches is killed"),
+{NULL, NULL, NULL, &Sounds.BitchKilled, NULL, "Sounds.BitchKilled",
+   N_("Sound file played when one of your clerics is killed"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
   {NULL, NULL, NULL, &Sounds.EnemyKilled, NULL, "Sounds.EnemyKilled",
    N_("Sound file played when another player or cop is killed"),
@@ -474,11 +474,11 @@ struct GLOBALS Globals[] = {
   {&PlayerArmor, NULL, NULL, NULL, NULL, "PlayerArmor",
    N_("% resistance to gunshots of each player"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 100},
-  {&BitchArmor, NULL, NULL, NULL, NULL, "BitchArmour",
-   N_("% resistance to gunshots of each bitch"),
+{&BitchArmor, NULL, NULL, NULL, NULL, "BitchArmour",
+   N_("% resistance to gunshots of each cleric"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 1, 100},
-  {&BitchArmor, NULL, NULL, NULL, NULL, "BitchArmor",
-   N_("% resistance to gunshots of each bitch"),
+{&BitchArmor, NULL, NULL, NULL, NULL, "BitchArmor",
+   N_("% resistance to gunshots of each cleric"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 1, 100},
   {NULL, NULL, NULL, &StaticCop.Name, NULL, "Name",
    N_("Name of each cop"),
@@ -590,11 +590,11 @@ struct GLOBALS Globals[] = {
    N_("Damage done by each weapon"),
    (void **)(&Gun), &StaticGun,
    sizeof(struct GUN), "Weapon", &NumGun, NULL, FALSE, 0, -1},
-  {NULL, NULL, NULL, &Names.Bitch, NULL, "Names.Bitch",
-   N_("Word used to denote a single \"bitch\""), NULL, NULL, 0, "", NULL,
+{NULL, NULL, NULL, &Names.Bitch, NULL, "Names.Bitch",
+   N_("Word used to denote a single \"cleric\""), NULL, NULL, 0, "", NULL,
    NULL, FALSE, 0, 0},
-  {NULL, NULL, NULL, &Names.Bitches, NULL, "Names.Bitches",
-   N_("Word used to denote two or more \"bitches\""),
+{NULL, NULL, NULL, &Names.Bitches, NULL, "Names.Bitches",
+   N_("Word used to denote two or more \"clerics\""),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
   {NULL, NULL, NULL, &Names.Gun, NULL, "Names.Gun",
    N_("Word used to denote a single gun or equivalent"), NULL, NULL, 0, "",
@@ -611,17 +611,17 @@ struct GLOBALS Globals[] = {
   {NULL, NULL, NULL, &Names.Date, NULL, "Names.Date",
    N_("strftime() format string for displaying the game turn"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
-  {NULL, NULL, &Prices.Spy, NULL, NULL, "Prices.Spy",
-   N_("Cost for a bitch to spy on the enemy"),
+{NULL, NULL, &Prices.Spy, NULL, NULL, "Prices.Spy",
+   N_("Cost for a cleric to spy on the enemy"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
-  {NULL, NULL, &Prices.Tipoff, NULL, NULL, "Prices.Tipoff",
-   N_("Cost for a bitch to tipoff the cops to an enemy"),
+{NULL, NULL, &Prices.Tipoff, NULL, NULL, "Prices.Tipoff",
+   N_("Cost for a cleric to tipoff the cops to an enemy"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
-  {NULL, NULL, &Bitch.MinPrice, NULL, NULL, "Bitch.MinPrice",
-   N_("Minimum price to hire a bitch"),
+{NULL, NULL, &Bitch.MinPrice, NULL, NULL, "Bitch.MinPrice",
+   N_("Minimum price to hire a cleric"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
-  {NULL, NULL, &Bitch.MaxPrice, NULL, NULL, "Bitch.MaxPrice",
-   N_("Maximum price to hire a bitch"),
+{NULL, NULL, &Bitch.MaxPrice, NULL, NULL, "Bitch.MaxPrice",
+   N_("Maximum price to hire a cleric"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
   {NULL, NULL, NULL, NULL, &SubwaySaying, "SubwaySaying",
    N_("List of things which you overhear on the subway"),
@@ -2005,8 +2005,8 @@ void PrintConfigValue(int GlobalIndex, int StructIndex,
             *GetGlobalBoolean(GlobalIndex, StructIndex) ?
             "TRUE" : "FALSE");
   } else if (Globals[GlobalIndex].PriceVal) {
-    /* Display of a price config. file variable - e.g. "Bitch.MinPrice is
-       $200" */
+  /* Display of a price config. file variable - e.g. "Cleric.MinPrice is
+     $200" */
     dpg_print(_("%s is %P\n"), GlobalName,
               *GetGlobalPrice(GlobalIndex, StructIndex));
   } else if (Globals[GlobalIndex].StringVal) {
