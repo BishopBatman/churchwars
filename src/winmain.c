@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <glib.h>
+#include <errno.h>
 #include <stdlib.h>
 
 #include "dopewars.h"
@@ -110,7 +111,10 @@ gchar *appdata_path = NULL;
 static void GetAppDataPath()
 {
   appdata_path = g_strdup_printf("%s/dopewars", g_get_user_config_dir());
-  mkdir(appdata_path);
+  if (g_mkdir_with_parents(appdata_path, 0700) != 0) {
+    g_warning("Could not create directory %s: %s", appdata_path,
+              g_strerror(errno));
+  }
 }
 
 static void LogFileStart()
