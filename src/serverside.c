@@ -3035,7 +3035,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
                                  "trenchcoat for %P?"), To->Bitches.Price);
     } else {
       To->Bitches.Price =
-          prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)10;
+          prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)3;
       text =
           dpg_strdup_printf(_
                             ("YN^Hey trader! I'll help carry your %tde for a "
@@ -3048,7 +3048,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
   } else if (!Sanitized && NumGun > 0
              && (TotalGunsCarried(To) < To->Bitches.Carried + 2)) {
     ObjNum = brandom(0, NumGun);
-    To->Guns[ObjNum].Price = Gun[ObjNum].Price / 10;
+    To->Guns[ObjNum].Price = Gun[ObjNum].Price / 3;
     if (Gun[ObjNum].Space > To->CoatSize)
       return 0;
     text = dpg_strdup_printf(_("YN^Would you like to buy a %tde for %P?"),
