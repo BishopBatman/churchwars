@@ -165,7 +165,7 @@ struct NAMES Names = {
 };
 struct SOUNDS Sounds = {
   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-  NULL, NULL, NULL, NULL, NULL
+  NULL, NULL, NULL, NULL, NULL, NULL
 };
 
 /* N.B. The slightly over-enthusiastic comments here are for the benefit
