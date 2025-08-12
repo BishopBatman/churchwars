@@ -68,8 +68,8 @@ They are simple text files, consisting of lists of the original English string
 
 <p>To add a new translation, first
 <a href="installation.html">install dopewars from source code</a>. This will
-generate the reference file <tt>dopewars.pot</tt> in the <tt>po</tt>
-subdirectory. Then, copy <tt>dopewars.pot</tt> to your language-specific
+generate the reference file <tt>churchwars.pot</tt> in the <tt>po</tt>
+subdirectory. Then, copy <tt>churchwars.pot</tt> to your language-specific
 <tt>.po</tt> file in the
 <tt>po/</tt> directory, and fill in the "msgstr" entries. Once this is done,
 edit the <tt>configure.ac</tt> file in the top dopewars directory to add your
@@ -151,23 +151,23 @@ not need to be translated).</p>
 
 </ul>
 
-<h2><a id="updating">Updating a translation for a new dopewars
+<h2><a id="updating">Updating a translation for a new churchwars
 version</a></h2>
 
-<p>New versions of dopewars will often change what is printed to the user, and
+<p>New versions of churchwars will often change what is printed to the user, and
 so may may require changes to the translation. To update an existing
-translation, change into the <tt>po</tt> subdirectory of the dopewars
-source code, and do a "<tt>make dopewars.pot</tt>". This creates the
-<tt>dopewars.pot</tt> file, which lists the strings that need translating.
+translation, change into the <tt>po</tt> subdirectory of the churchwars
+source code, and do a "<tt>make churchwars.pot</tt>". This creates the
+<tt>churchwars.pot</tt> file, which lists the strings that need translating.
 Next, create a new translation file from your "old" translation file (we'll
-assume it's called <tt>de.po</tt>) and <tt>dopewars.pot</tt> with the
+assume it's called <tt>de.po</tt>) and <tt>churchwars.pot</tt> with the
 <tt>msgmerge</tt> command:-<br />
-<tt>msgmerge -o newfile de.po dopewars.pot</tt><br />
+<tt>msgmerge -o newfile de.po churchwars.pot</tt><br />
 Examine this new file <tt>newfile</tt> for translations that need updating
 (a search for "fuzzy" should find most of them) and then overwrite your old
 translation with the new one:<br />
 <tt>mv newfile de.po</tt><br />
-Rebuild and reinstall dopewars, and the new translations should become
+Rebuild and reinstall churchwars, and the new translations should become
 available. Again, it is deeply appreciated if such updated files are
 contributed to the main dopewars distribution!</p>
 

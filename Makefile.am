@@ -1,13 +1,13 @@
 SUBDIRS        = src doc po sounds
 DESKTOPDIR     = ${DESTDIR}${datadir}/gnome/apps/Games
-DESKTOP        = dopewars.desktop
+DESKTOP        = churchwars.desktop
 SCOREDIR       = ${DESTDIR}${localstatedir}
-SCORE          = ${SCOREDIR}/dopewars.sco
-EXTRA_DIST     = ABOUT-NLS LICENCE dopewars.desktop rpm/dopewars.spec.in \
+SCORE          = ${SCOREDIR}/churchwars.sco
+EXTRA_DIST     = ABOUT-NLS LICENCE churchwars.desktop rpm/churchwars.spec.in \
                  runindent.sh win32/README.md win32/install.nsi.in README.md \
-		 win32/mingw/Dockerfile ChangeLog.md
-CLEANFILES     = dopewars.sco dopewars-log.txt dopewars-config.txt
-DISTCLEANFILES = rpm/dopewars.spec
+                 win32/mingw/Dockerfile ChangeLog.md
+CLEANFILES     = churchwars.sco churchwars-log.txt churchwars-config.txt
+DISTCLEANFILES = rpm/churchwars.spec
 ACLOCAL_AMFLAGS= -I m4
 
 install-data-local:

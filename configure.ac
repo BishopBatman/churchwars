@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([dopewars], [SVN])
+AC_INIT([churchwars], [SVN])
 AC_CONFIG_SRCDIR([src/dopewars.c])
 AC_CONFIG_AUX_DIR(auxbuild)
 
@@ -142,7 +142,7 @@ if test "$CYGWIN" = "yes" ; then
    LIBCURL_CHECK_CONFIG(7.17.0)
 
    dnl We need to compile and then link in the Windows resources
-   WNDRES="dopewars.res"
+   WNDRES="churchwars.res"
    AC_SUBST(WNDRES)
 
    dnl Add support for the Windows multimedia system
@@ -374,7 +374,7 @@ fi
 
 if test "$plugins" = "yes" ; then
   AC_DEFINE(PLUGINS, 1, [Define if using dynamically-loaded sound modules])
-  plugindir="${libdir}/dopewars"
+ plugindir="${libdir}/churchwars"
   AC_SUBST(plugindir)
   DP_EXPAND_DIR(PLUGINDIR, '${plugindir}')
   AC_DEFINE_UNQUOTED(PLUGINDIR, "$PLUGINDIR",
@@ -410,13 +410,13 @@ fi
 
 dnl Let the user override this with the --enable-networking option
 AC_ARG_ENABLE(networking,
-[  --enable-networking     dopewars will use TCP/IP to connect to servers],
+[  --enable-networking     Church Wars will use TCP/IP to connect to servers],
 [ network="$enableval" ])
 
 dnl Inform the user of the status of networking
 if test "$network" = "yes" ; then
    AC_DEFINE(NETWORKING, 1,
-       [Define if dopewars should use TCP/IP networking to connect to servers])
+       [Define if Church Wars should use TCP/IP networking to connect to servers])
 fi
 
 AC_ARG_ENABLE(strict,
@@ -432,7 +432,7 @@ if test -n "$GCC"; then
    fi
 fi
 
-dnl Tell dopewars where the high scores, docs and locale files are
+dnl Tell Church Wars where the high scores, docs and locale files are
 DP_EXPAND_DIR(DPSCOREDIR, '${localstatedir}')
 AC_DEFINE_UNQUOTED(DPSCOREDIR, "$DPSCOREDIR",
                    [The directory containing the high score file])
@@ -494,14 +494,14 @@ sounds/Makefile
 sounds/19.5degs/Makefile
 doc/Makefile
 doc/help/Makefile
-rpm/dopewars.spec
-doc/dopewars.6
+rpm/churchwars.spec
+doc/churchwars.6
 win32/install.nsi
 po/Makefile.in],
 [])
 
 echo
-echo "dopewars has been configured as follows:"
+echo "Church Wars has been configured as follows:"
 echo
 if test "$CYGWIN" = "yes" ; then
    echo "Building native Windows (Win32) version"

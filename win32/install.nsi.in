@@ -13,7 +13,7 @@ Var MUI_TEMP
 
 Unicode true
 
-!define PRODUCT "dopewars"
+!define PRODUCT "Church Wars"
 !define VERSION "@PACKAGE_VERSION@"
 !define PRODVER "${PRODUCT}-${VERSION}"
 
@@ -21,22 +21,22 @@ Unicode true
   ; 32-bit build; no special setup
 !else if "@host@" == "x86_64-w64-mingw32"
   ; 64-bit build
-  !define DOPEWARS_64BIT
+    !define CHURCHWARS_64BIT
 !else
   !error "Supported only for 32-bit and 64-bit Windows"
 !endif
 
 Name ${PRODVER}
 
-!ifdef DOPEWARS_64BIT
+!ifdef CHURCHWARS_64BIT
   Caption "${PRODUCT} ${VERSION} (64 bit) Setup"
-  OutFile "dopewars-${VERSION}-64bit.exe"
+    OutFile "churchwars-${VERSION}-64bit.exe"
   InstallDir "$PROGRAMFILES64\${PRODVER}"
   # Note that we don't use InstallDirRegKey on x64 since it ignores SetRegView
   !define FULL_PRODVER "${PRODUCT} ${VERSION} (64 bit)"
 !else
   Caption "${PRODUCT} ${VERSION} (32 bit) Setup"
-  OutFile "dopewars-${VERSION}-32bit.exe"
+    OutFile "churchwars-${VERSION}-32bit.exe"
   InstallDir "$PROGRAMFILES\${PRODVER}"
   InstallDirRegKey HKLM "Software\${PRODVER}" ""
   !define FULL_PRODVER "${PRODUCT} ${VERSION} (32 bit)"
@@ -53,8 +53,8 @@ Name ${PRODVER}
 !define MUI_WELCOMEPAGE_TITLE "Welcome to the ${FULL_PRODVER} Setup Wizard"
 !define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of ${FULL_PRODVER}, a game simulating the life of a drug dealer in New York."
 
-!define MUI_FINISHPAGE_LINK "https://dopewars.sourceforge.io/"
-!define MUI_FINISHPAGE_LINK_LOCATION "https://dopewars.sourceforge.io/"
+!define MUI_FINISHPAGE_LINK "https://churchwars.sourceforge.io/"
+!define MUI_FINISHPAGE_LINK_LOCATION "https://churchwars.sourceforge.io/"
 
 !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODVER}"
 
@@ -74,10 +74,10 @@ Section ""
   SetOutPath "$INSTDIR"
   File "..\LICENCE"
 
-  File "..\src\dopewars.exe"
+  File "..\src\churchwars.exe"
   File "/etc/pki/tls/certs/ca-bundle.crt"
 
-!ifdef DOPEWARS_64BIT
+!ifdef CHURCHWARS_64BIT
   File "/usr/x86_64-w64-mingw32/sys-root/mingw/bin/iconv.dll"
   File "/usr/x86_64-w64-mingw32/sys-root/mingw/bin/libcrypto-1_1-x64.dll"
   File "/usr/x86_64-w64-mingw32/sys-root/mingw/bin/libcurl-4.dll"
@@ -113,31 +113,31 @@ Section ""
   File "..\doc\help\*.html"
 
   SetOutPath "$INSTDIR\locale\de\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\de.gmo"
+  File /oname=churchwars.mo "..\po\de.gmo"
 
   SetOutPath "$INSTDIR\locale\es\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\es.gmo"
+  File /oname=churchwars.mo "..\po\es.gmo"
 
   SetOutPath "$INSTDIR\locale\en_GB\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\en_GB.gmo"
+  File /oname=churchwars.mo "..\po\en_GB.gmo"
 
   SetOutPath "$INSTDIR\locale\es_ES\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\es_ES.gmo"
+  File /oname=churchwars.mo "..\po\es_ES.gmo"
 
   SetOutPath "$INSTDIR\locale\fr\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\fr.gmo"
+  File /oname=churchwars.mo "..\po\fr.gmo"
 
   SetOutPath "$INSTDIR\locale\fr_CA\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\fr_CA.gmo"
+  File /oname=churchwars.mo "..\po\fr_CA.gmo"
 
   SetOutPath "$INSTDIR\locale\nn\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\nn.gmo"
+  File /oname=churchwars.mo "..\po\nn.gmo"
 
   SetOutPath "$INSTDIR\locale\pl\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\pl.gmo"
+  File /oname=churchwars.mo "..\po\pl.gmo"
 
   SetOutPath "$INSTDIR\locale\pt_BR\LC_MESSAGES"
-  File /oname=dopewars.mo "..\po\pt_BR.gmo"
+  File /oname=churchwars.mo "..\po\pt_BR.gmo"
 
   SetOutPath "$INSTDIR\sounds\19.5degs"
   File "..\sounds\19.5degs\*.wav"
@@ -148,29 +148,29 @@ Section ""
   WriteRegStr HKLM "${UNINST_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
   WriteRegStr HKLM "${UNINST_KEY}" "DisplayVersion" "${VERSION}"
   WriteRegStr HKLM "${UNINST_KEY}" "Publisher" "Ben Webb"
-  WriteRegStr HKLM "${UNINST_KEY}" "URLInfoAbout" "https://dopewars.sourceforge.io/"
+  WriteRegStr HKLM "${UNINST_KEY}" "URLInfoAbout" "https://churchwars.sourceforge.io/"
   WriteRegDWORD HKLM "${UNINST_KEY}" "NoModify" 1
   WriteRegDWORD HKLM "${UNINST_KEY}" "NoRepair" 1
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN ${PRODVER}
     CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\dopewars.lnk" "$INSTDIR\dopewars.exe"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\dopewars public server.lnk" "$INSTDIR\dopewars.exe" "-s"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\dopewars private server.lnk" "$INSTDIR\dopewars.exe" "-S"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\text-mode dopewars.lnk" "$INSTDIR\dopewars.exe" "-t"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\dopewars AI player.lnk" "$INSTDIR\dopewars.exe" "-c"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\dopewars command line options.lnk" "$INSTDIR\dopewars.exe" "-h"
-    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\dopewars help.lnk" "$INSTDIR\doc\index.html"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\churchwars.lnk" "$INSTDIR\churchwars.exe"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\churchwars public server.lnk" "$INSTDIR\churchwars.exe" "-s"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\churchwars private server.lnk" "$INSTDIR\churchwars.exe" "-S"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\text-mode churchwars.lnk" "$INSTDIR\churchwars.exe" "-t"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\churchwars AI player.lnk" "$INSTDIR\churchwars.exe" "-c"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\churchwars command line options.lnk" "$INSTDIR\churchwars.exe" "-h"
+    CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\churchwars help.lnk" "$INSTDIR\doc\index.html"
     CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
 
 Section "Uninstall"
-!ifdef DOPEWARS_64BIT
+!ifdef CHURCHWARS_64BIT
   SetRegView 64
 !endif
   Delete "$INSTDIR\Uninstall.exe"
-  Delete "$INSTDIR\dopewars.exe"
+  Delete "$INSTDIR\churchwars.exe"
   Delete "$INSTDIR\*.dll"
   Delete "$INSTDIR\LICENCE"
   Delete "$INSTDIR\ca-bundle.crt"
@@ -185,13 +185,13 @@ Section "Uninstall"
     ReadRegStr $0 HKLM "Software\${PRODVER}" "ShellVarContext"
     StrCmp $0 "all" 0 +2
       SetShellVarContext all
-    Delete "$SMPROGRAMS\$MUI_TEMP\dopewars.lnk"
-    Delete "$SMPROGRAMS\$MUI_TEMP\dopewars public server.lnk"
-    Delete "$SMPROGRAMS\$MUI_TEMP\dopewars private server.lnk"
-    Delete "$SMPROGRAMS\$MUI_TEMP\text-mode dopewars.lnk"
-    Delete "$SMPROGRAMS\$MUI_TEMP\dopewars AI player.lnk"
-    Delete "$SMPROGRAMS\$MUI_TEMP\dopewars command line options.lnk"
-    Delete "$SMPROGRAMS\$MUI_TEMP\dopewars help.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\churchwars.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\churchwars public server.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\churchwars private server.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\text-mode churchwars.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\churchwars AI player.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\churchwars command line options.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\churchwars help.lnk"
     Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
     RMDir "$SMPROGRAMS\$MUI_TEMP" ;Only if empty, so it won't delete other shortcuts
     
@@ -203,7 +203,7 @@ Section "Uninstall"
 SectionEnd
 
 Function .onInit
-!ifdef DOPEWARS_64BIT
+!ifdef CHURCHWARS_64BIT
   SetRegView 64
 !endif
 

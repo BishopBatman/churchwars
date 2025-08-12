@@ -4,10 +4,10 @@ DOCS           = aiplayer.html configfile.html index.html i18n.html \
                  installation.html servercommands.html commandline.html \
                  contribute.html developer.html metaserver.html \
                  protocol.html windows.html ../LICENCE example-igneous
-man_MANS       = dopewars.6
+ man_MANS       = churchwars.6
 SUBDIRS        = help
-EXTRA_DIST     = dopewars.6.in ${DOCS}
-DISTCLEANFILES = dopewars.6
+ EXTRA_DIST     = churchwars.6.in ${DOCS}
+ DISTCLEANFILES = churchwars.6
 
 install-data-local:
 	${INSTALL} -d -m 0755 ${DOCPATH}

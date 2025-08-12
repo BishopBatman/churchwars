@@ -1,9 +1,9 @@
-Summary:       Drug dealing game
+Summary:       Church Wars strategy game
 Name:          @PACKAGE@
 Version:       @VERSION@
 Release:       1%{?dist}
 Vendor:        Ben Webb <benwebb@users.sf.net>
-URL:           https://dopewars.sourceforge.io/
+URL:           https://churchwars.sourceforge.io/
 License:       GPL
 Group:         Amusements/Games
 Source0:       %{name}-%{version}.tar.gz
@@ -12,24 +12,24 @@ BuildRequires: SDL2_mixer-devel SDL2-devel glib2-devel gcc libcurl-devel
 BuildRequires: gtk3-devel ncurses-devel gettext-devel
 
 %description
-Based on John E. Dell's old Drug Wars game, dopewars is a simulation of an    
-imaginary drug market.  dopewars is an All-American game which features       
-buying, selling, and trying to get past the cops!                              
+Based on John E. Dell's old Drug Wars game, Church Wars is a simulation of an
+imaginary market.  Church Wars is an All-American game which features
+buying, selling, and trying to get past the cops!
                                                                                 
 The first thing you need to do is pay off your debt to the Loan Shark. After   
 that, your goal is to make as much money as possible (and stay alive)! You     
 have one month of game time to make your fortune.                              
 
-dopewars supports multiple players via. TCP/IP. Chatting to and fighting
+Church Wars supports multiple players via. TCP/IP. Chatting to and fighting
 with other players (computer or human) is supported; check the command line
-switches (via dopewars -h) for further information. 
+switches (via churchwars -h) for further information.
 
 %package sdl
-Summary:  dopewars SDL_mixer sound plugin
+Summary:  Church Wars SDL_mixer sound plugin
 Group:    Amusements/Games
 Requires: %{name}
 %description sdl
-This package adds a plugin to dopewars to allow sound to be output via.
+This package adds a plugin to Church Wars to allow sound to be output via.
 the Simple DirectMedia Layer mixer (SDL2 and SDL_mixer).
 
 %prep
@@ -48,37 +48,37 @@ make install DESTDIR=${RPM_BUILD_ROOT}
 test "$RPM_BUILD_ROOT" != "/" && rm -rf ${RPM_BUILD_ROOT}
 
 %post
-%{_bindir}/dopewars -C %{_localstatedir}/dopewars.sco
+%{_bindir}/churchwars -C %{_localstatedir}/churchwars.sco
 
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc ChangeLog.md LICENCE README.md
 %doc %{_docdir}/%{name}
-%attr(2755,root,games) %{_bindir}/dopewars
-%attr(0660,root,games) %config %{_localstatedir}/dopewars.sco
-%{_mandir}/man6/dopewars.6.gz
-%{_datadir}/gnome/apps/Games/dopewars.desktop
+%attr(2755,root,games) %{_bindir}/churchwars
+%attr(0660,root,games) %config %{_localstatedir}/churchwars.sco
+%{_mandir}/man6/churchwars.6.gz
+%{_datadir}/gnome/apps/Games/churchwars.desktop
 %{_datadir}/pixmaps/dopewars-pill.png
 %{_datadir}/pixmaps/dopewars-weed.png
 %{_datadir}/pixmaps/dopewars-shot.png
-%dir %{_datadir}/dopewars/
-%{_datadir}/dopewars/bye.wav
-%{_datadir}/dopewars/coinbuy.wav
-%{_datadir}/dopewars/colt.wav
-%{_datadir}/dopewars/die.wav
-%{_datadir}/dopewars/gun.wav
-%{_datadir}/dopewars/jet.wav
-%{_datadir}/dopewars/losebitch.wav
-%{_datadir}/dopewars/message.wav
-%{_datadir}/dopewars/murmur.wav
-%{_datadir}/dopewars/punch.wav
-%{_datadir}/dopewars/run.wav
-%{_datadir}/dopewars/shotdown.wav
-%{_datadir}/dopewars/train.wav
+%dir %{_datadir}/churchwars/
+%{_datadir}/churchwars/bye.wav
+%{_datadir}/churchwars/coinbuy.wav
+%{_datadir}/churchwars/colt.wav
+%{_datadir}/churchwars/die.wav
+%{_datadir}/churchwars/gun.wav
+%{_datadir}/churchwars/jet.wav
+%{_datadir}/churchwars/losebitch.wav
+%{_datadir}/churchwars/message.wav
+%{_datadir}/churchwars/murmur.wav
+%{_datadir}/churchwars/punch.wav
+%{_datadir}/churchwars/run.wav
+%{_datadir}/churchwars/shotdown.wav
+%{_datadir}/churchwars/train.wav
 
 %files sdl
 %defattr(-,root,root)
-%{_libdir}/dopewars/libsound_sdl.so
+%{_libdir}/churchwars/libsound_sdl.so
 
 %changelog
 * Wed Dec 02 2020 Ben Webb <benwebb@users.sf.net>

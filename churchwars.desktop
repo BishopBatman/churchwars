@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Church Wars
+Comment=Church Wars strategy game
+Exec=churchwars
+Icon=dopewars-weed.png
+Terminal=false
+Type=Application
+Categories=Application;Game;ArcadeGame;
+Encoding=UTF-8
+# vi: encoding=utf-8

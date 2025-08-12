@@ -1,11 +1,11 @@
-## Building dopewars on Windows
+## Building Church Wars on Windows
 
-dopewars is built for Windows via cross-compilation on Linux using the
+Church Wars is built for Windows via cross-compilation on Linux using the
 MinGW tools. See the `mingw` subdirectory for a suitable `Dockerfile` to set up
 a [Docker](https://www.docker.com/) or [Podman](https://podman.io/)
 compilation environment.
 
-Once in the environment, build dopewars for 64-bit Windows with
+Once in the environment, build Church Wars for 64-bit Windows with
 
     ./configure --host=x86_64-w64-mingw32 --enable-nativewin32 && make
 
@@ -15,7 +15,7 @@ For 32-bit Windows, use
 
 In order for curl connections to the metaserver to work, copy
 `/etc/pki/tls/certs/ca-bundle.crt` from the Docker/Podman environment to
-the same directory as `dopewars.exe`.
+the same directory as `churchwars.exe`.
 
 
 ## Windows installer
