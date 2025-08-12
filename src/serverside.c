@@ -417,6 +417,15 @@ void HandleServerMessage(gchar *buf, Player *Play)
       SetPlayerName(Play, Data);
     }
     break;
+  case C_MSG:
+    /* Broadcast chat messages to all other connected players */
+    BroadcastToClients(C_NONE, C_MSG, Data, Play, Play);
+    break;
+  case C_MSGTO:
+    /* Send a private message to a specific player */
+    if (To && To != &Noone && IsConnectedPlayer(To))
+      SendServerMessage(Play, C_NONE, C_MSGTO, To, Data);
+    break;
   case C_WANTQUIT:
     if (Play->EventNum != E_FINISH) {
       FinishGame(Play, NULL);

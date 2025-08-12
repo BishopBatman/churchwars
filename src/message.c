@@ -1083,6 +1083,10 @@ gboolean HandleGenericClientMessage(Player *From, AICode AI, MsgCode Code,
     if (DisplayMode)
       *DisplayMode = DM_STREET;
     break;
+  case C_MSG:
+  case C_MSGTO:
+    /* Chat messages are handled by specific client interfaces. */
+    break;
   case C_FIGHTPRINT:
     if (From != &Noone) {
       From->Flags |= FIGHTING;
