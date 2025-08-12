@@ -34,6 +34,7 @@
 #include "../sound.h"
 
 #define MAXCACHE 6
+#define MAX_WAV_DATA_LEN (16 * 1024 * 1024)
 
 struct SoundCache {
   gchar *name;
@@ -78,6 +79,21 @@ static gboolean LoadWav(const gchar *fname, pa_sample_spec *spec,
   }
 
   datalen = hdr[40] | (hdr[41] << 8) | (hdr[42] << 16) | (hdr[43] << 24);
+  if (fseek(f, 0, SEEK_END) != 0) {
+    fclose(f);
+    return FALSE;
+  }
+  long filesize = ftell(f);
+  if (filesize < (long)sizeof(hdr) ||
+      datalen > (guint32)(filesize - sizeof(hdr)) ||
+      datalen > MAX_WAV_DATA_LEN) {
+    fclose(f);
+    return FALSE;
+  }
+  if (fseek(f, sizeof(hdr), SEEK_SET) != 0) {
+    fclose(f);
+    return FALSE;
+  }
   *data = g_malloc(datalen);
   if (fread(*data, 1, datalen, f) != datalen) {
     g_free(*data);
