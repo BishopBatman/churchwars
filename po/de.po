@@ -265,12 +265,12 @@ msgid "Sound file played when guns are reloaded"
 msgstr "Sound-Datei für das Nachladen einer Waffe"
 
 #: src/dopewars.c:397
-msgid "Sound file played when an enemy bitch/deputy is killed"
-msgstr "Sound-Datei für das Ableben einer/s feindlichen Hure/Hilfssheriffs"
+msgid "Sound file played when an enemy cleric/deputy is killed"
+msgstr "Sound-Datei für das Ableben eines feindlichen Klerikers oder Hilfssheriffs"
 
 #: src/dopewars.c:400
-msgid "Sound file played when one of your bitches is killed"
-msgstr "Sound-Datei für das Ableben einer eigenen Hure"
+msgid "Sound file played when one of your clerics is killed"
+msgstr "Sound-Datei für das Ableben eines eigenen Klerikers"
 
 #: src/dopewars.c:403
 msgid "Sound file played when another player or cop is killed"
@@ -369,8 +369,8 @@ msgid "% resistance to gunshots of each player"
 msgstr "% Trefferresistenz jedes Spielers"
 
 #: src/dopewars.c:482 src/dopewars.c:485
-msgid "% resistance to gunshots of each bitch"
-msgstr "% Trefferresistenz jeder Huren"
+msgid "% resistance to gunshots of each cleric"
+msgstr "% Trefferresistenz jedes Klerikers"
 
 #: src/dopewars.c:488
 msgid "Name of each cop"
@@ -477,12 +477,12 @@ msgid "Damage done by each weapon"
 msgstr "Schaden jeder Waffe"
 
 #: src/dopewars.c:598
-msgid "Word used to denote a single \"bitch\""
-msgstr "Wie soll eine einzelne Hure bezeichnet werden?"
+msgid "Word used to denote a single \"cleric\""
+msgstr "Wie soll ein einzelner Kleriker bezeichnet werden?"
 
 #: src/dopewars.c:601
-msgid "Word used to denote two or more \"bitches\""
-msgstr "Wie sollen zwei oder mehrere Huren bezeichnet werden?"
+msgid "Word used to denote two or more \"clerics\""
+msgstr "Wie sollen zwei oder mehrere Kleriker bezeichnet werden?"
 
 #: src/dopewars.c:604
 msgid "Word used to denote a single gun or equivalent"
@@ -505,20 +505,20 @@ msgid "strftime() format string for displaying the game turn"
 msgstr "strftime() Format-String für das Anzeigen der Spielrunden"
 
 #: src/dopewars.c:619
-msgid "Cost for a bitch to spy on the enemy"
-msgstr ""
+msgid "Cost for a cleric to spy on the enemy"
+msgstr "Kosten, damit ein Kleriker den Feind ausspioniert"
 
 #: src/dopewars.c:622
-msgid "Cost for a bitch to tipoff the cops to an enemy"
-msgstr ""
+msgid "Cost for a cleric to tipoff the cops to an enemy"
+msgstr "Kosten, damit ein Kleriker die Polizei über einen Feind informiert"
 
 #: src/dopewars.c:625
-msgid "Minimum price to hire a bitch"
-msgstr "Minimaler Geldbetrag für das Anheuern einer Hure"
+msgid "Minimum price to hire a cleric"
+msgstr "Minimaler Geldbetrag für das Anheuern eines Klerikers"
 
 #: src/dopewars.c:628
-msgid "Maximum price to hire a bitch"
-msgstr "Minimaler Geldbetrag fuer das Anheuern einer Hure"
+msgid "Maximum price to hire a cleric"
+msgstr "Maximaler Geldbetrag fuer das Anheuern eines Klerikers"
 
 #: src/dopewars.c:631
 msgid "List of things which you overhear on the subway"
@@ -1950,7 +1950,7 @@ msgstr "_Rennen"
 
 #: src/gui_client/gtk_client.c:971
 msgid "%/Combat: Bitches/%d %tde"
-msgstr "%/Kampf: Huren/%d %tde"
+msgstr "%/Kampf: Kleriker/%d %tde"
 
 #: src/gui_client/gtk_client.c:976
 msgid "(Left)"
@@ -1971,7 +1971,7 @@ msgstr "Du"
 
 #: src/gui_client/gtk_client.c:1189
 msgid "%/GTK Stats: Bitches/%Tde"
-msgstr "%/GTK Stats: Huren/%Tde"
+msgstr "%/GTK Stats: Kleriker/%Tde"
 
 #: src/gui_client/gtk_client.c:1301
 msgid "%/Inventory drug name/%tde"
@@ -2367,7 +2367,7 @@ msgstr "Name des Kredithais"
 
 #: src/gui_client/optdialog.c:834
 msgid "Name of several Janissaries"
-msgstr "Name für mehrere Huren"
+msgstr "Name für mehrere Janitscharen"
 
 #: src/gui_client/optdialog.c:835
 msgid "Minimum no. of Janissaries"
@@ -2418,12 +2418,12 @@ msgid "Symbol prefixes prices"
 msgstr "Währungssymbol dem Preis voranstellen"
 
 #: src/gui_client/optdialog.c:892
-msgid "Name of one bitch"
-msgstr "Name für eine Hure"
+msgid "Name of one cleric"
+msgstr "Name für einen Kleriker"
 
 #: src/gui_client/optdialog.c:897
-msgid "Name of several bitches"
-msgstr "Name für mehrere Huren"
+msgid "Name of several clerics"
+msgstr "Name für mehrere Kleriker"
 
 #: src/gui_client/optdialog.c:903
 msgid "Web browser"
@@ -3687,11 +3687,6 @@ msgstr ""
 #~ msgid "SOCKS Authentication Required"
 #~ msgstr "SOCKS Authentifizierung benötigt"
 
-#~ msgid "bitch"
-#~ msgstr "Hure"
-
-#~ msgid "bitches"
-#~ msgstr "Huren"
 
 #~ msgid "gun"
 #~ msgstr "Waffe"

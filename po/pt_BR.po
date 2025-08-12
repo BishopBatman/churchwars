@@ -261,11 +261,11 @@ msgid "Sound file played when guns are reloaded"
 msgstr "Arquivo de som tocado quando armas são recarregadas"
 
 #: src/dopewars.c:397
-msgid "Sound file played when an enemy bitch/deputy is killed"
+msgid "Sound file played when an enemy cleric/deputy is killed"
 msgstr ""
 
 #: src/dopewars.c:400
-msgid "Sound file played when one of your bitches is killed"
+msgid "Sound file played when one of your clerics is killed"
 msgstr ""
 
 #: src/dopewars.c:403
@@ -365,7 +365,7 @@ msgid "% resistance to gunshots of each player"
 msgstr ""
 
 #: src/dopewars.c:482 src/dopewars.c:485
-msgid "% resistance to gunshots of each bitch"
+msgid "% resistance to gunshots of each cleric"
 msgstr ""
 
 #: src/dopewars.c:488
@@ -470,12 +470,12 @@ msgid "Damage done by each weapon"
 msgstr "Dano de cada arma"
 
 #: src/dopewars.c:598
-msgid "Word used to denote a single \"bitch\""
-msgstr "Palavra usada para denominar uma simples \"puta\""
+msgid "Word used to denote a single \"cleric\""
+msgstr "Palavra usada para denominar um simples \"clérigo\""
 
 #: src/dopewars.c:601
-msgid "Word used to denote two or more \"bitches\""
-msgstr "Palavra usada para denominar duas ou mais \"putas\""
+msgid "Word used to denote two or more \"clerics\""
+msgstr "Palavra usada para denominar dois ou mais \"clérigos\""
 
 #: src/dopewars.c:604
 msgid "Word used to denote a single gun or equivalent"
@@ -498,20 +498,20 @@ msgid "strftime() format string for displaying the game turn"
 msgstr ""
 
 #: src/dopewars.c:619
-msgid "Cost for a bitch to spy on the enemy"
-msgstr ""
+msgid "Cost for a cleric to spy on the enemy"
+msgstr "Custo para que um clérigo espione o inimigo"
 
 #: src/dopewars.c:622
-msgid "Cost for a bitch to tipoff the cops to an enemy"
-msgstr ""
+msgid "Cost for a cleric to tipoff the cops to an enemy"
+msgstr "Custo para que um clérigo denuncie um inimigo à polícia"
 
 #: src/dopewars.c:625
-msgid "Minimum price to hire a bitch"
-msgstr "Preço mínimo para contratar uma puta"
+msgid "Minimum price to hire a cleric"
+msgstr "Preço mínimo para contratar um clérigo"
 
 #: src/dopewars.c:628
-msgid "Maximum price to hire a bitch"
-msgstr "Preço máximo para contratar uma puta"
+msgid "Maximum price to hire a cleric"
+msgstr "Preço máximo para contratar um clérigo"
 
 #: src/dopewars.c:631
 msgid "List of things which you overhear on the subway"
@@ -2419,11 +2419,11 @@ msgid "Symbol prefixes prices"
 msgstr ""
 
 #: src/gui_client/optdialog.c:892
-msgid "Name of one bitch"
+msgid "Name of one cleric"
 msgstr ""
 
 #: src/gui_client/optdialog.c:897
-msgid "Name of several bitches"
+msgid "Name of several clerics"
 msgstr ""
 
 #: src/gui_client/optdialog.c:903
@@ -3683,11 +3683,6 @@ msgstr ""
 #~ msgid "SOCKS Authentication Required"
 #~ msgstr "Autenticação SOCKS Necessária"
 
-#~ msgid "bitch"
-#~ msgstr "puta"
-
-#~ msgid "bitches"
-#~ msgstr "putas"
 
 #~ msgid "gun"
 #~ msgstr "arma"
@@ -3981,7 +3976,7 @@ msgstr ""
 #~ "todo %tde ou %tde que ela está carregando será perdido!"
 
 #~ msgid "%/Sack Bitch dialog title/Sack %Tde"
-#~ msgstr "%/Despedir puta dialog title/Despedir %Tde"
+#~ msgstr "%/Despedir clérigo dialog title/Despedir %Tde"
 
 #, c-format
 #~ msgid ""

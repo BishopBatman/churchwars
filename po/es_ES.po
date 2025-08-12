@@ -269,14 +269,13 @@ msgid "Sound file played when guns are reloaded"
 msgstr "Fichero de sonido que suena cuando se recarga un arma"
 
 #: src/dopewars.c:397
-msgid "Sound file played when an enemy bitch/deputy is killed"
+msgid "Sound file played when an enemy cleric/deputy is killed"
 msgstr ""
-"Fichero de sonido a reproducir cuando se mata a un ayudante o a una puta "
-"enemiga"
+"Fichero de sonido a reproducir cuando se mata a un ayudante o a un clérigo enemigo"
 
 #: src/dopewars.c:400
-msgid "Sound file played when one of your bitches is killed"
-msgstr "Fichero de sonido reproducido cuando muere una de tus putas"
+msgid "Sound file played when one of your clerics is killed"
+msgstr "Fichero de sonido reproducido cuando muere uno de tus clérigos"
 
 #: src/dopewars.c:403
 msgid "Sound file played when another player or cop is killed"
@@ -379,8 +378,8 @@ msgid "% resistance to gunshots of each player"
 msgstr "% de resistencia a disparos de cada jugador"
 
 #: src/dopewars.c:482 src/dopewars.c:485
-msgid "% resistance to gunshots of each bitch"
-msgstr "% de resistencia a disparos de cada puta"
+msgid "% resistance to gunshots of each cleric"
+msgstr "% de resistencia a disparos de cada clérigo"
 
 #: src/dopewars.c:488
 msgid "Name of each cop"
@@ -484,12 +483,12 @@ msgid "Damage done by each weapon"
 msgstr "Daño ocasionado por cada arma"
 
 #: src/dopewars.c:598
-msgid "Word used to denote a single \"bitch\""
-msgstr "Palabra usada para designar una sola \"puta\""
+msgid "Word used to denote a single \"cleric\""
+msgstr "Palabra usada para designar un solo \"clérigo\""
 
 #: src/dopewars.c:601
-msgid "Word used to denote two or more \"bitches\""
-msgstr "Palabra usada para designar dos o más \"putas\""
+msgid "Word used to denote two or more \"clerics\""
+msgstr "Palabra usada para designar dos o más \"clérigos\""
 
 #: src/dopewars.c:604
 msgid "Word used to denote a single gun or equivalent"
@@ -512,20 +511,20 @@ msgid "strftime() format string for displaying the game turn"
 msgstr "cadena de formato strftime() para mostrar el turno del juego"
 
 #: src/dopewars.c:619
-msgid "Cost for a bitch to spy on the enemy"
-msgstr ""
+msgid "Cost for a cleric to spy on the enemy"
+msgstr "Coste para que un clérigo espíe al enemigo"
 
 #: src/dopewars.c:622
-msgid "Cost for a bitch to tipoff the cops to an enemy"
-msgstr ""
+msgid "Cost for a cleric to tipoff the cops to an enemy"
+msgstr "Coste para que un clérigo delate a la policía a un enemigo"
 
 #: src/dopewars.c:625
-msgid "Minimum price to hire a bitch"
-msgstr "Precio mínimo de contratar una puta"
+msgid "Minimum price to hire a cleric"
+msgstr "Precio mínimo de contratar un clérigo"
 
 #: src/dopewars.c:628
-msgid "Maximum price to hire a bitch"
-msgstr "Precio máximo de contratar una puta"
+msgid "Maximum price to hire a cleric"
+msgstr "Precio máximo de contratar un clérigo"
 
 #: src/dopewars.c:631
 msgid "List of things which you overhear on the subway"
@@ -2410,7 +2409,7 @@ msgstr "Nombre del usurero"
 
 #: src/gui_client/optdialog.c:834
 msgid "Name of several Janissaries"
-msgstr "Nombre de varias putas"
+msgstr "Nombre de varios jenízaros"
 
 #: src/gui_client/optdialog.c:835
 msgid "Minimum no. of Janissaries"
@@ -2461,12 +2460,12 @@ msgid "Symbol prefixes prices"
 msgstr "Símbolo antes del precio"
 
 #: src/gui_client/optdialog.c:892
-msgid "Name of one bitch"
-msgstr "Nombre de una puta"
+msgid "Name of one cleric"
+msgstr "Nombre de un clérigo"
 
 #: src/gui_client/optdialog.c:897
-msgid "Name of several bitches"
-msgstr "Nombre de varias putas"
+msgid "Name of several clerics"
+msgstr "Nombre de varios clérigos"
 
 #: src/gui_client/optdialog.c:903
 msgid "Web browser"
@@ -3769,11 +3768,6 @@ msgstr ""
 #~ msgid "SOCKS Authentication Required"
 #~ msgstr "Se precisa autenticación SOCKS"
 
-#~ msgid "bitch"
-#~ msgstr "puta"
-
-#~ msgid "bitches"
-#~ msgstr "putas"
 
 #~ msgid "gun"
 #~ msgstr "arma"
@@ -4072,7 +4066,7 @@ msgstr ""
 #~ "que te esté guardando."
 
 #~ msgid "%/Sack Bitch dialog title/Sack %Tde"
-#~ msgstr "%/Título del diálogo Echar a una puta/Echar a una %Tde"
+#~ msgstr "%/Título del diálogo Echar a un clérigo/Echar a un %Tde"
 
 #, c-format
 #~ msgid ""
@@ -4080,7 +4074,7 @@ msgstr ""
 #~ "by this %tde may be lost!)"
 #~ msgstr ""
 #~ "¿Estás seguro? (Perderás todas las %tde y %tde\n"
-#~ "que te esté guardando esta %tde!)"
+#~ "que te esté guardando este %tde!)"
 
 #~ msgid "Name of one deputy"
 #~ msgstr "Nombre de un ayudante"

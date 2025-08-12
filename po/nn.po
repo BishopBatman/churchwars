@@ -274,12 +274,12 @@ msgid "Sound file played when guns are reloaded"
 msgstr "Lyd som blir spelt når våpna blir lada"
 
 #: src/dopewars.c:397
-msgid "Sound file played when an enemy bitch/deputy is killed"
-msgstr "Lyd som blir spelt når ei fientleg hore eller betjent blir drepen"
+msgid "Sound file played when an enemy cleric/deputy is killed"
+msgstr "Lyd som blir spelt når ein fiendtleg klerikar eller betjent blir drepen"
 
 #: src/dopewars.c:400
-msgid "Sound file played when one of your bitches is killed"
-msgstr "Lyd som blir spelt når ei av horene dine blir drepen"
+msgid "Sound file played when one of your clerics is killed"
+msgstr "Lyd som blir spelt når ein av klerikarane dine blir drepen"
 
 #: src/dopewars.c:403
 msgid "Sound file played when another player or cop is killed"
@@ -379,8 +379,8 @@ msgid "% resistance to gunshots of each player"
 msgstr "% motstand mot skot for kvar spelar"
 
 #: src/dopewars.c:482 src/dopewars.c:485
-msgid "% resistance to gunshots of each bitch"
-msgstr "% motstand mot skot for kvar hore"
+msgid "% resistance to gunshots of each cleric"
+msgstr "% motstand mot skot for kvar klerikar"
 
 #: src/dopewars.c:488
 msgid "Name of each cop"
@@ -484,12 +484,12 @@ msgid "Damage done by each weapon"
 msgstr "Skaden kvart våpen gjer"
 
 #: src/dopewars.c:598
-msgid "Word used to denote a single \"bitch\""
-msgstr "Ord for ei einskild «hore»"
+msgid "Word used to denote a single \"cleric\""
+msgstr "Ord for ein einskild «klerikar»"
 
 #: src/dopewars.c:601
-msgid "Word used to denote two or more \"bitches\""
-msgstr "Ord for to eller fleire «horer»"
+msgid "Word used to denote two or more \"clerics\""
+msgstr "Ord for to eller fleire «klerikarar»"
 
 #: src/dopewars.c:604
 msgid "Word used to denote a single gun or equivalent"
@@ -512,20 +512,20 @@ msgid "strftime() format string for displaying the game turn"
 msgstr "strftime() formatstreng for å visa tida i spelet"
 
 #: src/dopewars.c:619
-msgid "Cost for a bitch to spy on the enemy"
-msgstr ""
+msgid "Cost for a cleric to spy on the enemy"
+msgstr "Kostnad for at ein klerikar spionerer på fienden"
 
 #: src/dopewars.c:622
-msgid "Cost for a bitch to tipoff the cops to an enemy"
-msgstr ""
+msgid "Cost for a cleric to tipoff the cops to an enemy"
+msgstr "Kostnad for at ein klerikar tystar til politiet på ein fiende"
 
 #: src/dopewars.c:625
-msgid "Minimum price to hire a bitch"
-msgstr "Minstepris for å tilsetja ei hore"
+msgid "Minimum price to hire a cleric"
+msgstr "Minstepris for å tilsetja ein klerikar"
 
 #: src/dopewars.c:628
-msgid "Maximum price to hire a bitch"
-msgstr "Høgaste pris for å tilsetja ei hore"
+msgid "Maximum price to hire a cleric"
+msgstr "Høgaste pris for å tilsetja ein klerikar"
 
 #: src/dopewars.c:631
 msgid "List of things which you overhear on the subway"
@@ -2386,7 +2386,7 @@ msgstr "Namnet på lånehaien"
 
 #: src/gui_client/optdialog.c:834
 msgid "Name of several Janissaries"
-msgstr "Namn på fleire horer"
+msgstr "Namn på fleire janitsjarar"
 
 #: src/gui_client/optdialog.c:835
 msgid "Minimum no. of Janissaries"
@@ -2437,12 +2437,12 @@ msgid "Symbol prefixes prices"
 msgstr "Symbol står før prisen"
 
 #: src/gui_client/optdialog.c:892
-msgid "Name of one bitch"
-msgstr "Namn på ei hore"
+msgid "Name of one cleric"
+msgstr "Namn på ein klerikar"
 
 #: src/gui_client/optdialog.c:897
-msgid "Name of several bitches"
-msgstr "Namn på fleire horer"
+msgid "Name of several clerics"
+msgstr "Namn på fleire klerikarar"
 
 #: src/gui_client/optdialog.c:903
 msgid "Web browser"
@@ -3727,11 +3727,6 @@ msgstr ""
 #~ msgid "SOCKS Authentication Required"
 #~ msgstr "Må ha SOCKS-autentisering"
 
-#~ msgid "bitch"
-#~ msgstr "hore_ue_hore_be_hora"
-
-#~ msgid "bitches"
-#~ msgstr "horer_uf_horer_bf_horene"
 
 #~ msgid "gun"
 #~ msgstr "våpen_ue_våpen_be_våpenet"
@@ -4022,7 +4017,7 @@ msgstr ""
 #~ "ho har på seg kan gå tapt!"
 
 #~ msgid "%/Sack Bitch dialog title/Sack %Tde"
-#~ msgstr "%/Spark hore dialog-tittel/Spark %tde"
+#~ msgstr "%/Spark klerikar dialog-tittel/Spark %tde"
 
 #, c-format
 #~ msgid ""
