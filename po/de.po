@@ -7,7 +7,7 @@
 # Some passages are still not fully translated.
 msgid ""
 msgstr ""
-"Project-Id-Version: dopewars-1.5.3\n"
+"Project-Id-Version: Church Wars-1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-12 13:54+0000\n"
 "PO-Revision-Date: 2001-04-08 15:48+0100\n"
@@ -1022,7 +1022,7 @@ msgstr ""
 #: src/dopewars.c:2462
 #, c-format
 msgid "dopewars version %s\n"
-msgstr "dopewars version %s\n"
+msgstr "Church Wars version %s\n"
 
 #: src/dopewars.c:2471
 #, c-format
@@ -1068,22 +1068,22 @@ msgid ""
 "  -C, --convert=FILE      convert an \"old format\" score file to the new "
 "format\n"
 msgstr ""
-"Verwende: dopewars [OPTION]...\n"
+"Verwende: Church Wars [OPTION]...\n"
 "Drug dealing game based on \"Drug Wars\" by John E. Dell\n"
 "  -b       \"schwarz und weiß\" - benutze keine Farben\n"
-"  -n       verbinde zu keinem verfügbaren dopewars server\n"
+"  -n       verbinde zu keinem verfügbaren Church Wars server\n"
 "              (z.B. Einzelspieler-Modus)\n"
-"  -a       \"antik\" dopewars - emuliere original version \n"
+"  -a       \"antik\" Church Wars - emuliere original version \n"
 "  -f datei  spezifiziere Bestenlisten-Datei \n"
-"              (standard: %s/dopewars.sco wird benutzt)\n"
-"  -o addr  specify a hostname where the server for multiplayer dopewars\n"
+"              (standard: %s/Church Wars.sco wird benutzt)\n"
+"  -o addr  specify a hostname where the server for multiplayer Church Wars\n"
 "              can be found (in human-readable - e.g. nowhere.com - format)\n"
 "  -s       run in server mode (note: for a \"non-interactive\" server, "
 "simply\n"
-"              run as dopewars -s < /dev/null >> logfile & )\n"
+"              run as Church Wars -s < /dev/null >> logfile & )\n"
 "  -S       run a \"private\" server (i.e. do not notify the metaserver)\n"
 "  -p       spezifiziere netzwerkport (standard: 7902)\n"
-"  -g datei spezifiziere den pfad der dopewars konfiguration datei. \n"
+"  -g datei spezifiziere den pfad der Church Wars konfiguration datei. \n"
 "  -c       erstelle und benutze einen KI Spieler\n"
 "  -w       benutze GUI (GTK+ oder Win32)\n"
 "  -t       benutze Text Modus (console) (curses)\n"
@@ -1092,7 +1092,7 @@ msgstr ""
 "  -h       Zeige diese Hilfe an\n"
 "  -v       Zeige Version und beende\n"
 "\n"
-"dopewars steht unter dem Copyright (C) von Ben Webb 1998-2022 und ist "
+"Church Wars steht unter dem Copyright (C) von Ben Webb 1998-2022 und ist "
 "veröffentlicht unter der GNU GPL\n"
 "Melde Programmierfehler dem Autor Ben Webb, benwebb@users.sf.net\n"
 "Melde übersetzungsfehler an Benjamin Karaca, mister-freeze@web.de\n"
@@ -1139,22 +1139,22 @@ msgid ""
 "  -C file  convert an \"old format\" score file to the new format\n"
 "  -A       connect to a locally-running server for administration\n"
 msgstr ""
-"Verwende: dopewars [OPTION]...\n"
+"Verwende: Church Wars [OPTION]...\n"
 "Drug dealing game based on \"Drug Wars\" by John E. Dell\n"
 "  -b       \"schwarz und weiß\" - benutzt keine Farben\n"
-"  -n       verbinde zu keinem verfügbaren dopewars server\n"
+"  -n       verbinde zu keinem verfügbaren Church Wars server\n"
 "              (z.B. Einzelspieler-Modus)\n"
-"  -a       \"antik\" dopewars - emuliere original version \n"
+"  -a       \"antik\" Church Wars - emuliere original version \n"
 "  -f datei  spezifiziere Bestenlisten-Datei \n"
-"              (standard: %s/dopewars.sco wird benutzt)\n"
-"  -o addr  specify a hostname where the server for multiplayer dopewars\n"
+"              (standard: %s/Church Wars.sco wird benutzt)\n"
+"  -o addr  specify a hostname where the server for multiplayer Church Wars\n"
 "              can be found (in human-readable - e.g. nowhere.com - format)\n"
 "  -s       run in server mode (note: for a \"non-interactive\" server, "
 "simply\n"
-"              run as dopewars -s < /dev/null >> logfile & )\n"
+"              run as Church Wars -s < /dev/null >> logfile & )\n"
 "  -S       run a \"private\" server (i.e. do not notify the metaserver)\n"
 "  -p       spezifiziere netzwerkport (standard: 7902)\n"
-"  -g datei spezifiziere den pfad der dopewars konfiguration datei. \n"
+"  -g datei spezifiziere den pfad der Church Wars konfiguration datei. \n"
 "  -c       erstelle und verwende einen AI Spieler\n"
 "  -w       benutze GUI (GTK+ oder Win32)\n"
 "  -t       benutze text-modus klient (curses)\n"
@@ -1162,7 +1162,7 @@ msgstr ""
 "  -h       Zeige diese Hilfe an\n"
 "  -v       Zeige Version und beende\n"
 "\n"
-"dopewars steht unter dem Copyright (C) von Ben Webb 1998-2022 und ist "
+"Church Wars steht unter dem Copyright (C) von Ben Webb 1998-2022 und ist "
 "veröffentlicht unter der GNU GPL\n"
 "Melde Programmierfehler dem Autor Ben Webb, benwebb@users.sf.net\n"
 "Melde übersetzungsfehler an Benjamin Karaca, mister-freeze@web.de\n"
@@ -1296,7 +1296,7 @@ msgstr "Unkonstruktive Kritk         James Matthews"
 
 #: src/curses_client/curses_client.c:373
 msgid "For information on the command line options, type dopewars -h at your"
-msgstr "Für Informationen über die Startparameter tipp dopewars -h in"
+msgstr "Für Informationen über die Startparameter tipp Church Wars -h in"
 
 #: src/curses_client/curses_client.c:375
 msgid ""
@@ -1306,7 +1306,7 @@ msgstr ""
 
 #: src/curses_client/curses_client.c:401
 msgid "Please enter the hostname and port of a dopewars server:-"
-msgstr "Bitte gib den Hostnamen und Port des Dopewars servers an:-"
+msgstr "Bitte gib den Hostnamen und Port des Church Wars servers an:-"
 
 #: src/curses_client/curses_client.c:402
 msgid "Hostname: "
@@ -1392,7 +1392,7 @@ msgstr "Passwort: "
 
 #: src/curses_client/curses_client.c:698
 msgid "Please wait... attempting to contact dopewars server..."
-msgstr "Bitten warten... versuche Dopewars-Server zu kontaktieren..."
+msgstr "Bitten warten... versuche Church Wars-Server zu kontaktieren..."
 
 #: src/curses_client/curses_client.c:709
 msgid "Cannot get metaserver details"
@@ -2100,7 +2100,7 @@ msgstr ""
 
 #: src/gui_client/gtk_client.c:2171 src/winmain.c:381 src/winmain.c:390
 msgid "dopewars"
-msgstr "dopewars"
+msgstr "Church Wars"
 
 #: src/gui_client/gtk_client.c:2306
 msgid "English Translation"
@@ -2176,7 +2176,7 @@ msgid ""
 "Church Wars is released under the GNU General Public License\n"
 msgstr ""
 "Version %s     Copyright (C) 1998-2022  Ben Webb benwebb@users.sf.net\n"
-"Dopewars wurde unter der GNU General Public License veröffentlicht.\n"
+"Church Wars wurde unter der GNU General Public License veröffentlicht.\n"
 
 #: src/gui_client/gtk_client.c:2389
 msgid "Original dopewars information here:"
@@ -2554,11 +2554,11 @@ msgstr ""
 
 #: src/winmain.c:348 src/serverside.c:1621
 msgid "dopewars server"
-msgstr "Dopewars Server"
+msgstr "Church Wars Server"
 
 #: src/winmain.c:369
 msgid "dopewars AI"
-msgstr "dopewars AI"
+msgstr "Church Wars AI"
 
 #. Things that can "happen" to your spies - look for strings containing
 #. "The spy %s!" to see how these strings are used.
@@ -2600,7 +2600,7 @@ msgid ""
 "Valid variables are listed below:-\n"
 "\n"
 msgstr ""
-"Dopewars Server - Version %s Kommandos und Einstellungen\n"
+"Church Wars Server - Version %s Kommandos und Einstellungen\n"
 "\n"
 "help                       Zeigt den Hilfebildschirm an\n"
 "list                       Listet alle eingeloggten Spieler an.\n"
@@ -2725,7 +2725,7 @@ msgstr "Kann nicht am Netzwerksockeln horchen. Breche ab."
 msgid ""
 "Church Wars server version %s ready and waiting for connections on port %d."
 msgstr ""
-"dopewars server version %s klar und wartet auf verbindungen auf port %d."
+"Church Wars server version %s klar und wartet auf verbindungen auf port %d."
 
 #: src/serverside.c:784
 msgid "Cannot install SIGUSR1 interrupt handler!"
@@ -2894,8 +2894,8 @@ msgid ""
 msgstr ""
 "%s scheint keine gültige Bestenliste-Datei zu sein -\n"
 "bitte nachprüfen! Wenn es eine Datei von einer älteren Version\n"
-"von Dopewars ist, dann konvertiere sie zuerst in das neue Format\n"
-"mit Hilfe des Parameters \"dopewars -C %s\"\n"
+"von Church Wars ist, dann konvertiere sie zuerst in das neue Format\n"
+"mit Hilfe des Parameters \"Church Wars -C %s\"\n"
 "in der Kommandozeile."
 
 #: src/serverside.c:2002
@@ -2906,7 +2906,7 @@ msgid ""
 msgstr ""
 "Beim Lesen der Konfigurationsdatei traten Fehler auf. Als Folge\n"
 "werden einige Einstellungen vielleicht nicht wie erwartet funktionieren.\n"
-"Ziehe die Datei \"dopewars-log.txt\" für weitere Details zu Rate."
+"Ziehe die Datei \"Church Wars-log.txt\" für weitere Details zu Rate."
 
 #: src/serverside.c:2007
 msgid ""
@@ -3454,7 +3454,7 @@ msgid ""
 "Attempting to connect to local dopewars server via Unix domain\n"
 " socket %s...\n"
 msgstr ""
-"Versuche, lokalen dopewars Server via Unix Domänen Socket\n"
+"Versuche, lokalen Church Wars Server via Unix Domänen Socket\n"
 "%s zu kontaktieren...\n"
 
 #: src/admin.c:70
@@ -3479,7 +3479,7 @@ msgid ""
 "(%s)\n"
 "AI Player terminating abnormally."
 msgstr ""
-"Kann keine Verbindung zu dopewars server (%s) herstellen\n"
+"Kann keine Verbindung zu Church Wars server (%s) herstellen\n"
 " KI Spieler unnormal beendet."
 
 #: src/AIPlayer.c:89
@@ -3645,7 +3645,7 @@ msgstr ""
 #~ "options.\n"
 #~ msgstr ""
 #~ "\n"
-#~ "Für Informationen über Kommandozeilen-Parameter, gib 'dopewars -h' in "
+#~ "Für Informationen über Kommandozeilen-Parameter, gib 'Church Wars -h' in "
 #~ "deiner \n"
 #~ "UNIX-shell ein. Alle verfügbaren Kommandos werden dann angezeigt.\n"
 
@@ -3943,7 +3943,7 @@ msgstr ""
 #~ msgstr "Benjamin Karaca"
 
 #~ msgid "About dopewars"
-#~ msgstr "Über Dopewars"
+#~ msgstr "Über Church Wars"
 
 #~ msgid ""
 #~ "Based on John E. Dell's old Drug Wars game, dopewars is a simulation of "

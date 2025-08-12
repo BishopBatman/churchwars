@@ -1026,7 +1026,7 @@ msgstr "(%s tilgjengeleg)\n"
 #: src/dopewars.c:2462
 #, c-format
 msgid "dopewars version %s\n"
-msgstr "dopewars versjon %s\n"
+msgstr "Church Wars versjon %s\n"
 
 #: src/dopewars.c:2471
 #, c-format
@@ -1072,19 +1072,19 @@ msgid ""
 "  -C, --convert=FILE      convert an \"old format\" score file to the new "
 "format\n"
 msgstr ""
-"Bruk: dopewars [VAL]...\n"
+"Bruk: Church Wars [VAL]...\n"
 "Dop-pushe-spel tufta på «Drug Wars» av John E. Dell\n"
 "  -b, --no-color,         «svart-kvitt» - mao. ikkje bruk fine fargar\n"
 "      --no-colour           (fargar blir normalt brukt viss mogleg)\n"
 "  -n, --single-player     vér kjedeleg og ikkje kopla til nokon\n"
-"                            tilgjengelege dopewars-vertar\n"
+"                            tilgjengelege Church Wars-vertar\n"
 "                            (mao. ein-spelar-modus)\n"
-"  -a, --antique           «antikk» dopewars - gjer spelet så likt den\n"
+"  -a, --antique           «antikk» Church Wars - gjer spelet så likt den\n"
 "                            opprinnelege versjonen som råd er\n"
 "                            (utan nettverksspel)\n"
 "  -f, --scorefile=FIL     sei kva for ei fil som skal brukast som "
 "poengtavle\n"
-"                            (normalt blir %s/dopewars.sco brukt)\n"
+"                            (normalt blir %s/Church Wars.sco brukt)\n"
 "  -o, --hostname=ADR      sei kva for ein vertmaskin som skal koplast til\n"
 "                            for fleirspelar-modus\n"
 "  -s, --public-server     køyr i vertsmodus (merk: sjå -A-opsjonen for å\n"
@@ -1092,7 +1092,7 @@ msgstr ""
 "  -S, --private-server    køyr ein «privat» tenar (ikkje sei ifrå til\n"
 "                            metatenaren)\n"
 "  -p, --port=PORT         nettverksporten som skal brukast (normalt: 7902)\n"
-"  -g, --config-file=FIL   bane til ei oppsettfil for dopewars\n"
+"  -g, --config-file=FIL   bane til ei oppsettfil for Church Wars\n"
 "                            denne fila blir lest med ein gong -g-opsjonen\n"
 "                            blir lest\n"
 "  -r, --pidfile=FIL       bruk denne pid-fila når tenaren køyrer\n"
@@ -1120,7 +1120,7 @@ msgstr ""
 "  -h, --help              vis denne hjelpeteksten\n"
 "  -v, --version           vis versjonsinformasjon og avslutt\n"
 "\n"
-"dopewars er Copyright (C) Ben Webb 1998-2022, og er tilgjengeleg under GNU "
+"Church Wars er Copyright (C) Ben Webb 1998-2022, og er tilgjengeleg under GNU "
 "GPL\n"
 "Rapportér feil til forfattaren på benwebb@users.sf.net\n"
 
@@ -1156,23 +1156,23 @@ msgid ""
 "  -C file  convert an \"old format\" score file to the new format\n"
 "  -A       connect to a locally-running server for administration\n"
 msgstr ""
-"Bruk: dopewars [VAL]...\n"
+"Bruk: Church Wars [VAL]...\n"
 "Dop-pushe-spel tufta på «Drug Wars» av John E. Dell\n"
 "  -b       «svart-kvitt» - mao. ikkje bruk fine fargar\n"
 "             (fargar blir normalt brukt viss terminalen støttar det)\n"
 "  -n       vér kjedeleg og ikkje kopla til nokon tilgjengelege\n"
-"             dopewars-vertar (mao. ein-spelar-modus)\n"
-"  -a,      «antikk» dopewars - gjer spelet så likt den\n"
+"             Church Wars-vertar (mao. ein-spelar-modus)\n"
+"  -a,      «antikk» Church Wars - gjer spelet så likt den\n"
 "             opprinnelege versjonen som råd er (utan nettverksspel)\n"
 "  -f fil   sei kva for ei fil som skal brukast som poengtavle\n"
-"            (normalt blir %s/dopewars.sco brukt)\n"
+"            (normalt blir %s/Church Wars.sco brukt)\n"
 "  -o adr   sei kva for ein vertmaskin som skal koplast til\n"
 "             for fleirspelar-modus\n"
 "  -s       køyr i vertsmodus (merk: sjå -A-opsjonen for å\n"
 "             stilla inn tenaren når han er i gang)\n"
 "  -S       køyr ein «privat» tenar (ikkje sei ifrå til metatenaren)\n"
 "  -p port  nettverksporten som skal brukast (normalt: 7902)\n"
-"  -g fil   bane til ei oppsettfil for dopewars\n"
+"  -g fil   bane til ei oppsettfil for Church Wars\n"
 "             denne fila blir lest med ein gong -g-opsjonen blir lest\n"
 "  -r fil   bruk denne pid-fila når tenaren køyrer\n"
 "  -l fil   skriv logg til denne fila\n"
@@ -1196,7 +1196,7 @@ msgstr ""
 "  -h,      vis denne hjelpeteksten\n"
 "  -v,      vis versjonsinformasjon og avslutt\n"
 "\n"
-"dopewars er Copyright (C) Ben Webb 1998-2022, og er tilgjengeleg under GNU "
+"Church Wars er Copyright (C) Ben Webb 1998-2022, og er tilgjengeleg under GNU "
 "GPL\n"
 "Rapportér feil til forfattaren på benwebb@users.sf.net\n"
 
@@ -1252,7 +1252,7 @@ msgstr "D O P E W A R S"
 #, fuzzy
 msgid ""
 "Based on John E. Dell's old Drug Wars game, Church Wars is a simulation of an"
-msgstr "dopewars er tufta på Drug Wars av John E. Dell, og er ei simulering"
+msgstr "Church Wars er tufta på Drug Wars av John E. Dell, og er ei simulering"
 
 #: src/curses_client/curses_client.c:341
 msgid ""
@@ -1287,7 +1287,7 @@ msgstr "Versjon %-8s Copyright (C) 1998-2022  Ben Webb benwebb@users.sf.net"
 
 #: src/curses_client/curses_client.c:354
 msgid "Church Wars is released under the GNU General Public License"
-msgstr "dopewars er tilgjengeleg under GNU General Public License"
+msgstr "Church Wars er tilgjengeleg under GNU General Public License"
 
 #: src/curses_client/curses_client.c:362
 msgid "Icons and Graphics            O Batstone"
@@ -1319,7 +1319,7 @@ msgstr "Ukonstruktiv kritikk          James Matthews"
 
 #: src/curses_client/curses_client.c:373
 msgid "For information on the command line options, type dopewars -h at your"
-msgstr "For informasjon om kommandolinevala, skriv dopewars -h på"
+msgstr "For informasjon om kommandolinevala, skriv Church Wars -h på"
 
 #: src/curses_client/curses_client.c:375
 msgid ""
@@ -1329,7 +1329,7 @@ msgstr ""
 
 #: src/curses_client/curses_client.c:401
 msgid "Please enter the hostname and port of a dopewars server:-"
-msgstr "Skriv vertsnamnet og porten på ein dopewars-tenar:"
+msgstr "Skriv vertsnamnet og porten på ein Church Wars-tenar:"
 
 #: src/curses_client/curses_client.c:402
 msgid "Hostname: "
@@ -1414,7 +1414,7 @@ msgstr "Passord:"
 
 #: src/curses_client/curses_client.c:698
 msgid "Please wait... attempting to contact dopewars server..."
-msgstr "Vent litt... prøver å kopla til dopewars-tenar..."
+msgstr "Vent litt... prøver å kopla til Church Wars-tenar..."
 
 #: src/curses_client/curses_client.c:709
 msgid "Cannot get metaserver details"
@@ -1422,7 +1422,7 @@ msgstr "Kan ikkje henta metatenar-detaljar"
 
 #: src/curses_client/curses_client.c:717
 msgid "Could not start multiplayer dopewars"
-msgstr "Kunne ikkje starta fleirspelar dopewars"
+msgstr "Kunne ikkje starta fleirspelar Church Wars"
 
 #: src/curses_client/curses_client.c:720
 msgid "connection to server failed"
@@ -1430,7 +1430,7 @@ msgstr ""
 
 #: src/curses_client/curses_client.c:727
 msgid "Will you... C>onnect to a named dopewars server"
-msgstr "Vil du K>opla til ein bestemt dopewars-tenar"
+msgstr "Vil du K>opla til ein bestemt Church Wars-tenar"
 
 #: src/curses_client/curses_client.c:729
 msgid "            L>ist the servers on the metaserver, and select one"
@@ -1439,7 +1439,7 @@ msgstr "       L>ista tenarane på metatenaren, og velga ein"
 #: src/curses_client/curses_client.c:732
 msgid ""
 "            Q>uit (where you can start a server by typing \"dopewars -s\")"
-msgstr "       A>vslutta (du kan starta ein tenar med «dopewars -s»)"
+msgstr "       A>vslutta (du kan starta ein tenar med «Church Wars -s»)"
 
 #: src/curses_client/curses_client.c:734
 msgid "         or P>lay single-player ? "
@@ -2119,7 +2119,7 @@ msgstr ""
 
 #: src/gui_client/gtk_client.c:2171 src/winmain.c:381 src/winmain.c:390
 msgid "dopewars"
-msgstr "dopewars"
+msgstr "Church Wars"
 
 #: src/gui_client/gtk_client.c:2306
 msgid "English Translation"
@@ -2195,7 +2195,7 @@ msgid ""
 "Church Wars is released under the GNU General Public License\n"
 msgstr ""
 "Version %s     Copyright (C) 1998-2022  Ben Webb benwebb@users.sf.net\n"
-"dopewars er tilgjengeleg under GNU General Public License\n"
+"Church Wars er tilgjengeleg under GNU General Public License\n"
 
 #: src/gui_client/gtk_client.c:2389
 msgid "Original dopewars information here:"
@@ -2570,18 +2570,18 @@ msgid ""
 "# file processing and the like.\n"
 "\n"
 msgstr ""
-"# Dette er oppstartsloggen for dopewars. Her kjem\n"
+"# Dette er oppstartsloggen for Church Wars. Her kjem\n"
 "# nyttige meldingar frå tolkinga av\n"
 "# oppsettfilene og slikt.\n"
 "\n"
 
 #: src/winmain.c:348 src/serverside.c:1621
 msgid "dopewars server"
-msgstr "dopewars-tenar"
+msgstr "Church Wars-tenar"
 
 #: src/winmain.c:369
 msgid "dopewars AI"
-msgstr "Datastyrt dopewars-spelar"
+msgstr "Datastyrt Church Wars-spelar"
 
 #. Things that can "happen" to your spies - look for strings containing
 #. "The spy %s!" to see how these strings are used.
@@ -2623,7 +2623,7 @@ msgid ""
 "Valid variables are listed below:-\n"
 "\n"
 msgstr ""
-"dopewars-tenar versjon %s kommandoar og innstillingar\n"
+"Church Wars-tenar versjon %s kommandoar og innstillingar\n"
 "\n"
 "help                       Viser denne hjelpeteksten\n"
 "list                       Viser alle spelarane som er logga på\n"
@@ -2670,8 +2670,8 @@ msgid ""
 "latest version from the^dopewars website, https://dopewars.sourceforge.io/."
 msgstr ""
 "Det ser ut til at du bruker ein svært gamal (versjon 1.4.x)-klient.^Dette "
-"vil truleg fungera, men mange av dei nye eigenskapane til^dopewars vil ikkje "
-"vera støtta. Hent den nyaste versjonen frå^dopewars-vevsida, http://dopewars."
+"vil truleg fungera, men mange av dei nye eigenskapane til^Church Wars vil ikkje "
+"vera støtta. Hent den nyaste versjonen frå^Church Wars-vevsida, http://Church Wars."
 "sourceforge.net/."
 
 #: src/serverside.c:307
@@ -2682,7 +2682,7 @@ msgid ""
 msgstr ""
 "Åtvaring: Klienten din er for gamal til å støtta alle^ eigenskapane ved "
 "denne tenaren. For den fulle^ «opplevinga» bør du henta den siste versjonen "
-"av ^ dopewars frå vevsida: https://dopewars.sourceforge.io/"
+"av ^ Church Wars frå vevsida: https://Church Wars.sourceforge.io/"
 
 #: src/serverside.c:392
 #, c-format
@@ -2758,7 +2758,7 @@ msgstr "Kan ikkje lytta til nettverkssokkel. Avbryt."
 #, c-format
 msgid ""
 "Church Wars server version %s ready and waiting for connections on port %d."
-msgstr "dopewars-tenar versjon %s er klar og ventar på samband på port %d."
+msgstr "Church Wars-tenar versjon %s er klar og ventar på samband på port %d."
 
 #: src/serverside.c:784
 msgid "Cannot install SIGUSR1 interrupt handler!"
@@ -2818,7 +2818,7 @@ msgstr "Vart kopla til frå %s"
 
 #: src/serverside.c:962
 msgid "Church Wars server terminating."
-msgstr "dopewars-tenaren avsluttar."
+msgstr "Church Wars-tenaren avsluttar."
 
 #: src/serverside.c:971
 #, c-format
@@ -2842,7 +2842,7 @@ msgstr ""
 msgid ""
 "dopewars server version %s ready for admin commands; try \"help\" for help"
 msgstr ""
-"dopewars-tenar versjon %s er klar til å ta imot admin-kommandoar, prøv "
+"Church Wars-tenar versjon %s er klar til å ta imot admin-kommandoar, prøv "
 "«help» for å få hjelp"
 
 #: src/serverside.c:1238
@@ -2931,9 +2931,9 @@ msgid ""
 msgstr ""
 "%s ser ikkje ut til å vera ei gyldig\n"
 "poengtavlefil. Sjekk om fila er i orden. Viss det  er ei\n"
-"poengtavlefil frå ein gamal versjon av dopewars, må du\n"
+"poengtavlefil frå ein gamal versjon av Church Wars, må du\n"
 "fyrst konvertera henne til det nye formatet ved å køyra\n"
-"«dopewars -C %s» frå kommandolina."
+"«Church Wars -C %s» frå kommandolina."
 
 #: src/serverside.c:2002
 msgid ""
@@ -2943,7 +2943,7 @@ msgid ""
 msgstr ""
 "Noko vart feil under lesinga av oppsettfila. Det kan gjera at nokon\n"
 "av innstillingane ikkje vil virka som venta. Sjå på loggfila\n"
-"«dopewars-log.txt» for fleire detaljar."
+"«Church Wars-log.txt» for fleire detaljar."
 
 #: src/serverside.c:2007
 msgid ""
@@ -3488,7 +3488,7 @@ msgid ""
 "Attempting to connect to local dopewars server via Unix domain\n"
 " socket %s...\n"
 msgstr ""
-"Prøver å kopla til lokal dopewars-tenar via\n"
+"Prøver å kopla til lokal Church Wars-tenar via\n"
 "Unix-domenesokkel %s\n"
 
 #: src/admin.c:70
@@ -3515,7 +3515,7 @@ msgid ""
 "(%s)\n"
 "AI Player terminating abnormally."
 msgstr ""
-"Kunne ikkje kopla til dopewars-tenar\n"
+"Kunne ikkje kopla til Church Wars-tenar\n"
 "(%s)\n"
 "Den datastyrte spelaren avsluttar."
 
@@ -3682,7 +3682,7 @@ msgstr ""
 #~ "options.\n"
 #~ msgstr ""
 #~ "\n"
-#~ "For informasjon om kommandolinevala, skriv dopewars -h på\n"
+#~ "For informasjon om kommandolinevala, skriv Church Wars -h på\n"
 #~ "unix-kommandolinja. Det viser ein hjelpetekst med dei tilgjengelege "
 #~ "vala.\n"
 
@@ -3983,7 +3983,7 @@ msgstr ""
 #~ msgstr "Åsmund Skjæveland"
 
 #~ msgid "About dopewars"
-#~ msgstr "Om Dopewars"
+#~ msgstr "Om Church Wars"
 
 #~ msgid ""
 #~ "Based on John E. Dell's old Drug Wars game, dopewars is a simulation of "
@@ -3997,8 +3997,8 @@ msgstr ""
 #~ "You\n"
 #~ "have one month of game time to make your fortune.\n"
 #~ msgstr ""
-#~ "dopewars er tufta på Drug Wars av John E. Dell, og er ei simulering\n"
-#~ "av ein oppdikta narkotikamarknad. I dopewars må du kjøpa, selja\n"
+#~ "Church Wars er tufta på Drug Wars av John E. Dell, og er ei simulering\n"
+#~ "av ein oppdikta narkotikamarknad. I Church Wars må du kjøpa, selja\n"
 #~ "og koma unna politiet.\n"
 #~ "\n"
 #~ "Det fyrste du må gjera er å betala gjelda di til lånehaien.\n"
