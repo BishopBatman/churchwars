@@ -3049,7 +3049,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
   } else if (!Sanitized && NumGun > 0
              && (TotalGunsCarried(To) < To->Bitches.Carried + 2)) {
     ObjNum = brandom(0, NumGun);
-    To->Guns[ObjNum].Price = Gun[ObjNum].Price / 3;
+    To->Guns[ObjNum].Price = Gun[ObjNum].Price / 2;
     if (Gun[ObjNum].Space > To->CoatSize)
       return 0;
     text = dpg_strdup_printf(_("YN^Would you like to buy a %tde for %P?"),
