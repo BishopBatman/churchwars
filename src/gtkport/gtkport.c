@@ -5475,7 +5475,7 @@ void DisplayHTML(GtkWidget *parent, const gchar *bin, const gchar *target)
       pid = fork();
       if (pid == 0) {
         execv(bin, args);
-        g_print("dopewars: cannot execute %s\n", bin);
+        g_print("Church Wars: cannot execute %s\n", bin);
         _exit(EXIT_FAILURE);
       } else {
         _exit(EXIT_SUCCESS);

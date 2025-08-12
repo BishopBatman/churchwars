@@ -218,7 +218,7 @@ struct METASERVER MetaServer = {
 
 struct METASERVER DefaultMetaServer = {
   TRUE, "https://dopewars.sourceforge.io/metaserver.php", "",
-  "", "dopewars server"
+  "", "Church Wars server"
 };
 
 SocksServer Socks = { NULL, 0, 0, FALSE, NULL, NULL, NULL };
@@ -2466,7 +2466,7 @@ static void PluginHelp(void)
 
 void HandleHelpTexts(gboolean fullhelp)
 {
-  g_print(_("dopewars version %s\n"), VERSION);
+  g_print(_("Church Wars version %s\n"), VERSION);
   if (!fullhelp) {
     return;
   }
@@ -2475,23 +2475,23 @@ void HandleHelpTexts(gboolean fullhelp)
 #ifdef HAVE_GETOPT_LONG
            /* Usage information, printed when the user runs "dopewars -h"
               (version with support for GNU long options) */
-           _("Usage: dopewars [OPTION]...\n\
+           _("Usage: Church Wars [OPTION]...\n\
 Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -b, --no-color,         \"black and white\" - i.e. do not use pretty colors\n\
       --no-colour           (by default colors are used where available)\n\
-  -n, --single-player     be boring and don't connect to any available dopewars\n\
+  -n, --single-player     be boring and don't connect to any available Church Wars\n\
                             servers (i.e. single player mode)\n\
-  -a, --antique           \"antique\" dopewars - keep as closely to the original\n\
+  -a, --antique           \"antique\" Church Wars - keep as closely to the original\n\
                             version as possible (no networking)\n\
   -f, --scorefile=FILE    specify a file to use as the high score table (by\n\
                             default %s/dopewars.sco is used)\n\
   -o, --hostname=ADDR     specify a hostname where the server for multiplayer\n\
-                            dopewars can be found\n\
+                            Church Wars can be found\n\
   -s, --public-server     run in server mode (note: see the -A option for\n\
                             configuring a server once it\'s running)\n\
   -S, --private-server    run a \"private\" server (do not notify the metaserver)\n\
   -p, --port=PORT         specify the network port to use (default: 7902)\n\
-  -g, --config-file=FILE  specify the pathname of a dopewars configuration file;\n\
+  -g, --config-file=FILE  specify the pathname of a Church Wars configuration file;\n\
                             this file is read immediately when the -g option\n\
                             is encountered\n\
   -r, --pidfile=FILE      maintain pid file \"FILE\" while running the server\n\
@@ -2512,23 +2512,23 @@ Report bugs to the author at benwebb@users.sf.net\n"));
 #else
            /* Usage information, printed when the user runs "dopewars -h"
               (short options only version) */
-           _("Usage: dopewars [OPTION]...\n\
+           _("Usage: Church Wars [OPTION]...\n\
 Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -b       \"black and white\" - i.e. do not use pretty colors\n\
               (by default colors are used where the terminal supports them)\n\
-  -n       be boring and don't connect to any available dopewars servers\n\
+  -n       be boring and don't connect to any available Church Wars servers\n\
               (i.e. single player mode)\n\
-  -a       \"antique\" dopewars - keep as closely to the original version as\n\
+  -a       \"antique\" Church Wars - keep as closely to the original version as\n\
               possible (no networking)\n\
   -f file  specify a file to use as the high score table\n\
               (by default %s/dopewars.sco is used)\n\
-  -o addr  specify a hostname where the server for multiplayer dopewars\n\
+  -o addr  specify a hostname where the server for multiplayer Church Wars\n\
               can be found\n\
   -s       run in server mode (note: see the -A option for configuring a\n\
               server once it\'s running)\n\
   -S       run a \"private\" server (i.e. do not notify the metaserver)\n\
   -p port  specify the network port to use (default: 7902)\n\
-  -g file  specify the pathname of a dopewars configuration file; this file\n\
+  -g file  specify the pathname of a Church Wars configuration file; this file\n\
               is read immediately when the -g option is encountered\n\
   -r file  maintain pid file \"file\" while running the server\n\
   -l file  write log information to \"file\"\n\

@@ -298,7 +298,7 @@ void RemoteVersionCheck(Player *Play)
         _("You appear to be using an extremely old (version 1.4.x) client.^"
           "While this will probably work, many of the newer features^"
           "will be unsupported. Get the latest version from the^"
-          "dopewars website, https://dopewars.sourceforge.io/."));
+          "Church Wars website, https://dopewars.sourceforge.io/."));
 
   /* The client has a smaller value of A_NUM; this means that not only does
    * it not support some features, it doesn't even know they might exist. */
@@ -306,7 +306,7 @@ void RemoteVersionCheck(Player *Play)
     SendPrintMessage(NULL, C_VERSIONCHECK, Play,
         _("Warning: your client is too old to support all of this^"
           "server's features. For the full \"experience\", get^"
-          "the latest version of dopewars from the^"
+          "the latest version of Church Wars from the^"
           "website, https://dopewars.sourceforge.io/."));
   }
 
@@ -1218,7 +1218,7 @@ void ServerLoop(struct CMDLINE *cmdline)
       BindNetworkBufferToSocket(netbuf, newlocal);
       localconn = g_slist_append(localconn, netbuf);
       oldprint = StartServerReply(netbuf);
-      g_print(_("dopewars server version %s ready for admin commands; "
+      g_print(_("Church Wars server version %s ready for admin commands; "
                 "try \"help\" for help"), VERSION);
       FinishServerReply(oldprint);
       dopelog(1, LF_SERVER, _("New admin connection"));
@@ -1500,7 +1500,7 @@ static VOID WINAPI ServiceHandler(DWORD control)
 
 static VOID WINAPI ServiceInit(DWORD argc, LPTSTR * argv)
 {
-  scHandle = RegisterServiceCtrlHandler("dopewars-server", ServiceHandler);
+  scHandle = RegisterServiceCtrlHandler("churchwars-server", ServiceHandler);
   if (!scHandle) {
     dopelog(0, LF_SERVER, _("Failed to register service handler"));
     return;
@@ -1521,7 +1521,7 @@ static VOID WINAPI ServiceInit(DWORD argc, LPTSTR * argv)
 void ServiceMain(struct CMDLINE *cmdline)
 {
   SERVICE_TABLE_ENTRY services[] = {
-    {"dopewars-server", ServiceInit},
+    {"churchwars-server", ServiceInit},
     {NULL, NULL}
   };
 
@@ -1573,7 +1573,7 @@ static void SetupTaskBarIcon(GtkWidget *widget)
     nid.uCallbackMessage = MYWM_TASKBAR;
     nid.hIcon = mainIcon;
     /* NOTIFYICONDATA::szTip is limited (typically 128 chars including NUL). */
-    snprintf(nid.szTip, sizeof(nid.szTip), "dopewars server - running");
+    snprintf(nid.szTip, sizeof(nid.szTip), "Church Wars server - running");
     systray = Shell_NotifyIcon(NIM_ADD, &nid);
   } else {
     systray = FALSE;
@@ -1605,7 +1605,7 @@ void GuiServerLoop(struct CMDLINE *cmdline, gboolean is_service)
   gtk_window_set_default_size(GTK_WINDOW(window), 500, 250);
 
   /* Title of dopewars server window (if used) */
-  gtk_window_set_title(GTK_WINDOW(window), _("dopewars server"));
+  gtk_window_set_title(GTK_WINDOW(window), _("Church Wars server"));
 
   gtk_container_set_border_width(GTK_CONTAINER(window), 7);
 
@@ -1978,8 +1978,8 @@ gboolean CheckHighScoreFileConfig(void)
     g_log(NULL, G_LOG_LEVEL_CRITICAL,
           _("%s does not appear to be a valid\n"
             "high score file - please check it. If it is a high score file\n"
-            "from an older version of dopewars, then first convert it to the\n"
-            "new format by running \"dopewars -C %s\"\n"
+            "from an older version of Church Wars, then first convert it to the\n"
+            "new format by running \"Church Wars -C %s\"\n"
             "from the command line."), HiScoreFile, HiScoreFile);
     return FALSE;
   }

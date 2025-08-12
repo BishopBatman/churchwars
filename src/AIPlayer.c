@@ -73,7 +73,7 @@ static void AIConnectFailed(NetworkBuffer *netbuf)
   if (netbuf->error)
     g_string_assign_error(errstr, netbuf->error);
   g_log(NULL, G_LOG_LEVEL_CRITICAL,
-        _("Could not connect to dopewars server\n(%s)\n"
+        _("Could not connect to Church Wars server\n(%s)\n"
           "AI Player terminating abnormally."), errstr->str);
   g_string_free(errstr, TRUE);
 }
