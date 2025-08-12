@@ -1608,6 +1608,7 @@ void GuiServerLoop(struct CMDLINE *cmdline, gboolean is_service)
     InitConfiguration(cmdline);
   }
 
+  g_set_application_name(_("Church Wars server"));
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   g_signal_connect(G_OBJECT(window), "delete_event",
                    G_CALLBACK(GuiRequestDelete), NULL);

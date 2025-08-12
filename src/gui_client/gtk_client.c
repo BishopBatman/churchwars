@@ -2134,6 +2134,8 @@ gboolean GtkLoop(int *argc, char **argv[],
     gtk_init(argc, argv);
 #endif
 
+  g_set_application_name(_("Church Wars"));
+
   /* GTK+2 (and the GTK emulation code on WinNT systems) expects all
    * strings to be UTF-8, so we force gettext to return all translations
    * in this encoding here. */
