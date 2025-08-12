@@ -6,17 +6,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
-<title>Obtaining and installing dopewars</title>
+<title>Obtaining and installing Church Wars</title>
 <meta charset="utf-8"/>
 </head>
 
 <body>
-<h1>Obtaining and installing dopewars</h1>
+<h1>Obtaining and installing Church Wars</h1>
 
-<p>The dopewars source code and precompiled binaries (in RPM format) are
-available from the main dopewars web page,
-at <a href="https://dopewars.sourceforge.io/">
-https://dopewars.sourceforge.io/</a>. Just follow the link from
+<p>The Church Wars source code and precompiled binaries (in RPM format) are
+available from the main Church Wars web page,
+at <a href="https://churchwars.sourceforge.io/">
+https://churchwars.sourceforge.io/</a>. Just follow the link from
 there to the download section. "rpm" is the RedHat Package Manager, a program
 for simplifying installation and upgrade of programs, and is part of the
 RedHat Linux distribution. If you are using a different distribution, it
@@ -24,7 +24,7 @@ may be still be included, however. If you do not want to use "rpm", or the
 installation fails, then you can obtain the source code tarball and recompile
 the code from scratch.</p>
 
-<p><b>Prerequisites:</b> dopewars relies on the GLib library for all builds;
+<p><b>Prerequisites:</b> Church Wars relies on the GLib library for all builds;
 this library is used for parsing the configuration files, network and string
 handling, and many other purposes. On a Windows system, this is the only
 prequisite; the standard Windows libraries are used for everything else. On a
@@ -42,7 +42,7 @@ equivalent, such as ncurses or cur_colr) for the text-mode client, and the
 <h2><a id="win32">Windows installation</a></h2>
 <p>The easiest way to install the Windows version is to download the Windows
 installer program from the
-<a href="https://dopewars.sourceforge.io/download.html">download page</a>, and
+<a href="https://churchwars.sourceforge.io/download.html">download page</a>, and
 run it (either instruct your web browser to "run from the current location",
 or save it to somewhere obvious like the Desktop and then double-click on its
 icon later). This should install all relevant files, and set up Start Menu
@@ -57,16 +57,16 @@ crash with mysterious segmentation faults due to library conflicts.</p>
 
 <ol>
 <li>Download the 
-<a href="http://prdownloads.sourceforge.net/dopewars/dopewars-1.6.2-1.el7.x86_64.rpm">
+<a href="http://prdownloads.sourceforge.net/churchwars/churchwars-1.6.2-1.el7.x86_64.rpm">
 x86_64 (64-bit Intel for RedHat Enterprise 7)</a> RPM with your web browser.</li>
 
 <li>Become root on your Unix box (if you cannot become root, then you will
 probably not be able to use RPM installation, depending on how "rpm" is set
 up).</li>
 
-<li>Change to the directory containing the dopewars rpm, and install it with
+<li>Change to the directory containing the Church Wars rpm, and install it with
 the command<br />
-<tt><b>rpm -Uvh dopewars-1.6.2-1.el7.x86_64.rpm</b></tt><br /> This will replace any
+<tt><b>rpm -Uvh churchwars-1.6.2-1.el7.x86_64.rpm</b></tt><br /> This will replace any
 already-installed earlier version.</li>
 </ol>
 
@@ -78,13 +78,13 @@ building the binaries from it on your system.</p>
 
 <ol>
 <li>Download the
-<a href="http://prdownloads.sourceforge.net/dopewars/dopewars-1.6.2-1.el7.src.rpm">
+<a href="http://prdownloads.sourceforge.net/churchwars/churchwars-1.6.2-1.el7.src.rpm">
 source code RPM</a>.</li>
 
 <li>Become root and change to the directory containing the new rpm.</li>
 
 <li>Build a binary rpm with the command<br />
-<tt><b>rpmbuild --rebuild dopewars-1.6.2-1.el7.src.rpm</b></tt></li>
+<tt><b>rpmbuild --rebuild churchwars-1.6.2-1.el7.src.rpm</b></tt></li>
 
 <li>Change to the directory which the binary rpm has been written to (check
 the output of the above - usually /usr/src/redhat/RPMS/<i>xxx</i>, where
@@ -92,7 +92,7 @@ the output of the above - usually /usr/src/redhat/RPMS/<i>xxx</i>, where
 "alpha" on Alphas, "x86_64" on AMD64 or EM64T machines)</li>
 
 <li>Install the binary rpm with the command<br />
-<tt><b>rpm -Uvh dopewars-1.6.2-1.el7.<i>xxx</i>.rpm</b></tt></li>
+<tt><b>rpm -Uvh churchwars-1.6.2-1.el7.<i>xxx</i>.rpm</b></tt></li>
 </ol>
 
 <h2><a id="tarball">Tarball installation</a></h2>
@@ -104,21 +104,21 @@ your Unix box, or if you wish to build the Windows version from source code.</p>
 <p>Before beginning, you should ensure that you have all the necessary
 prequisites (see above). To compile on a Windows system, you will need
 the MinGW compiler and libraries; see the
-<a href="https://github.com/benmwebb/dopewars/tree/develop/win32">Windows-specific
+<a href="https://github.com/benmwebb/churchwars/tree/develop/win32">Windows-specific
 build page</a> for more information.
 </p>
 
 <ol>
 <li>Download the
-<a href="http://prdownloads.sourceforge.net/dopewars/dopewars-1.6.2.tar.gz">
+<a href="http://prdownloads.sourceforge.net/churchwars/churchwars-1.6.2.tar.gz">
 source code tarball</a>.</li>
 
 <li>Change to the directory containing the tarball and extract the contents
 with the command <br />
-<tt><b>tar -xvzf dopewars-1.6.2.tar.gz</b></tt><br />
+<tt><b>tar -xvzf churchwars-1.6.2.tar.gz</b></tt><br />
 (or similar).</li>
 
-<li>Change into the dopewars-1.6.2 directory, and read all the important
+<li>Change into the churchwars-1.6.2 directory, and read all the important
 documentation in there ;) Most notably, the INSTALL file gives more details
 on setup and installation.</li>
 
@@ -126,17 +126,17 @@ on setup and installation.</li>
 <tt><b>./configure</b><br />
 <b>make</b></tt></li>
 
-<li>Become root and install the dopewars files with<br />
+<li>Become root and install the Church Wars files with<br />
 <tt><b>make install</b></tt><br />
-<p>The configure script will test your system and set up dopewars so that it
+<p>The configure script will test your system and set up Church Wars so that it
 should compile cleanly.  The configure script supports a number of
 configurable options; for more details, read the INSTALL file in the
-dopewars-1.6.2 directory.</p>
+churchwars-1.6.2 directory.</p>
 
 <p>If you cannot become root, run the configure script specifying directories
-for which you have write access for the dopewars files, with a command
+for which you have write access for the Church Wars files, with a command
 such as<br />
-<tt><b>./configure --prefix=/home/user/dopewars</b></tt></p></li>
+<tt><b>./configure --prefix=/home/user/churchwars</b></tt></p></li>
 </ol>
 
 <hr />

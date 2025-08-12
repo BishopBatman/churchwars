@@ -6,16 +6,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
-<title>dopewars configuration files</title>
+<title>Church Wars configuration files</title>
 <meta charset="utf-8"/>
 </head>
 
 <body>
-<h1>dopewars configuration files</h1>
+<h1>Church Wars configuration files</h1>
 
-<p>A dopewars <a href="server.html">server</a>, or a <a href="clientplay.html">
+<p>A Church Wars <a href="server.html">server</a>, or a <a href="clientplay.html">
 client</a> (in single-player mode) can be heavily configured by the means
-of dopewars configuration files. Clients used to connect to multiplayer
+of Church Wars configuration files. Clients used to connect to multiplayer
 servers can also be configured by the same means, but almost all of these
 settings will be overridden on connecting to the server (although the server
 location settings <i>Port</i> and <i>Server</i> are still useful).</p>
@@ -27,13 +27,13 @@ location settings <i>Port</i> and <i>Server</i> are still useful).</p>
 <li><a href="example-igneous">Igneous's mod (complete)</a></li>
 </ul>
 
-<p>The order of making dopewars settings is as follows:-</p>
+<p>The order of making Church Wars settings is as follows:-</p>
 <ol>
-<li>The global configuration file (if present) <b>/etc/dopewars</b></li>
-<li>The user-specific file (if present) <b>~/.dopewars</b></li>
-<li><i>(Windows only)</i> The file <b>dopewars-config.txt</b> in the current
+<li>The global configuration file (if present) <b>/etc/churchwars</b></li>
+<li>The user-specific file (if present) <b>~/.churchwars</b></li>
+<li><i>(Windows only)</i> The file <b>churchwars-config.txt</b> in the current
 user's application data directory (e.g.
-<tt>C:\Users\foo\AppData\Local\dopewars\</tt>)</li>
+<tt>C:\Users\foo\AppData\Local\Church Wars\</tt>)</li>
 <li>Options specified on the <a href="commandline.html">command line</a></li>
 </ol>
 
@@ -84,13 +84,13 @@ locations</a></li>
 
 <dl>
 <dt><a id="Port"><b>Port=<i>7902</i></b></a></dt>
-<dd>Tells the dopewars client to look for a server on port <i>7902</i>, and
-tells the dopewars server to bind to port <i>7902</i> and wait for connections.
+<dd>Tells the Church Wars client to look for a server on port <i>7902</i>, and
+tells the Church Wars server to bind to port <i>7902</i> and wait for connections.
 This can be overridden with the -p <a href="commandline.html#port">
 command line option</a>.</dd>
 
 <dt><a id="Server"><b>Server=<i>"localhost"</i></b></a></dt>
-<dd>Tells the dopewars client to look for a server at the address
+<dd>Tells the Church Wars client to look for a server at the address
 <i>localhost</i>. Dotted quad (e.g. 127.0.0.1) addresses may also be used here.
 If this variable is set to one of the three "special" names
 <b>(MetaServer)</b>, <b>(Prompt)</b>, or <b>(Single)</b> (including the 
@@ -104,34 +104,34 @@ the name of the server that the client connects to - if you're running your
 own server it does not change the address that it binds to. For that, see
 the <b>BindAddress</b> variable.</dd>
 
-<dt><b>ServerMOTD=<i>"Welcome to my dopewars server"</i></b></dt>
+<dt><b>ServerMOTD=<i>"Welcome to my Church Wars server"</i></b></dt>
 <dd>When running a server, any client that connects displays the welcome
-"message of the day" <i>"Welcome to my dopewars server"</i>. This can
+"message of the day" <i>"Welcome to my Church Wars server"</i>. This can
 be used, for example, to inform users of any special features that the
 server has.</dd>
 
 <dt><b>BindAddress=<i>"localhost"</i></b></dt>
-<dd>Forces your dopewars server (if you run one) to accept network connections
+<dd>Forces your Church Wars server (if you run one) to accept network connections
 only on the <i>localhost</i> network interface. (This can be a host name,
 or an IP address.) If this is left blank (the default) then the server will
 accept connections coming in on any valid network interface.
 </dd>
 
 <dt><b>Socks.Active=<i>FALSE</i></b></dt>
-<dd>Instructs the dopewars client to connect directly to the given server,
+<dd>Instructs the Church Wars client to connect directly to the given server,
 without using an intermediate SOCKS server. If this is set to TRUE, all
 connections go via the SOCKS server. By default, SOCKS is not used for
 metaserver communications - see the MetaServer.UseSocks variable. N.B. You
-cannot run a dopewars server behind a SOCKS server, due to limitations in
+cannot run a Church Wars server behind a SOCKS server, due to limitations in
 the SOCKS protocol.</dd>
 
 <dt><b>Socks.NumUID=<i>FALSE</i></b></dt>
 <dd>When connecting to a SOCKS version 4 server, the protocol demands that
 the name of the current user be sent for simple authentication; the SOCKS
 server then queries identd on your machine to check if you are who you say
-you are. dopewars complies with this requirement if this variable is set to
+you are. Church Wars complies with this requirement if this variable is set to
 FALSE. However, some Unix implementations of identd send numeric user IDs
-rather than user names; dopewars will do the same if you set this variable 
+rather than user names; Church Wars will do the same if you set this variable 
 to TRUE. (N.B. Not supported on Windows systems.)</dd>
 
 <dt><b>Socks.User=<i>"fred"</i></b></dt>
@@ -160,18 +160,18 @@ the user for a username and password on each connect instead.)</dd>
 <dt><b>Socks.Auth.Password=<i>""</i></b></dt>
 <dd>The corresponding password for Socks.Auth.User, above.</dd>
 
-<dt><a id="HiScoreFile"><b>HiScoreFile=<i>"/var/lib/dopewars.sco"</i></b></a>
+<dt><a id="HiScoreFile"><b>HiScoreFile=<i>"/var/lib/churchwars.sco"</i></b></a>
 </dt>
-<dd>Tells the dopewars server (or the client, if running in single-player
-mode, not connected to a server) to use the file <i>/var/lib/dopewars.sco</i>
+<dd>Tells the Church Wars server (or the client, if running in single-player
+mode, not connected to a server) to use the file <i>/var/lib/churchwars.sco</i>
 to store high scores. This can be overridden with the -f
 <a href="commandline.html#hiscore">command line option</a>.
-(N.B. This option cannot be used to get dopewars to open a high
+(N.B. This option cannot be used to get Church Wars to open a high
 score file with privilege when running setuid/setgid; all privileges are
 dropped by this point for security.)</dd>
 
 <dt><b>MinToSysTray=<i>TRUE</i></b></dt>
-<dd>Rather than behaving as a normal window, the dopewars server window adds
+<dd>Rather than behaving as a normal window, the Church Wars server window adds
 an icon to the Windows System Tray, and, when the window is minimized, it
 vanishes completely. Clicking on the System Tray icon will restore the
 window to its normal state. If FALSE, the System Tray is not used. Only
@@ -199,27 +199,27 @@ set, and then remains in force until it is reset again.</dd>
 <h2><a id="metaserver">Metaserver configuration</a></h2>
 <dl>
 <dt><a id="MetaServerActive"><b>MetaServer.Active=<i>TRUE</i></b></a></dt>
-<dd>Tells the dopewars server to report its status to the
+<dd>Tells the Church Wars server to report its status to the
 <a href="metaserver.html">metaserver</a>. If <i>TRUE</i>
 is replaced by <i>FALSE</i> the server will not report to the metaserver.
 This setting, if set to TRUE, can be overridden by the -S
 <a href="commandline.html#privateserver">command line option</a>.</dd>
 
-<dt><b>MetaServer.URL=<i>"https://dopewars.sourceforge.io/metaserver.php"</i></b></dt>
-<dd>Tells dopewars that the metaserver PHP script is located at
-<i>https://dopewars.sourceforge.io/metaserver.php</i>. This is used for server
+<dt><b>MetaServer.URL=<i>"https://churchwars.sourceforge.io/metaserver.php"</i></b></dt>
+<dd>Tells Church Wars that the metaserver PHP script is located at
+<i>https://churchwars.sourceforge.io/metaserver.php</i>. This is used for server
 registration (server mode) or listing the available servers (client mode);
 see the <a href="metaserver.html">metaserver</a> page. If a proxy is needed to
 connect to the web server, set the
 <a href="https://curl.haxx.se/libcurl/c/libcurl-tutorial.html#Environment">https_proxy environment variable</a>.</dd>
 
-<dt><a id="MetaServerComment"><b>MetaServer.Comment=<i>"dopewars
+<dt><a id="MetaServerComment"><b>MetaServer.Comment=<i>"Church Wars
 server"</i></b></a></dt>
 <dd>Sets the comment for your server, which appears on the list of servers
-maintained by the metaserver, to <i>dopewars server</i>.</dd>
+maintained by the metaserver, to <i>Church Wars server</i>.</dd>
 
 <dt><b>MetaServer.LocalName=<i>"dope-serv.com"</i></b></dt>
-<dd>Tells the metaserver that the preferred hostname of your dopewars server
+<dd>Tells the metaserver that the preferred hostname of your Church Wars server
 machine is <i>dope-serv.com</i>. By default, the metaserver tries to ascertain
 your domain name from the connection, and this can fail if you connect via
 a proxy server, or if DNS does not properly translate your IP address to your
@@ -230,7 +230,7 @@ suitable password to identify "your" server, even if its IP changes.
 See the <a href="metaserver.html">metaserver page</a> for more details.</dd>
 
 <dt><b>MetaServer.Password=<i>"auth"</i></b></dt>
-<dd>Uses the password <i>auth</i> to authenticate your dopewars server's
+<dd>Uses the password <i>auth</i> to authenticate your Church Wars server's
 hostname (see MetaServer.LocalName above) with the metaserver.</dd>
 
 </dl>
@@ -311,7 +311,7 @@ the game.</dd>
 <i>$4,400</i>.</dd>
 
 <dt><b>Drug[<i>1</i>].Cheap=<i>TRUE</i></b></dt>
-<dd>Tells dopewars that drug <i>1</i> (by default, Acid) can occasionally
+<dd>Tells Church Wars that drug <i>1</i> (by default, Acid) can occasionally
 be especially cheap (if this is set to FALSE, this does not happen).</dd>
 
 <dt><b>Drug[<i>1</i>].CheapStr=<i>"The market is flooded with cheap
@@ -320,12 +320,12 @@ home-made acid!"</i></b></dt>
 is especially cheap.</dd>
 
 <dt><b>Drugs.CheapDivide=<i>4</i></b></dt>
-<dd>Tells dopewars that whenever a drug is "specially" cheap, divide the 
+<dd>Tells Church Wars that whenever a drug is "specially" cheap, divide the 
 normal price distribution (between Drug[x].MinPrice and Drug[x].MaxPrice) by
 <i>4</i>.</dd>
 
 <dt><b>Drug[<i>4</i>].Expensive=<i>TRUE</i></b></dt>
-<dd>Tells dopewars that drug <i>4</i> (normally Heroin) can occasionally be
+<dd>Tells Church Wars that drug <i>4</i> (normally Heroin) can occasionally be
 particuarly expensive (FALSE cancels this).</dd>
 
 <dt><b>Drugs.ExpensiveStr1=<i>"Cops made a big %tde bust! Prices are
@@ -343,7 +343,7 @@ prices!"</i></b></dt>
 time.</dd>
 
 <dt><b>Drugs.ExpensiveMultiply=<i>4</i></b></dt>
-<dd>Tells dopewars that whenever a drug is "specially" expensive, multiply the
+<dd>Tells Church Wars that whenever a drug is "specially" expensive, multiply the
 normal price distribution (between Drug[x].MinPrice and Drug[x].MaxPrice) by
 <i>4</i>.</dd>
 </dl>
@@ -365,7 +365,7 @@ Guns offered "on the street" (i.e. by random events) will be priced at about
 one half of the value set here.</dd>
 
 <dt><b>Gun[<i>3</i>].Space=<i>4</i></b></dt>
-<dd>Tells dopewars that gun number <i>3</i> uses <i>4</i> spaces in the 
+<dd>Tells Church Wars that gun number <i>3</i> uses <i>4</i> spaces in the 
 inventory - i.e. carrying one of these guns uses the same spaces as 4
 drugs.</dd>
 
@@ -451,10 +451,10 @@ etc.</dd>
 <dd>Prints Currency.Symbol in front of any price - e.g. "$1,000"; if
 FALSE, prints it after the price - e.g. "1,000 $".</dd>
 
-<dt><b>Log.File=<i>dopewars.log</i></b></dt>
+<dt><b>Log.File=<i>churchwars.log</i></b></dt>
 <dd>By default, server log messages are printed to the screen (standard
 output). By setting this variable, they will instead be written to the file
-<i>dopewars.log</i>.</dd>
+<i>churchwars.log</i>.</dd>
 
 <dt><b>Log.Level=<i>2</i></b></dt>
 <dd>Most server log messages are given a priority level, from 0 (most urgent)
@@ -478,7 +478,7 @@ from the random events. To completely remove drug references, of course, you
 must also alter the drug names above.</dd>
 
 <dt><b>DrugSortMethod=<i>1</i></b></dt>
-<dd>Tells the dopewars client how to sort the names of available drugs at
+<dd>Tells the Church Wars client how to sort the names of available drugs at
 each location for display. The default, <i>1</i>, sorts them in alphabetical
 order by their names. The choices are as follows:-
 <ul>
@@ -523,7 +523,7 @@ takes at least 5 seconds.</dd>
 
 <dt><b>Names.Bitch=<i>"bitch"</i></b></dt>
 <dd>Sets the word used to describe a single "bitch" in the game. Bitch, gun
-and drug names are automatically capitalised where necessary by the dopewars
+and drug names are automatically capitalised where necessary by the Church Wars
 code.</dd>
 
 <dt><b>Names.Bitches=<i>"bitches"</i></b></dt>
@@ -634,7 +634,7 @@ can be configured in the same way are: <b>FightMiss</b>, <b>FightReload</b>,
 <dt><b>encoding <i>"UTF-8"</i></b></dt>
 <dd>Specifies that any text following this directive (in this configuration
 file only) is in <i>"UTF-8"</i> encoding. This directive is only supported
-if dopewars is built on a Unix system and linked against GLib version 2.
+if Church Wars is built on a Unix system and linked against GLib version 2.
 If unspecifed, then it will be assumed that your configuration files are
 in the locale's default encoding - e.g. ISO-8859-1 for C or POSIX locales,
 ISO-8859-2 for pl_PL, ISO-8859-15 for es_ES@euro, or UTF-8 for en_GB.UTF-8.</dd>
