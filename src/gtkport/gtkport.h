@@ -641,11 +641,10 @@ GtkWidget *gtk_scrolled_text_view_new(GtkWidget **pack_widg);
 void TextViewAppend(GtkTextView *textview, const gchar *text,
                     const gchar *tagname, gboolean scroll);
 void TextViewClear(GtkTextView *textview);
-GtkWidget *gtk_url_new(const gchar *text, const gchar *target,
-                       const gchar *bin);
+GtkWidget *gtk_url_new(const gchar *text, const gchar *target);
 gchar *GtkGetFile(const GtkWidget *parent, const gchar *oldname,
                   const gchar *title);
-void DisplayHTML(GtkWidget *parent, const gchar *bin, const gchar *target);
+void DisplayHTML(GtkWidget *parent, const gchar *target);
 GtkWidget *gtk_scrolled_tree_view_new(GtkWidget **pack_widg);
 
 /* GtkTable is used in GTK2 (and early GTK3) but GtkGrid is used in later

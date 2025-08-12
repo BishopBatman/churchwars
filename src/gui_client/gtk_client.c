@@ -2283,8 +2283,7 @@ gboolean GtkLoop(int *argc, char **argv[],
   return TRUE;
 }
 
-static void PackCentredURL(GtkWidget *vbox, gchar *title, gchar *target,
-                           gchar *browser)
+static void PackCentredURL(GtkWidget *vbox, gchar *title, gchar *target)
 {
   GtkWidget *hbox, *label, *url;
 
@@ -2294,7 +2293,7 @@ static void PackCentredURL(GtkWidget *vbox, gchar *title, gchar *target,
   label = gtk_label_new("");
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 
-  url = gtk_url_new(title, target, browser);
+  url = gtk_url_new(title, target);
   gtk_box_pack_start(GTK_BOX(hbox), url, FALSE, FALSE, 0);
 
   label = gtk_label_new("");
