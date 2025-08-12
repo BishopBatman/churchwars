@@ -1582,7 +1582,7 @@ msgstr "%/Liste over stader/%tde"
 #: src/curses_client/curses_client.c:881
 #, c-format
 msgid "You can't get any cash for the following carried %tde :"
-msgstr "Du kan ikkje få nokon pengar for desse %tbf:"
+msgstr "Du kan ikkje få nokon pengar for desse %tde:"
 
 #: src/curses_client/curses_client.c:894
 msgid "What do you want to drop? "
@@ -1905,7 +1905,7 @@ msgstr "Spelarar som er logga på:-"
 #: src/curses_client/curses_client.c:2305
 #, c-format
 msgid "Hey dude, the prices of %tde here are:"
-msgstr "Hei du. Her kostar %tbe:"
+msgstr "Hei du. Her kostar %tde:"
 
 #. List of individual drug names for selection (%tde="Opium" etc.
 #. by default)
@@ -1976,7 +1976,7 @@ msgstr "R>ømma, "
 #: src/curses_client/curses_client.c:2457
 #, c-format
 msgid "D>eal %tde, "
-msgstr "S>elja %tuf, "
+msgstr "S>elja %tde, "
 
 #: src/curses_client/curses_client.c:2458
 msgid "or Q>uit? "
@@ -2307,17 +2307,17 @@ msgstr "_Avbryt"
 #: src/gui_client/gtk_client.c:1771
 #, c-format
 msgid "Buy %tde"
-msgstr "Kjøpa %tuf"
+msgstr "Kjøpa %tde"
 
 #: src/gui_client/gtk_client.c:1773
 #, c-format
 msgid "Sell %tde"
-msgstr "Selja %tuf"
+msgstr "Selja %tde"
 
 #: src/gui_client/gtk_client.c:1775
 #, c-format
 msgid "Drop %tde"
-msgstr "Hiva %tuf"
+msgstr "Hiva %tde"
 
 #. Button titles that correspond to the single-keypress options provided
 #. by the curses client (e.g. _Yes corresponds to 'Y' etc.)
@@ -3413,7 +3413,7 @@ msgstr "Du finn %d %tde på ein daud kar på t-banen!"
 #: src/serverside.c:2994
 #, fuzzy, c-format
 msgid "Your Priest made bread with some of your %tde! It was great!"
-msgstr "Mora di laga sjokoladekjeks med litt av %tbe. Dei var kjempegode!"
+msgstr "Mora di laga sjokoladekjeks med litt av %tde. Dei var kjempegode!"
 
 #: src/serverside.c:3004
 #, fuzzy
@@ -3634,12 +3634,12 @@ msgstr "%s - %s - spring etter deg!"
 #: src/message.c:1336
 #, fuzzy, c-format
 msgid "%s and %d %tde - %s - are chasing you!"
-msgstr "%s og %d %tuf - %s - spring etter deg!"
+msgstr "%s og %d %tde - %s - spring etter deg!"
 
 #: src/message.c:1340
 #, c-format
 msgid "%s arrives with %d %tde, %s!"
-msgstr "%s kjem hit med %d %tuf, %s!"
+msgstr "%s kjem hit med %d %tde, %s!"
 
 #: src/message.c:1347
 #, c-format
@@ -3701,7 +3701,7 @@ msgstr "%s drep %s."
 #: src/message.c:1398
 #, fuzzy, c-format
 msgid "%s attacks at %s and kills a %tde!"
-msgstr "%s skyt på %s og drep ei %tue!"
+msgstr "%s skyt på %s og drep ei %tde!"
 
 #: src/message.c:1401
 #, fuzzy, c-format
@@ -3716,7 +3716,7 @@ msgstr ""
 #: src/message.c:1410
 #, fuzzy, c-format
 msgid "%s charges at you... and kills a %tde!"
-msgstr "%s skyt på deg... og drep ei %tue!"
+msgstr "%s skyt på deg... og drep ei %tde!"
 
 #: src/message.c:1413
 #, fuzzy, c-format
@@ -3731,7 +3731,7 @@ msgstr "Du drap %s!"
 #: src/message.c:1419
 #, c-format
 msgid "You hit %s, and killed a %tde!"
-msgstr "Du traff %s, og drap ei %tue!"
+msgstr "Du traff %s, og drap ei %tde!"
 
 #: src/message.c:1422
 #, c-format
