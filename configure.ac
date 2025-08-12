@@ -64,6 +64,10 @@ AC_ARG_WITH(esd,
 [  --without-esd           do not support ESD sound output],
 [ USE_ESD="$withval" ], [ USE_ESD="probe" ])
 
+AC_ARG_WITH(pulseaudio,
+[  --with-pulseaudio       support PulseAudio sound output],
+[ USE_PULSEAUDIO="$withval" ], [ USE_PULSEAUDIO="probe" ])
+
 AC_ARG_WITH(sdl,
 [  --without-sdl           do not support SDL sound output],
 [ USE_SDL="$withval" ], [ USE_SDL="probe" ])
@@ -83,6 +87,7 @@ AC_ARG_WITH(cocoa,
 [ USE_COCOA="$withval" ], [ USE_COCOA="${default_cocoa}" ])
 
 ESD=no
+PULSEAUDIO=no
 SDL=no
 COCOA=no
 
@@ -216,6 +221,21 @@ else
      fi
    fi
 
+   dnl Add PulseAudio support if available
+   if test "$USE_PULSEAUDIO" != "no"; then
+     PKG_CHECK_MODULES([PULSEAUDIO], [libpulse-simple], [PULSEAUDIO=yes])
+     if test "$PULSEAUDIO" = "yes"; then
+       SOUND_CFLAGS="$SOUND_CFLAGS $PULSEAUDIO_CFLAGS"
+       SOUND_LIBS="$SOUND_LIBS $PULSEAUDIO_LIBS"
+       PLUGOBJS="$PLUGOBJS plugins/sound_pulseaudio.o"
+       AC_SUBST(PULSEAUDIO_CFLAGS)
+       AC_SUBST(PULSEAUDIO_LIBS)
+       AC_DEFINE(HAVE_PULSEAUDIO, 1, [Do we have the PulseAudio sound library?])
+     elif test "$USE_PULSEAUDIO" = "yes"; then
+       AC_MSG_ERROR(Cannot find PulseAudio library)
+     fi
+   fi
+
    dnl Add SDL_mixer sound support if available
    if test "$USE_SDL" != "no"; then
      SDL_ALL=no
@@ -294,6 +314,7 @@ else
 fi
 
 AM_CONDITIONAL(ESD, test "$ESD" = "yes")
+AM_CONDITIONAL(PULSEAUDIO, test "$PULSEAUDIO" = "yes")
 AM_CONDITIONAL(SDL, test "$SDL" = "yes")
 AM_CONDITIONAL(COCOA, test "$COCOA" = "yes")
 

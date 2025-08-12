@@ -38,11 +38,13 @@ struct _SoundDriver {
 typedef struct _SoundDriver SoundDriver;
 
 gchar *GetPluginList(void);
+void SoundAddPlugin(SoundDriver *(*ifunc)(void), void *module);
+SoundDriver *SoundGetPlugin(const gchar *drivername);
 void SoundInit(void);
 void SoundOpen(gchar *drivername);
 void SoundClose(void);
 void SoundPlay(const gchar *snd);
-void SoundEnable(gboolean enable);
+gboolean SoundEnable(gboolean enable);
 gboolean IsSoundEnabled(void);
 
 #endif /* __DP_SOUND_H__ */

@@ -1,6 +1,6 @@
 /************************************************************************
- * util.h         Miscellaneous utility and portability functions       *
- * Copyright (C)  1998-2022  Ben Webb                                   *
+ * sound_pulseaudio.h  Header file for dopewars sound system (PulseAudio driver)
+ * Copyright (C)  1998-2024  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
  *                WWW: https://dopewars.sourceforge.io/                 *
  *                                                                      *
@@ -20,61 +20,17 @@
  *                   MA  02111-1307, USA.                               *
  ************************************************************************/
 
-#ifndef __DP_UTIL_H__
-#define __DP_UTIL_H__
+#ifndef __DP_SOUND_PULSEAUDIO_H__
+#define __DP_SOUND_PULSEAUDIO_H__
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <stdio.h>
+#include "sound.h"
 
-#ifdef CYGWIN                   /* Definitions for native Win32 build */
-#include <winsock2.h>
-#include <windows.h>
-#include <string.h>
+#ifdef HAVE_PULSEAUDIO
+SoundDriver *sound_pulseaudio_init(void);
+#endif /* HAVE_PULSEAUDIO */
 
-#define SIGWINCH      0
-#define SIGPIPE       0
-#define SIG_BLOCK     0
-#define SIG_UNBLOCK   0
-
-struct sigaction {
-  void *sa_handler;
-  int sa_flags;
-  int sa_mask;
-};
-
-void sigemptyset(int *mask);
-void sigaddset(int *mask, int sig);
-int sigaction(int sig, struct sigaction *sact, char *pt);
-void sigprocmask(int flag, int *mask, char *pt);
-int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfs,
-            struct timeval *tm);
-#else /* Definitions for Unix build */
-#define bselect select
-#endif /* CYGWIN */
-
-#ifndef HAVE_GETOPT
-int getopt(int argc, char *const argv[], const char *str);
-extern char *optarg;
-extern int optind;
-extern int optopt;
-#endif
-
-void MicroSleep(int microsec);
-
-int ReadLock(FILE *fp);
-int WriteLock(FILE *fp);
-void ReleaseLock(FILE *fp);
-
-/* Now make definitions if they haven't been done properly */
-#ifndef WEXITSTATUS
-#define WEXITSTATUS(stat_val) ((unsigned)(stat_val) >> 8)
-#endif
-
-#ifndef WIFEXITED
-#define WIFEXITED(stat_val) (((stat_val) & 255) == 0)
-#endif
-
-#endif /* __DP_UTIL_H__ */
+#endif /* __DP_SOUND_PULSEAUDIO_H__ */

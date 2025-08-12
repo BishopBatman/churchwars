@@ -35,6 +35,7 @@
 #else
 #include "plugins/sound_sdl.h"
 #include "plugins/sound_esd.h"
+#include "plugins/sound_pulseaudio.h"
 #include "plugins/sound_winmm.h"
 #ifdef HAVE_COCOA
 SoundDriver *sound_cocoa_init(void);
@@ -84,6 +85,15 @@ static void AddPlugin(InitFunc ifunc, void *module)
     newdriver->module = module;
     driverlist = g_slist_append(driverlist, newdriver);
   }
+}
+
+/*
+ * Public wrappers for unit tests to register and query plugins without
+ * exposing the internal static helpers.
+ */
+void SoundAddPlugin(SoundDriver *(*ifunc)(void), void *module)
+{
+  AddPlugin(ifunc, module);
 }
 
 #ifdef PLUGINS
@@ -159,6 +169,9 @@ void SoundInit(void)
 #ifdef HAVE_ESD
   AddPlugin(sound_esd_init, NULL);
 #endif
+#ifdef HAVE_PULSEAUDIO
+  AddPlugin(sound_pulseaudio_init, NULL);
+#endif
 #ifdef HAVE_SDL_MIXER
   AddPlugin(sound_sdl_init, NULL);
 #endif
@@ -172,7 +185,7 @@ void SoundInit(void)
   driver = NULL;
 }
 
-static SoundDriver *GetPlugin(gchar *drivername)
+static SoundDriver *GetPlugin(const gchar *drivername)
 {
   GSList *listpt;
 
@@ -187,21 +200,28 @@ static SoundDriver *GetPlugin(gchar *drivername)
   return NULL;
 }
 
+SoundDriver *SoundGetPlugin(const gchar *drivername)
+{
+  return GetPlugin(drivername);
+}
+
 void SoundOpen(gchar *drivername)
 {
+  sound_enabled = FALSE;
   if (!drivername || strcmp(drivername, NOPLUGIN) != 0) {
     driver = GetPlugin(drivername);
     if (driver) {
+      gboolean opened = TRUE;
       if (driver->open) {
         dopelog(3, 0, "Using plugin %s", driver->name);
-        /* Only enable sound if the driver opens successfully. */
-        gboolean opened = driver->open();
+        opened = driver->open();
         if (!opened) {
           g_log(NULL, G_LOG_LEVEL_CRITICAL,
                 _("Failed to open sound driver \"%s\"."), driver->name);
           driver = NULL;
         }
       }
+      sound_enabled = opened && (driver != NULL);
     } else if (drivername) {
       gchar *plugins, *err;
 
@@ -214,8 +234,6 @@ void SoundOpen(gchar *drivername)
       g_free(err);
     }
   }
-  /* Only report sound as enabled if a driver was successfully loaded. */
-  sound_enabled = (driver != NULL);
 }
 
 void SoundClose(void)
@@ -249,9 +267,15 @@ void SoundPlay(const gchar *snd)
   }
 }
 
-void SoundEnable(gboolean enable)
+gboolean SoundEnable(gboolean enable)
 {
+  if (enable && driver == NULL) {
+    sound_enabled = FALSE;
+    return FALSE;
+  }
+
   sound_enabled = enable;
+  return sound_enabled;
 }
 
 gboolean IsSoundEnabled(void)

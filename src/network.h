@@ -183,7 +183,7 @@ gboolean NetBufHandleNetwork(NetworkBuffer *NetBuf, gboolean ReadReady,
                              gboolean *DoneOK);
 gboolean ReadDataFromWire(NetworkBuffer *NetBuf);
 gboolean WriteDataToWire(NetworkBuffer *NetBuf);
-void QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data);
+gboolean QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data);
 gint CountWaitingMessages(NetworkBuffer *NetBuf);
 gchar *GetWaitingMessage(NetworkBuffer *NetBuf);
 void SendSocks5UserPasswd(NetworkBuffer *NetBuf, gchar *user,
@@ -223,11 +223,11 @@ void StopNetworking(void);
 #ifdef CYGWIN
 #define CloseSocket(sock) closesocket(sock)
 void SetReuse(SOCKET sock);
-void SetBlocking(SOCKET sock, gboolean blocking);
+gboolean SetBlocking(SOCKET sock, gboolean blocking);
 #else
 #define CloseSocket(sock) close(sock)
 void SetReuse(int sock);
-void SetBlocking(int sock, gboolean blocking);
+gboolean SetBlocking(int sock, gboolean blocking);
 #endif
 
 void AddB64Enc(GString *str, gchar *unenc);

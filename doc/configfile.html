@@ -361,8 +361,8 @@ players.)</dd>
 
 <dt><b>Gun[<i>3</i>].Price=<i>2900</i></b></dt>
 <dd>Sets the price in the gun shop of the <i>3rd</i> gun to <i>$2,900</i>.
-Guns offered "on the street" (i.e. by random events) will be priced at 10%
-of the value set here.</dd>
+Guns offered "on the street" (i.e. by random events) will be priced at about
+one half of the value set here.</dd>
 
 <dt><b>Gun[<i>3</i>].Space=<i>4</i></b></dt>
 <dd>Tells dopewars that gun number <i>3</i> uses <i>4</i> spaces in the 
@@ -514,8 +514,8 @@ necessarily AI players that connect to a server run on this machine) wait
 <i>5</i> seconds between moving from location to location - i.e. a turn
 takes at least 5 seconds.</dd>
 
-<dt><b>StartCash=<i>2000</i></b></dt>
-<dd>Each player will start the game with <i>$2,000</i> in cash.</dd>
+<dt><b>StartCash=<i>4000</i></b></dt>
+<dd>Each player will start the game with <i>$4,000</i> in cash.</dd>
 
 <dt><b>StartDebt=<i>5000</i></b></dt>
 <dd>Each player will start the game with a debt to the loan shark of
@@ -567,14 +567,14 @@ current game turn.</dd>
 <dd>Sets the price to pay a bitch to tip off the cops to another player to be
 <i>$10,000</i>.</dd>
 
-<dt><b>Bitch.MinPrice=<i>50000</i></b></dt>
-<dd>Sets the minimum price for a bitch at the Rough Pub to be <i>$50,000</i>.
+<dt><b>Bitch.MinPrice=<i>40000</i></b></dt>
+<dd>Sets the minimum price for a bitch at the Rough Pub to be <i>$40,000</i>.
 Note that prices for bitches "on the street" (i.e. those that are offered
 by random events) are produced by dividing the normal bitch price
-distribution by 10.</dd>
+distribution by 3, i.e. about one-third of the shop price range (~$13,000–$40,000 by default).</dd>
 
-<dt><b>Bitch.MaxPrice=<i>150000</i></b></dt>
-<dd>Sets the maximum price for a bitch to <i>$150,000</i>.</dd>
+<dt><b>Bitch.MaxPrice=<i>120000</i></b></dt>
+<dd>Sets the maximum price for a bitch to <i>$120,000</i>.</dd>
 
 <dt><b>SubwaySaying= <i>{ "First saying", "Second saying",
 "Third saying" }</i></b></dt>
@@ -621,7 +621,8 @@ any drugs, and clients will display this information if available.</dd>
 target. The sound must be installed on your system, and you must be using
 a functioning sound system, in order to hear anything. Other sounds that
 can be configured in the same way are: <b>FightMiss</b>, <b>FightReload</b>,
-<b>Jet</b>, <b>CoinBuy</b>, <b>JoinGame</b>, and <b>LeaveGame</b>.</dd>
+<b>Jet</b>, <b>JoinGame</b>, and
+<b>LeaveGame</b>.</dd>
 
 </dl>
 

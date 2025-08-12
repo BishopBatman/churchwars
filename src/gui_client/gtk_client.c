@@ -130,6 +130,9 @@ static void DealGuns(GtkWidget *widget, gpointer data);
 static void QuestionDialog(char *Data, Player *From);
 static void TransferDialog(gboolean Debt);
 static void ListPlayers(GtkWidget *widget, gpointer data);
+static void TalkToAll(GtkWidget *widget, gpointer data) G_GNUC_UNUSED;
+static void TalkToPlayers(GtkWidget *widget, gpointer data) G_GNUC_UNUSED;
+static void TalkDialog(gboolean TalkToAll) G_GNUC_UNUSED;
 static GtkWidget *CreatePlayerList(void);
 static void UpdatePlayerList(GtkWidget *clist, gboolean IncludeSelf);
 static void DestroyShowing(GtkWidget *widget, gpointer data);
@@ -280,7 +283,9 @@ void ToggleSound(GtkWidget *widget, gpointer data)
                                           "<main>/Game/Enable sound");
   if (widget) {
     enable = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
-    SoundEnable(enable);
+    enable = SoundEnable(enable);
+    UseSounds = enable;
+    gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget), enable);
   }
 }
 
@@ -478,6 +483,17 @@ void HandleClientMessage(char *pt, Player *Play)
     break;
   case C_GUNSHOP:
     GunShopDialog();
+    break;
+  case C_MSG:
+    text = g_strdup_printf("%s: %s", GetPlayerName(From), Data);
+    PrintMessage(text, "talk");
+    g_free(text);
+    break;
+  case C_MSGTO:
+    text = g_strdup_printf("%s->%s: %s", GetPlayerName(From),
+                           GetPlayerName(Play), Data);
+    PrintMessage(text, "page");
+    g_free(text);
     break;
   case C_JOIN:
     text = g_strdup_printf(_("%s joins the game!"), Data);
@@ -1964,6 +1980,10 @@ static gint DrugSortByPrice(GtkTreeModel *model, GtkTreeIter *a,
 
 void UpdateMenus(void)
 {
+  GtkWidget *talk_widget =
+      dp_gtk_item_factory_get_widget(ClientData.Menu, "<main>/Talk");
+  if (talk_widget != NULL)
+    gtk_widget_set_sensitive(talk_widget, InGame && Network);
   //gtk_widget_set_sensitive(dp_gtk_item_factory_get_widget
   //                         (ClientData.Menu, "<main>/Game/Options..."),
   //                         !InGame);
@@ -2172,7 +2192,7 @@ gboolean GtkLoop(int *argc, char **argv[],
     gtk_container_remove(GTK_CONTAINER(menubar), talk_item);
   gtk_widget_show_all(menubar);
   UpdateMenus();
-  SoundEnable(UseSounds);
+  UseSounds = SoundEnable(UseSounds);
   widget = dp_gtk_item_factory_get_widget(ClientData.Menu,
                                           "<main>/Game/Enable sound");
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget), UseSounds);
@@ -2278,7 +2298,7 @@ static void PackCentredURL(GtkWidget *vbox, gchar *title, gchar *target,
 void display_intro(GtkWidget *widget, gpointer data)
 {
   GtkWidget *dialog, *label, *grid, *OKButton, *vbox, *hsep, *hbbox;
-  gchar *VersionStr, *docindex;
+  gchar *VersionStr;
   const int rows = 8, cols = 3;
   int i, j;
   GtkAccelGroup *accel_group;
@@ -2311,26 +2331,31 @@ void display_intro(GtkWidget *widget, gpointer data)
 
   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-  /* Main content of GTK+ 'about' dialog */
-  label = gtk_label_new(_("It's AD 1095, and the Crusades are about to begin. "
-                          "As a dedicated Trader-Saint, \nPope Urban II has "
-                          "entrusted you with a crucial mission: navigate "
-                          "the bustling \nmedieval cities and trade valuable " 
-                          "goods to amass significant wealth. \nYour efforts "
-                          "will directly support the Holy Christian Church's "
-                          "forthcoming crusade. \n\nThe Empire of the Holy "
-                          "Trinity relies on you!\n\n"
-  
-                          "Based on John E. Dell's old Drug Wars game, "
-                          "Church Wars is a simulation of an\nimaginary Crusader "
-                          "market.  Church Wars is a Crusades game which "
-                          "features\nbuying, selling, and funding the Holy "
-                          "Christian Empire!\n\nThe first thing you need to "
-                          "do is pay off your debt to the Pope's Loan Collector. "
-                          "After\nthat, your goal is to make as much "
-                          "money as possible (and stay alive)! You\n"
-                          "have 31 travels of game time to make "
-                          "your fortune.\n"));
+    /* Main content of GTK+ 'about' dialog */
+  label = gtk_label_new(_("It’s AD 1095, and the Crusades are about to begin.\n"
+                          "As a famed Trader-Saint, Pope Urban II has\n"
+                          "charged you with a sacred mission—cross the medieval\n"
+                          "world, trade valuable goods, and amass wealth to fund\n"
+                          "the Holy Christian Church’s coming crusade. The Empire\n"
+                          "of the Holy Trinity depends on you.\n"
+                          "\n"
+                          "Inspired by John E. Dell’s Drug Wars, Church Wars\n"
+                          "is a simulation of an imaginary Crusader market of\n"
+                          "buying, selling, and financing the Holy Christian Empire.\n"
+                          "Your first task is to clear your debt to\n"
+                          "the Pope’s Loan Collector in Jerusalem - interest\n"
+                          "grows each turn until it’s paid. After that, you have 30\n"
+                          "travels to survive and build a fortune for the Kingdom.\n"
+                          "\n"
+                          "Clerics in the Hagia Sophia add 20 space to\n"
+                          "your starting 40, grant one weapon slot, and\n"
+                          "take damage for you in fights. The Hall of Arms,\n"
+                          "also there, prepares you for battle. The Merchant\n"
+                          "Bank in Jerusalem keeps your gold safe.\n"
+                          "\n"
+                          "“Though a mighty army surrounds me, my heart will not\n"
+                          "be afraid!”\n"));
+  gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   /* Version and copyright notice in GTK+ 'about' dialog */
@@ -2362,18 +2387,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   }
   gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
-  /* Label at the bottom of GTK+ 'about' dialog */
-  label = gtk_label_new(_("\nFor information on the command line "
-                          "options, type dopewars -h at your\n"
-                          "Unix prompt. This will display a help "
-                          "screen, listing the available options.\n"));
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-
-  docindex = GetDocIndex();
-  PackCentredURL(vbox, _("Local HTML documentation"), docindex, OurWebBrowser);
-  g_free(docindex);
-
-  PackCentredURL(vbox, "https://dopewars.sourceforge.io/",
+  PackCentredURL(vbox, _("Original Dopewars information here"),
                  "https://dopewars.sourceforge.io/", OurWebBrowser);
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
@@ -2625,6 +2639,136 @@ enum {
   PLAYER_COL_PT,
   PLAYER_NUM_COLS
 };
+
+static void TalkSendSelected(GtkTreeModel *model, GtkTreePath *path,
+                             GtkTreeIter *iter, gpointer data)
+{
+  Player *Play;
+  gchar *text = data;
+  gtk_tree_model_get(model, iter, PLAYER_COL_PT, &Play, -1);
+  if (Play) {
+    gchar *msg = g_strdup_printf(
+                     "%s->%s: %s", GetPlayerName(ClientData.Play),
+                     GetPlayerName(Play), text);
+    SendClientMessage(ClientData.Play, C_NONE, C_MSGTO, Play, text);
+    PrintMessage(msg, "page");
+    g_free(msg);
+  }
+}
+
+static void TalkSend(GtkWidget *widget, struct TalkStruct *TalkData)
+{
+  gboolean AllPlayers;
+  gchar *text;
+  GString *msg;
+
+  AllPlayers =
+      gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
+                                   (TalkData->checkbutton));
+  text = gtk_editable_get_chars(GTK_EDITABLE(TalkData->entry), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(TalkData->entry), 0, -1);
+  if (!text)
+    return;
+
+  msg = g_string_new("");
+
+  if (AllPlayers) {
+    SendClientMessage(ClientData.Play, C_NONE, C_MSG, NULL, text);
+    g_string_printf(msg, "%s: %s", GetPlayerName(ClientData.Play), text);
+    PrintMessage(msg->str, "talk");
+  } else {
+    GtkTreeSelection *tsel = gtk_tree_view_get_selection(
+                                        GTK_TREE_VIEW(TalkData->clist));
+    gtk_tree_selection_selected_foreach(tsel, TalkSendSelected, text);
+  }
+  g_free(text);
+  g_string_free(msg, TRUE);
+}
+
+static void TalkToAll(GtkWidget *widget, gpointer data)
+{
+  TalkDialog(TRUE);
+}
+
+static void TalkToPlayers(GtkWidget *widget, gpointer data)
+{
+  TalkDialog(FALSE);
+}
+
+static void TalkDialog(gboolean TalkToAll)
+{
+  GtkWidget *dialog, *clist, *button, *entry, *label, *vbox, *hsep,
+      *checkbutton, *hbbox;
+  GtkAccelGroup *accel_group;
+  static struct TalkStruct TalkData;
+
+  if (IsShowingTalkList)
+    return;
+  dialog = TalkData.dialog = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  accel_group = gtk_accel_group_new();
+  gtk_window_add_accel_group(GTK_WINDOW(dialog), accel_group);
+
+  /* Title of talk dialog */
+  gtk_window_set_title(GTK_WINDOW(dialog), _("Talk to player(s)"));
+  my_set_dialog_position(GTK_WINDOW(dialog));
+
+  gtk_window_set_default_size(GTK_WINDOW(dialog), 200, 190);
+  gtk_container_set_border_width(GTK_CONTAINER(dialog), 7);
+
+  gtk_window_set_modal(GTK_WINDOW(dialog), FALSE);
+  gtk_window_set_transient_for(GTK_WINDOW(dialog),
+                               GTK_WINDOW(ClientData.window));
+  SetShowing(dialog, &IsShowingTalkList);
+
+  vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 7);
+
+  clist = TalkData.clist = ClientData.TalkList = CreatePlayerList();
+  UpdatePlayerList(clist, FALSE);
+  gtk_tree_selection_set_mode(
+          gtk_tree_view_get_selection(GTK_TREE_VIEW(clist)),
+          GTK_SELECTION_MULTIPLE);
+  gtk_box_pack_start(GTK_BOX(vbox), clist, TRUE, TRUE, 0);
+
+  checkbutton = TalkData.checkbutton =
+      /* Checkbutton set if you want to talk to all players */
+      gtk_check_button_new_with_label(_("Talk to all players"));
+
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbutton), TalkToAll);
+  gtk_box_pack_start(GTK_BOX(vbox), checkbutton, FALSE, FALSE, 0);
+
+  /* Prompt for you to enter the message to be sent to other players */
+  label = gtk_label_new(_("Message:-"));
+
+  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+
+  entry = TalkData.entry = gtk_entry_new();
+  g_signal_connect(G_OBJECT(entry), "activate",
+                   G_CALLBACK(TalkSend), (gpointer)&TalkData);
+  gtk_box_pack_start(GTK_BOX(vbox), entry, FALSE, FALSE, 0);
+
+  hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+  gtk_box_pack_start(GTK_BOX(vbox), hsep, FALSE, FALSE, 0);
+
+  hbbox = my_hbbox_new();
+
+  /* Button to send a message to other players */
+  button = gtk_button_new_with_label(_("Send"));
+
+  g_signal_connect(G_OBJECT(button), "clicked",
+                   G_CALLBACK(TalkSend), (gpointer)&TalkData);
+  my_gtk_box_pack_start_defaults(GTK_BOX(hbbox), button);
+
+  button = gtk_button_new_with_mnemonic(_("_Close"));
+  g_signal_connect_swapped(G_OBJECT(button), "clicked",
+                           G_CALLBACK(gtk_widget_destroy),
+                           G_OBJECT(dialog));
+  my_gtk_box_pack_start_defaults(GTK_BOX(hbbox), button);
+
+  gtk_box_pack_start(GTK_BOX(vbox), hbbox, FALSE, FALSE, 0);
+
+  gtk_container_add(GTK_CONTAINER(dialog), vbox);
+  gtk_widget_show_all(dialog);
+}
 
 GtkWidget *CreatePlayerList(void)
 {

@@ -29,6 +29,9 @@
 #include <stdlib.h>             /* For atoi */
 #include <errno.h>              /* For errno */
 #include <ctype.h>              /* For isprint */
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #include <glib.h>
 
 #include "configfile.h"
@@ -46,8 +49,9 @@ gchar *LocalCfgEncoding = NULL;
 static void PrintEscaped(FILE *fp, gchar *str)
 {
   guint i;
+  guint len = strlen(str);
 
-  for (i = 0; i < strlen(str); i++) {
+  for (i = 0; i < len; i++) {
     int ch = (int)(guchar)str[i];
     switch(ch) {
     case '"':

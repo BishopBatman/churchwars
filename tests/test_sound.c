@@ -1,11 +1,6 @@
 #include "sound.h"
 #include <assert.h>
 
-/* Prototype for internal plugin lookup so we can check whether a driver
- * was found before calling SoundOpen. */
-SoundDriver *GetPlugin(const gchar *drivername);
-void AddPlugin(SoundDriver *(*ifunc)(void), void *module);
-
 /* A dummy sound driver whose open routine always fails. */
 static gboolean failing_open(void) {
   return FALSE;
@@ -22,7 +17,7 @@ int main(void) {
   assert(IsSoundEnabled() == FALSE);
 
   /* Opening with no name uses the first available driver, if any. */
-  SoundDriver *drv = GetPlugin(NULL);
+  SoundDriver *drv = SoundGetPlugin(NULL);
   SoundOpen(NULL);
   assert(IsSoundEnabled() == (drv != NULL));
 
@@ -37,8 +32,20 @@ int main(void) {
   /* Register a driver that fails to open and ensure sound stays disabled. */
   SoundInit();
   assert(IsSoundEnabled() == FALSE);
-  AddPlugin(failing_init, NULL);
+  SoundAddPlugin(failing_init, NULL);
   SoundOpen("failing-driver");
+  assert(IsSoundEnabled() == FALSE);
+
+  /* Stress test rapid playback to ensure busy channels recover. */
+  SoundInit();
+  SoundOpen(NULL);
+  if (IsSoundEnabled()) {
+    int i;
+    for (i = 0; i < 100; i++) {
+      SoundPlay("sounds/19.5degs/gun.wav");
+    }
+  }
+  SoundClose();
   assert(IsSoundEnabled() == FALSE);
 
   return 0;

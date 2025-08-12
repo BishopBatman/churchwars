@@ -175,7 +175,9 @@ static gchar *GetWindowsLocale(void)
   gchar *oldlang;
 
   langenv[0] = '\0';
-  strcpy(langenv, "LANG=");
+  if (g_strlcpy(langenv, "LANG=", sizeof(langenv)) >= sizeof(langenv)) {
+    return NULL;
+  }
 
   oldlang = getenv("LANG");
 
@@ -188,47 +190,57 @@ static gchar *GetWindowsLocale(void)
   lang = PRIMARYLANGID(LANGIDFROMLCID(userID));
   sublang = SUBLANGID(LANGIDFROMLCID(userID));
 
+  gsize res, len;
+#define APPEND_LANG(str)                                                      \
+  do {                                                                       \
+    res = g_strlcat(langenv, (str), sizeof(langenv));                        \
+    if (res >= sizeof(langenv))                                              \
+      return NULL;                                                           \
+  } while (0)
+
   switch (lang) {
   case LANG_ENGLISH:
-    strcat(langenv, "en");
+    APPEND_LANG("en");
     if (sublang == SUBLANG_ENGLISH_UK) {
-      strcat(langenv, "_GB");
+      APPEND_LANG("_GB");
     }
     break;
   case LANG_FRENCH:
-    strcat(langenv, "fr");
+    APPEND_LANG("fr");
     if (sublang == SUBLANG_FRENCH_CANADIAN) {
-      strcat(langenv, "_CA");
+      APPEND_LANG("_CA");
     }
     break;
   case LANG_GERMAN:
-    strcat(langenv, "de");
+    APPEND_LANG("de");
     break;
   case LANG_POLISH:
-    strcat(langenv, "pl");
+    APPEND_LANG("pl");
     break;
   case LANG_SPANISH:
-    strcat(langenv, "es");
+    APPEND_LANG("es");
     if (sublang == SUBLANG_SPANISH) {
-      strcat(langenv, "_ES");
+      APPEND_LANG("_ES");
     }
     break;
   case LANG_NORWEGIAN:
     if (sublang == SUBLANG_NORWEGIAN_NYNORSK) {
-      strcat(langenv, "nn");
+      APPEND_LANG("nn");
     } else {
-      strcat(langenv, "no");
+      APPEND_LANG("no");
     }
     break;
   case LANG_PORTUGUESE:
-    strcat(langenv, "pt");
+    APPEND_LANG("pt");
     if (sublang == SUBLANG_PORTUGUESE_BRAZILIAN) {
-      strcat(langenv, "_BR");
+      APPEND_LANG("_BR");
     }
     break;
   }
+#undef APPEND_LANG
 
-  if (strlen(langenv) > 5) {
+  len = strlen(langenv);
+  if (len > 5 && len < sizeof(langenv)) {
     g_print("Using Windows language %s\n", langenv);
     return langenv;
   } else

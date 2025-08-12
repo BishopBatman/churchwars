@@ -111,7 +111,8 @@ int LoanSharkLoc, BankLoc, GunShopLoc, RoughPubLoc;
 int DrugSortMethod = DS_ATOZ;
 int FightTimeout = 5, IdleTimeout = 14400, ConnectTimeout = 300;
 int MaxClients = 20, AITurnPause = 5;
-price_t StartCash = 2000, StartDebt = 5500;
+price_t StartCash = 4000, StartDebt = 5500;
+int BaseCoatSize = 40;
 GSList *ServerList = NULL;
 
 GScannerConfig ScannerConfig = {
@@ -207,7 +208,7 @@ struct PRICES Prices = {
 };
 
 struct BITCH Bitch = {
-  50000, 150000
+  40000, 120000
 };
 
 #ifdef NETWORKING
@@ -418,9 +419,6 @@ struct GLOBALS Globals[] = {
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
   {NULL, NULL, NULL, &Sounds.Jet, NULL, "Sounds.Jet",
    N_("Sound file played on arriving at a new location"), NULL, NULL, 0, "",
-   NULL, NULL, FALSE, 0, 0},
-  {NULL, NULL, NULL, &Sounds.CoinBuy, NULL, "Sounds.CoinBuy",
-   N_("Sound file played when buying an item"), NULL, NULL, 0, "",
    NULL, NULL, FALSE, 0, 0},
   {NULL, NULL, NULL, &Sounds.JoinGame, NULL, "Sounds.JoinGame",
    N_("Sound file played when a player joins the game"),
@@ -872,10 +870,10 @@ GSList *AddPlayer(int fd, Player *NewPlayer, GSList *First)
   NewPlayer->Cash = StartCash;
   NewPlayer->Debt = StartDebt;
   NewPlayer->Bank = 0;
-  NewPlayer->Bitches.Carried = 3;
+  NewPlayer->Bitches.Carried = 2;
   NewPlayer->CopIndex = 0;
   NewPlayer->Health = 100;
-  NewPlayer->CoatSize = 100;
+  NewPlayer->CoatSize = BaseCoatSize + NewPlayer->Bitches.Carried * 20;
   NewPlayer->Flags = 0;
 #ifdef NETWORKING
   InitNetworkBuffer(&NewPlayer->NetBuf, '\n', '\r',
@@ -1112,10 +1110,17 @@ gchar *FormatPrice(price_t price)
   } else
     absprice = price;
   while (First || absprice > 0) {
+    int ret;
     if (absprice >= 1000)
-      sprintf(thou, "%03d", (int)(absprice % 1000l));
+      ret = snprintf(thou, sizeof(thou), "%03d",
+                     (int)(absprice % 1000l));
     else
-      sprintf(thou, "%d", (int)(absprice % 1000l));
+      ret = snprintf(thou, sizeof(thou), "%d",
+                     (int)(absprice % 1000l));
+    if (ret < 0 || ret >= (int)sizeof(thou)) {
+      g_warning("FormatPrice: failed to format price chunk");
+      thou[sizeof(thou) - 1] = '\0';
+    }
     absprice /= 1000l;
     if (!First)
       g_string_prepend_c(PriceStr, ',');
@@ -2609,6 +2614,7 @@ struct CMDLINE *ParseCmdLine(int argc, char *argv[])
     case 'h':
     case 0:
     case '?':
+    case ':':
       cmdline->help = TRUE;
       break;
     case 'f':

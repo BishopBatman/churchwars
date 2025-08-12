@@ -1572,7 +1572,8 @@ static void SetupTaskBarIcon(GtkWidget *widget)
     nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     nid.uCallbackMessage = MYWM_TASKBAR;
     nid.hIcon = mainIcon;
-    strcpy(nid.szTip, "dopewars server - running");
+    /* NOTIFYICONDATA::szTip is limited (typically 128 chars including NUL). */
+    snprintf(nid.szTip, sizeof(nid.szTip), "dopewars server - running");
     systray = Shell_NotifyIcon(NIM_ADD, &nid);
   } else {
     systray = FALSE;
@@ -2272,6 +2273,7 @@ void SendEvent(Player *To)
       break;
     case E_HIREBITCH:
       if (To->IsAt + 1 == RoughPubLoc) {
+        /* Random pub price for a bitch, defaults to 40k-120k */
         To->Bitches.Price = prandom(Bitch.MinPrice, Bitch.MaxPrice);
         text =
             dpg_strdup_printf(_
@@ -2874,6 +2876,7 @@ void WithdrawFromCombat(Player *Play)
       } else if (CanRunHere(Defend)
                  && brandom(0, 100) > Location[Defend->IsAt].PolicePresence) {
         Defend->EventNum = E_DOCTOR;
+        /* Doctor price scales from the bitch price range (40k-120k by default) */
         Defend->DocPrice = prandom(Bitch.MinPrice, Bitch.MaxPrice) *
             Defend->Health / 500;
         text =
@@ -3020,8 +3023,9 @@ int OfferObject(Player *To, gboolean ForceBitch)
       text = dpg_strdup_printf(_("YN^Would you like to buy a bigger "
                                  "trenchcoat for %P?"), To->Bitches.Price);
     } else {
+/* Street price is one-third of the shop price range (~13k–40k by default). */
       To->Bitches.Price =
-          prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)10;
+          prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)3;
       text =
           dpg_strdup_printf(_
                             ("YN^Hey trader! I'll help carry your %tde for a "
@@ -3034,7 +3038,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
   } else if (!Sanitized && NumGun > 0
              && (TotalGunsCarried(To) < To->Bitches.Carried + 2)) {
     ObjNum = brandom(0, NumGun);
-    To->Guns[ObjNum].Price = Gun[ObjNum].Price / 10;
+    To->Guns[ObjNum].Price = Gun[ObjNum].Price / 2;
     if (Gun[ObjNum].Space > To->CoatSize)
       return 0;
     text = dpg_strdup_printf(_("YN^Would you like to buy a %tde for %P?"),
@@ -3375,7 +3379,7 @@ void ClearPrices(Player *Play)
  */
 void GainBitch(Player *Play)
 {
-  Play->CoatSize += 10;
+  Play->CoatSize += 20;
   Play->Bitches.Carried++;
 }
 
@@ -3391,7 +3395,7 @@ int LoseBitch(Player *Play, Inventory *Guns, Inventory *Drugs)
   GunIndex = g_new(int, NumGun);
 
   ClearInventory(Guns, Drugs);
-  Play->CoatSize -= 10;
+  Play->CoatSize -= 20;
   if (TotalGunsCarried(Play) > 0) {
     if (brandom(0, 100) <
         TotalGunsCarried(Play) * 100 / (Play->Bitches.Carried + 2)) {

@@ -46,38 +46,70 @@
 
 #ifndef HAVE_GETOPT
 char *optarg;
+int optind = 1;
+int optopt;
 
-static int apos = 1; /* Skip argv[0], the executable name */
+static int apos = 1; /* position within current argv element */
 
 int getopt(int argc, char *const argv[], const char *str)
 {
-  int i, c;
-  char *pt;
+  char *arg, *pt;
+  char c;
 
-  while (apos < argc && argv[apos]) {
-    if (argv[apos][0] != '-') {
-      apos++;
-      return 0;
-    }
-    for (i = 1; i < strlen(argv[apos]); i++) {
-      c = argv[apos][i];
-      pt = strchr(str, c);
-      if (pt) {
-        argv[apos][i] = '-';
-        if (*(pt + 1) == ':') {
-          if (apos + 1 < argc && i == strlen(argv[apos]) - 1) {
-            apos++;
-            optarg = argv[apos];
-            apos++;
-          } else
-            return 0;
-        }
-        return c;
-      }
-    }
-    apos++;
+  if (optind == 0) {
+    optind = 1;
+    apos = 1;
   }
-  return EOF;
+
+  optarg = NULL;
+
+  if (optind >= argc || argv[optind] == NULL) {
+    apos = 1;
+    return -1;
+  }
+
+  arg = argv[optind];
+  if (arg[0] != '-' || arg[1] == '\0') {
+    apos = 1;
+    return -1;
+  }
+  if (strcmp(arg, "--") == 0) {
+    optind++;
+    apos = 1;
+    return -1;
+  }
+
+  c = arg[apos++];
+  optopt = c;
+  pt = strchr(str, c);
+  if (!pt) {
+    if (arg[apos] == '\0') {
+      optind++;
+      apos = 1;
+    }
+    return '?';
+  }
+
+  if (*(pt + 1) == ':') {
+    if (arg[apos] != '\0') {
+      optarg = &arg[apos];
+      optind++;
+      apos = 1;
+    } else if (optind + 1 < argc && argv[optind + 1]) {
+      optarg = argv[++optind];
+      optind++;
+      apos = 1;
+    } else {
+      optind++;
+      apos = 1;
+      return (str[0] == ':') ? ':' : '?';
+    }
+  } else if (arg[apos] == '\0') {
+    optind++;
+    apos = 1;
+  }
+
+  return c;
 }
 #endif /* HAVE_GETOPT */
 
@@ -123,14 +155,14 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 {
   int retval;
   struct timeval tv, *tp;
-  fd_set localread, localexcept;
+  fd_set localread, localwrite, localexcept;
   char CheckKbHit = 0;
 
   if (nfds == 0 && tm) {
     Sleep(tm->tv_sec * 1000 + tm->tv_usec / 1000);
     return 0;
   }
-  if (FD_ISSET(0, readfds)) {
+  if (readfds && FD_ISSET(0, readfds)) {
     if (nfds == 1)
       return 1;
     tp = &tv;
@@ -144,6 +176,8 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 
     if (readfds)
       memcpy(&localread, readfds, sizeof(fd_set));
+    if (writefds)
+      memcpy(&localwrite, writefds, sizeof(fd_set));
     if (exceptfds)
       memcpy(&localexcept, exceptfds, sizeof(fd_set));
     if (CheckKbHit && kbhit())
@@ -153,7 +187,8 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
       return retval;
     if (CheckKbHit && kbhit()) {
       retval++;
-      FD_SET(0, readfds);
+      if (readfds)
+        FD_SET(0, readfds);
     }
     if (retval > 0 || !CheckKbHit)
       break;
@@ -168,6 +203,8 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
     }
     if (readfds)
       memcpy(readfds, &localread, sizeof(fd_set));
+    if (writefds)
+      memcpy(writefds, &localwrite, sizeof(fd_set));
     if (exceptfds)
       memcpy(exceptfds, &localexcept, sizeof(fd_set));
   }
