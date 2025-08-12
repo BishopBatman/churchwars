@@ -2082,7 +2082,7 @@ msgid ""
 msgstr ""
 
 #: src/gui_client/gtk_client.c:2389
-msgid "Original dopewars information here:"
+msgid "Original Church Wars information here:"
 msgstr ""
 
 #: src/gui_client/gtk_client.c:2442 src/gui_client/gtk_client.c:2494
