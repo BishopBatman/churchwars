@@ -2393,8 +2393,8 @@ void display_intro(GtkWidget *widget, gpointer data)
   }
   gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
-  PackCentredURL(vbox, _("Original Church Wars information here"),
-                 "https://churchwars.sourceforge.io/");
+  PackCentredURL(vbox, _("Original Church Wars information here:"),
+                 "https://churchwars.sourceforge.io/", OurWebBrowser);
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_box_pack_start(GTK_BOX(vbox), hsep, FALSE, FALSE, 0);
