@@ -29,6 +29,9 @@
 #include <stdlib.h>             /* For atoi */
 #include <errno.h>              /* For errno */
 #include <ctype.h>              /* For isprint */
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #include <glib.h>
 
 #include "configfile.h"
