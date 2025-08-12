@@ -560,7 +560,11 @@ void AIJet(Player *AIPlay)
   }
   while (NewLocation == AIPlay->IsAt)
     NewLocation = brandom(0, NumLocation);
-  sprintf(text, "%d", NewLocation);
+  int ret = snprintf(text, sizeof(text), "%d", NewLocation);
+  if (ret < 0 || ret >= (int)sizeof(text)) {
+    g_warning("AIJet: failed to format new location");
+    text[sizeof(text) - 1] = '\0';
+  }
   SendClientMessage(AIPlay, C_NONE, C_REQUESTJET, NULL, text);
 }
 
