@@ -1110,10 +1110,17 @@ gchar *FormatPrice(price_t price)
   } else
     absprice = price;
   while (First || absprice > 0) {
+    int ret;
     if (absprice >= 1000)
-      sprintf(thou, "%03d", (int)(absprice % 1000l));
+      ret = snprintf(thou, sizeof(thou), "%03d",
+                     (int)(absprice % 1000l));
     else
-      sprintf(thou, "%d", (int)(absprice % 1000l));
+      ret = snprintf(thou, sizeof(thou), "%d",
+                     (int)(absprice % 1000l));
+    if (ret < 0 || ret >= (int)sizeof(thou)) {
+      g_warning("FormatPrice: failed to format price chunk");
+      thou[sizeof(thou) - 1] = '\0';
+    }
     absprice /= 1000l;
     if (!First)
       g_string_prepend_c(PriceStr, ',');
