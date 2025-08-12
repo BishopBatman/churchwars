@@ -1,5 +1,5 @@
 /* XPM */
-static char * dopewars_pill_xpm[] = {
+static char * churchwars_pill_xpm[] = {
 "32 32 19 1",
 " 	c None",
 ".	c #000000",
