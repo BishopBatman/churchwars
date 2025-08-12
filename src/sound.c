@@ -35,6 +35,7 @@
 #else
 #include "plugins/sound_sdl.h"
 #include "plugins/sound_esd.h"
+#include "plugins/sound_pulseaudio.h"
 #include "plugins/sound_winmm.h"
 #ifdef HAVE_COCOA
 SoundDriver *sound_cocoa_init(void);
@@ -167,6 +168,9 @@ void SoundInit(void)
 #else
 #ifdef HAVE_ESD
   AddPlugin(sound_esd_init, NULL);
+#endif
+#ifdef HAVE_PULSEAUDIO
+  AddPlugin(sound_pulseaudio_init, NULL);
 #endif
 #ifdef HAVE_SDL_MIXER
   AddPlugin(sound_sdl_init, NULL);
