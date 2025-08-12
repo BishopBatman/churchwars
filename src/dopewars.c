@@ -203,7 +203,7 @@ struct CURRENCY Currency = {
 };
 
 struct PRICES Prices = {
-  20000, 20000
+  1500, 1500
 };
 
 /* Default price range for hiring clerics.  Renamed from the old "Bitch"
@@ -700,9 +700,9 @@ struct COP DefaultCop[] = {
 struct GUN DefaultGun[] = {
   /* The names of the default guns */
   {N_("Mace"), 3000, 4, 5},
-  {N_("Crossbow"), 6000, 4, 9},
-  {N_("Spear"), 2500, 4, 4},
-  {N_("Battle Axe"), 4500, 4, 7}
+  {N_("Crossbow"), 5400, 6, 9},
+  {N_("Spear"), 2400, 3, 4},
+  {N_("Battle Axe"), 4200, 5, 7}
 };
 
 struct DRUG DefaultDrug[] = {
