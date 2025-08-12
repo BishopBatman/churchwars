@@ -25,24 +25,18 @@
 #endif
 
 #ifdef HAVE_SDL_MIXER
-#include <stdio.h>
-#include <string.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <glib.h>
 #include "../sound.h"
 
-struct ChannelStruct {
-  Mix_Chunk *chunk;
-  gchar *name;
-} channel[MIX_CHANNELS];
+static GHashTable *sound_cache;
   
 static gboolean SoundOpen_SDL(void)
 {
   const int audio_rate = MIX_DEFAULT_FREQUENCY;
   const int audio_format = MIX_DEFAULT_FORMAT;
   const int audio_channels = 2;
-  int i;
 
   if (SDL_Init(SDL_INIT_AUDIO) < 0) {
     return FALSE;
@@ -52,59 +46,50 @@ static gboolean SoundOpen_SDL(void)
     SDL_Quit();
     return FALSE;
   }
-  Mix_AllocateChannels(MIX_CHANNELS);
+  Mix_AllocateChannels(16);
 
-  for (i = 0; i < MIX_CHANNELS; i++) {
-    channel[i].chunk = NULL;
-    channel[i].name = NULL;
-  }
+  sound_cache = g_hash_table_new(g_str_hash, g_str_equal);
+
   return TRUE;
 }
 
 static void SoundClose_SDL(void)
 {
-  int i;
+  GHashTableIter iter;
+  gpointer key, value;
 
-  for (i = 0; i < MIX_CHANNELS; i++) {
-    g_free(channel[i].name);
-    if (channel[i].chunk) {
-      Mix_FreeChunk(channel[i].chunk);
+  if (sound_cache) {
+    g_hash_table_iter_init(&iter, sound_cache);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+      g_free(key);
+      Mix_FreeChunk((Mix_Chunk *)value);
     }
+    g_hash_table_destroy(sound_cache);
+    sound_cache = NULL;
   }
+
   Mix_CloseAudio();
   SDL_Quit();
 }
 
 static void SoundPlay_SDL(const gchar *snd)
 {
-  int i, chan_num;
   Mix_Chunk *chunk;
+  int chan_num;
 
-  for (i = 0; i < MIX_CHANNELS; i++) {
-    if (channel[i].name && strcmp(channel[i].name, snd) == 0) {
-      Mix_PlayChannel(-1, channel[i].chunk, 0);
+  chunk = g_hash_table_lookup(sound_cache, snd);
+  if (!chunk) {
+    chunk = Mix_LoadWAV(snd);
+    if (!chunk) {
       return;
     }
-  }
-
-  chunk = Mix_LoadWAV(snd);
-  if (!chunk) {
-    return;
+    g_hash_table_insert(sound_cache, g_strdup(snd), chunk);
   }
 
   chan_num = Mix_PlayChannel(-1, chunk, 0);
   if (chan_num < 0) {
-    Mix_FreeChunk(chunk);
-    return;
+    g_warning("Mix_PlayChannel failed for %s: %s", snd, Mix_GetError());
   }
-
-  if (channel[chan_num].chunk) {
-    Mix_FreeChunk(channel[chan_num].chunk);
-    g_free(channel[chan_num].name);
-  }
-
-  channel[chan_num].chunk = chunk;
-  channel[chan_num].name = g_strdup(snd);
 }
 
 SoundDriver *sound_sdl_init(void)
