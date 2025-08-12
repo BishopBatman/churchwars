@@ -2334,12 +2334,13 @@ void display_intro(GtkWidget *widget, gpointer data)
   label = gtk_label_new(_("It's AD 1095, and the Crusades are about to begin. "
                           "As a dedicated Trader-Saint, \nPope Urban II has "
                           "entrusted you with a crucial mission: navigate "
-                          "the bustling \nmedieval cities and trade valuable " 
+                          "the bustling \nmedieval cities and trade valuable "
                           "goods to amass significant wealth. \nYour efforts "
                           "will directly support the Holy Christian Church's "
                           "forthcoming crusade. \n\nThe Empire of the Holy "
-                          "Trinity relies on you!\n\n"
-  
+                          "Trinity relies on you!\nMay your faith guide your "
+                          "trades.\n\n"
+
                           "Based on John E. Dell's old Drug Wars game, "
                           "Church Wars is a simulation of an\nimaginary Crusader "
                           "market.  Church Wars is a Crusades game which "
