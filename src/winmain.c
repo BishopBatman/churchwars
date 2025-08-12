@@ -113,12 +113,18 @@ static void GetAppDataPath()
   mkdir(appdata_path);
 }
 
-static void LogFileStart()
+static gboolean LogFileStart()
 {
   char *logfile = g_strdup_printf("%s/dopewars-log.txt",
                                   appdata_path ? appdata_path : ".");
   LogFile = fopen(logfile, "w");
+  if (!LogFile) {
+    g_warning("Could not open log file '%s' for writing", logfile);
+    g_free(logfile);
+    return FALSE;
+  }
   g_free(logfile);
+  return TRUE;
 }
 
 static void LogFilePrintFunc(const gchar *string)
@@ -292,8 +298,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
   GetAppDataPath();
 
-  LogFileStart();
-  g_set_print_handler(LogFilePrintFunc);
+  if (LogFileStart())
+    g_set_print_handler(LogFilePrintFunc);
 
   g_log_set_handler(NULL, LogMask() | G_LOG_LEVEL_MESSAGE,
                     ServerLogMessage, NULL);
