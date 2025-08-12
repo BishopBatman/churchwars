@@ -39,7 +39,7 @@
 #include "tstring.h"
 #include "util.h"
 #include "gtkport/gtkport.h"
-#include "dopewars-pill.xpm"
+#include "churchwars-pill.xpm"
 #include "optdialog.h"
 #include "newgamedia.h"
 
@@ -2258,7 +2258,7 @@ gboolean GtkLoop(int *argc, char **argv[],
 
   gtk_widget_realize(window);
 
-  SetIcon(window, dopewars_pill_xpm);
+  SetIcon(window, churchwars_pill_xpm);
 
 #ifdef NETWORKING
   CurlInit(&MetaConn);

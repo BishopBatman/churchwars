@@ -1,12 +1,12 @@
 [Desktop Entry]
-Name=dopewars
-Name[de]=Drogenkrieg
-Name[pl]=Wojny narkotykowe
-Comment=dopewars drug dealing game
-Comment[pl]=Gra polegająca na handlowaniu narkotykami
-Comment[fr]=Jeu de vente de drogue
+Name=Church Wars
+Name[de]=Church Wars
+Name[pl]=Church Wars
+Comment=Church Wars strategy game
+Comment[pl]=Church Wars strategy game
+Comment[fr]=Church Wars strategy game
 Exec=dopewars
-Icon=dopewars-weed.png
+Icon=churchwars-weed.png
 Terminal=false
 Type=Application
 Categories=Application;Game;ArcadeGame;

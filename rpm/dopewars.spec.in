@@ -58,9 +58,9 @@ test "$RPM_BUILD_ROOT" != "/" && rm -rf ${RPM_BUILD_ROOT}
 %attr(0660,root,games) %config %{_localstatedir}/dopewars.sco
 %{_mandir}/man6/dopewars.6.gz
 %{_datadir}/gnome/apps/Games/dopewars.desktop
-%{_datadir}/pixmaps/dopewars-pill.png
-%{_datadir}/pixmaps/dopewars-weed.png
-%{_datadir}/pixmaps/dopewars-shot.png
+%{_datadir}/pixmaps/churchwars-pill.png
+%{_datadir}/pixmaps/churchwars-weed.png
+%{_datadir}/pixmaps/churchwars-shot.png
 %dir %{_datadir}/dopewars/
 %{_datadir}/dopewars/bye.wav
 %{_datadir}/dopewars/coinbuy.wav

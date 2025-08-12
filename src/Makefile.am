@@ -45,8 +45,8 @@ DEFS       = @DEFS@
 PIXDIR     = ${DESTDIR}${datadir}/pixmaps
 DOPEDIR    = ${DESTDIR}${bindir}
 DOPEBIN    = ${DOPEDIR}/dopewars
-PIXMAPS    = dopewars-pill.png dopewars-shot.png dopewars-weed.png
-EXTRA_DIST = ${PIXMAPS} pill.ico magic dopewars.rc dopewars.manifest
+PIXMAPS    = churchwars-pill.png churchwars-shot.png churchwars-weed.png
+EXTRA_DIST = ${PIXMAPS} pill.ico magic dopewars.rc churchwars.manifest
 CLEANFILES = dopewars.res dopewars.exe
 WINDRES    = @WINDRES@
 
