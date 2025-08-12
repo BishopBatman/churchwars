@@ -2285,8 +2285,8 @@ void SendEvent(Player *To)
       break;
     case E_HIREBITCH:
       if (To->IsAt + 1 == RoughPubLoc) {
-        /* Random pub price for a bitch, defaults to 40k-120k */
-        To->Bitches.Price = prandom(Bitch.MinPrice, Bitch.MaxPrice);
+        /* Random pub price for a cleric, defaults to 40k-120k */
+        To->Bitches.Price = prandom(Cleric.MinPrice, Cleric.MaxPrice);
         text =
             dpg_strdup_printf(_
                               ("YN^^Would you like to hire a %tde for %P?"),
@@ -2730,7 +2730,7 @@ static int GetArmor(Player *Play)
     if (Play->Bitches.Carried == 0)
       Armor = PlayerArmor;
     else
-      Armor = BitchArmor;
+      Armor = ClericArmor;
   }
   if (Armor == 0)
     Armor = 1;
@@ -2888,8 +2888,8 @@ void WithdrawFromCombat(Player *Play)
       } else if (CanRunHere(Defend)
                  && brandom(0, 100) > Location[Defend->IsAt].PolicePresence) {
         Defend->EventNum = E_DOCTOR;
-        /* Doctor price scales from the bitch price range (40k-120k by default) */
-        Defend->DocPrice = prandom(Bitch.MinPrice, Bitch.MaxPrice) *
+        /* Doctor price scales from the cleric price range (40k-120k by default) */
+        Defend->DocPrice = prandom(Cleric.MinPrice, Cleric.MaxPrice) *
             Defend->Health / 500;
         text =
             dpg_strdup_printf(_
@@ -3037,7 +3037,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
     } else {
 /* Street price is one-third of the shop price range (~13k–40k by default). */
       To->Bitches.Price =
-          prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)3;
+          prandom(Cleric.MinPrice, Cleric.MaxPrice) / (price_t)3;
       text =
           dpg_strdup_printf(_
                             ("YN^Hey trader! I'll help carry your %tde for a "

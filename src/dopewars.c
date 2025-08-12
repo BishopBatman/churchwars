@@ -206,7 +206,9 @@ struct PRICES Prices = {
   20000, 20000
 };
 
-struct BITCH Bitch = {
+/* Default price range for hiring clerics.  Renamed from the old "Bitch"
+ * terminology to reflect the updated in-game nomenclature. */
+struct CLERIC Cleric = {
   20000, 40000
 };
 
@@ -226,7 +228,7 @@ gboolean UseSocks;
 
 int NumTurns = 31;
 
-int PlayerArmor = 100, BitchArmor = 50;
+int PlayerArmor = 100, ClericArmor = 50;
 
 struct LOG Log;
 
@@ -474,10 +476,10 @@ struct GLOBALS Globals[] = {
   {&PlayerArmor, NULL, NULL, NULL, NULL, "PlayerArmor",
    N_("% resistance to gunshots of each player"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 100},
-{&BitchArmor, NULL, NULL, NULL, NULL, "BitchArmour",
+{&ClericArmor, NULL, NULL, NULL, NULL, "ClericArmour",
    N_("% resistance to gunshots of each cleric"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 1, 100},
-{&BitchArmor, NULL, NULL, NULL, NULL, "BitchArmor",
+{&ClericArmor, NULL, NULL, NULL, NULL, "ClericArmor",
    N_("% resistance to gunshots of each cleric"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 1, 100},
   {NULL, NULL, NULL, &StaticCop.Name, NULL, "Name",
@@ -617,10 +619,10 @@ struct GLOBALS Globals[] = {
 {NULL, NULL, &Prices.Tipoff, NULL, NULL, "Prices.Tipoff",
    N_("Cost for a cleric to tipoff the cops to an enemy"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
-{NULL, NULL, &Bitch.MinPrice, NULL, NULL, "Bitch.MinPrice",
+{NULL, NULL, &Cleric.MinPrice, NULL, NULL, "Cleric.MinPrice",
    N_("Minimum price to hire a cleric"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
-{NULL, NULL, &Bitch.MaxPrice, NULL, NULL, "Bitch.MaxPrice",
+{NULL, NULL, &Cleric.MaxPrice, NULL, NULL, "Cleric.MaxPrice",
    N_("Maximum price to hire a cleric"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
   {NULL, NULL, NULL, NULL, &SubwaySaying, "SubwaySaying",
