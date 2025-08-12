@@ -43,10 +43,10 @@ PLUGINS   = $(ESD_SO) $(PULSEAUDIO_SO) $(SDL_SO) $(COCOA_SO)
 all-local: ${PLUGINS}
 
 .libs/libsound_esd.so: $(libsound_esd_la_OBJECTS)
-        $(LINKNOO) -o libsound_esd.la -rpath $(libdir) $(libsound_esd_la_LDFLAGS) $(libsound_esd_la_OBJECTS) $(libsound_esd_la_LIBADD) $(LIBS)
+	$(LINKNOO) -o libsound_esd.la -rpath $(libdir) $(libsound_esd_la_LDFLAGS) $(libsound_esd_la_OBJECTS) $(libsound_esd_la_LIBADD) $(LIBS)
 
 .libs/libsound_pulseaudio.so: $(libsound_pulseaudio_la_OBJECTS)
-        $(LINKNOO) -o libsound_pulseaudio.la -rpath $(libdir) $(libsound_pulseaudio_la_LDFLAGS) $(libsound_pulseaudio_la_OBJECTS) $(libsound_pulseaudio_la_LIBADD) $(LIBS)
+	$(LINKNOO) -o libsound_pulseaudio.la -rpath $(libdir) $(libsound_pulseaudio_la_LDFLAGS) $(libsound_pulseaudio_la_OBJECTS) $(libsound_pulseaudio_la_LIBADD) $(LIBS)
 
 .libs/libsound_sdl.so: $(libsound_sdl_la_OBJECTS)
 	$(LINKNOO) -o libsound_sdl.la -rpath $(libdir) $(libsound_sdl_la_LDFLAGS) $(libsound_sdl_la_OBJECTS) $(libsound_sdl_la_LIBADD) $(LIBS)
