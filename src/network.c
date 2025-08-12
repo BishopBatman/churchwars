@@ -976,7 +976,7 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
     addlen = 2 + num_methods;
     addpt = ExpandWriteBuffer(conn, addlen, &NetBuf->error);
     if (!addpt)
-      return FALSE;
+      goto fail;
     addpt[0] = 5;               /* SOCKS version 5 */
     addpt[1] = num_methods;
     i = 2;
@@ -998,7 +998,7 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
   hints.ai_socktype = SOCK_STREAM;
   if ((ret = getaddrinfo(RemoteHost, NULL, &hints, &res)) != 0) {
     SetAIError(&NetBuf->error, ret);
-    return FALSE;
+    goto fail;
   }
   haddr = ((struct sockaddr_in *)res->ai_addr)->sin_addr;
   freeaddrinfo(res);
@@ -1011,12 +1011,12 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
     WNetGetUser(NULL, username, &bufsize);
     if (GetLastError() != ERROR_MORE_DATA) {
       SetError(&NetBuf->error, ET_WIN32, GetLastError(), NULL);
-      return FALSE;
+      goto fail;
     } else {
       username = g_malloc(bufsize);
       if (WNetGetUser(NULL, username, &bufsize) != NO_ERROR) {
         SetError(&NetBuf->error, ET_WIN32, GetLastError(), NULL);
-        return FALSE;
+        goto fail;
       }
     }
 #else
@@ -1025,7 +1025,7 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
     } else {
       pwd = getpwuid(getuid());
       if (!pwd || !pwd->pw_name)
-        return FALSE;
+        goto fail;
       username = g_strdup(pwd->pw_name);
     }
 #endif
@@ -1037,7 +1037,7 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
 
   addpt = ExpandWriteBuffer(conn, addlen, &NetBuf->error);
   if (!addpt)
-    return FALSE;
+    goto fail;
 
   addpt[0] = 4;                 /* SOCKS version */
   addpt[1] = 1;                 /* CONNECT */
@@ -1050,6 +1050,10 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
   CommitWriteBuffer(NetBuf, conn, addpt, addlen);
 
   return TRUE;
+
+fail:
+  g_free(username);
+  return FALSE;
 }
 
 static gboolean WriteBufToWire(NetworkBuffer *NetBuf, ConnBuf *conn)
