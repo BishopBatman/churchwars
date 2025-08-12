@@ -20,11 +20,11 @@ CURSESPORTSUBDIR = cursesport
 endif
 
 SUBDIRS = $(GUISUBDIR) $(CURSESSUBDIR) $(GTKPORTSUBDIR) $(CURSESPORTSUBDIR) plugins
-dopewars_LDADD = @GUILIB@ @CURSESLIB@ @GTKPORTLIB@ @CURSESPORTLIB@ @GTK_LIBS@ @LTLIBINTL@ @WNDRES@ @PLUGOBJS@ @PLUGLIBS@ @GLIB_LIBS@ @LIBCURL@
-dopewars_DEPENDENCIES = @GUILIB@ @CURSESLIB@ @GTKPORTLIB@ @CURSESPORTLIB@ @WNDRES@ @PLUGOBJS@
+churchwars_LDADD = @GUILIB@ @CURSESLIB@ @GTKPORTLIB@ @CURSESPORTLIB@ @GTK_LIBS@ @LTLIBINTL@ @WNDRES@ @PLUGOBJS@ @PLUGLIBS@ @GLIB_LIBS@ @LIBCURL@
+churchwars_DEPENDENCIES = @GUILIB@ @CURSESLIB@ @GTKPORTLIB@ @CURSESPORTLIB@ @WNDRES@ @PLUGOBJS@
 
-bin_PROGRAMS = dopewars
-dopewars_SOURCES = admin.c admin.h AIPlayer.c AIPlayer.h util.c util.h \
+bin_PROGRAMS = churchwars
+churchwars_SOURCES = admin.c admin.h AIPlayer.c AIPlayer.h util.c util.h \
                    configfile.c configfile.h convert.c convert.h \
                    dopewars.c dopewars.h error.c error.h log.c log.h \
                    message.c message.h network.c network.h nls.h \
@@ -32,7 +32,7 @@ dopewars_SOURCES = admin.c admin.h AIPlayer.c AIPlayer.h util.c util.h \
                    tstring.c tstring.h winmain.c winmain.h mac_helpers.h
 AM_CPPFLAGS= -I${srcdir} @GLIB_CFLAGS@ @GTK_CFLAGS@ @LIBCURL_CPPFLAGS@
 if APPLE
-dopewars_SOURCES += mac_helpers.m
+churchwars_SOURCES += mac_helpers.m
 MACLDFLAGS = -framework AppKit
 else
 MACLDFLAGS =
@@ -43,18 +43,18 @@ LINK = $(MYLINK) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) $(MACLDFLAGS) -o $@
 OBJCLINK = $(MYLINK) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) $(MACLDFLAGS) -o $@
 DEFS       = @DEFS@
 PIXDIR     = ${DESTDIR}${datadir}/pixmaps
-DOPEDIR    = ${DESTDIR}${bindir}
-DOPEBIN    = ${DOPEDIR}/dopewars
+CHURCHDIR    = ${DESTDIR}${bindir}
+CHURCHBIN    = ${CHURCHDIR}/churchwars
 PIXMAPS    = churchwars-pill.png churchwars-shot.png churchwars-weed.png
-EXTRA_DIST = ${PIXMAPS} pill.ico magic dopewars.rc churchwars.manifest
-CLEANFILES = dopewars.res dopewars.exe
+EXTRA_DIST = ${PIXMAPS} pill.ico magic churchwars.rc churchwars.manifest
+CLEANFILES = churchwars.res churchwars.exe
 WINDRES    = @WINDRES@
 
 install-exec-hook:
-	@chgrp games ${DOPEBIN} || chgrp wheel ${DOPEBIN} || \
-	  ( echo "WARNING: Cannot change group of dopewars binary - the high"; \
+	@chgrp games ${CHURCHBIN} || chgrp wheel ${CHURCHBIN} || \
+	  ( echo "WARNING: Cannot change group of churchwars binary - the high"; \
 	    echo "score file may be unreadable or unwriteable by some users" )
-	chmod 2755 ${DOPEBIN}
+	chmod 2755 ${CHURCHBIN}
 
 install-data-local:
 	${mkinstalldirs} ${PIXDIR}
