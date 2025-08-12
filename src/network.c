@@ -111,12 +111,12 @@ void SetReuse(SOCKET sock)
   }
 }
 
-void SetBlocking(SOCKET sock, gboolean blocking)
+gboolean SetBlocking(SOCKET sock, gboolean blocking)
 {
   unsigned long param;
 
   param = blocking ? 0 : 1;
-  ioctlsocket(sock, FIONBIO, &param);
+  return (ioctlsocket(sock, FIONBIO, &param) == 0);
 }
 
 #else
@@ -139,9 +139,26 @@ void SetReuse(int sock)
   }
 }
 
-void SetBlocking(int sock, gboolean blocking)
+gboolean SetBlocking(int sock, gboolean blocking)
 {
-  fcntl(sock, F_SETFL, blocking ? 0 : O_NONBLOCK);
+#ifdef HAVE_FCNTL_H
+  int flags;
+
+  flags = fcntl(sock, F_GETFL);
+  if (flags == -1)
+    return FALSE;
+
+  if (blocking)
+    flags &= ~O_NONBLOCK;
+  else
+    flags |= O_NONBLOCK;
+
+  return (fcntl(sock, F_SETFL, flags) != -1);
+#else
+  (void)sock;
+  (void)blocking;
+  return TRUE;
+#endif
 }
 
 #endif /* CYGWIN */
