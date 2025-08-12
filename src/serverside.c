@@ -1586,7 +1586,8 @@ static void SetupTaskBarIcon(GtkWidget *widget)
     nid.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     nid.uCallbackMessage = MYWM_TASKBAR;
     nid.hIcon = mainIcon;
-    strcpy(nid.szTip, "dopewars server - running");
+    /* NOTIFYICONDATA::szTip is limited (typically 128 chars including NUL). */
+    snprintf(nid.szTip, sizeof(nid.szTip), "dopewars server - running");
     systray = Shell_NotifyIcon(NIM_ADD, &nid);
   } else {
     systray = FALSE;
