@@ -165,7 +165,7 @@ struct NAMES Names = {
 };
 struct SOUNDS Sounds = {
   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-  NULL, NULL, NULL, NULL, NULL, NULL, NULL
+  NULL, NULL, NULL, NULL, NULL
 };
 
 /* N.B. The slightly over-enthusiastic comments here are for the benefit
@@ -385,9 +385,6 @@ struct GLOBALS Globals[] = {
    NULL, NULL, FALSE, 0, 0},
   {NULL, NULL, NULL, &Sounds.FightMiss, NULL, "Sounds.FightMiss",
    N_("Sound file played for a gun \"miss\""), NULL, NULL, 0, "",
-   NULL, NULL, FALSE, 0, 0},
-  {NULL, NULL, NULL, &Sounds.FightReload, NULL, "Sounds.FightReload",
-   N_("Sound file played when guns are reloaded"), NULL, NULL, 0, "",
    NULL, NULL, FALSE, 0, 0},
   {NULL, NULL, NULL, &Sounds.EnemyBitchKilled, NULL, "Sounds.EnemyBitchKilled",
    N_("Sound file played when an enemy bitch/deputy is killed"),

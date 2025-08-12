@@ -136,7 +136,6 @@ void ReceiveAbilities(Player *Play, gchar *Data);
 void CombineAbilities(Player *Play);
 void SetAbility(Player *Play, gint Type, gboolean Set);
 gboolean HaveAbility(Player *Play, gint Type);
-void SendFightReload(Player *To);
 void SendOldCanFireMessage(Player *To, GString *text);
 void SendOldFightPrint(Player *To, GString *text, gboolean FightOver);
 void SendFightLeave(Player *Play, gboolean FightOver);

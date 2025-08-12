@@ -3613,7 +3613,7 @@ GSList *HandleTimeouts(GSList *First)
       if (IsCop(Play))
         Fire(Play);
       else
-        SendFightReload(Play);
+        SendFightMessage(Play, NULL, 0, F_RELOAD, (price_t)0, FALSE, NULL);
     }
     list = nextlist;
   }

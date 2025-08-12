@@ -1110,11 +1110,6 @@ gboolean HandleGenericClientMessage(Player *From, AICode AI, MsgCode Code,
   return TRUE;
 }
 
-void SendFightReload(Player *To)
-{
-  SendFightMessage(To, NULL, 0, F_RELOAD, (price_t)0, FALSE, NULL);
-}
-
 void SendOldCanFireMessage(Player *To, GString *text)
 {
   if (To->EventNum == E_FIGHT) {
@@ -1203,9 +1198,6 @@ void ReceiveFightMessage(gchar *Data, gchar **AttackName,
     break;
   case F_MISS:
     SoundPlay(Sounds.FightMiss);
-    break;
-  case F_RELOAD:
-    SoundPlay(Sounds.FightReload);
     break;
   case F_FAILFLEE:
     SoundPlay(*AttackName[0] ? Sounds.EnemyFailFlee : Sounds.FailFlee);
