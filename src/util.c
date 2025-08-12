@@ -46,49 +46,70 @@
 
 #ifndef HAVE_GETOPT
 char *optarg;
+int optind = 1;
+int optopt;
 
-static int apos = 1; /* Skip argv[0], the executable name */
+static int apos = 1; /* position within current argv element */
 
 int getopt(int argc, char *const argv[], const char *str)
 {
-  int i, c;
-  char *pt;
+  char *arg, *pt;
+  char c;
+
+  if (optind == 0) {
+    optind = 1;
+    apos = 1;
+  }
 
   optarg = NULL;
 
-  while (apos < argc && argv[apos]) {
-    if (argv[apos][0] != '-') {
-      apos++;
-      return 0;
-    }
-    for (i = 1; i < strlen(argv[apos]); i++) {
-      c = argv[apos][i];
-      if (c == '-')
-        continue;
-      pt = strchr(str, c);
-      if (pt) {
-        argv[apos][i] = '-';
-        if (*(pt + 1) == ':') {
-          if (apos + 1 < argc && i == strlen(argv[apos]) - 1) {
-            apos++;
-            optarg = argv[apos];
-            apos++;
-          } else {
-            optarg = NULL;
-            apos++;
-            return ':';
-          }
-        }
-        return c;
-      } else {
-        argv[apos][i] = '-';
-        optarg = NULL;
-        return '?';
-      }
-    }
-    apos++;
+  if (optind >= argc || argv[optind] == NULL) {
+    apos = 1;
+    return -1;
   }
-  return EOF;
+
+  arg = argv[optind];
+  if (arg[0] != '-' || arg[1] == '\0') {
+    apos = 1;
+    return -1;
+  }
+  if (strcmp(arg, "--") == 0) {
+    optind++;
+    apos = 1;
+    return -1;
+  }
+
+  c = arg[apos++];
+  optopt = c;
+  pt = strchr(str, c);
+  if (!pt) {
+    if (arg[apos] == '\0') {
+      optind++;
+      apos = 1;
+    }
+    return '?';
+  }
+
+  if (*(pt + 1) == ':') {
+    if (arg[apos] != '\0') {
+      optarg = &arg[apos];
+      optind++;
+      apos = 1;
+    } else if (optind + 1 < argc && argv[optind + 1]) {
+      optarg = argv[++optind];
+      optind++;
+      apos = 1;
+    } else {
+      optind++;
+      apos = 1;
+      return (str[0] == ':') ? ':' : '?';
+    }
+  } else if (arg[apos] == '\0') {
+    optind++;
+    apos = 1;
+  }
+
+  return c;
 }
 #endif /* HAVE_GETOPT */
 
