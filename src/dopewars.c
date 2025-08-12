@@ -112,6 +112,7 @@ int DrugSortMethod = DS_ATOZ;
 int FightTimeout = 5, IdleTimeout = 14400, ConnectTimeout = 300;
 int MaxClients = 20, AITurnPause = 5;
 price_t StartCash = 2000, StartDebt = 5500;
+int BaseCoatSize = 40;
 GSList *ServerList = NULL;
 
 GScannerConfig ScannerConfig = {
@@ -872,7 +873,7 @@ GSList *AddPlayer(int fd, Player *NewPlayer, GSList *First)
   NewPlayer->Bitches.Carried = 3;
   NewPlayer->CopIndex = 0;
   NewPlayer->Health = 100;
-  NewPlayer->CoatSize = 100;
+  NewPlayer->CoatSize = BaseCoatSize + NewPlayer->Bitches.Carried * 20;
   NewPlayer->Flags = 0;
 #ifdef NETWORKING
   InitNetworkBuffer(&NewPlayer->NetBuf, '\n', '\r',

@@ -3383,7 +3383,7 @@ void ClearPrices(Player *Play)
  */
 void GainBitch(Player *Play)
 {
-  Play->CoatSize += 10;
+  Play->CoatSize += 20;
   Play->Bitches.Carried++;
 }
 
@@ -3399,7 +3399,7 @@ int LoseBitch(Player *Play, Inventory *Guns, Inventory *Drugs)
   GunIndex = g_new(int, NumGun);
 
   ClearInventory(Guns, Drugs);
-  Play->CoatSize -= 10;
+  Play->CoatSize -= 20;
   if (TotalGunsCarried(Play) > 0) {
     if (brandom(0, 100) <
         TotalGunsCarried(Play) * 100 / (Play->Bitches.Carried + 2)) {
