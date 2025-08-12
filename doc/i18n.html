@@ -13,36 +13,36 @@
 <body>
 <h1>Internationalization</h1>
 
-<p>dopewars uses the <a href="http://www.gnu.org/manual/gettext/">GNU
+<p>Church Wars uses the <a href="http://www.gnu.org/manual/gettext/">GNU
 gettext</a> utilities for internationalization (i18n) support. This allows the
-software to be translated into the local language at runtime - run dopewars in
+software to be translated into the local language at runtime - run Church Wars in
 the UK and it'll talk to you in English, but run it in Germany and it'll talk
 to you in German. This relies on translators to translate the program's output
 into each language beforehand, of course, and so native language speakers to
 carry out this task are always needed!</p>
 
 <ul>
-<li><a href="#running">Running dopewars with i18n support</a></li>
+<li><a href="#running">Running Church Wars with i18n support</a></li>
 <li><a href="#adding">Adding a new translation</a></li>
-<li><a href="#dopespec">dopewars specifics</a></li>
-<li><a href="#updating">Updating a translation for a new dopewars
+<li><a href="#dopespec">Church Wars specifics</a></li>
+<li><a href="#updating">Updating a translation for a new Church Wars
 version</a></li>
 <li><a href="#current">Currently available translations</a></li>
 </ul>
 
-<h2><a id="running">Running dopewars with i18n support</a></h2>
-<p>i18n is only included in versions of dopewars later than 1.4.8. By default,
+<h2><a id="running">Running Church Wars with i18n support</a></h2>
+<p>i18n is only included in versions of Church Wars later than 1.4.8. By default,
 "Native Language Support" is compiled in; binary installations should be
-already set up for i18n. When compiling dopewars from source code, the
+already set up for i18n. When compiling Church Wars from source code, the
 <tt>configure</tt> script should detect whether your system can support
 GNU gettext. To disable i18n,
 pass the <tt>--disable-nls</tt> option to the <tt>configure</tt> script.</p>
 
-<p>When you run your installed copy of dopewars, it should detect your "locale"
+<p>When you run your installed copy of Church Wars, it should detect your "locale"
 automatically and talk to you in your native language. If this does not happen,
 the following are some possible explanations:-</p>
 <ul>
-<li>dopewars cannot find the locale-specific language file - by default, stored
+<li>Church Wars cannot find the locale-specific language file - by default, stored
 under /usr/local/share/locale/</li>
 <li>Your language is not yet supported - why not add it yourself?</li>
 <li>Your system does not have locale support.</li>
@@ -52,12 +52,12 @@ under Windows is only supported by version 1.5.3 and later.</li>
 <li>You haven't set an environment variable to specify your locale (usually
 this is done automatically). For example, if you're using the <tt>bash</tt>
 shell and want a German translation, the command "<tt>export LANG=de_DE</tt>"
-should ensure that dopewars (and all other i18n-aware programs launched from
+should ensure that Church Wars (and all other i18n-aware programs launched from
 this shell) will use the German language.</li>
 </ul>
 
 <h2><a id="adding">Adding a new translation</a></h2>
-<p>Translation files are kept in the subdirectory <tt>po/</tt> of the dopewars
+<p>Translation files are kept in the subdirectory <tt>po/</tt> of the Church Wars
 source code distribution. They are named by
 <a href="http://userpage.chemie.fu-berlin.de/diverse/doc/ISO_639.html">
 2-letter language codes</a> followed by the <tt>.po</tt> extension - for
@@ -67,17 +67,17 @@ They are simple text files, consisting of lists of the original English string
 "msgstr").</p>
 
 <p>To add a new translation, first
-<a href="installation.html">install dopewars from source code</a>. This will
-generate the reference file <tt>dopewars.pot</tt> in the <tt>po</tt>
-subdirectory. Then, copy <tt>dopewars.pot</tt> to your language-specific
+<a href="installation.html">install Church Wars from source code</a>. This will
+generate the reference file <tt>churchwars.pot</tt> in the <tt>po</tt>
+subdirectory. Then, copy <tt>churchwars.pot</tt> to your language-specific
 <tt>.po</tt> file in the
 <tt>po/</tt> directory, and fill in the "msgstr" entries. Once this is done,
-edit the <tt>configure.ac</tt> file in the top dopewars directory to add your
+edit the <tt>configure.ac</tt> file in the top churchwars directory to add your
 language code to the <tt>ALL_LINGUAS</tt> variable. Then run <tt>autoconf</tt>
-to rebuild the <tt>configure</tt> script, before making and installing dopewars
+to rebuild the <tt>configure</tt> script, before making and installing Church Wars
 as usual. The new translation should now be available. Once this is complete,
-please <a href="https://github.com/benmwebb/dopewars/pulls">open a pull
-request</a> to have the translation included in the next dopewars version.</p>
+please <a href="https://github.com/benmwebb/churchwars/pulls">open a pull
+request</a> to have the translation included in the next Church Wars version.</p>
 
 <p>Please note that some strings are <b>format strings</b> containing the %
 character. These are used in the program code for substituting numbers and
@@ -96,7 +96,7 @@ probably crash the program on running! To fix this, use the special notation<br 
 (i.e. replace <b>%x</b> with <b>%n$x</b> where <b>n</b> is the index that the
 format specifier "should" have, starting from 1.)</p>
 
-<h2><a id="dopespec">dopewars specifics</a></h2>
+<h2><a id="dopespec">Church Wars specifics</a></h2>
 <ul>
 <li>When questions are asked in the curses (text mode) client, the keys that
 you are allowed to press in reply are stored in a string. This should be
@@ -104,9 +104,9 @@ translated to suitable keys in your language, in the <b>same</b> order as
 the original - e.g. "<tt>YN</tt>" (for Yes/No) could be translated in German
 to "<tt>JN</tt>" (for Ja/Nein).<p /></li>
 
-<li>When a dopewars server asks a client a question, the valid replies are
+<li>When a Church Wars server asks a client a question, the valid replies are
 sent at the start of the message, followed by a "<tt>^</tt>" character. These
-replies define the dopewars protocol, and so should <b>not</b> be
+replies define the Church Wars protocol, and so should <b>not</b> be
 translated - they will prevent clients and servers from talking to each other
 properly. So for example, the string "<tt>YN^Would you like to visit %s?</tt>"
 should be translated as you wish, but with the "<tt>YN^</tt>" at the start
@@ -122,9 +122,9 @@ free to translate <tt>%txx</tt> to use the most appropriate form of the word.
 If you wish to capitalise the first letter of the word (as used in English for
 titles, etc.) then use "<tt>%T</tt>" rather than "<tt>%t</tt>".<p />
 
-<p>Obviously dopewars cannot guess what your "alternative forms" are; you must
-specify them yourself. Essentially, when setting a string in a dopewars
-configuration file (or the defaults, which are set in dopewars.c) alternative
+<p>Obviously Church Wars cannot guess what your "alternative forms" are; you must
+specify them yourself. Essentially, when setting a string in a Church Wars
+configuration file (or the defaults, which are set in churchwars.c) alternative
 forms can be added by alternating two-letter codes and alternative forms after
 the original word, separating them by _ (underline) symbols. For example,<br />
 <tt>Names.Bitch = "bitch_no_bitcho_ac_bitche"</tt><br />
@@ -141,7 +141,7 @@ different two-letter codes as you want to.</p>
 <p>For a good working example of the "<tt>%tde</tt>" notation, see the
 Norwegian Nynorsk translation (<tt>nn.po</tt>).</p>
 
-<p>Additionally, prices in dopewars are automatically formatted into strings by
+<p>Additionally, prices in Church Wars are automatically formatted into strings by
 means of the %P notation, and comments can be introduced into format strings
 by means of the %/.../ notation. Everything between the two / characters is
 not printed. This is used to "qualify" some strings for translation, and the
@@ -151,25 +151,25 @@ not need to be translated).</p>
 
 </ul>
 
-<h2><a id="updating">Updating a translation for a new dopewars
+<h2><a id="updating">Updating a translation for a new Church Wars
 version</a></h2>
 
-<p>New versions of dopewars will often change what is printed to the user, and
+<p>New versions of Church Wars will often change what is printed to the user, and
 so may may require changes to the translation. To update an existing
-translation, change into the <tt>po</tt> subdirectory of the dopewars
-source code, and do a "<tt>make dopewars.pot</tt>". This creates the
-<tt>dopewars.pot</tt> file, which lists the strings that need translating.
+translation, change into the <tt>po</tt> subdirectory of the Church Wars
+source code, and do a "<tt>make churchwars.pot</tt>". This creates the
+<tt>churchwars.pot</tt> file, which lists the strings that need translating.
 Next, create a new translation file from your "old" translation file (we'll
-assume it's called <tt>de.po</tt>) and <tt>dopewars.pot</tt> with the
+assume it's called <tt>de.po</tt>) and <tt>churchwars.pot</tt> with the
 <tt>msgmerge</tt> command:-<br />
-<tt>msgmerge -o newfile de.po dopewars.pot</tt><br />
+<tt>msgmerge -o newfile de.po churchwars.pot</tt><br />
 Examine this new file <tt>newfile</tt> for translations that need updating
 (a search for "fuzzy" should find most of them) and then overwrite your old
 translation with the new one:<br />
 <tt>mv newfile de.po</tt><br />
-Rebuild and reinstall dopewars, and the new translations should become
+Rebuild and reinstall Church Wars, and the new translations should become
 available. Again, it is deeply appreciated if such updated files are
-contributed to the main dopewars distribution!</p>
+contributed to the main Church Wars distribution!</p>
 
 <h2><a id="current">Currently available translations</a></h2>
 

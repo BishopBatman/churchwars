@@ -1,27 +1,27 @@
 PREREQUISITES
 =============
 
-dopewars _requires_ the GLib library for compilation, even when not using
+Church Wars _requires_ the GLib library for compilation, even when not using
 the GTK+ client. Other libraries may be required for additional features:-
 
 Unix/Linux:
    - Get GLib from http://www.gtk.org/
    - For the GTK+ client, GTK+ libraries are needed, also from
      http://www.gtk.org/ (GTK+2 and GTK+3 are supported). To actually
-     compile dopewars, you'll probably need your distribution's
+     compile Church Wars, you'll probably need your distribution's
      "gtk-devel" package.
    - For the curses client, curses, ncurses or libcurses_color libraries
      and headers are required.
 
 Windows:
-   - dopewars can be built via cross-compilation using MinGW. See
+   - Church Wars can be built via cross-compilation using MinGW. See
      the win32 directory for more information.
 
 
 INSTALLATION
 ============
 
-dopewars installation should require no more than the following:-
+Church Wars installation should require no more than the following:-
 
 	./configure
 	make
@@ -40,34 +40,34 @@ the -s option in LDFLAGS. In a Bourne-compatible shell, this can be achieved
 with a command similar to the following:-
 	LDFLAGS="-s" ./configure
 
-The dopewars high score file is written as /usr/local/var/dopewars.sco on
-Unix systems or ./dopewars.sco on Win32 systems by default. On Unix systems,
+The churchwars high score file is written as /usr/local/var/churchwars.sco on
+Unix systems or ./churchwars.sco on Win32 systems by default. On Unix systems,
 translations, documentation, sounds and graphics are installed in the
-locale, doc, dopewars and pixmaps directories respectively under
+locale, doc, churchwars and pixmaps directories respectively under
 /usr/local/share. (On Windows systems, these directories are under the
 current directory.) On Unix systems, you can move the score file with the
 --localstatedir flag to configure, the sounds with the --datadir flag, and
 the documentation with the --docdir flag. (On Win32 systems, these flags are
-ignored.) The dopewars binary can also be moved from /usr/local/bin/dopewars
+ignored.) The churchwars binary can also be moved from /usr/local/bin/churchwars
 with the --bindir flag. For example:-
 
-	./configure --bindir=/usr/bin --localstatedir=/var/lib/games
-will configure the system to write the dopewars binary as /usr/bin/dopewars
-and the high score as /var/lib/games/dopewars.sco
+        ./configure --bindir=/usr/bin --localstatedir=/var/lib/games
+will configure the system to write the churchwars binary as /usr/bin/churchwars
+and the high score as /var/lib/games/churchwars.sco
 
 Other options to ./configure include:-
 
 --enable-networking:
-	Compile dopewars with support for running as a server, and/or to
+	Compile Church Wars with support for running as a server, and/or to
 connect to existing servers over a TCP/IP network. (Without networking,
-dopewars will only be useable in single-player mode.) If this option is not
+Church Wars will only be useable in single-player mode.) If this option is not
 specified, the configure script will enable networking only if it believes
 your system has the necessary support functions (select and socket). You can
 also explicitly disable networking with --enable-networking=no or
 --disable-networking
 
 --enable-gui-client:
-	Compile a graphical dopewars client, using GTK+ on Unix systems and
+	Compile a graphical Church Wars client, using GTK+ on Unix systems and
 the standard libaries under Windows. If unspecified, this is enabled only
 if your system has the necessary libraries (e.g. GTK+) installed.
 
@@ -77,12 +77,12 @@ and the standard libraries under Windows. If unspecified, this is enabled only
 if you have ncurses (or similar) installed.
 
 --enable-gui-server:
-	Use a (very basic) graphical interface to the dopewars server. If not
+	Use a (very basic) graphical interface to the Church Wars server. If not
 specified, this is enabled under Windows and disabled under Unix (where a
 simple text-mode server is used instead).
 
 --enable-strict
-	If using gcc to compile dopewars (recommended) then this turns on
+	If using gcc to compile Church Wars (recommended) then this turns on
 extra warning messages (useful for debugging, etc.) Unfortunately a lot of
 these warnings can be safely ignored, so this is not the default.
 

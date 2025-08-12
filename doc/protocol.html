@@ -6,12 +6,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
-<title>The dopewars network protocol</title>
+<title>The Church Wars network protocol</title>
 <meta charset="utf-8"/>
 </head>
 
 <body>
-<h1>The dopewars network protocol</h1>
+<h1>The Church Wars network protocol</h1>
 
 <ul>
 <li><a href="#syntax">Syntax used in this document</a></li>
@@ -43,7 +43,7 @@ the message exactly as printed here.</p>
 
 <h2><a id="format">General message format</a></h2>
 
-<p>dopewars clients communicate with the dopewars server by means of a TCP/IP
+<p>Church Wars clients communicate with the Church Wars server by means of a TCP/IP
 connection. Messages are sent in plain text, are of variable length, and
 are always terminated by a linefeed character ('\n', ASCII code 10)</p>
 
@@ -81,12 +81,12 @@ servers may not send all the fields, so if fewer fields than expected are
 received, the client should substitute default values.</p>
 
 <p>Message codes are shown below, together with the symbolic constants used in
-the dopewars code for clarity (e.g. the 'A' code is represented by
+the Church Wars code for clarity (e.g. the 'A' code is represented by
 C_PRINTMESSAGE)</p>
 
 <p>For the AI codes, see the AICode type in src/message.h</p>
 
-<p><a id="oldprotocol">N.B. Older versions of dopewars used a less
+<p><a id="oldprotocol">N.B. Older versions of Church Wars used a less
 sophisticated protocol:-</a></p>
 
 <dl>
@@ -114,7 +114,7 @@ listen for incoming messages, and respond appropriately.</p>
 
 <h2><a id="refserver">Server to client message reference</a></h2>
 
-<p>The messages listed below may be sent from a dopewars server to the client.
+<p>The messages listed below may be sent from a Church Wars server to the client.
 Most of these messages require some kind of processing to be done, and may
 require a response. The client cannot safely ignore such messages, as the
 server will not "retry" if the client does not respond.</p>
@@ -181,7 +181,7 @@ loan shark, in the bank<br />
 <tt>coatsize</tt> = amount of space available for drugs/guns<br />
 <tt>locn</tt> = zero-based game location<br />
 <tt>turn</tt> = turn number<br />
-<tt>flags</tt> = player status flags - see PlayerFlags in src/dopewars.h for
+<tt>flags</tt> = player status flags - see PlayerFlags in src/churchwars.h for
 the individual binary bits. The only one currently used is SPYINGON (16) which
 is set if the player is currently spying on one or more other players<br />
 <tt>GUNS</tt> = the numbers of each gun carried, separated by ^ characters
@@ -278,7 +278,7 @@ e.g. "1^AbFred"<br />
 <dt><b>C_INIT</b> ('<tt>k</tt>')</dt>
 <dd>Tells the client about various global game settings<br />
 <tt>data</tt> = <tt>"version"^&lt;numloc&gt;^&lt;numgun&gt;^&lt;numdrug&gt;^"bitch"^"bitches"^"gun"^"guns"^"drug"^"drugs"^"date"^&lt;ID&gt;^"loanshark"^"bank"^"gunshop"^"pub"^(prefix)"currency"</tt><br />
-<tt>version</tt> = dopewars version of the server - e.g. "1.5.2"<br />
+<tt>version</tt> = Church Wars version of the server - e.g. "1.5.2"<br />
 <tt>numloc</tt> = the number of locations in the game<br />
 <tt>numgun</tt> = the number of guns in the game<br />
 <tt>numdrug</tt> = the number of drugs in the game<br />
@@ -397,35 +397,35 @@ server have exchanged C_ABILITIES messages the server will "talk" using the old
 protocol. Thus, the C_ABILITIES message itself from the client, and any
 succeeding messages sent before the server sends C_ABILITIES back, must be
 sent using the old protocol. "Old" servers will ignore the C_ABILITIES
-message.) Ability name in dopewars code: <b>A_PLAYERID</b></p>
+message.) Ability name in Church Wars code: <b>A_PLAYERID</b></p>
 
 <p><a id="drugvalue"><tt>drugvalue</tt></a> = '1' if the server should keep
 track of how much players paid for their drugs, so that they can see whether
 they're getting a good deal when they come to sell them ('0' otherwise).
-Ability name in dopewars code: <b>A_DRUGVALUE</b></p>
+Ability name in Church Wars code: <b>A_DRUGVALUE</b></p>
 
 <p><a id="newfight"><tt>newfight</tt></a> = '1' if we use the "new" fighting
-interface (documented here). Highly recommended. Ability name in dopewars
+interface (documented here). Highly recommended. Ability name in Church Wars
 code: <b>A_NEWFIGHT</b></p>
 
 <p><a id="tstring"><tt>tstring</tt></a> = '1' if names of drugs etc. should be
 sent in the <a href="i18n.html">translated string</a> (tstring) notation;
 only necessary if you are supporting non-English languages. Ability name
-in dopewars code: <b>A_TSTRING</b></p>
+in Church Wars code: <b>A_TSTRING</b></p>
 
 <p><a id="donefight"><tt>donefight</tt></a> = '1' if, when a fight finishes,
 the client is expected to send a C_DONE message to instruct the server to
 move on. (This is to allow the user to close the fight dialog before any
-new dialogs pop up.) Ability name in dopewars code: <b>A_DONEFIGHT</b></p>
+new dialogs pop up.) Ability name in Church Wars code: <b>A_DONEFIGHT</b></p>
 
 <p><a id="utf8"><tt>utf8</tt></a> = '1' if all strings are sent over the
 network in UTF-8 (Unicode) encoding, rather than an encoding specific to
-the locale of the server or client. Ability name in dopewars code:
+the locale of the server or client. Ability name in Church Wars code:
 <b>A_UTF8</b></p>
 
 <p><a id="date"><tt>date</tt></a> = '1' if the C_INIT message sends/receives
 the Names.Date variable, rather than Names.Month and Names.Year as older
-versions used to. Ability name in dopewars code: <b>A_DATE</b></p>
+versions used to. Ability name in Church Wars code: <b>A_DATE</b></p>
 
 <p><b>N.B.</b> Only seven abilities are listed here. Older servers or clients
 may not only not support some of these abilities, they may not even know

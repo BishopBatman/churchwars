@@ -6,18 +6,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 
 <head>
-<title>The dopewars metaserver</title>
+<title>The Church Wars metaserver</title>
 <meta charset="utf-8"/>
 </head>
 
 <body>
-<h1>The dopewars metaserver</h1>
+<h1>The Church Wars metaserver</h1>
 
-<p>Every dopewars <a href="server.html">server</a> is different, due to their
+<p>Every Church Wars <a href="server.html">server</a> is different, due to their
 differing locations and configurations. Thus some centralised system for
 listing the currently available servers and displaying some sort of comment
 about the games running on them is necessary, to enable client players to
-pick the game that most suits them. This is the function of the dopewars
+pick the game that most suits them. This is the function of the Church Wars
 <b>metaserver</b>.</p>
 
 <ul>
@@ -34,14 +34,14 @@ pick the game that most suits them. This is the function of the dopewars
 <h2><a id="location">Metaserver location</a></h2>
 <p>The metaserver is a <a href="https://www.php.net/">PHP</a> script which lives
 at <a href="https://sourceforge.net/">SourceForge</a>. It is accessed by both
-dopewars servers and clients via TCP connection to port 443, by standard
+Church Wars servers and clients via TCP connection to port 443, by standard
 encrypted HTTPS.</p>
 
 <h2><a id="client">Using the metaserver from the client</a></h2>
 <p>Players who want to use the metaserver to list the currently available
 servers should go to
-<a href="https://dopewars.sourceforge.io/metaserver.php?getlist=2">this
-link</a>, or just follow the "Active servers" link from the main dopewars web
+<a href="https://churchwars.sourceforge.io/metaserver.php?getlist=2">this
+link</a>, or just follow the "Active servers" link from the main Church Wars web
 page. It cannot be guaranteed that all the listed servers are functional - they
 may, for example, have been registered in error, or a server may have crashed
 since being added to the list - but the list is checked daily for service,
@@ -62,7 +62,7 @@ which <b>do</b> register their details can have their accompanying comment
 set with the <a href="configfile.html#MetaServerComment">
 MetaServer.Comment</a> configuration file setting.</p>
 
-<p>Each dopewars server notifies the metaserver of its current status, and
+<p>Each Church Wars server notifies the metaserver of its current status, and
 sends this data on startup and shutdown, and when players leave or join the
 game. See the <a href="server.html">server page</a> for more details.</p>
 
@@ -76,7 +76,7 @@ address of your server and not its domain name, or that it gets the domain
 name wrong. This is usually because your DNS is not set up to translate
 your IP into a domain name, or because you have multiple domain names for
 the one IP, and can be remedied by specifying the hostname with the
-MetaServer.LocalName variable in your dopewars
+MetaServer.LocalName variable in your Church Wars
 <a href="configfile.html">configuration file</a>. For security reasons,
 the metaserver will only accept this given name if it in turn maps to your
 IP address.</p>
@@ -90,21 +90,21 @@ password from the metaserver maintainer to authenticate your chosen hostname.
 <a href="mailto:benwebb@users.sf.net">Email</a> the maintainer, giving
 the exact hostname you want to use (be aware that this is case-sensitive) and
 you will be given a password. Specify this password with the MetaServer.Password
-variable in the dopewars configuration file.</p>
+variable in the Church Wars configuration file.</p>
 
 <p>For example, if you wish your server to be known as <b>dope-serv.com</b> and
 you have emailed the maintainer, receiving the password <b>Dope-Auth</b>, then
-add the following to the dopewars configuration file:-<br />
+add the following to the Church Wars configuration file:-<br />
 <b>MetaServer.LocalName="dope-serv.com"<br />
 MetaServer.Password="Dope-Auth"</b></p>
 
-<p>Restart your dopewars server, or send it a SIGUSR1 signal, for changes
+<p>Restart your Church Wars server, or send it a SIGUSR1 signal, for changes
 to these variables to take effect.</p>
 
 <h3><a id="dynamicip">But my server has a dynamic IP...</a></h3>
 <p>Finally, your server's IP may be resolved happily, but you may have a
 connection to the internet which assigns you a dynamic IP. Consider what
-happens if your connection is broken before the dopewars server exits; the
+happens if your connection is broken before the Church Wars server exits; the
 metaserver will list the IP of the "old" server, and you will now have no way
 of removing that entry when your connection comes back up, as your IP will be
 different. In this case, you can

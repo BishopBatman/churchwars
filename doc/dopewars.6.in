@@ -1,11 +1,11 @@
-.TH DOPEWARS 6
+.TH CHURCHWARS 6
 .SH NAME
-dopewars \- drug dealing game
+Church Wars \- drug dealing game
 .SH SYNOPSIS
-.B dopewars
+.B Church Wars
 .I "[OPTIONS] ..."
 .SH "DESCRIPTION"
-.B dopewars
+.B Church Wars
 is a ncurses- and GTK- based drug dealing game based in New York, with you as
 the drug dealer striving to become filthy rich. It supports network
 play and single-player games.
@@ -16,14 +16,14 @@ Valid commandline options:
 "black and white", i.e. do not use pretty colours
 .TP
 \fB\-n\fR, \fB\-\-single\-player\fR
-Do not connect to any available dopewars servers
+Do not connect to any available Church Wars servers
 .TP
 \fB\-a\fR, \fB\-\-antique\fR
-Antique dopewars; stick as close as possible to the functionality of the
+Antique Church Wars; stick as close as possible to the functionality of the
 original version.
 .TP
 \fB\-f\fR, \fB\-\-scorefile\fR=\fIFILE\fR
-Specify a file to use as high score table (defaults to @DPDATADIR@/dopewars.sco)
+Specify a file to use as high score table (defaults to @DPDATADIR@/churchwars.sco)
 .TP
 \fB\-o\fR, \fB\-\-hostname\fR=\fIADDR\fR
 Specify a multiplayer hostname
@@ -39,7 +39,7 @@ Run as a "private" server (do not report to the metaserver)
 Specify the network port to use
 .TP
 \fB\-g\fR, \fB\-\-config\-file\fR=\fIFILE\fR
-Specify the pathname of a dopewars configuration file
+Specify the pathname of a Church Wars configuration file
 .TP
 \fB\-r\fR, \fB\-\-pidfile\fR=\fIFILE\fR
 Specify the pathname of a PID file to maintain while running as a server
@@ -64,7 +64,7 @@ is used when possible)
 Sets the default player name
 .TP
 \fB\-C\fR, \fB\-\-convert\fR=\fIFILE\fR
-Convert a high score file used by dopewars-1.5.1 or earlier to the format
+Convert a high score file used by churchwars-1.5.1 or earlier to the format
 used by more recent versions
 .TP
 \fB\-h\fR, \fB\-\-help\fR
