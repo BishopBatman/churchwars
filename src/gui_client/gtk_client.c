@@ -2386,7 +2386,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   }
   gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
-  PackCentredURL(vbox, _("Original dopewars information here:"),
+  PackCentredURL(vbox, _("Original Dopewars information here"),
                  "https://dopewars.sourceforge.io/", OurWebBrowser);
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
