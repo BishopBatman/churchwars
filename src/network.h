@@ -223,11 +223,11 @@ void StopNetworking(void);
 #ifdef CYGWIN
 #define CloseSocket(sock) closesocket(sock)
 void SetReuse(SOCKET sock);
-void SetBlocking(SOCKET sock, gboolean blocking);
+gboolean SetBlocking(SOCKET sock, gboolean blocking);
 #else
 #define CloseSocket(sock) close(sock)
 void SetReuse(int sock);
-void SetBlocking(int sock, gboolean blocking);
+gboolean SetBlocking(int sock, gboolean blocking);
 #endif
 
 void AddB64Enc(GString *str, gchar *unenc);
