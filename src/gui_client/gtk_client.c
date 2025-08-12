@@ -1,8 +1,8 @@
 /************************************************************************
- * gtk_client.c   dopewars client using the GTK+ toolkit                *
+ * gtk_client.c   Church Wars client using the GTK+ toolkit             *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -200,7 +200,7 @@ GtkWidget *my_hbbox_new(void)
 void my_gtk_box_pack_start_defaults(GtkBox *box, GtkWidget *child)
 {
 #ifdef CYGWIN
-  /* For compatibility with older dopewars */
+  /* For compatibility with older Church Wars */
   gtk_box_pack_start(box, child, FALSE, FALSE, 0);
 #else
   gtk_box_pack_start(box, child, TRUE, TRUE, 0);
@@ -255,7 +255,7 @@ void NewGame(GtkWidget *widget, gpointer data)
   }
 
   /* Save the configuration, so we can restore those elements that get
-   * overwritten when we connect to a dopewars server */
+   * overwritten when we connect to a Church Wars server */
   BackupConfig();
 
 #ifdef NETWORKING
@@ -2129,6 +2129,8 @@ gboolean GtkLoop(int *argc, char **argv[],
     gtk_init(argc, argv);
 #endif
 
+  g_set_application_name(_("Church Wars"));
+
   /* GTK+2 (and the GTK emulation code on WinNT systems) expects all
    * strings to be UTF-8, so we force gettext to return all translations
    * in this encoding here. */
@@ -2387,8 +2389,8 @@ void display_intro(GtkWidget *widget, gpointer data)
   }
   gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
-  PackCentredURL(vbox, _("Original Dopewars information here"),
-                 "https://dopewars.sourceforge.io/", OurWebBrowser);
+  PackCentredURL(vbox, _("Original Church Wars information here"),
+                 "https://churchwars.sourceforge.io/", OurWebBrowser);
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_box_pack_start(GTK_BOX(vbox), hsep, FALSE, FALSE, 0);

@@ -1,8 +1,8 @@
 /************************************************************************
- * serverside.c   Handles the server side of dopewars                   *
+ * serverside.c   Handles the server side of Church Wars                *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -298,7 +298,7 @@ void RemoteVersionCheck(Player *Play)
         _("You appear to be using an extremely old (version 1.4.x) client.^"
           "While this will probably work, many of the newer features^"
           "will be unsupported. Get the latest version from the^"
-          "Church Wars website, https://dopewars.sourceforge.io/."));
+          "Church Wars website, https://churchwars.sourceforge.io/."));
 
   /* The client has a smaller value of A_NUM; this means that not only does
    * it not support some features, it doesn't even know they might exist. */
@@ -307,7 +307,7 @@ void RemoteVersionCheck(Player *Play)
         _("Warning: your client is too old to support all of this^"
           "server's features. For the full \"experience\", get^"
           "the latest version of Church Wars from the^"
-          "website, https://dopewars.sourceforge.io/."));
+          "website, https://churchwars.sourceforge.io/."));
   }
 
   /* Otherwise, the client is either the same version as the server, or
@@ -555,7 +555,7 @@ void CleanUpServer()
 
 /* 
  * Responds to a SIGUSR1 signal, and requests the main event loop to
- * reregister the server with the dopewars metaserver.
+ * reregister the server with the Church Wars metaserver.
  */
 void ReregisterHandle(int sig)
 {
@@ -572,7 +572,7 @@ void RelogHandle(int sig)
 }
 
 /* 
- * Traps an attempt by the user to send dopewars a SIGTERM or SIGINT
+ * Traps an attempt by the user to send Church Wars a SIGTERM or SIGINT
  * (e.g. pressing Ctrl-C) and signals for a "nice" shutdown. Restores
  * the default signal action (to terminate without cleanup) so that
  * the user can still close the program easily if this cleanup code
@@ -1599,12 +1599,13 @@ void GuiServerLoop(struct CMDLINE *cmdline, gboolean is_service)
     InitConfiguration(cmdline);
   }
 
+  g_set_application_name(_("Church Wars server"));
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   g_signal_connect(G_OBJECT(window), "delete_event",
                    G_CALLBACK(GuiRequestDelete), NULL);
   gtk_window_set_default_size(GTK_WINDOW(window), 500, 250);
 
-  /* Title of dopewars server window (if used) */
+  /* Title of Church Wars server window (if used) */
   gtk_window_set_title(GTK_WINDOW(window), _("Church Wars server"));
 
   gtk_container_set_border_width(GTK_CONTAINER(window), 7);
@@ -1739,7 +1740,7 @@ void CloseHighScoreFile()
 
 /* 
  * If we're running setuid/setgid, drop down to the privilege level of the
- * user that started the dopewars process.
+ * user that started the Church Wars process.
  */
 void DropPrivileges()
 {
@@ -1989,7 +1990,7 @@ gboolean CheckHighScoreFileConfig(void)
     g_warning(_("Errors were encountered during the reading of the "
                 "configuration file.\nAs as result, some settings may not "
                 "work as expected. Please consult the\n"
-                "file \"dopewars-log.txt\" for further details."));
+                "file \"churchwars-log.txt\" for further details."));
 #else
     g_warning(_("Errors were encountered during the reading of the "
                 "configuration\nfile. As a result, some settings may not "
