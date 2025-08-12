@@ -58,6 +58,8 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfs,
 #ifndef HAVE_GETOPT
 int getopt(int argc, char *const argv[], const char *str);
 extern char *optarg;
+extern int optind;
+extern int optopt;
 #endif
 
 void MicroSleep(int microsec);
