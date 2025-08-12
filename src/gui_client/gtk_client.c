@@ -130,9 +130,9 @@ static void DealGuns(GtkWidget *widget, gpointer data);
 static void QuestionDialog(char *Data, Player *From);
 static void TransferDialog(gboolean Debt);
 static void ListPlayers(GtkWidget *widget, gpointer data);
-static void TalkToAll(GtkWidget *widget, gpointer data);
-static void TalkToPlayers(GtkWidget *widget, gpointer data);
-static void TalkDialog(gboolean TalkToAll);
+static void TalkToAll(GtkWidget *widget, gpointer data) G_GNUC_UNUSED;
+static void TalkToPlayers(GtkWidget *widget, gpointer data) G_GNUC_UNUSED;
+static void TalkDialog(gboolean TalkToAll) G_GNUC_UNUSED;
 static GtkWidget *CreatePlayerList(void);
 static void UpdatePlayerList(GtkWidget *clist, gboolean IncludeSelf);
 static void DestroyShowing(GtkWidget *widget, gpointer data);
@@ -2699,17 +2699,17 @@ static void TalkSend(GtkWidget *widget, struct TalkStruct *TalkData)
   g_string_free(msg, TRUE);
 }
 
-void TalkToAll(GtkWidget *widget, gpointer data)
+static void TalkToAll(GtkWidget *widget, gpointer data)
 {
   TalkDialog(TRUE);
 }
 
-void TalkToPlayers(GtkWidget *widget, gpointer data)
+static void TalkToPlayers(GtkWidget *widget, gpointer data)
 {
   TalkDialog(FALSE);
 }
 
-void TalkDialog(gboolean TalkToAll)
+static void TalkDialog(gboolean TalkToAll)
 {
   GtkWidget *dialog, *clist, *button, *entry, *label, *vbox, *hsep,
       *checkbutton, *hbbox;
