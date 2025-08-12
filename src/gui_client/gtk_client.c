@@ -2332,25 +2332,28 @@ void display_intro(GtkWidget *widget, gpointer data)
 
   /* Main content of GTK+ 'about' dialog */
   label = gtk_label_new(_("It's AD 1095, and the Crusades are about to begin. "
-                          "As a dedicated Trader-Saint, \nPope Urban II has "
-                          "entrusted you with a crucial mission: navigate "
-                          "the bustling \nmedieval cities and trade valuable "
-                          "goods to amass significant wealth. \nYour efforts "
-                          "will directly support the Holy Christian Church's "
-                          "forthcoming crusade. \n\nThe Empire of the Holy "
-                          "Trinity relies on you!\nMay your faith guide your "
-                          "trades.\n\n"
+                          "As a famed Trader-Saint, Pope Urban II has charged "
+                          "you with a sacred mission—cross the medieval world, "
+                          "trade valuable goods, and amass wealth to fund the "
+                          "Holy Christian Church’s coming crusade. The Empire of "
+                          "the Holy Trinity depends on you.\n\n"
 
-                          "Based on John E. Dell's old Drug Wars game, "
-                          "Church Wars is a simulation of an\nimaginary Crusader "
-                          "market.  Church Wars is a Crusades game which "
-                          "features\nbuying, selling, and funding the Holy "
-                          "Christian Empire!\n\nThe first thing you need to "
-                          "do is pay off your debt to the Pope's Loan Collector. "
-                          "After\nthat, your goal is to make as much "
-                          "money as possible (and stay alive)! You\n"
-                          "have 31 travels of game time to make "
-                          "your fortune.\n"));
+                          "Inspired by John E. Dell's Drug Wars, Church Wars is "
+                          "a simulation of an imaginary Crusader market of buying, "
+                          "selling, and financing the Holy Christian Empire. Your "
+                          "first task is to clear your debt to the Pope's Loan "
+                          "Collector in Jerusalem - interest grows each turn until "
+                          "it's paid. After that, you have 30 travels to survive "
+                          "and build a fortune for the Kingdom.\n\n"
+
+                          "Clerics in the Hagia Sophia add 20 space to your starting "
+                          "40, grant one weapon slot, and take damage for you in "
+                          "fights. The Hall of Arms, also there, prepares you for "
+                          "battle. The Merchant Bank in Jerusalem keeps your gold "
+                          "safe.\n\n"
+
+                          "“Though a mighty army surrounds me, my heart will not be "
+                          "afraid!”"));
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   /* Version and copyright notice in GTK+ 'about' dialog */
