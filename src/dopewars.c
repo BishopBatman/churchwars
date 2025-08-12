@@ -719,7 +719,7 @@ struct DRUG DefaultDrug[] = {
   {N_("True Cross splinters"), 1000, 2500, FALSE, FALSE, ""},
   {N_("Food"), 220, 700, FALSE, FALSE, ""},
   {N_("Silk"), 630, 1300, FALSE, FALSE, ""},
-  {N_("Gold"), 90, 250, FALSE, TRUE, ""},
+  {N_("Gold"), 800, 1600, FALSE, TRUE, ""},
   {N_("Holy Scriptures"), 315, 890, TRUE, FALSE,
    N_("Alexandrian scholars have sent parchments! "
       "Scripture prices have bottomed out!")}
