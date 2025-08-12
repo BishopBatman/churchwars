@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dopewars SVN\n"
-"Report-Msgid-Bugs-To: benwebb@users.sf.net\n"
-"POT-Creation-Date: 2025-08-12 10:09+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-12 12:54+0000\n"
 "PO-Revision-Date: 2020-12-09 12:02-0800\n"
 "Last-Translator: Ben Webb <benwebb@users.sf.net>\n"
 "Language-Team: British English <en@li.org>\n"
@@ -1303,7 +1303,6 @@ msgid "Version %-8s Copyright (C) 2024  O Batstone theprawn26@gmail.com"
 msgstr ""
 
 #: src/curses_client/curses_client.c:354
-#, fuzzy
 msgid "Church Wars is released under the GNU General Public License"
 msgstr "dopewars is released under the GNU General Public Licence"
 
@@ -1653,7 +1652,7 @@ msgstr ""
 #. Error - player has tried to put more money into the bank than
 #. he/she has
 #: src/curses_client/curses_client.c:1449
-#: src/curses_client/curses_client.c:1495 src/gui_client/gtk_client.c:2471
+#: src/curses_client/curses_client.c:1495 src/gui_client/gtk_client.c:2482
 msgid "You don't have that much money!"
 msgstr ""
 
@@ -2024,8 +2023,8 @@ msgid "Inventory"
 msgstr ""
 
 #: src/gui_client/gtk_client.c:337 src/gui_client/gtk_client.c:721
-#: src/gui_client/gtk_client.c:2631 src/gui_client/gtk_client.c:2771
-#: src/gui_client/gtk_client.c:3066 src/gui_client/gtk_client.c:3121
+#: src/gui_client/gtk_client.c:2642 src/gui_client/gtk_client.c:2782
+#: src/gui_client/gtk_client.c:3077 src/gui_client/gtk_client.c:3132
 msgid "_Close"
 msgstr ""
 
@@ -2201,13 +2200,13 @@ msgstr ""
 msgid "Drop how many?"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:1721 src/gui_client/gtk_client.c:2403
-#: src/gui_client/gtk_client.c:2572 src/gui_client/gtk_client.c:3012
+#: src/gui_client/gtk_client.c:1721 src/gui_client/gtk_client.c:2414
+#: src/gui_client/gtk_client.c:2583 src/gui_client/gtk_client.c:3023
 #: src/gui_client/optdialog.c:1050 src/gtkport/gtkport.c:5381
 msgid "_OK"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:1728 src/gui_client/gtk_client.c:2584
+#: src/gui_client/gtk_client.c:1728 src/gui_client/gtk_client.c:2595
 #: src/gui_client/optdialog.c:1060 src/gtkport/gtkport.c:5381
 #: src/gtkport/gtkport.c:5507
 msgid "_Cancel"
@@ -2347,8 +2346,8 @@ msgid ""
 msgstr ""
 
 #. Version and copyright notice in GTK+ 'about' dialog
-#: src/gui_client/gtk_client.c:2357
-#, fuzzy, c-format
+#: src/gui_client/gtk_client.c:2368
+#, c-format
 msgid ""
 "Version %s     Copyright (C) 2024  O Batstone theprawn26@gmail.com\n"
 "Church Wars is released under the GNU General Public License\n"
@@ -2357,7 +2356,7 @@ msgstr ""
 "dopewars is released under the GNU General Public Licence\n"
 
 #. Label at the bottom of GTK+ 'about' dialog
-#: src/gui_client/gtk_client.c:2386
+#: src/gui_client/gtk_client.c:2397
 msgid ""
 "\n"
 "For information on the command line options, type dopewars -h at your\n"
@@ -2365,134 +2364,134 @@ msgid ""
 "options.\n"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:2393
+#: src/gui_client/gtk_client.c:2404
 msgid "Local HTML documentation"
 msgstr ""
 
 #. Title of loan shark dialog - (%Tde="The Loan Shark" by default)
-#: src/gui_client/gtk_client.c:2449 src/gui_client/gtk_client.c:2501
+#: src/gui_client/gtk_client.c:2460 src/gui_client/gtk_client.c:2512
 msgid "%/LoanShark window title/%Tde"
 msgstr ""
 
 #. Title of bank dialog - (%Tde="The Bank" by default)
-#: src/gui_client/gtk_client.c:2456 src/gui_client/gtk_client.c:2505
+#: src/gui_client/gtk_client.c:2467 src/gui_client/gtk_client.c:2516
 msgid "%/BankName window title/%Tde"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:2465
+#: src/gui_client/gtk_client.c:2476
 msgid "You must enter a positive amount of money!"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:2468
+#: src/gui_client/gtk_client.c:2479
 msgid "There isn't that much money available..."
 msgstr ""
 
 #. Display of player's cash in bank or loan shark dialog
-#: src/gui_client/gtk_client.c:2521
+#: src/gui_client/gtk_client.c:2532
 msgid "Cash: %P"
 msgstr ""
 
 #. Display of player's debt in loan shark dialog
-#: src/gui_client/gtk_client.c:2527
+#: src/gui_client/gtk_client.c:2538
 msgid "Debt: %P"
 msgstr ""
 
 #. Display of player's bank balance in bank dialog
-#: src/gui_client/gtk_client.c:2530
+#: src/gui_client/gtk_client.c:2541
 msgid "Bank: %P"
 msgstr ""
 
 #. Prompt for paying back a loan
-#: src/gui_client/gtk_client.c:2538
+#: src/gui_client/gtk_client.c:2549
 msgid "Pay back:"
 msgstr ""
 
 #. Radio button selected if you want to pay money into the bank
-#: src/gui_client/gtk_client.c:2542
+#: src/gui_client/gtk_client.c:2553
 msgid "Deposit"
 msgstr ""
 
 #. Radio button selected if you want to withdraw money from the bank
-#: src/gui_client/gtk_client.c:2548
+#: src/gui_client/gtk_client.c:2559
 msgid "Withdraw"
 msgstr ""
 
 #. Button to pay back the entire loan/debt
-#: src/gui_client/gtk_client.c:2579
+#: src/gui_client/gtk_client.c:2590
 msgid "Pay all"
 msgstr ""
 
 #. Title of player list dialog
-#: src/gui_client/gtk_client.c:2610
+#: src/gui_client/gtk_client.c:2621
 msgid "Player List"
 msgstr ""
 
 #. Title of talk dialog
-#: src/gui_client/gtk_client.c:2722
+#: src/gui_client/gtk_client.c:2733
 msgid "Talk to player(s)"
 msgstr ""
 
 #. Checkbutton set if you want to talk to all players
-#: src/gui_client/gtk_client.c:2744
+#: src/gui_client/gtk_client.c:2755
 msgid "Talk to all players"
 msgstr ""
 
 #. Prompt for you to enter the message to be sent to other players
-#: src/gui_client/gtk_client.c:2750
+#: src/gui_client/gtk_client.c:2761
 msgid "Message:-"
 msgstr ""
 
 #. Button to send a message to other players
-#: src/gui_client/gtk_client.c:2765
+#: src/gui_client/gtk_client.c:2776
 msgid "Send"
 msgstr ""
 
 #. Column titles for display of drugs/guns carried or available for
 #. purchase
-#: src/gui_client/gtk_client.c:2846 src/gui_client/optdialog.c:677
+#: src/gui_client/gtk_client.c:2857 src/gui_client/optdialog.c:677
 msgid "Name"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:2847 src/gui_client/optdialog.c:827
+#: src/gui_client/gtk_client.c:2858 src/gui_client/optdialog.c:827
 msgid "Price"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:2848
+#: src/gui_client/gtk_client.c:2859
 msgid "Number"
 msgstr ""
 
 #. Button titles for buying/selling/dropping guns or drugs
-#: src/gui_client/gtk_client.c:2851
+#: src/gui_client/gtk_client.c:2862
 msgid "_Buy ->"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:2852
+#: src/gui_client/gtk_client.c:2863
 msgid "<- _Sell"
 msgstr ""
 
-#: src/gui_client/gtk_client.c:2853
+#: src/gui_client/gtk_client.c:2864
 msgid "_Drop <-"
 msgstr ""
 
 #. Title of the display of available drugs/guns (%Tde = "Guns" or
 #. "Drugs" by default)
-#: src/gui_client/gtk_client.c:2860
+#: src/gui_client/gtk_client.c:2871
 msgid "%Tde here"
 msgstr ""
 
 #. Title of the display of carried drugs/guns (%Tde = "Guns" or "Drugs"
 #. by default)
-#: src/gui_client/gtk_client.c:2866
+#: src/gui_client/gtk_client.c:2877
 msgid "%Tde carried"
 msgstr ""
 
 #. Title of dialog for changing a player's name
-#: src/gui_client/gtk_client.c:2985
+#: src/gui_client/gtk_client.c:2996
 msgid "Change Name"
 msgstr ""
 
 #. Informational text to prompt the player to change his/her name
-#: src/gui_client/gtk_client.c:2998
+#: src/gui_client/gtk_client.c:3009
 msgid ""
 "Unfortunately, somebody else is already using \"your\" name. Please change "
 "it:-"
@@ -2500,12 +2499,12 @@ msgstr ""
 
 #. Title of 'gun shop' dialog in GTK+ client (%Tde="Dan's House of Guns"
 #. by default)
-#: src/gui_client/gtk_client.c:3043
+#: src/gui_client/gtk_client.c:3054
 msgid "%/GTK GunShop window title/%Tde"
 msgstr ""
 
 #. Title of window to display reports from spies with other players
-#: src/gui_client/gtk_client.c:3105
+#: src/gui_client/gtk_client.c:3116
 msgid "Spy reports"
 msgstr ""
 
@@ -2591,7 +2590,6 @@ msgid "Maximum no. of Janissaries"
 msgstr ""
 
 #: src/gui_client/optdialog.c:837
-#, fuzzy
 msgid "Amir armour"
 msgstr "Cop armour"
 
