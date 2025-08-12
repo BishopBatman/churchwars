@@ -155,7 +155,7 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 {
   int retval;
   struct timeval tv, *tp;
-  fd_set localread, localexcept;
+  fd_set localread, localwrite, localexcept;
   char CheckKbHit = 0;
 
   if (nfds == 0 && tm) {
@@ -176,6 +176,8 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
 
     if (readfds)
       memcpy(&localread, readfds, sizeof(fd_set));
+    if (writefds)
+      memcpy(&localwrite, writefds, sizeof(fd_set));
     if (exceptfds)
       memcpy(&localexcept, exceptfds, sizeof(fd_set));
     if (CheckKbHit && kbhit())
@@ -201,6 +203,8 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
     }
     if (readfds)
       memcpy(readfds, &localread, sizeof(fd_set));
+    if (writefds)
+      memcpy(writefds, &localwrite, sizeof(fd_set));
     if (exceptfds)
       memcpy(exceptfds, &localexcept, sizeof(fd_set));
   }
