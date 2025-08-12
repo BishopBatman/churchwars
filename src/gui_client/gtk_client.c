@@ -67,7 +67,7 @@ struct ClientDataStruct {
   DPGtkItemFactory *Menu;
   struct StatusWidgets Status;
   struct InventoryWidgets Drug, Gun, InvenDrug, InvenGun;
-  GtkWidget *JetButton, *vbox, *PlayerList;
+  GtkWidget *JetButton, *vbox, *PlayerList, *TalkList;
   guint JetAccel;
   struct CMDLINE *cmdline;
 };
@@ -79,6 +79,10 @@ struct DealDiaStruct {
 };
 static struct DealDiaStruct DealDialog;
 
+struct TalkStruct {
+  GtkWidget *dialog, *clist, *entry, *checkbutton;
+};
+
 GtkWidget *MainWindow = NULL;
 
 static struct ClientDataStruct ClientData;
@@ -86,6 +90,7 @@ static gboolean InGame = FALSE;
 
 static GtkWidget *FightDialog = NULL, *SpyReportsDialog;
 static gboolean IsShowingPlayerList = FALSE;
+static gboolean IsShowingTalkList = FALSE;
 static gboolean IsShowingInventory = FALSE, IsShowingGunShop = FALSE;
 static gboolean IsShowingDealDrugs = FALSE;
 
