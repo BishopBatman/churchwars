@@ -3034,7 +3034,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
       text = dpg_strdup_printf(_("YN^Would you like to buy a bigger "
                                  "trenchcoat for %P?"), To->Bitches.Price);
     } else {
-      /* Street price is one-tenth of the pub price range (8k–24k by default). */
+      /* Street price is one-third of the pub price range (8k–24k by default). */
       To->Bitches.Price =
           prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)3;
       text =
@@ -3049,7 +3049,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
   } else if (!Sanitized && NumGun > 0
              && (TotalGunsCarried(To) < To->Bitches.Carried + 2)) {
     ObjNum = brandom(0, NumGun);
-    To->Guns[ObjNum].Price = Gun[ObjNum].Price / 3;
+    To->Guns[ObjNum].Price = Gun[ObjNum].Price / 2;
     if (Gun[ObjNum].Space > To->CoatSize)
       return 0;
     text = dpg_strdup_printf(_("YN^Would you like to buy a %tde for %P?"),
