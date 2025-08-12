@@ -2330,27 +2330,30 @@ void display_intro(GtkWidget *widget, gpointer data)
 
   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
-  /* Main content of GTK+ 'about' dialog */
-  label = gtk_label_new(_("It’s AD 1095, and the Crusades are about to begin. "
-                          "As a famed Trader-Saint, Pope Urban II has charged "
-                          "you with a sacred mission—cross the medieval world, "
-                          "trade valuable goods, and amass wealth to fund the "
-                          "Holy Christian Church’s coming crusade. The Empire "
-                          "of the Holy Trinity depends on you. \n"
-                          "Inspired by John E. Dell’s Drug Wars, Church Wars is a "
-                          "simulation of an imaginary Crusader market of buying, "
-                          "selling, and financing the Holy Christian Empire. Your "
-                          "first task is to clear your debt to the Pope’s Loan "
-                          "Collector in Jerusalem - interest grows each turn until "
-                          "it’s paid. After that, you have 30 travels to survive "
-                          "and build a fortune for the Kingdom.\\n"
-                          "Clerics in the Hagia Sophia add 20 space to your starting "
-                          "40, grant one weapon slot, and take damage for you in "
-                          "fights. The Hall of Arms, also there, prepares you for "
-                          "battle. The Merchant Bank in Jerusalem keeps your gold "
-                          "safe.\\n\\n"
-                          "“Though a mighty army surrounds me, my heart will not be "
-                          "afraid!”\\n"));
+    /* Main content of GTK+ 'about' dialog */
+  label = gtk_label_new(_("It’s AD 1095, and the Crusades are about to begin.\n"
+                          "As a famed Trader-Saint, Pope Urban II has charged you\n"
+                          "with a sacred mission—cross the medieval world, trade\n"
+                          "valuable goods, and amass wealth to fund the Holy\n"
+                          "Christian Church’s coming crusade. The Empire of the\n"
+                          "Holy Trinity depends on you.\n"
+                          "\n"
+                          "Inspired by John E. Dell’s Drug Wars, Church Wars is\n"
+                          "a simulation of an imaginary Crusader market of buying,\n"
+                          "selling, and financing the Holy Christian Empire. Your\n"
+                          "first task is to clear your debt to the Pope’s\n"
+                          "Loan Collector in Jerusalem—interest grows each turn\n"
+                          "until it’s paid. After that, you have 30 travels to\n"
+                          "survive and build a fortune for the Kingdom.\n"
+                          "\n"
+                          "Clerics in the Hagia Sophia add 20 space to your\n"
+                          "starting 40, grant one weapon slot, and take damage for\n"
+                          "you in fights. The Hall of Arms, also there, prepares\n"
+                          "you for battle. The Merchant Bank in Jerusalem\n"
+                          "keeps your gold safe.\n"
+                          "\n"
+                          "“Though a mighty army surrounds me, my heart\n"
+                          "will not be afraid!”\n"));
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
   /* Version and copyright notice in GTK+ 'about' dialog */
