@@ -208,7 +208,7 @@ struct PRICES Prices = {
 };
 
 struct BITCH Bitch = {
-  80000, 240000
+  40000, 120000
 };
 
 #ifdef NETWORKING

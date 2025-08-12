@@ -2286,6 +2286,7 @@ void SendEvent(Player *To)
       break;
     case E_HIREBITCH:
       if (To->IsAt + 1 == RoughPubLoc) {
+        /* Random pub price for a bitch, defaults to 40k-120k */
         To->Bitches.Price = prandom(Bitch.MinPrice, Bitch.MaxPrice);
         text =
             dpg_strdup_printf(_
@@ -2888,6 +2889,7 @@ void WithdrawFromCombat(Player *Play)
       } else if (CanRunHere(Defend)
                  && brandom(0, 100) > Location[Defend->IsAt].PolicePresence) {
         Defend->EventNum = E_DOCTOR;
+        /* Doctor price scales from the bitch price range (40k-120k by default) */
         Defend->DocPrice = prandom(Bitch.MinPrice, Bitch.MaxPrice) *
             Defend->Health / 500;
         text =
@@ -3034,7 +3036,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
       text = dpg_strdup_printf(_("YN^Would you like to buy a bigger "
                                  "trenchcoat for %P?"), To->Bitches.Price);
     } else {
-      /* Street price is one-third of the pub price range (8k–24k by default). */
+/* Street price is one-third of the pub price range (~26k–80k by default). */
       To->Bitches.Price =
           prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)3;
       text =
