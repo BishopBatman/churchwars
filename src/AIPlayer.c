@@ -1,8 +1,8 @@
 /************************************************************************
- * AIPlayer.c     Code for dopewars computer players                    *
+ * AIPlayer.c     Code for Church Wars computer players                 *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -73,7 +73,7 @@ static void AIConnectFailed(NetworkBuffer *netbuf)
   if (netbuf->error)
     g_string_assign_error(errstr, netbuf->error);
   g_log(NULL, G_LOG_LEVEL_CRITICAL,
-        _("Could not connect to dopewars server\n(%s)\n"
+        _("Could not connect to Church Wars server\n(%s)\n"
           "AI Player terminating abnormally."), errstr->str);
   g_string_free(errstr, TRUE);
 }
@@ -659,7 +659,7 @@ void AIHandleQuestion(char *Data, AICode AI, Player *AIPlay, Player *From)
 }
 
 /* 
- * Sends a random message to all other dopewars players.
+ * Sends a random message to all other Church Wars players.
  */
 void AISendRandomMessage(Player *AIPlay)
 {

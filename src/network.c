@@ -2,7 +2,7 @@
  * network.c      Low-level networking routines                         *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/                 *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -1246,7 +1246,7 @@ static gboolean SetCaInfo(CurlConnection *conn, GError **err)
   gchar *bindir, *cainfo;
   gboolean ret;
 
-  /* Point to a .crt file in the same directory as dopewars.exe */
+  /* Point to a .crt file in the same directory as churchwars.exe */
   bindir = GetBinaryDir();
   cainfo = g_strdup_printf("%s\\ca-bundle.crt", bindir);
   g_free(bindir);

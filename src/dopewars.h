@@ -1,8 +1,8 @@
 /************************************************************************
- * dopewars.h     Common structures and stuff for dopewars              *
+ * dopewars.h     Common structures and stuff for Church Wars           *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/                 *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *

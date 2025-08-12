@@ -1,8 +1,8 @@
 /************************************************************************
- * configfile.h   Functions for dealing with dopewars config files      *
+ * configfile.h   Functions for dealing with Church Wars config files   *
  * Copyright (C)  2002-2004  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *

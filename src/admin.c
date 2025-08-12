@@ -1,8 +1,8 @@
 /************************************************************************
- * admin.c        dopewars server administration                        *
+ * admin.c        Church Wars server administration                     *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -49,7 +49,7 @@ static int OpenSocket(void)
 
   sockname = GetLocalSocket();
 
-  g_print(_("Attempting to connect to local dopewars server via "
+  g_print(_("Attempting to connect to local Church Wars server via "
             "Unix domain\n socket %s...\n"), sockname);
   sock = socket(PF_UNIX, SOCK_STREAM, 0);
   if (sock == -1) {

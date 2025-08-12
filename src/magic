@@ -1,11 +1,11 @@
 #------------------------------------------------------------------------------
-# dopewars:  file(1) magic for dopewars high score files
+# Church Wars:  file(1) magic for Church Wars high score files
 #
 # From <benwebb@users.sf.net>
-# dopewars is a drug dealing game found at http://dopewars.sf.net/.
+# Church Wars is a drug dealing game found at http://churchwars.sf.net.
 # The version reported is that of the high score file, not of the
 # program itself.
 
-0	string		DOPEWARS\ SCORES\ V.	dopewars high score file
+0	string		DOPEWARS\ SCORES\ V.    Church Wars high score file
 >&0	string		>\0			(version %s)
 

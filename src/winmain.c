@@ -2,7 +2,7 @@
  * winmain.c      Startup code and support for the Win32 platform       *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -97,7 +97,7 @@ static void WindowPrintFunc(const gchar *string)
 
 static void WindowPrintEnd()
 {
-  MessageBox(NULL, TextOutput->str, "dopewars",
+  MessageBox(NULL, TextOutput->str, "Church Wars",
              MB_OK | MB_ICONINFORMATION);
   g_string_free(TextOutput, TRUE);
   TextOutput = NULL;
@@ -109,13 +109,13 @@ gchar *appdata_path = NULL;
 
 static void GetAppDataPath()
 {
-  appdata_path = g_strdup_printf("%s/dopewars", g_get_user_config_dir());
+  appdata_path = g_strdup_printf("%s/churchwars", g_get_user_config_dir());
   mkdir(appdata_path);
 }
 
 static void LogFileStart()
 {
-  char *logfile = g_strdup_printf("%s/dopewars-log.txt",
+  char *logfile = g_strdup_printf("%s/churchwars-log.txt",
                                   appdata_path ? appdata_path : ".");
   LogFile = fopen(logfile, "w");
   g_free(logfile);
@@ -316,7 +316,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
   /* Informational comment placed at the start of the Windows log file
      (this is used for messages printed during processing of the config
      files - under Unix these are just printed to stdout) */
-  g_print(_("# This is the dopewars startup log, containing any\n"
+  g_print(_("# This is the Church Wars startup log, containing any\n"
             "# informative messages resulting from configuration\n"
             "# file processing and the like.\n\n"));
 
@@ -357,7 +357,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
       GuiServerLoop(cmdline, FALSE);
 #else
       AllocConsole();
-      SetConsoleTitle(_("dopewars server"));
+      SetConsoleTitle(_("Church Wars server"));
       g_log_set_handler(NULL,
                         LogMask() | G_LOG_LEVEL_MESSAGE |
                         G_LOG_LEVEL_WARNING, ServerLogMessage, NULL);
@@ -378,7 +378,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
       AllocConsole();
 
       /* Title of the Windows window used for AI player output */
-      SetConsoleTitle(_("dopewars AI"));
+      SetConsoleTitle(_("Church Wars AI"));
 
       g_log_set_handler(NULL,
                         LogMask() | G_LOG_LEVEL_MESSAGE |
@@ -390,7 +390,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
       case CLIENT_AUTO:
         if (!GtkLoop(hInstance, hPrevInstance, cmdline, TRUE)) {
           AllocConsole();
-          SetConsoleTitle(_("dopewars"));
+          SetConsoleTitle(_("Church Wars"));
           CursesLoop(cmdline);
         }
         break;
@@ -399,7 +399,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         break;
       case CLIENT_CURSES:
         AllocConsole();
-        SetConsoleTitle(_("dopewars"));
+        SetConsoleTitle(_("Church Wars"));
         CursesLoop(cmdline);
         break;
       }

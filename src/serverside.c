@@ -1,8 +1,8 @@
 /************************************************************************
- * serverside.c   Handles the server side of dopewars                   *
+ * serverside.c   Handles the server side of Church Wars                *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -298,7 +298,7 @@ void RemoteVersionCheck(Player *Play)
         _("You appear to be using an extremely old (version 1.4.x) client.^"
           "While this will probably work, many of the newer features^"
           "will be unsupported. Get the latest version from the^"
-          "dopewars website, https://dopewars.sourceforge.io/."));
+          "Church Wars website, https://churchwars.sourceforge.io/."));
 
   /* The client has a smaller value of A_NUM; this means that not only does
    * it not support some features, it doesn't even know they might exist. */
@@ -306,8 +306,8 @@ void RemoteVersionCheck(Player *Play)
     SendPrintMessage(NULL, C_VERSIONCHECK, Play,
         _("Warning: your client is too old to support all of this^"
           "server's features. For the full \"experience\", get^"
-          "the latest version of dopewars from the^"
-          "website, https://dopewars.sourceforge.io/."));
+          "the latest version of Church Wars from the^"
+          "website, https://churchwars.sourceforge.io/."));
   }
 
   /* Otherwise, the client is either the same version as the server, or
@@ -555,7 +555,7 @@ void CleanUpServer()
 
 /* 
  * Responds to a SIGUSR1 signal, and requests the main event loop to
- * reregister the server with the dopewars metaserver.
+ * reregister the server with the Church Wars metaserver.
  */
 void ReregisterHandle(int sig)
 {
@@ -572,7 +572,7 @@ void RelogHandle(int sig)
 }
 
 /* 
- * Traps an attempt by the user to send dopewars a SIGTERM or SIGINT
+ * Traps an attempt by the user to send Church Wars a SIGTERM or SIGINT
  * (e.g. pressing Ctrl-C) and signals for a "nice" shutdown. Restores
  * the default signal action (to terminate without cleanup) so that
  * the user can still close the program easily if this cleanup code
@@ -966,7 +966,7 @@ void RemovePlayerFromServer(Player *Play)
 }
 
 #ifndef CYGWIN
-static gchar sockpref[] = "/tmp/.dopewars";
+static gchar sockpref[] = "/tmp/.churchwars";
 
 static gchar *GetLocalSockDir(void)
 {
@@ -1218,7 +1218,7 @@ void ServerLoop(struct CMDLINE *cmdline)
       BindNetworkBufferToSocket(netbuf, newlocal);
       localconn = g_slist_append(localconn, netbuf);
       oldprint = StartServerReply(netbuf);
-      g_print(_("dopewars server version %s ready for admin commands; "
+      g_print(_("Church Wars server version %s ready for admin commands; "
                 "try \"help\" for help"), VERSION);
       FinishServerReply(oldprint);
       dopelog(1, LF_SERVER, _("New admin connection"));
@@ -1500,7 +1500,7 @@ static VOID WINAPI ServiceHandler(DWORD control)
 
 static VOID WINAPI ServiceInit(DWORD argc, LPTSTR * argv)
 {
-  scHandle = RegisterServiceCtrlHandler("dopewars-server", ServiceHandler);
+  scHandle = RegisterServiceCtrlHandler("churchwars-server", ServiceHandler);
   if (!scHandle) {
     dopelog(0, LF_SERVER, _("Failed to register service handler"));
     return;
@@ -1521,7 +1521,7 @@ static VOID WINAPI ServiceInit(DWORD argc, LPTSTR * argv)
 void ServiceMain(struct CMDLINE *cmdline)
 {
   SERVICE_TABLE_ENTRY services[] = {
-    {"dopewars-server", ServiceInit},
+    {"churchwars-server", ServiceInit},
     {NULL, NULL}
   };
 
@@ -1573,7 +1573,7 @@ static void SetupTaskBarIcon(GtkWidget *widget)
     nid.uCallbackMessage = MYWM_TASKBAR;
     nid.hIcon = mainIcon;
     /* NOTIFYICONDATA::szTip is limited (typically 128 chars including NUL). */
-    snprintf(nid.szTip, sizeof(nid.szTip), "dopewars server - running");
+    snprintf(nid.szTip, sizeof(nid.szTip), "Church Wars server - running");
     systray = Shell_NotifyIcon(NIM_ADD, &nid);
   } else {
     systray = FALSE;
@@ -1604,8 +1604,8 @@ void GuiServerLoop(struct CMDLINE *cmdline, gboolean is_service)
                    G_CALLBACK(GuiRequestDelete), NULL);
   gtk_window_set_default_size(GTK_WINDOW(window), 500, 250);
 
-  /* Title of dopewars server window (if used) */
-  gtk_window_set_title(GTK_WINDOW(window), _("dopewars server"));
+  /* Title of Church Wars server window (if used) */
+  gtk_window_set_title(GTK_WINDOW(window), _("Church Wars server"));
 
   gtk_container_set_border_width(GTK_CONTAINER(window), 7);
 
@@ -1739,7 +1739,7 @@ void CloseHighScoreFile()
 
 /* 
  * If we're running setuid/setgid, drop down to the privilege level of the
- * user that started the dopewars process.
+ * user that started the Church Wars process.
  */
 void DropPrivileges()
 {
@@ -1888,9 +1888,9 @@ static FILE *OpenHighScoreAppData(int *error, gboolean *empty)
         GString *str = g_string_sized_new(keylen + 40);
         g_string_assign(str, keyval);
         g_free(keyval);
-        g_string_append(str, "\\dopewars");
+        g_string_append(str, "\\churchwars");
         CreateDirectory(str->str, NULL);
-        g_string_append(str, "\\dopewars.sco");
+        g_string_append(str, "\\churchwars.sco");
         fp = fopen(str->str, "r+");
         if (!fp) {
           fp = fopen(str->str, "w+");
@@ -1978,8 +1978,8 @@ gboolean CheckHighScoreFileConfig(void)
     g_log(NULL, G_LOG_LEVEL_CRITICAL,
           _("%s does not appear to be a valid\n"
             "high score file - please check it. If it is a high score file\n"
-            "from an older version of dopewars, then first convert it to the\n"
-            "new format by running \"dopewars -C %s\"\n"
+            "from an older version of Church Wars, then first convert it to the\n"
+            "new format by running \"Church Wars -C %s\"\n"
             "from the command line."), HiScoreFile, HiScoreFile);
     return FALSE;
   }
@@ -1989,7 +1989,7 @@ gboolean CheckHighScoreFileConfig(void)
     g_warning(_("Errors were encountered during the reading of the "
                 "configuration file.\nAs as result, some settings may not "
                 "work as expected. Please consult the\n"
-                "file \"dopewars-log.txt\" for further details."));
+                "file \"churchwars-log.txt\" for further details."));
 #else
     g_warning(_("Errors were encountered during the reading of the "
                 "configuration\nfile. As a result, some settings may not "

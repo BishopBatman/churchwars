@@ -1,8 +1,8 @@
 /************************************************************************
- * dopewars.c     dopewars - general purpose routines and init          *
+ * dopewars.c     Church Wars - general purpose routines and init       *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -70,12 +70,12 @@
 int ClientSock, ListenSock;
 gboolean Network, Client, Server, WantAntique = FALSE, UseSounds = TRUE;
 
-/* 
- * dopewars acting as standalone TCP server:
+/*
+ * Church Wars acting as standalone TCP server:
  *           Network=Server=TRUE   Client=FALSE
- * dopewars acting as client, connecting to standalone server:
+ * Church Wars acting as client, connecting to standalone server:
  *           Network=Client=TRUE   Server=FALSE
- * dopewars in single-player or antique mode:
+ * Church Wars in single-player or antique mode:
  *           Network=Server=Client=FALSE
  */
 int Port = 7902;
@@ -96,7 +96,7 @@ gboolean Daemonize = TRUE;
 #ifdef CYGWIN
 #define SNDPATH "sounds\\19.5degs\\"
 #else
-#define SNDPATH DPDATADIR"/dopewars/"
+#define SNDPATH DPDATADIR"/churchwars/"
 #endif
 
 gchar *OurWebBrowser = NULL;
@@ -176,7 +176,7 @@ struct NAMES DefaultNames = {
      "bitch" depending on where in the sentence it occurs (e.g. subject or
      object) then read doc/i18n.html about the %tde (etc.) notation. N.B.
      This notation can be used for most of the translatable strings in
-     dopewars. */
+     Church Wars. */
   N_("cleric"),
   /* Word used for two or more bitches */
   N_("clerics"),
@@ -217,8 +217,8 @@ struct METASERVER MetaServer = {
 };
 
 struct METASERVER DefaultMetaServer = {
-  TRUE, "https://dopewars.sourceforge.io/metaserver.php", "",
-  "", "dopewars server"
+  TRUE, "https://churchwars.sourceforge.io/metaserver.php", "",
+  "", "Church Wars server"
 };
 
 SocksServer Socks = { NULL, 0, 0, FALSE, NULL, NULL, NULL };
@@ -233,7 +233,7 @@ struct LOG Log;
 
 struct GLOBALS Globals[] = {
   /* The following strings are the helptexts for all the options that can
-     be set in a dopewars configuration file, or in the server. See
+     be set in a Church Wars configuration file, or in the server. See
      doc/configfile.html for more detailed explanations. */
   {&Port, NULL, NULL, NULL, NULL, "Port", N_("Network port to connect to"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 65535},
@@ -2273,15 +2273,15 @@ gchar *GetGlobalConfigFile(void)
 #ifdef CYGWIN
   gchar *bindir, *conf = NULL;
 
-  /* Global configuration is in the same directory as the dopewars binary */
+  /* Global configuration is in the same directory as the Church Wars binary */
   bindir = GetBinaryDir();
   if (bindir) {
-    conf = g_strdup_printf("%s/dopewars-config.txt", bindir);
+    conf = g_strdup_printf("%s/churchwars-config.txt", bindir);
     g_free(bindir);
   }
   return conf;
 #else
-  return g_strdup("/etc/dopewars");
+  return g_strdup("/etc/churchwars");
 #endif
 }
 
@@ -2293,7 +2293,7 @@ gchar *GetGlobalConfigFile(void)
 gchar *GetLocalConfigFile(void)
 {
 #ifdef CYGWIN
-  return g_strdup_printf("%s/dopewars-config.txt",
+  return g_strdup_printf("%s/churchwars-config.txt",
                          appdata_path ? appdata_path : ".");
 #else
   gchar *home, *conf = NULL;
@@ -2301,7 +2301,7 @@ gchar *GetLocalConfigFile(void)
   /* Local config is in the user's home directory */
   home = getenv("HOME");
   if (home) {
-    conf = g_strdup_printf("%s/.dopewars", home);
+    conf = g_strdup_printf("%s/.churchwars", home);
   }
   return conf;
 #endif
@@ -2466,32 +2466,32 @@ static void PluginHelp(void)
 
 void HandleHelpTexts(gboolean fullhelp)
 {
-  g_print(_("dopewars version %s\n"), VERSION);
+  g_print(_("Church Wars version %s\n"), VERSION);
   if (!fullhelp) {
     return;
   }
 
   g_print(
 #ifdef HAVE_GETOPT_LONG
-           /* Usage information, printed when the user runs "dopewars -h"
+           /* Usage information, printed when the user runs "Church Wars -h"
               (version with support for GNU long options) */
-           _("Usage: dopewars [OPTION]...\n\
+           _("Usage: Church Wars [OPTION]...\n\
 Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -b, --no-color,         \"black and white\" - i.e. do not use pretty colors\n\
       --no-colour           (by default colors are used where available)\n\
-  -n, --single-player     be boring and don't connect to any available dopewars\n\
+  -n, --single-player     be boring and don't connect to any available Church Wars\n\
                             servers (i.e. single player mode)\n\
-  -a, --antique           \"antique\" dopewars - keep as closely to the original\n\
+  -a, --antique           \"antique\" Church Wars - keep as closely to the original\n\
                             version as possible (no networking)\n\
   -f, --scorefile=FILE    specify a file to use as the high score table (by\n\
-                            default %s/dopewars.sco is used)\n\
+                            default %s/churchwars.sco is used)\n\
   -o, --hostname=ADDR     specify a hostname where the server for multiplayer\n\
-                            dopewars can be found\n\
+                            Church Wars can be found\n\
   -s, --public-server     run in server mode (note: see the -A option for\n\
                             configuring a server once it\'s running)\n\
   -S, --private-server    run a \"private\" server (do not notify the metaserver)\n\
   -p, --port=PORT         specify the network port to use (default: 7902)\n\
-  -g, --config-file=FILE  specify the pathname of a dopewars configuration file;\n\
+  -g, --config-file=FILE  specify the pathname of a Church Wars configuration file;\n\
                             this file is read immediately when the -g option\n\
                             is encountered\n\
   -r, --pidfile=FILE      maintain pid file \"FILE\" while running the server\n\
@@ -2510,25 +2510,25 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
 Church Wars is Copyright (C) O Batstone 2024, and released under the GNU GPL\n\
 Report bugs to the author at benwebb@users.sf.net\n"));
 #else
-           /* Usage information, printed when the user runs "dopewars -h"
+           /* Usage information, printed when the user runs "Church Wars -h"
               (short options only version) */
-           _("Usage: dopewars [OPTION]...\n\
+           _("Usage: Church Wars [OPTION]...\n\
 Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -b       \"black and white\" - i.e. do not use pretty colors\n\
               (by default colors are used where the terminal supports them)\n\
-  -n       be boring and don't connect to any available dopewars servers\n\
+  -n       be boring and don't connect to any available Church Wars servers\n\
               (i.e. single player mode)\n\
-  -a       \"antique\" dopewars - keep as closely to the original version as\n\
+  -a       \"antique\" Church Wars - keep as closely to the original version as\n\
               possible (no networking)\n\
   -f file  specify a file to use as the high score table\n\
-              (by default %s/dopewars.sco is used)\n\
-  -o addr  specify a hostname where the server for multiplayer dopewars\n\
+              (by default %s/churchwars.sco is used)\n\
+  -o addr  specify a hostname where the server for multiplayer Church Wars\n\
               can be found\n\
   -s       run in server mode (note: see the -A option for configuring a\n\
               server once it\'s running)\n\
   -S       run a \"private\" server (i.e. do not notify the metaserver)\n\
   -p port  specify the network port to use (default: 7902)\n\
-  -g file  specify the pathname of a dopewars configuration file; this file\n\
+  -g file  specify the pathname of a Church Wars configuration file; this file\n\
               is read immediately when the -g option is encountered\n\
   -r file  maintain pid file \"file\" while running the server\n\
   -l file  write log information to \"file\"\n\
@@ -2699,10 +2699,10 @@ struct CMDLINE *GeneralStartup(int argc, char *argv[])
   /* First, open the hard-coded high score file with possibly
    * elevated privileges */
 #ifdef CYGWIN
-  priv_hiscore = g_strdup_printf("%s/dopewars.sco",
+  priv_hiscore = g_strdup_printf("%s/churchwars.sco",
                                  appdata_path ? appdata_path : DPSCOREDIR);
 #else
-  priv_hiscore = g_strdup_printf("%s/dopewars.sco", DPSCOREDIR);
+  priv_hiscore = g_strdup_printf("%s/churchwars.sco", DPSCOREDIR);
 #endif
   HiScoreFile = g_strdup(priv_hiscore);
   OpenHighScoreFile();

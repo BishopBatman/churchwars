@@ -1,8 +1,8 @@
 /************************************************************************
- * configfile.c   Functions for dealing with dopewars config files      *
+ * configfile.c   Functions for dealing with Church Wars config files   *
  * Copyright (C)  2002-2004  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -232,7 +232,7 @@ gboolean UpdateConfigFile(const gchar *cfgfile, gboolean ForceUTF8)
   gchar *defaultfile;
   static gchar *header =
       "\n### Everything from here on is written automatically by\n"
-      "### the dopewars program; you can edit it manually, but any\n"
+      "### the Church Wars program; you can edit it manually, but any\n"
       "### formatting (comments, etc.) will be lost at the next rewrite.\n\n";
 
   defaultfile = GetLocalConfigFile();

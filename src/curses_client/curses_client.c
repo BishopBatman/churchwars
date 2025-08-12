@@ -1,8 +1,8 @@
 /************************************************************************
- * curses_client.c  dopewars client using the (n)curses console library *
+ * curses_client.c  Church Wars client using the (n)curses console library *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
@@ -319,7 +319,7 @@ static void mvaddfixwidstr(const int row, const int col, const int wid,
 }
 
 /* 
- * Displays a dopewars introduction screen.
+ * Displays a Church Wars introduction screen.
  */
 void display_intro(void)
 {
@@ -371,7 +371,7 @@ void display_intro(void)
   mvaddstr(19, 7, _("Unconstructive Criticism      R Batstone"));
 
   mvaddcentstr(21, _("For information on the command line options, type "
-                     "dopewars -h at your"));
+                     "Church Wars -h at your"));
   mvaddcentstr(22, _("Unix prompt. This will display a help screen, listing "
                      "the available options."));
 
@@ -398,7 +398,7 @@ static void SelectServerManually(void)
   mvaddstr(top + 1, 1,
            /* Prompts for hostname and port when selecting a server
               manually */
-           _("Please enter the hostname and port of a dopewars server:-"));
+           _("Please enter the hostname and port of a Church Wars server:-"));
   text = nice_input(_("Hostname: "), top + 2, 1, FALSE, ServerName, '\0');
   AssignName(&ServerName, text);
   g_free(text);
@@ -410,7 +410,7 @@ static void SelectServerManually(void)
 }
 
 /* 
- * Contacts the dopewars metaserver, and obtains a list of valid
+ * Contacts the Church Wars metaserver, and obtains a list of valid
  * server/port pairs, one of which the user should select.
  * Returns TRUE on success; on failure FALSE is returned, and
  * errstr is assigned an error message.
@@ -663,7 +663,7 @@ static gboolean DoConnect(Player *Play, GString *errstr)
 }
 
 /* 
- * Connects to a dopewars server. Prompts the user to select a server
+ * Connects to a Church Wars server. Prompts the user to select a server
  * if necessary. Returns TRUE, unless the user elected to quit the
  * program rather than choose a valid server.
  */
@@ -696,7 +696,7 @@ static gboolean ConnectToServer(Player *Play)
     clear_bottom();
     if (MetaOK && !firstrun) {
       mvaddstr(top + 1, 1, _("Please wait... attempting to contact "
-                             "dopewars server..."));
+                             "Church Wars server..."));
       refresh();
       NetOK = DoConnect(Play, errstr);
     }
@@ -711,10 +711,10 @@ static gboolean ConnectToServer(Player *Play)
         mvaddstr(top + 1, 1, text);
         g_free(text);
       } else if (!NetOK) {
-        /* Display of an error message while trying to contact a dopewars
+        /* Display of an error message while trying to contact a Church Wars
            server (the error message itself is displayed on the next
            screen line) */
-        mvaddstr(top, 1, _("Could not start multiplayer dopewars"));
+        mvaddstr(top, 1, _("Could not start multiplayer Church Wars"));
         text = g_strdup_printf("   (%s)",
                                errstr->str[0] ? errstr->str
                                   : _("connection to server failed"));
@@ -724,13 +724,13 @@ static gboolean ConnectToServer(Player *Play)
       MetaOK = NetOK = TRUE;
       attrset(PromptAttr);
       mvaddstr(top + 2, 1,
-               _("Will you... C>onnect to a named dopewars server"));
+               _("Will you... C>onnect to a named Church Wars server"));
       mvaddstr(top + 3, 1,
                _("            L>ist the servers on the metaserver, and "
                  "select one"));
       mvaddstr(top + 4, 1,
                _("            Q>uit (where you can start a server "
-                 "by typing \"dopewars -s\")"));
+                 "by typing \"Church Wars -s\")"));
       mvaddstr(top + 5, 1, _("         or P>lay single-player ? "));
       attrset(TextAttr);
 
@@ -992,7 +992,7 @@ static void DealDrugs(Player *Play, gboolean Buy)
 }
 
 /* 
- * Asks the user if he/she _really_ wants to quit dopewars.
+ * Asks the user if he/she _really_ wants to quit Church Wars.
  */
 static int want_to_quit(void)
 {
@@ -2105,7 +2105,7 @@ void DisplaySpyReports(char *Data, Player *From, Player *To)
 
 /* 
  * Displays the "Prompt" if non-NULL, and then lists all clients
- * currently playing dopewars, other than the current player "Play".
+ * currently playing Church Wars, other than the current player "Play".
  * If "Select" is TRUE, gives each player a letter and asks the user
  * to select one, which is returned by the function.
  */
@@ -2326,7 +2326,7 @@ static void DisplayDrugsHere(Player *Play)
 /* 
  * Loop which handles the user playing an interactive game (i.e. "Play"
  * is a client connected to a server, either locally or remotely)
- * dopewars is essentially server-driven, so this loop simply has to
+ * Church Wars is essentially server-driven, so this loop simply has to
  * make the screen look pretty, respond to user keypresses, and react
  * to messages from the server.
  */
@@ -2679,7 +2679,7 @@ void CursesLoop(struct CMDLINE *cmdline)
   WantNetwork = cmdline->network;
 
   /* Save the configuration, so we can restore those elements that get
-   * overwritten when we connect to a dopewars server */
+   * overwritten when we connect to a Church Wars server */
   BackupConfig();
 
   start_curses();

@@ -2,7 +2,7 @@
  * itemfactory.h  GtkItemFactory and friends for Unix/Win32             *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://dopewars.sourceforge.io/                 *
+ *                WWW: https://churchwars.sourceforge.io/                 *
  *                                                                      *
  * When using GTK+3, which has removed GtkItemFactory, or Win32,        *
  * provide our own implementation; on GTK+2, use the implementation in  *
