@@ -2152,8 +2152,8 @@ msgstr ""
 "Church Wars są publikowane zgodnie z GNU General Public License\n"
 
 #: src/gui_client/gtk_client.c:2389
-msgid "Original dopewars information here:"
-msgstr ""
+msgid "Original Church Wars information here:"
+msgstr "Original Church Wars information here:"
 
 #: src/gui_client/gtk_client.c:2442 src/gui_client/gtk_client.c:2494
 msgid "%/LoanShark window title/%Tde"
