@@ -141,7 +141,7 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
     Sleep(tm->tv_sec * 1000 + tm->tv_usec / 1000);
     return 0;
   }
-  if (FD_ISSET(0, readfds)) {
+  if (readfds && FD_ISSET(0, readfds)) {
     if (nfds == 1)
       return 1;
     tp = &tv;
@@ -164,7 +164,8 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
       return retval;
     if (CheckKbHit && kbhit()) {
       retval++;
-      FD_SET(0, readfds);
+      if (readfds)
+        FD_SET(0, readfds);
     }
     if (retval > 0 || !CheckKbHit)
       break;
