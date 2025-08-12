@@ -111,7 +111,7 @@ int LoanSharkLoc, BankLoc, GunShopLoc, RoughPubLoc;
 int DrugSortMethod = DS_ATOZ;
 int FightTimeout = 5, IdleTimeout = 14400, ConnectTimeout = 300;
 int MaxClients = 20, AITurnPause = 5;
-price_t StartCash = 2000, StartDebt = 5500;
+price_t StartCash = 4000, StartDebt = 5500;
 int BaseCoatSize = 40;
 GSList *ServerList = NULL;
 
@@ -870,7 +870,7 @@ GSList *AddPlayer(int fd, Player *NewPlayer, GSList *First)
   NewPlayer->Cash = StartCash;
   NewPlayer->Debt = StartDebt;
   NewPlayer->Bank = 0;
-  NewPlayer->Bitches.Carried = 3;
+  NewPlayer->Bitches.Carried = 2;
   NewPlayer->CopIndex = 0;
   NewPlayer->Health = 100;
   NewPlayer->CoatSize = BaseCoatSize + NewPlayer->Bitches.Carried * 20;
