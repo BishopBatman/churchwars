@@ -90,7 +90,7 @@ struct NAMES {
 };
 
 struct SOUNDS {
-  gchar *FightHit, *FightMiss, *Jet, *CoinBuy;
+  gchar *FightHit, *FightMiss, *FightReload, *Jet, *CoinBuy;
   gchar *JoinGame, *LeaveGame, *StartGame, *EndGame;
   gchar *EnemyBitchKilled, *BitchKilled, *EnemyKilled, *Killed;
   gchar *EnemyFailFlee, *FailFlee, *EnemyFlee, *Flee;
