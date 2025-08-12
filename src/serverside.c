@@ -3034,7 +3034,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
       text = dpg_strdup_printf(_("YN^Would you like to buy a bigger "
                                  "trenchcoat for %P?"), To->Bitches.Price);
     } else {
-      /* Street price is one-tenth of the pub price range (8k–24k by default). */
+      /* Street price is one-third of the pub price range (8k–24k by default). */
       To->Bitches.Price =
           prandom(Bitch.MinPrice, Bitch.MaxPrice) / (price_t)3;
       text =
