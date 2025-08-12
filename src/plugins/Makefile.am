@@ -60,11 +60,11 @@ all-local: ${PLUGINS}
 install-exec-am:
 	${mkinstalldirs} ${PLUGINDIR}
 	for plug in ${PLUGINS}; do \
-	${INSTALL} $${plug} ${PLUGINDIR}; \
+		${INSTALL} $${plug} ${PLUGINDIR}; \
 	done
 
 uninstall-local:
 	for plug in ${PLUGINS}; do \
-	/bin/rm -f ${PLUGINDIR}/`basename $${plug}`; \
+		/bin/rm -f ${PLUGINDIR}/`basename $${plug}`; \
 	done
 endif
