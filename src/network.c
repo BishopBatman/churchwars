@@ -44,7 +44,7 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>              /* For fcntl() */
 #endif
-#include <netdb.h>              /* For gethostbyname() */
+#include <netdb.h>              /* For getaddrinfo() */
 #endif /* CYGWIN */
 
 #include <glib.h>
@@ -918,18 +918,17 @@ static void SetNetworkError(LastError **error) {
 #ifdef CYGWIN
   SetError(error, ET_WINSOCK, WSAGetLastError(), NULL);
 #else
-  SetError(error, ET_HERRNO, h_errno, NULL);
+  SetError(error, ET_ERRNO, errno, NULL);
 #endif
 }
 
-static struct hostent *LookupHostname(const gchar *host, LastError **error)
+static void SetAIError(LastError **error, int errcode)
 {
-  struct hostent *he;
-
-  if ((he = gethostbyname(host)) == NULL && error) {
-    SetNetworkError(error);
-  }
-  return he;
+#ifdef CYGWIN
+  SetError(error, ET_WINSOCK, errcode, NULL);
+#else
+  SetError(error, ET_HERRNO, errcode, NULL);
+#endif
 }
 
 gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
@@ -937,12 +936,13 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
 {
   guint num_methods;
   ConnBuf *conn;
-  struct hostent *he;
+  struct addrinfo hints, *res;
   gchar *addpt;
   guint addlen, i;
-  struct in_addr *haddr;
+  struct in_addr haddr;
   unsigned short int netport;
   gchar *username = NULL;
+  int ret;
 
 #ifdef CYGWIN
   DWORD bufsize;
@@ -976,9 +976,15 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
     return TRUE;
   }
 
-  he = LookupHostname(RemoteHost, &NetBuf->error);
-  if (!he)
+  memset(&hints, 0, sizeof(hints));
+  hints.ai_family = AF_INET;
+  hints.ai_socktype = SOCK_STREAM;
+  if ((ret = getaddrinfo(RemoteHost, NULL, &hints, &res)) != 0) {
+    SetAIError(&NetBuf->error, ret);
     return FALSE;
+  }
+  haddr = ((struct sockaddr_in *)res->ai_addr)->sin_addr;
+  freeaddrinfo(res);
 
   if (NetBuf->socks->user && NetBuf->socks->user[0]) {
     username = g_strdup(NetBuf->socks->user);
@@ -1009,9 +1015,6 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
   }
   addlen = 9 + strlen(username);
 
-  haddr = (struct in_addr *)he->h_addr;
-  g_assert(sizeof(struct in_addr) == 4);
-
   netport = htons(RemotePort);
   g_assert(sizeof(netport) == 2);
 
@@ -1022,7 +1025,7 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
   addpt[0] = 4;                 /* SOCKS version */
   addpt[1] = 1;                 /* CONNECT */
   memcpy(&addpt[2], &netport, sizeof(netport));
-  memcpy(&addpt[4], haddr, sizeof(struct in_addr));
+  memcpy(&addpt[4], &haddr, sizeof(struct in_addr));
   strcpy(&addpt[8], username);
   g_free(username);
   addpt[addlen - 1] = '\0';
@@ -1407,83 +1410,104 @@ int CreateTCPSocket(LastError **error)
 gboolean BindTCPSocket(int sock, const gchar *addr, unsigned port,
                        LastError **error)
 {
-  struct sockaddr_in bindaddr;
-  int retval;
-  struct hostent *he;
+  struct addrinfo hints, *res, *rp;
+  char portstr[10];
+  int ret, retval = SOCKET_ERROR;
 
-  bindaddr.sin_family = AF_INET;
-  bindaddr.sin_port = htons(port);
-  if (addr && addr[0]) {
-    he = LookupHostname(addr, error);
-    if (!he) {
-      return FALSE;
-    }
-    bindaddr.sin_addr = *((struct in_addr *)he->h_addr);
-  } else {
-    bindaddr.sin_addr.s_addr = INADDR_ANY;
+  snprintf(portstr, sizeof(portstr), "%u", port);
+  memset(&hints, 0, sizeof(hints));
+  hints.ai_family = AF_UNSPEC;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = AI_PASSIVE;
+
+  ret = getaddrinfo((addr && addr[0]) ? addr : NULL,
+                    portstr, &hints, &res);
+  if (ret != 0) {
+    SetAIError(error, ret);
+    return FALSE;
   }
-  memset(bindaddr.sin_zero, 0, sizeof(bindaddr.sin_zero));
 
-  retval =
-      bind(sock, (struct sockaddr *)&bindaddr, sizeof(struct sockaddr));
+  for (rp = res; rp != NULL; rp = rp->ai_next) {
+    retval = bind(sock, rp->ai_addr, rp->ai_addrlen);
+    if (retval == 0)
+      break;
+  }
 
-  if (retval == SOCKET_ERROR && error) {
+  if (retval != 0) {
     SetNetworkError(error);
   }
 
-  return (retval != SOCKET_ERROR);
+  freeaddrinfo(res);
+  return (retval == 0);
 }
 
-gboolean StartConnect(int *fd, const gchar *bindaddr, gchar *RemoteHost,
-                      unsigned RemotePort, gboolean *doneOK, LastError **error)
+static gboolean StartConnect(int *fd, const gchar *bindaddr, gchar *RemoteHost,
+                             unsigned RemotePort, gboolean *doneOK, LastError **error)
 {
-  struct sockaddr_in ClientAddr;
-  struct hostent *he;
+  struct addrinfo hints, *res, *rp;
+  char portstr[10];
+  int ret;
 
   if (doneOK)
     *doneOK = FALSE;
-  he = LookupHostname(RemoteHost, error);
-  if (!he)
-    return FALSE;
 
-  *fd = CreateTCPSocket(error);
-  if (*fd == SOCKET_ERROR)
-    return FALSE;
+  snprintf(portstr, sizeof(portstr), "%u", RemotePort);
+  memset(&hints, 0, sizeof(hints));
+  hints.ai_family = AF_UNSPEC;
+  hints.ai_socktype = SOCK_STREAM;
 
-  if (bindaddr && bindaddr[0] && !BindTCPSocket(*fd, bindaddr, 0, error)) {
+  ret = getaddrinfo(RemoteHost, portstr, &hints, &res);
+  if (ret != 0) {
+    SetAIError(error, ret);
     return FALSE;
   }
 
-  ClientAddr.sin_family = AF_INET;
-  ClientAddr.sin_port = htons(RemotePort);
-  ClientAddr.sin_addr = *((struct in_addr *)he->h_addr);
-  memset(ClientAddr.sin_zero, 0, sizeof(ClientAddr.sin_zero));
+  for (rp = res; rp != NULL; rp = rp->ai_next) {
+    *fd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
+    if (*fd == SOCKET_ERROR) {
+      SetNetworkError(error);
+      continue;
+    }
 
-  SetBlocking(*fd, FALSE);
+    if (bindaddr && bindaddr[0] &&
+        !BindTCPSocket(*fd, bindaddr, 0, error)) {
+      CloseSocket(*fd);
+      *fd = -1;
+      continue;
+    }
 
-  if (connect(*fd, (struct sockaddr *)&ClientAddr,
-              sizeof(struct sockaddr)) == SOCKET_ERROR) {
+    SetBlocking(*fd, FALSE);
+
+    if (connect(*fd, rp->ai_addr, rp->ai_addrlen) == SOCKET_ERROR) {
 #ifdef CYGWIN
-    int errcode = WSAGetLastError();
+      int errcode = WSAGetLastError();
 
-    if (errcode == WSAEWOULDBLOCK)
-      return TRUE;
-    else if (error)
-      SetError(error, ET_WINSOCK, errcode, NULL);
+      if (errcode == WSAEWOULDBLOCK) {
+        freeaddrinfo(res);
+        return TRUE;
+      } else {
+        SetError(error, ET_WINSOCK, errcode, NULL);
+      }
 #else
-    if (errno == EINPROGRESS)
-      return TRUE;
-    else if (error)
-      SetError(error, ET_ERRNO, errno, NULL);
+      if (errno == EINPROGRESS) {
+        freeaddrinfo(res);
+        return TRUE;
+      } else {
+        SetError(error, ET_ERRNO, errno, NULL);
+      }
 #endif
-    CloseSocket(*fd);
-    *fd = -1;
-    return FALSE;
-  } else {
-    if (doneOK)
-      *doneOK = TRUE;
+      CloseSocket(*fd);
+      *fd = -1;
+    } else {
+      if (doneOK)
+        *doneOK = TRUE;
+      freeaddrinfo(res);
+      return TRUE;
+    }
   }
-  return TRUE;
+
+  freeaddrinfo(res);
+  return FALSE;
 }
 
 gboolean FinishConnect(int fd, LastError **error)
