@@ -2297,7 +2297,7 @@ static void PackCentredURL(GtkWidget *vbox, gchar *title, gchar *target,
 void display_intro(GtkWidget *widget, gpointer data)
 {
   GtkWidget *dialog, *label, *grid, *OKButton, *vbox, *hsep, *hbbox;
-  gchar *VersionStr, *docindex;
+  gchar *VersionStr;
   const int rows = 8, cols = 3;
   int i, j;
   GtkAccelGroup *accel_group;
@@ -2386,18 +2386,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   }
   gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
-  /* Label at the bottom of GTK+ 'about' dialog */
-  label = gtk_label_new(_("\nFor information on the command line "
-                          "options, type dopewars -h at your\n"
-                          "Unix prompt. This will display a help "
-                          "screen, listing the available options.\n"));
-  gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-
-  docindex = GetDocIndex();
-  PackCentredURL(vbox, _("Local HTML documentation"), docindex, OurWebBrowser);
-  g_free(docindex);
-
-  PackCentredURL(vbox, "https://dopewars.sourceforge.io/",
+  PackCentredURL(vbox, _("Original dopewars information here:"),
                  "https://dopewars.sourceforge.io/", OurWebBrowser);
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
