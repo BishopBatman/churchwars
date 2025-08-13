@@ -2957,6 +2957,9 @@ int RandomOffer(Player *To)
   int r, amount, ind;
   GString *text;
 
+  if (NumDrug <= 0)
+    return 0;
+
   r = brandom(0, 100);
 
   text = g_string_new(NULL);
@@ -3115,6 +3118,9 @@ static void GenerateDrugsHere(Player *To, enum DealType *Deal)
 {
   int NumEvents, NumDrugs, NumRandom, i;
 
+  if (NumDrug <= 0)
+    return;
+
   for (i = 0; i < NumDrug; i++) {
     To->Drugs[i].Price = 0;
     Deal[i] = DT_NORMAL;
@@ -3145,8 +3151,11 @@ static void GenerateDrugsHere(Player *To, enum DealType *Deal)
       NumEvents--;
     }
   }
-  NumRandom = brandom(Location[To->IsAt].MinDrug,
-                      Location[To->IsAt].MaxDrug);
+  int mindrug = Location[To->IsAt].MinDrug;
+  int maxdrug = Location[To->IsAt].MaxDrug;
+  if (maxdrug <= mindrug)
+    maxdrug = mindrug + 1;
+  NumRandom = brandom(mindrug, maxdrug);
   if (NumRandom > NumDrug)
     NumRandom = NumDrug;
 
@@ -3453,11 +3462,13 @@ int LoseBitch(Player *Play, Inventory *Guns, Inventory *Drugs)
         TotalGunsCarried(Play) * 100 / (Play->Bitches.Carried + 2)) {
       for (i = 0; i < NumGun; i++)
         GunIndex[i] = i;
-      for (i = 0; i < NumGun * 5; i++) {
-        num = brandom(0, NumGun - 1);
-        tmp = GunIndex[num + 1];
-        GunIndex[num + 1] = GunIndex[num];
-        GunIndex[num] = tmp;
+      if (NumGun > 1) {
+        for (i = 0; i < NumGun * 5; i++) {
+          num = brandom(0, NumGun - 1);
+          tmp = GunIndex[num + 1];
+          GunIndex[num + 1] = GunIndex[num];
+          GunIndex[num] = tmp;
+        }
       }
       for (i = 0; i < NumGun; i++) {
         if (Play->Guns[GunIndex[i]].Carried > 0) {

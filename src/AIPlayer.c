@@ -561,8 +561,10 @@ void AIJet(Player *AIPlay)
              AIPlay->Cash > MINSAFECASH * 5) {
     NewLocation = RealGunShop;
   }
-  while (NewLocation == AIPlay->IsAt)
-    NewLocation = brandom(0, NumLocation);
+  if (NumLocation > 1) {
+    while (NewLocation == AIPlay->IsAt)
+      NewLocation = brandom(0, NumLocation);
+  }
   int ret = snprintf(text, sizeof(text), "%d", NewLocation);
   if (ret < 0 || ret >= (int)sizeof(text)) {
     g_warning("AIJet: failed to format new location");
