@@ -110,7 +110,7 @@ gchar *appdata_path = NULL;
 
 static void GetAppDataPath()
 {
-  appdata_path = g_strdup_printf("%s/dopewars", g_get_user_config_dir());
+  appdata_path = g_strdup_printf("%s/churchwars", g_get_user_config_dir());
   if (g_mkdir_with_parents(appdata_path, 0700) != 0) {
     g_warning("Could not create directory %s: %s", appdata_path,
               g_strerror(errno));
@@ -119,7 +119,7 @@ static void GetAppDataPath()
 
 static gboolean LogFileStart()
 {
-  char *logfile = g_strdup_printf("%s/dopewars-log.txt",
+  char *logfile = g_strdup_printf("%s/churchwars-log.txt",
                                   appdata_path ? appdata_path : ".");
   LogFile = fopen(logfile, "w");
   if (!LogFile) {
