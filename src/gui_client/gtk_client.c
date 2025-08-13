@@ -2,7 +2,7 @@
  * gtk_client.c   Church Wars client using the GTK+ toolkit             *
  * Copyright (C)  1998-2022  Ben Webb                                   *
  *                Email: benwebb@users.sf.net                           *
- *                WWW: https://churchwars.sourceforge.io/               *
+ *                WWW: https://dopewars.sourceforge.io/               *
  *                                                                      *
  * This program is free software; you can redistribute it and/or        *
  * modify it under the terms of the GNU General Public License          *
