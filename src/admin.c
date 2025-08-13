@@ -58,8 +58,12 @@ static int OpenSocket(void)
   }
 
   addr.sun_family = AF_UNIX;
-  strncpy(addr.sun_path, sockname, sizeof(addr.sun_path));
-  addr.sun_path[sizeof(addr.sun_path) - 1] = '\0';
+  if (g_strlcpy(addr.sun_path, sockname, sizeof(addr.sun_path)) >
+      sizeof(addr.sun_path) - 1) {
+    g_warning("Unix domain socket path '%s' is too long", sockname);
+    g_free(sockname);
+    exit(EXIT_FAILURE);
+  }
 
   if (connect(sock, (struct sockaddr *)&addr,
               sizeof(struct sockaddr_un)) == -1) {
