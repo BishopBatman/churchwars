@@ -98,7 +98,8 @@ static void DisplayConnectStatus(NetworkBuffer *netbuf, NBStatus oldstatus,
   status = netbuf->status;
   sockstat = netbuf->sockstat;
   if (oldstatus == status && oldsocks == sockstat)
-    return;
+    status = FALSE;
+    goto cleanup;
 
   switch (status) {
   case NBS_PRECONNECT:
@@ -166,7 +167,8 @@ gboolean AIPlayerLoop(struct CMDLINE *cmdline)
     g_warning(_("Failed to connect to server; cleaning up."));
     g_string_free(errstr, TRUE);
     FirstClient = RemovePlayer(AIPlay, FirstClient);
-    return;
+    status = FALSE;
+    goto cleanup;
   } else {
     SetNetworkBufferUserPasswdFunc(netbuf, NetBufAuth, NULL);
     if (netbuf->status == NBS_CONNECTED) {
