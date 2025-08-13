@@ -262,9 +262,8 @@ gchar *HandleTFmt(gchar *format, va_list va)
       break;
     }
   }
-  retstr = string->str;
   g_array_free(arr, TRUE);
-  g_string_free(string, FALSE);
+  retstr = g_string_free(string, FALSE);
   g_string_free(tmpfmt, TRUE);
   return retstr;
 }
