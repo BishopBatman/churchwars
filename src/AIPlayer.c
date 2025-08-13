@@ -162,6 +162,9 @@ void AIPlayerLoop(struct CMDLINE *cmdline)
 
   if (!StartNetworkBufferConnect(netbuf, NULL, ServerName, Port)) {
     AIConnectFailed(netbuf);
+    g_warning(_("Failed to connect to server; cleaning up."));
+    g_string_free(errstr, TRUE);
+    FirstClient = RemovePlayer(AIPlay, FirstClient);
     return;
   } else {
     SetNetworkBufferUserPasswdFunc(netbuf, NetBufAuth, NULL);
