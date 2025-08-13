@@ -45,71 +45,102 @@
 #include "dopewars.h"
 
 #ifndef HAVE_GETOPT
+/* Global state used by the non-reentrant getopt() wrapper. */
 char *optarg;
 int optind = 1;
 int optopt;
+static struct getopt_state global_state = {NULL, 1, 0, 1};
 
-static int apos = 1; /* position within current argv element */
-
-int getopt(int argc, char *const argv[], const char *str)
+/*
+ * Reentrant getopt implementation. The parsing state is stored entirely in
+ * the caller-provided structure "state" allowing multiple, concurrent uses
+ * in different threads.
+ */
+int getopt_r(int argc, char *const argv[], const char *str,
+             struct getopt_state *state)
 {
   char *arg, *pt;
   char c;
 
-  if (optind == 0) {
-    optind = 1;
-    apos = 1;
+  if (state->optind == 0) {
+    state->optind = 1;
+    state->apos = 1;
   }
 
-  optarg = NULL;
+  state->optarg = NULL;
 
-  if (optind >= argc || argv[optind] == NULL) {
-    apos = 1;
+  if (state->optind >= argc || argv[state->optind] == NULL) {
+    state->apos = 1;
     return -1;
   }
 
-  arg = argv[optind];
+  arg = argv[state->optind];
   if (arg[0] != '-' || arg[1] == '\0') {
-    apos = 1;
+    state->apos = 1;
     return -1;
   }
   if (strcmp(arg, "--") == 0) {
-    optind++;
-    apos = 1;
+    state->optind++;
+    state->apos = 1;
     return -1;
   }
 
-  c = arg[apos++];
-  optopt = c;
+  c = arg[state->apos++];
+  state->optopt = c;
   pt = strchr(str, c);
   if (!pt) {
-    if (arg[apos] == '\0') {
-      optind++;
-      apos = 1;
+    if (arg[state->apos] == '\0') {
+      state->optind++;
+      state->apos = 1;
     }
     return '?';
   }
 
   if (*(pt + 1) == ':') {
-    if (arg[apos] != '\0') {
-      optarg = &arg[apos];
-      optind++;
-      apos = 1;
-    } else if (optind + 1 < argc && argv[optind + 1]) {
-      optarg = argv[++optind];
-      optind++;
-      apos = 1;
+    if (arg[state->apos] != '\0') {
+      state->optarg = &arg[state->apos];
+      state->optind++;
+      state->apos = 1;
+    } else if (state->optind + 1 < argc && argv[state->optind + 1]) {
+      state->optarg = argv[++state->optind];
+      state->optind++;
+      state->apos = 1;
     } else {
-      optind++;
-      apos = 1;
+      state->optind++;
+      state->apos = 1;
       return (str[0] == ':') ? ':' : '?';
     }
-  } else if (arg[apos] == '\0') {
-    optind++;
-    apos = 1;
+  } else if (arg[state->apos] == '\0') {
+    state->optind++;
+    state->apos = 1;
   }
 
   return c;
+}
+
+/* Wrapper maintaining compatibility with traditional getopt(). The global
+ * variables are updated after the reentrant function completes.  This
+ * wrapper shares state and therefore should not be used concurrently from
+ * multiple threads.
+ */
+int getopt(int argc, char *const argv[], const char *str)
+{
+  int ret;
+
+  /* Copy global variables into our state before parsing in case the caller
+   * has modified them (e.g. to reset optind to 0).
+   */
+  global_state.optarg = optarg;
+  global_state.optind = optind;
+  global_state.optopt = optopt;
+
+  ret = getopt_r(argc, argv, str, &global_state);
+
+  optarg = global_state.optarg;
+  optind = global_state.optind;
+  optopt = global_state.optopt;
+
+  return ret;
 }
 #endif /* HAVE_GETOPT */
 

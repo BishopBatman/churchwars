@@ -56,7 +56,21 @@ int bselect(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfs,
 #endif /* CYGWIN */
 
 #ifndef HAVE_GETOPT
+/*
+ * Traditional getopt() uses a single set of global variables and is therefore
+ * not thread-safe.  For reentrant or multi-threaded use, call getopt_r() with
+ * a caller-provided state structure.
+ */
+struct getopt_state {
+  char *optarg; /* argument value, if any */
+  int optind;   /* index into argv */
+  int optopt;   /* option character returned */
+  int apos;     /* internal state */
+};
+
 int getopt(int argc, char *const argv[], const char *str);
+int getopt_r(int argc, char *const argv[], const char *str,
+             struct getopt_state *state);
 extern char *optarg;
 extern int optind;
 extern int optopt;
