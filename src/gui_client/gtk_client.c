@@ -2345,7 +2345,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 
     /* Main content of GTK+ 'about' dialog */
-  label = gtk_label_new(_("It’s AD 1095, and the Crusades are about to begin.\n"
+  label = gtk_label_new(_("TEST It’s AD 1095, and the Crusades are about to begin.\n"
                           "As a famed Trader-Saint, Pope Urban II has\n"
                           "charged you with a sacred mission—cross the medieval\n"
                           "world, trade valuable goods, and amass wealth to fund\n"
