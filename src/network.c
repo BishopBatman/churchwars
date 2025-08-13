@@ -503,7 +503,7 @@ static gboolean Socks5Connect(NetworkBuffer *NetBuf)
   netport = htons(NetBuf->port);
   g_assert(sizeof(netport) == 2);
 
-  addlen = hostlen + 8;
+  addlen = hostlen + 7;
   addpt = ExpandWriteBuffer(conn, addlen, &NetBuf->error);
   if (!addpt)
     return FALSE;
@@ -514,7 +514,6 @@ static gboolean Socks5Connect(NetworkBuffer *NetBuf)
   addpt[4] = (guchar)hostlen;           /* Length of address */
   memcpy(&addpt[5], NetBuf->host, hostlen);
   memcpy(&addpt[5 + hostlen], &netport, sizeof(netport));
-  addpt[5 + hostlen + sizeof(netport)] = '\0';
 
   NetBuf->sockstat = NBSS_CONNECT;
 
