@@ -599,7 +599,7 @@ static void DisplayConnectStatus(NetworkBuffer *netbuf,
     refresh();
   }
   g_string_free(text, TRUE);
-  return TRUE;
+  return;
 }
 
 void SocksAuthFunc(NetworkBuffer *netbuf, gpointer data)
