@@ -41,6 +41,9 @@
 #include <string.h>
 #include <errno.h>
 #include <glib.h>
+#include <glib/gstdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <stdarg.h>
 
 #include "configfile.h"
@@ -2551,6 +2554,25 @@ static void PluginHelp(void)
   g_free(plugins);
 }
 
+static gchar *default_score_dir(void)
+{
+#ifdef CYGWIN
+  if (appdata_path) {
+    return g_strdup(appdata_path);
+  }
+#endif
+  if (g_path_is_absolute(DPSCOREDIR)) {
+    return g_strdup(DPSCOREDIR);
+  } else {
+    const gchar *base = g_get_user_data_dir();
+    if (!base) {
+      const gchar *home = g_get_home_dir();
+      return g_build_filename(home, ".local", "share", DPSCOREDIR, NULL);
+    }
+    return g_build_filename(base, DPSCOREDIR, NULL);
+  }
+}
+
 void HandleHelpTexts(gboolean fullhelp)
 {
   g_print(_("Church Wars version %s\n"), VERSION);
@@ -2558,10 +2580,12 @@ void HandleHelpTexts(gboolean fullhelp)
     return;
   }
 
-  g_print(
+  gchar *score_dir = default_score_dir();
+  gchar *default_score = g_build_filename(score_dir, "churchwars.sco", NULL);
+  g_free(score_dir);
+
 #ifdef HAVE_GETOPT_LONG
-           /* Usage information, printed when the user runs "dopewars -h"
-              (version with support for GNU long options) */
+  g_print(
            _("Usage: Church Wars [OPTION]...\n\
 Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -b, --no-color,         \"black and white\" - i.e. do not use pretty colors\n\
@@ -2571,7 +2595,7 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -a, --antique           \"antique\" Church Wars - keep as closely to the original\n\
                             version as possible (no networking)\n\
   -f, --scorefile=FILE    specify a file to use as the high score table (by\n\
-                            default %s/churchwars.sco is used)\n\
+                            default %s is used)\n\
   -o, --hostname=ADDR     specify a hostname where the server for multiplayer\n\
                             Church Wars can be found\n\
   -s, --public-server     run in server mode (note: see the -A option for\n\
@@ -2590,15 +2614,14 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -t, --text-client       force the use of a text-mode client (curses) (by\n\
                             default, a windowed client is used when possible)\n\
   -P, --player=NAME       set player name to \"NAME\"\n\
-  -C, --convert=FILE      convert an \"old format\" score file to the new format\n"), DPSCOREDIR);
+  -C, --convert=FILE      convert an \"old format\" score file to the new format\n"), default_score);
   PluginHelp();
   g_print(_("  -h, --help              display this help information\n\
   -v, --version           output version information and exit\n\n\
 Church Wars is Copyright (C) O Batstone 2024, and released under the GNU GPL\n\
 Report bugs to the author at benwebb@users.sf.net\n"));
 #else
-           /* Usage information, printed when the user runs "dopewars -h"
-              (short options only version) */
+  g_print(
            _("Usage: Church Wars [OPTION]...\n\
 Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -b       \"black and white\" - i.e. do not use pretty colors\n\
@@ -2608,7 +2631,7 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -a       \"antique\" Church Wars - keep as closely to the original version as\n\
               possible (no networking)\n\
   -f file  specify a file to use as the high score table\n\
-              (by default %s/churchwars.sco is used)\n\
+              (by default %s is used)\n\
   -o addr  specify a hostname where the server for multiplayer Church Wars\n\
               can be found\n\
   -s       run in server mode (note: see the -A option for configuring a\n\
@@ -2626,13 +2649,14 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -P name  set player name to \"name\"\n\
   -C file  convert an \"old format\" score file to the new format\n\
   -A       connect to a locally-running server for administration\n"),
-           DPSCOREDIR);
+           default_score);
   PluginHelp();
 g_print(_("  -h       display this help information\n\
   -v       output version information and exit\n\n\
 Church Wars is Copyright (C) O Batstone 2024, and released under the GNU GPL\n\
 Report bugs to the author at benwebb@users.sf.net\n"));
 #endif
+  g_free(default_score);
 }
 
 struct CMDLINE *ParseCmdLine(int argc, char *argv[])
@@ -2783,15 +2807,16 @@ static gchar *priv_hiscore = NULL;
  */
 struct CMDLINE *GeneralStartup(int argc, char *argv[])
 {
-  /* First, open the hard-coded high score file with possibly
-   * elevated privileges */
-#ifdef CYGWIN
-  priv_hiscore = g_strdup_printf("%s/churchwars.sco",
-                                 appdata_path ? appdata_path : DPSCOREDIR);
-#else
-  priv_hiscore = g_strdup_printf("%s/churchwars.sco", DPSCOREDIR);
-#endif
+  /* First, open the high score file with possibly elevated privileges */
+  gchar *score_dir = default_score_dir();
+  g_mkdir_with_parents(score_dir, 0700);
+  priv_hiscore = g_build_filename(score_dir, "churchwars.sco", NULL);
+  int fd = g_open(priv_hiscore, O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR);
+  if (fd >= 0) {
+    close(fd);
+  }
   HiScoreFile = g_strdup(priv_hiscore);
+  g_free(score_dir);
   OpenHighScoreFile();
   if (!DropPrivileges()) {
     g_warning("Failed to drop privileges");

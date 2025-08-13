@@ -160,15 +160,17 @@ the user for a username and password on each connect instead.)</dd>
 <dt><b>Socks.Auth.Password=<i>""</i></b></dt>
 <dd>The corresponding password for Socks.Auth.User, above.</dd>
 
-<dt><a id="HiScoreFile"><b>HiScoreFile=<i>"/var/lib/churchwars.sco"</i></b></a>
+<dt><a id="HiScoreFile"><b>HiScoreFile=<i>"~/.local/share/churchwars/churchwars.sco"</i></b></a>
 </dt>
 <dd>Tells the Church Wars server (or the client, if running in single-player
-mode, not connected to a server) to use the file <i>/var/lib/churchwars.sco</i>
-to store high scores. This can be overridden with the -f
-<a href="commandline.html#hiscore">command line option</a>.
-(N.B. This option cannot be used to get Church Wars to open a high
-score file with privilege when running setuid/setgid; all privileges are
-dropped by this point for security.)</dd>
+mode, not connected to a server) to use the file
+<i>~/.local/share/churchwars/churchwars.sco</i> to store high scores. This
+resides in the user's data directory and is created automatically if
+missing. This location can be overridden with the -f
+<a href="commandline.html#hiscore">command line option</a>. (N.B. This
+option cannot be used to get Church Wars to open a high score file with
+privilege when running setuid/setgid; all privileges are dropped by this
+point for security.)</dd>
 
 <dt><b>MinToSysTray=<i>TRUE</i></b></dt>
 <dd>Rather than behaving as a normal window, the Church Wars server window adds
