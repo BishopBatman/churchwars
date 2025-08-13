@@ -688,7 +688,6 @@ static gboolean ConnectToServer(Player *Play)
 {
   gboolean MetaOK = TRUE, NetOK = TRUE, firstrun = FALSE;
   GString *errstr;
-  gchar *text;
   int c, top = get_ui_area_top();
 
   errstr = g_string_new("");
