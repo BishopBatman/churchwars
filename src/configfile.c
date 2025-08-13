@@ -28,6 +28,8 @@
 #include <stdio.h>              /* For fgetc etc. */
 #include <stdlib.h>             /* For atoi */
 #include <errno.h>              /* For errno */
+#include <sys/types.h>          /* For size_t etc. */
+#include <sys/stat.h>
 #include <ctype.h>              /* For isprint */
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -41,6 +43,8 @@
 #include "error.h"              /* For ErrStrFromErrno */
 
 gchar *LocalCfgEncoding = NULL;
+
+#define MAX_CONFIG_FILE_SIZE (5 * 1024 * 1024)
 
 /*
  * Prints the given string to a file, converting control characters
@@ -187,6 +191,19 @@ static gboolean ReadFileToString(FILE *fp, gchar *str, int matchlen)
   int len, mpos, ch;
   gchar *match;
   GString *file;
+  struct stat st;
+
+  if (fstat(fileno(fp), &st) != 0) {
+    gchar *errstr = ErrStrFromErrno(errno);
+    g_warning(_("Could not stat config file: %s"), errstr);
+    g_free(errstr);
+    return FALSE;
+  }
+
+  if (st.st_size > MAX_CONFIG_FILE_SIZE) {
+    g_warning(_("Config file too large"));
+    return FALSE;
+  }
 
   file = g_string_new("");
   len = strlen(str);
@@ -196,7 +213,8 @@ static gboolean ReadFileToString(FILE *fp, gchar *str, int matchlen)
   match = g_new(gchar, len);
   mpos = 0;
 
-  while (mpos < len && (ch = fgetc(fp)) != EOF) {
+  while (mpos < len && file->len < MAX_CONFIG_FILE_SIZE &&
+         (ch = fgetc(fp)) != EOF) {
     g_string_append_c(file, ch);
     match[mpos++] = ch;
     if (ch != str[mpos - 1]) {
@@ -215,6 +233,14 @@ static gboolean ReadFileToString(FILE *fp, gchar *str, int matchlen)
         mpos = 0;
     }
   }
+
+  if (file->len >= MAX_CONFIG_FILE_SIZE) {
+    g_warning(_("Config file too large"));
+    g_free(match);
+    g_string_free(file, TRUE);
+    return FALSE;
+  }
+
   g_string_truncate(file, file->len - mpos);
 
   g_free(match);
@@ -234,7 +260,6 @@ static gboolean ReadFileToString(FILE *fp, gchar *str, int matchlen)
     g_string_free(file, TRUE);
     return FALSE;
   }
-
   if (fputs(str, fp) == EOF) {
     gchar *errstr = ErrStrFromErrno(errno);
     g_warning(_("Could not write to config file: %s"), errstr);
