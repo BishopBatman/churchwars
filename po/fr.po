@@ -2883,7 +2883,7 @@ msgstr ""
 msgid ""
 "Errors were encountered during the reading of the configuration file.\n"
 "As as result, some settings may not work as expected. Please consult the\n"
-"file \"dopewars-log.txt\" for further details."
+"file \"churchwars-log.txt\" for further details."
 msgstr ""
 
 #: src/serverside.c:2007
