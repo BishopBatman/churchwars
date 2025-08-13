@@ -2847,6 +2847,7 @@ static void DefaultLogMessage(const gchar *log_domain,
 int main(int argc, char *argv[])
 {
   struct CMDLINE *cmdline;
+  int retcode = 0;
 #ifdef ENABLE_NLS
   const char *charset;
   setlocale(LC_ALL, "");
@@ -2895,7 +2896,8 @@ int main(int argc, char *argv[])
                 "configure script.\n"));
 #endif /* NETWORKING */
     } else if (cmdline->ai) {
-      AIPlayerLoop(cmdline);
+      if (!AIPlayerLoop(cmdline))
+        retcode = 1;
     } else
       switch (cmdline->client) {
       case CLIENT_AUTO:
@@ -2919,7 +2921,7 @@ int main(int argc, char *argv[])
   g_free(PidFile);
   g_free(Log.File);
   SoundClose();
-  return 0;
+  return retcode;
 }
 
 #endif /* CYGWIN */

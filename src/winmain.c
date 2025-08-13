@@ -285,6 +285,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
   gboolean is_service;
   gchar *modpath;
   struct CMDLINE *cmdline;
+  int retcode = 0;
 
 #ifdef ENABLE_NLS
   gchar *winlocale;
@@ -394,7 +395,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                         LogMask() | G_LOG_LEVEL_MESSAGE |
                         G_LOG_LEVEL_WARNING, ServerLogMessage, NULL);
       g_set_print_handler(ServerPrintFunc);
-      AIPlayerLoop(cmdline);
+      if (!AIPlayerLoop(cmdline))
+        retcode = 1;
     } else {
       switch (cmdline->client) {
       case CLIENT_AUTO:
@@ -426,7 +428,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
   g_free(PidFile);
   g_free(Log.File);
   SoundClose();
-  return 0;
+  return retcode;
 }
 
 #endif /* CYGWIN */
