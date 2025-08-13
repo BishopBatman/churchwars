@@ -320,7 +320,7 @@ void RemoteVersionCheck(Player *Play)
  */
 void HandleServerMessage(gchar *buf, Player *Play)
 {
-  Player *To, *tmp, *pt;
+  Player *To, *pt;
   GSList *list;
   char *Data;
   AICode AI;
@@ -2191,7 +2191,7 @@ int SendSingleHighScore(Player *Play, struct HISCORE *Score,
 void SendEvent(Player *To)
 {
   price_t Money;
-  int i, j;
+  int i;
   gchar *text;
   Player *Play;
   GSList *list;
