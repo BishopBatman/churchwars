@@ -1177,29 +1177,40 @@ char StartsWithVowel(char *string)
   return (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
 }
 
-/* 
- * Reads a NULL-terminated string into the buffer "buf" from file "fp".
- * buf is sized to hold the string; this is a dynamic string and must be
- * freed by the calling routine. Returns 0 on success, EOF on failure.
+/*
+ * Read a NUL-terminated string from "fp" into an allocated buffer.
+ * Returns 0 on success.  If EOF is reached before the terminator or the
+ * string exceeds READ_STRING_MAX (4KB), the buffer is freed, errno is set
+ * and EOF is returned.
  */
 int read_string(FILE *fp, char **buf)
 {
   int c;
+  gsize total = 0;
+  const gsize READ_STRING_MAX = 4096;
   GString *text;
 
   text = g_string_new("");
-  do {
-    c = fgetc(fp);
-    if (c != EOF && c != 0)
-      g_string_append_c(text, (char)c);
-  } while (c != EOF && c != 0);
+  while ((c = fgetc(fp)) != EOF) {
+    if (c == 0) {
+      /* Free the GString, but not the actual data text->str */
+      *buf = g_string_free(text, FALSE);
+      return 0;
+    }
+    if (total >= READ_STRING_MAX) {
+      g_string_free(text, TRUE);
+      *buf = NULL;
+      errno = EOVERFLOW;
+      return EOF;
+    }
+    g_string_append_c(text, (char)c);
+    total++;
+  }
 
-  /* Free the GString, but not the actual data text->str */
-  *buf = g_string_free(text, FALSE);
-  if (c == EOF)
-    return EOF;
-  else
-    return 0;
+  g_string_free(text, TRUE);
+  *buf = NULL;
+  errno = EIO;
+  return EOF;
 }
 
 /* 
