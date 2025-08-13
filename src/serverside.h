@@ -69,7 +69,7 @@ void RunFromCombat(Player *Play, int ToLocation);
 gboolean CanPlayerFire(Player *Play);
 gboolean CanRunHere(Player *Play);
 Player *GetNextShooter(Player *Play);
-void DropPrivileges(void);
+gboolean DropPrivileges(void);
 
 #ifdef GUI_SERVER
 void GuiServerLoop(struct CMDLINE *cmdline, gboolean is_service);

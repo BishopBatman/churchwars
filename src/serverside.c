@@ -734,16 +734,25 @@ static gboolean StartServer(void)
     errstr = g_string_new("");
     g_string_assign_error(errstr, sockerr);
     g_log(NULL, G_LOG_LEVEL_CRITICAL,
-          _("Cannot create server (listening) socket (%s) Aborting."),
+          _("Cannot create server (listening) socket (%s)"),
           errstr->str);
     g_string_free(errstr, TRUE);
     FreeError(sockerr);
-    exit(EXIT_FAILURE);
+    return FALSE;
   }
 
   /* This doesn't seem to work properly under Win32 */
 #ifndef CYGWIN
-  SetReuse(ListenSock);
+  if (!SetReuse(ListenSock, &sockerr)) {
+    errstr = g_string_new("");
+    g_string_assign_error(errstr, sockerr);
+    g_log(NULL, G_LOG_LEVEL_CRITICAL,
+          _("Cannot set socket reuse option (%s)"), errstr->str);
+    g_string_free(errstr, TRUE);
+    FreeError(sockerr);
+    CloseSocket(ListenSock);
+    return FALSE;
+  }
 #endif
 
   SetBlocking(ListenSock, FALSE);
@@ -752,16 +761,18 @@ static gboolean StartServer(void)
     errstr = g_string_new("");
     g_string_assign_error(errstr, sockerr);
     g_log(NULL, G_LOG_LEVEL_CRITICAL,
-          _("Cannot bind to port %u (%s) Aborting."), Port, errstr->str);
+          _("Cannot bind to port %u (%s)"), Port, errstr->str);
     g_string_free(errstr, TRUE);
     FreeError(sockerr);
-    exit(EXIT_FAILURE);
+    CloseSocket(ListenSock);
+    return FALSE;
   }
 
   if (listen(ListenSock, 10) == SOCKET_ERROR) {
     g_log(NULL, G_LOG_LEVEL_CRITICAL,
-          _("Cannot listen to network socket. Aborting."));
-    exit(EXIT_FAILURE);
+          _("Cannot listen to network socket."));
+    CloseSocket(ListenSock);
+    return FALSE;
   }
 
   /* Initial startup message for the server */
@@ -940,7 +951,7 @@ Player *HandleNewConnection(void)
   if ((ClientSock = accept(ListenSock, (struct sockaddr *)&ClientAddr,
                             &cadsize)) == -1) {
     perror("accept socket");
-    exit(EXIT_FAILURE);
+    return NULL;
   }
   dopelog(2, LF_SERVER, _("got connection from %s"),
           inet_ntoa(ClientAddr.sin_addr));
@@ -1450,7 +1461,8 @@ static gboolean GuiNewConnect(GIOChannel *source, GIOCondition condition,
 
   if (condition & G_IO_IN) {
     Play = HandleNewConnection();
-    SetNetworkBufferCallBack(&Play->NetBuf, SocketStatus, (gpointer)Play);
+    if (Play)
+      SetNetworkBufferCallBack(&Play->NetBuf, SocketStatus, (gpointer)Play);
   }
   return TRUE;
 }
@@ -1754,24 +1766,25 @@ void CloseHighScoreFile()
  * If we're running setuid/setgid, drop down to the privilege level of the
  * user that started the Church Wars process.
  */
-void DropPrivileges()
+gboolean DropPrivileges()
 {
 #ifndef CYGWIN
 
 #ifdef HAVE_ISSETUGID
-  if (issetugid() == 0) return;
+  if (issetugid() == 0) return TRUE;
 #endif
 
   if (setregid(getgid(), getgid()) != 0) {
     perror("setregid");
-    exit(EXIT_FAILURE);
+    return FALSE;
   }
 
   if (setreuid(getuid(), getuid()) != 0) {
     perror("setreuid");
-    exit(EXIT_FAILURE);
+    return FALSE;
   }
 #endif
+  return TRUE;
 }
 
 static const gchar SCOREHEADER[] = "DOPEWARS SCORES V.";

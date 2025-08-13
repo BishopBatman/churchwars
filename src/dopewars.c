@@ -2697,7 +2697,9 @@ struct CMDLINE *GeneralStartup(int argc, char *argv[])
 #endif
   HiScoreFile = g_strdup(priv_hiscore);
   OpenHighScoreFile();
-  DropPrivileges();
+  if (!DropPrivileges()) {
+    g_warning("Failed to drop privileges");
+  }
 
   /* Initialize variables */
   Log.File = g_strdup("");

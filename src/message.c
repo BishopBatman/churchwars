@@ -965,7 +965,21 @@ void InitNetwork(void)
 {
   netconv = Conv_New();
 #ifdef NETWORKING
-  StartNetworking();
+  {
+    LastError *error = NULL;
+    GString *errstr;
+    if (!StartNetworking(&error)) {
+      errstr = g_string_new("");
+      if (error)
+        g_string_assign_error(errstr, error);
+      g_log(NULL, G_LOG_LEVEL_CRITICAL,
+            _("Cannot initialize networking (%s)!"), errstr->str);
+      g_string_free(errstr, TRUE);
+      if (error)
+        FreeError(error);
+      return;
+    }
+  }
 #endif
 }
 
