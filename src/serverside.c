@@ -54,6 +54,7 @@
 #include "network.h"
 #include "nls.h"
 #include "serverside.h"
+#include "sound.h"
 #include "tstring.h"
 #include "util.h"
 
