@@ -927,6 +927,19 @@ int GetNextInt(gchar **Data, int Default)
   return Default;
 }
 
+int GetNextSignedInt(gchar **Data, int Default)
+{
+  gchar *Word = GetNextWord(Data, NULL);
+
+  if (Word) {
+    char *endptr;
+    long val = strtol(Word, &endptr, 10);
+    if (*endptr == '\0' && val >= G_MININT && val <= G_MAXINT)
+      return (int)val;
+  }
+  return Default;
+}
+
 price_t GetNextPrice(gchar **Data, price_t Default)
 {
   gchar *Word = GetNextWord(Data, NULL);

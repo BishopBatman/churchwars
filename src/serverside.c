@@ -3449,7 +3449,8 @@ gboolean BuyObject(Player *From, char *data)
   cp = data;
   type = GetNextWord(&cp, "");
   index = GetNextInt(&cp, 0);
-  amount = GetNextInt(&cp, 0);
+  /* amount may be negative to sell items */
+  amount = GetNextSignedInt(&cp, 0);
   if (strcmp(type, "drug") == 0) {
     if (index >= 0 && index < NumDrug
         && From->Drugs[index].Carried + amount >= 0

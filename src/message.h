@@ -121,6 +121,7 @@ void ReceiveMiscData(char *Data);
 gchar *GetNextWord(gchar **Data, gchar *Default);
 void AssignNextWord(gchar **Data, gchar **Dest);
 int GetNextInt(gchar **Data, int Default);
+int GetNextSignedInt(gchar **Data, int Default);
 price_t GetNextPrice(gchar **Data, price_t Default);
 void ShutdownNetwork(Player *Play);
 void SwitchToSinglePlayer(Player *Play);
