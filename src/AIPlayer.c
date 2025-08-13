@@ -132,13 +132,14 @@ static void NetBufAuth(NetworkBuffer *netbuf, gpointer data)
  * Main loop for AI players. Connects to server, plays game,
  * and then disconnects.
  */
-void AIPlayerLoop(struct CMDLINE *cmdline)
+gboolean AIPlayerLoop(struct CMDLINE *cmdline)
 {
   GString *errstr;
   gchar *msg;
   Player *AIPlay;
   fd_set readfs, writefs;
   gboolean DoneOK, QuitRequest, datawaiting;
+  gboolean status = TRUE;
   int MaxSock;
   NBStatus oldstatus;
   NBSocksStatus oldsocks;
@@ -187,8 +188,9 @@ void AIPlayerLoop(struct CMDLINE *cmdline)
     if (bselect(MaxSock, &readfs, &writefs, NULL, NULL) == -1) {
       if (errno == EINTR)
         continue;
-      printf("Error in select\n");
-      exit(EXIT_FAILURE);
+      g_warning("Error in select: %s", g_strerror(errno));
+      status = FALSE;
+      break;
     }
 
     datawaiting =
@@ -220,12 +222,15 @@ void AIPlayerLoop(struct CMDLINE *cmdline)
     }
     if (!DoneOK) {
       g_print(_("Connection to server lost!\n"));
+      status = FALSE;
       break;
     }
   }
+cleanup:
   ShutdownNetwork(AIPlay);
   g_string_free(errstr, TRUE);
   FirstClient = RemovePlayer(AIPlay, FirstClient);
+  return status;
 }
 
 /* 
