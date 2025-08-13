@@ -2475,7 +2475,7 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -a, --antique           \"antique\" Church Wars - keep as closely to the original\n\
                             version as possible (no networking)\n\
   -f, --scorefile=FILE    specify a file to use as the high score table (by\n\
-                            default %s/dopewars.sco is used)\n\
+                            default %s/churchwars.sco is used)\n\
   -o, --hostname=ADDR     specify a hostname where the server for multiplayer\n\
                             Church Wars can be found\n\
   -s, --public-server     run in server mode (note: see the -A option for\n\
@@ -2512,7 +2512,7 @@ Drug dealing game based on \"Drug Wars\" by John E. Dell\n\
   -a       \"antique\" Church Wars - keep as closely to the original version as\n\
               possible (no networking)\n\
   -f file  specify a file to use as the high score table\n\
-              (by default %s/dopewars.sco is used)\n\
+              (by default %s/churchwars.sco is used)\n\
   -o addr  specify a hostname where the server for multiplayer Church Wars\n\
               can be found\n\
   -s       run in server mode (note: see the -A option for configuring a\n\
@@ -2690,10 +2690,10 @@ struct CMDLINE *GeneralStartup(int argc, char *argv[])
   /* First, open the hard-coded high score file with possibly
    * elevated privileges */
 #ifdef CYGWIN
-  priv_hiscore = g_strdup_printf("%s/dopewars.sco",
+  priv_hiscore = g_strdup_printf("%s/churchwars.sco",
                                  appdata_path ? appdata_path : DPSCOREDIR);
 #else
-  priv_hiscore = g_strdup_printf("%s/dopewars.sco", DPSCOREDIR);
+  priv_hiscore = g_strdup_printf("%s/churchwars.sco", DPSCOREDIR);
 #endif
   HiScoreFile = g_strdup(priv_hiscore);
   OpenHighScoreFile();
