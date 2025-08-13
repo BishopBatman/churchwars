@@ -1174,11 +1174,12 @@ static size_t MetaConnHeaderFunc(char *contents, size_t size, size_t nmemb,
   return realsize;
 }
 
-void CurlInit(CurlConnection *conn)
+gboolean CurlInit(CurlConnection *conn, GError **err)
 {
-  curl_global_init(CURL_GLOBAL_DEFAULT);
-  conn->multi = curl_multi_init();
-  conn->h = curl_easy_init();
+  CURLcode res;
+
+  conn->multi = NULL;
+  conn->h = NULL;
   conn->running = FALSE;
   conn->Terminator = '\n';
   conn->StripChar = '\r';
@@ -1188,6 +1189,32 @@ void CurlInit(CurlConnection *conn)
   conn->header_size = 0;
   conn->timer_cb = NULL;
   conn->socket_cb = NULL;
+
+  res = curl_global_init(CURL_GLOBAL_DEFAULT);
+  if (res != CURLE_OK) {
+    g_set_error_literal(err, DOPE_CURL_ERROR, res, curl_easy_strerror(res));
+    return FALSE;
+  }
+
+  conn->multi = curl_multi_init();
+  if (!conn->multi) {
+    g_set_error_literal(err, DOPE_CURLM_ERROR, 0,
+                        _("curl_multi_init failed"));
+    curl_global_cleanup();
+    return FALSE;
+  }
+
+  conn->h = curl_easy_init();
+  if (!conn->h) {
+    g_set_error_literal(err, DOPE_CURL_ERROR, 0,
+                        _("curl_easy_init failed"));
+    curl_multi_cleanup(conn->multi);
+    conn->multi = NULL;
+    curl_global_cleanup();
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 void CloseCurlConnection(CurlConnection *conn)
