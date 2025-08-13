@@ -61,6 +61,9 @@
 #define MAXREADBUF   (32768)
 #define MAXWRITEBUF  (65536)
 
+/* Hard cap on data or headers fetched via libcurl callbacks */
+#define MAXCURLBYTES (1024 * 1024)
+
 /* SOCKS5 authentication method codes */
 typedef enum {
   SM_NOAUTH = 0,                /* No authentication required */
@@ -1131,12 +1134,22 @@ static size_t MetaConnWriteFunc(void *contents, size_t size, size_t nmemb,
 {
   size_t realsize = size * nmemb;
   CurlConnection *conn = (CurlConnection *)userp;
- 
-  conn->data = g_realloc(conn->data, conn->data_size + realsize + 1);
+  size_t newsize = conn->data_size + realsize;
+
+  if (newsize > MAXCURLBYTES) {
+    g_warning("Received too much data (%zu bytes, limit %d)", newsize,
+              MAXCURLBYTES);
+    g_free(conn->data);
+    conn->data = NULL;
+    conn->data_size = 0;
+    return 0;
+  }
+
+  conn->data = g_realloc(conn->data, newsize + 1);
   memcpy(&(conn->data[conn->data_size]), contents, realsize);
-  conn->data_size += realsize;
+  conn->data_size = newsize;
   conn->data[conn->data_size] = 0;
- 
+
   return realsize;
 }
 
@@ -1145,8 +1158,18 @@ static size_t MetaConnHeaderFunc(char *contents, size_t size, size_t nmemb,
 {
   size_t realsize = size * nmemb;
   CurlConnection *conn = (CurlConnection *)userp;
+  size_t newsize = conn->header_size + realsize;
+
+  if (newsize > MAXCURLBYTES) {
+    g_warning("Received too many headers (%zu bytes, limit %d)", newsize,
+              MAXCURLBYTES);
+    g_ptr_array_set_size(conn->headers, 0);
+    conn->header_size = 0;
+    return 0;
+  }
 
   gchar *str = g_strchomp(g_strndup(contents, realsize));
+  conn->header_size += strlen(str);
   g_ptr_array_add(conn->headers, (gpointer)str);
   return realsize;
 }
@@ -1159,8 +1182,10 @@ void CurlInit(CurlConnection *conn)
   conn->running = FALSE;
   conn->Terminator = '\n';
   conn->StripChar = '\r';
+  conn->data = NULL;
   conn->data_size = 0;
   conn->headers = NULL;
+  conn->header_size = 0;
   conn->timer_cb = NULL;
   conn->socket_cb = NULL;
 }
@@ -1170,10 +1195,12 @@ void CloseCurlConnection(CurlConnection *conn)
   if (conn->running) {
     curl_multi_remove_handle(conn->multi, conn->h);
     g_free(conn->data);
+    conn->data = NULL;
     conn->data_size = 0;
     conn->running = FALSE;
     g_ptr_array_free(conn->headers, TRUE);
     conn->headers = NULL;
+    conn->header_size = 0;
   }
 }
 
@@ -1298,20 +1325,21 @@ gboolean OpenCurlConnection(CurlConnection *conn, char *URL, char *body,
       return FALSE;
     }
 
-    mres = curl_multi_add_handle(conn->multi, conn->h);
-    if (mres != CURLM_OK && mres != CURLM_CALL_MULTI_PERFORM) {
-      g_set_error_literal(err, DOPE_CURLM_ERROR, mres,
-                          curl_multi_strerror(mres));
-      return FALSE;
-    }
-    conn->data = g_malloc(1);
-    conn->data_size = 0;
-    conn->headers = g_ptr_array_new_with_free_func(g_free);
-    conn->running = TRUE;
-    if (conn->timer_cb) {
-      /* If we set a callback, we must not do _perform, but wait for the cb */
-      return TRUE;
-    } else {
+      mres = curl_multi_add_handle(conn->multi, conn->h);
+      if (mres != CURLM_OK && mres != CURLM_CALL_MULTI_PERFORM) {
+        g_set_error_literal(err, DOPE_CURLM_ERROR, mres,
+                            curl_multi_strerror(mres));
+        return FALSE;
+      }
+      conn->data = g_malloc(1);
+      conn->data_size = 0;
+      conn->headers = g_ptr_array_new_with_free_func(g_free);
+      conn->header_size = 0;
+      conn->running = TRUE;
+      if (conn->timer_cb) {
+        /* If we set a callback, we must not do _perform, but wait for the cb */
+        return TRUE;
+      } else {
       return CurlConnectionPerform(conn, &still_running, err);
     }
   } else {

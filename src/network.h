@@ -77,6 +77,7 @@ typedef struct _CurlConnection {
   gboolean running;
   gchar *data;
   size_t data_size;
+  size_t header_size;
   char Terminator;              /* Character that separates messages */
   char StripChar;               /* Char that should be removed
                                  * from messages */
