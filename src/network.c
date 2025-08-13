@@ -1242,14 +1242,26 @@ void CloseCurlConnection(CurlConnection *conn)
   }
 }
 
+/* Reset and clean up curl handles */
+static void ResetCurlConnection(CurlConnection *conn)
+{
+  if (conn->h) {
+    curl_easy_cleanup(conn->h);
+    conn->h = NULL;
+  }
+  if (conn->multi) {
+    curl_multi_cleanup(conn->multi);
+    conn->multi = NULL;
+  }
+  curl_global_cleanup();
+}
+
 void CurlCleanup(CurlConnection *conn)
 {
   if (conn->running) {
     CloseCurlConnection(conn);
   }
-  curl_easy_cleanup(conn->h);
-  curl_multi_cleanup(conn->multi);
-  curl_global_cleanup();
+  ResetCurlConnection(conn);
 }
 
 gboolean HandleCurlMultiReturn(CurlConnection *conn, CURLMcode mres,
@@ -1343,10 +1355,20 @@ gboolean OpenCurlConnection(CurlConnection *conn, char *URL, char *body,
     CloseCurlConnection(conn);
   }
 
+  if (!conn->h || !conn->multi) {
+    if (!CurlInit(conn, err)) {
+      CloseCurlConnection(conn);
+      ResetCurlConnection(conn);
+      return FALSE;
+    }
+  }
+
   if (conn->h) {
     int still_running;
     CURLMcode mres;
     if (body && !CurlEasySetopt1(conn->h, CURLOPT_COPYPOSTFIELDS, body, err)) {
+      CloseCurlConnection(conn);
+      ResetCurlConnection(conn);
       return FALSE;
     }
 
@@ -1360,6 +1382,8 @@ gboolean OpenCurlConnection(CurlConnection *conn, char *URL, char *body,
         || !SetCaInfo(conn, err)
 #endif
         || !CurlEasySetopt1(conn->h, CURLOPT_HEADERDATA, conn, err)) {
+      CloseCurlConnection(conn);
+      ResetCurlConnection(conn);
       return FALSE;
     }
 
@@ -1367,6 +1391,8 @@ gboolean OpenCurlConnection(CurlConnection *conn, char *URL, char *body,
       if (mres != CURLM_OK && mres != CURLM_CALL_MULTI_PERFORM) {
         g_set_error_literal(err, DOPE_CURLM_ERROR, mres,
                             curl_multi_strerror(mres));
+        CloseCurlConnection(conn);
+        ResetCurlConnection(conn);
         return FALSE;
       }
       conn->data = g_malloc(1);
@@ -1382,6 +1408,8 @@ gboolean OpenCurlConnection(CurlConnection *conn, char *URL, char *body,
     }
   } else {
     g_set_error_literal(err, DOPE_CURLM_ERROR, 0, _("Could not init curl"));
+    CloseCurlConnection(conn);
+    ResetCurlConnection(conn);
     return FALSE;
   }
   return TRUE;
