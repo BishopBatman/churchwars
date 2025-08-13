@@ -1024,15 +1024,15 @@ static void CloseLocalSocket(int localsock)
 
 static int SetupLocalSocket(void)
 {
-  int sock;
+  int sock = -1, ret = -1;
   struct sockaddr_un addr;
-  gchar *sockname, *sockdir;
+  gchar *sockname = NULL, *sockdir = NULL;
 
   CloseLocalSocket(-1);
 
   sock = socket(PF_UNIX, SOCK_STREAM, 0);
   if (sock == -1)
-    return -1;
+    goto cleanup;
 
   SetBlocking(sock, FALSE);
 
@@ -1040,7 +1040,7 @@ static int SetupLocalSocket(void)
   sockdir = GetLocalSockDir();
   if (mkdir(sockdir, S_IRUSR | S_IWUSR | S_IXUSR) == -1) {
     if (errno != EEXIST)
-      return -1;
+      goto cleanup;
   }
 
   addr.sun_family = AF_UNIX;
@@ -1048,15 +1048,24 @@ static int SetupLocalSocket(void)
   addr.sun_path[sizeof(addr.sun_path) - 1] = '\0';
 
   if (bind(sock, (struct sockaddr *)&addr, sizeof(struct sockaddr_un)) == -1)
-    return -1;
+    goto cleanup;
 
   chmod(sockname, S_IRUSR | S_IWUSR);
-  g_free(sockname);
-  g_free(sockdir);
+  if (listen(sock, 10) == -1)
+    goto cleanup;
 
-  listen(sock, 10);
+  ret = sock;
+  sock = -1;
 
-  return sock;
+cleanup:
+  if (sockname != NULL)
+    g_free(sockname);
+  if (sockdir != NULL)
+    g_free(sockdir);
+  if (sock != -1)
+    close(sock);
+
+  return ret;
 }
 #endif
 
