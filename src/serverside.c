@@ -807,7 +807,12 @@ static gboolean StartServer(void)
 
 static void InitMetaServer()
 {
-  CurlInit(&MetaConn);
+  GError *tmp_error = NULL;
+  if (!CurlInit(&MetaConn, &tmp_error)) {
+    g_critical(_("Cannot initialize networking: %s"), tmp_error->message);
+    g_error_free(tmp_error);
+    exit(EXIT_FAILURE);
+  }
 #ifdef GUI_SERVER
   SetCurlCallback(&MetaConn, glib_timeout, glib_socket);
 #endif
@@ -1309,7 +1314,8 @@ void ServerLoop(struct CMDLINE *cmdline)
   StopServer();
   g_string_free(LineBuf, TRUE);
 
-  CurlCleanup(&MetaConn);
+  if (MetaConn.h && MetaConn.multi)
+    CurlCleanup(&MetaConn);
 }
 
 #ifdef GUI_SERVER

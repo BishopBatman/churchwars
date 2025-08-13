@@ -2268,13 +2268,20 @@ gboolean GtkLoop(int *argc, char **argv[],
   SetIcon(window, churchwars_pill_xpm);
 
 #ifdef NETWORKING
-  CurlInit(&MetaConn);
+  {
+    GError *tmp_error = NULL;
+    if (!CurlInit(&MetaConn, &tmp_error)) {
+      g_warning(_("Cannot initialize networking: %s"), tmp_error->message);
+      g_error_free(tmp_error);
+    }
+  }
 #endif
 
   gtk_main();
 
 #ifdef NETWORKING
-  CurlCleanup(&MetaConn);
+  if (MetaConn.h && MetaConn.multi)
+    CurlCleanup(&MetaConn);
 #endif
 
   /* Free the main player */

@@ -200,7 +200,7 @@ GQuark dope_curl_error_quark(void);
 #define DOPE_CURLM_ERROR dope_curlm_error_quark()
 GQuark dope_curlm_error_quark(void);
 
-void CurlInit(CurlConnection *conn);
+gboolean CurlInit(CurlConnection *conn, GError **err);
 void CurlCleanup(CurlConnection *conn);
 gboolean OpenCurlConnection(CurlConnection *conn, char *URL, char *body,
                             GError **err);

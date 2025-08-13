@@ -2682,7 +2682,14 @@ void CursesLoop(struct CMDLINE *cmdline)
 
   start_curses();
 #ifdef NETWORKING
-  CurlInit(&MetaConn);
+  {
+    GError *tmp_error = NULL;
+    if (!CurlInit(&MetaConn, &tmp_error)) {
+      g_warning(_("Cannot initialize networking: %s"), tmp_error->message);
+      g_error_free(tmp_error);
+      WantNetwork = FALSE;
+    }
+  }
 #endif
   Width = COLS;
   Depth = LINES;
@@ -2715,6 +2722,7 @@ void CursesLoop(struct CMDLINE *cmdline)
   FirstClient = RemovePlayer(Play, FirstClient);
   end_curses();
 #ifdef NETWORKING
-  CurlCleanup(&MetaConn);
+  if (MetaConn.h && MetaConn.multi)
+    CurlCleanup(&MetaConn);
 #endif
 }
