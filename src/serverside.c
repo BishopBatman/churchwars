@@ -1914,9 +1914,9 @@ static FILE *OpenHighScoreAppData(int *error, gboolean *empty)
         GString *str = g_string_sized_new(keylen + 40);
         g_string_assign(str, keyval);
         g_free(keyval);
-        g_string_append(str, "\\dopewars");
+        g_string_append(str, "\\churchwars");
         CreateDirectory(str->str, NULL);
-        g_string_append(str, "\\dopewars.sco");
+        g_string_append(str, "\\churchwars.sco");
         fp = fopen(str->str, "r+");
         if (!fp) {
           fp = fopen(str->str, "w+");
