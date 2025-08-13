@@ -159,7 +159,7 @@ static DPGtkItemFactoryEntry menu_items[] = {
   {N_("/_Game"), NULL, NULL, 0, "<Branch>"},
   {N_("/Game/_New..."), "<control>N", NewGame, 0, NULL},
   {N_("/Game/_Abandon..."), "<control>A", AbandonGame, 0, NULL},
-  //{N_("/Game/_Options..."), "<control>O", OptDialog, 0, NULL},
+  {N_("/Game/_Options..."), "<control>O", OptDialog, 0, NULL},
   {N_("/Game/Enable _sound"), NULL, ToggleSound, 0, "<CheckItem>"},
   {N_("/Game/_Quit..."), "<control>Q", QuitGame, 0, NULL},
   {N_("/_List"), NULL, NULL, 0, "<Branch>"},
