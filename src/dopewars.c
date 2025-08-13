@@ -799,6 +799,10 @@ static gboolean SetConfigValue(int GlobalIndex, int StructIndex,
  */
 int brandom(int bot, int top)
 {
+  if (top <= bot) {
+    dopelog(1, 0, "brandom called with invalid range: bot=%d top=%d", bot, top);
+    return bot;
+  }
   return (int)((float)(top - bot) * rand() / (RAND_MAX + 1.0)) + bot;
 }
 
@@ -807,6 +811,12 @@ int brandom(int bot, int top)
  */
 price_t prandom(price_t bot, price_t top)
 {
+  if (top <= bot) {
+    dopelog(1, 0,
+            "prandom called with invalid range: bot=%" G_GINT64_FORMAT " top=%" G_GINT64_FORMAT,
+            (gint64) bot, (gint64) top);
+    return bot;
+  }
   return (price_t)((float)(top - bot) * rand() / (RAND_MAX + 1.0)) + bot;
 }
 
@@ -1362,6 +1372,9 @@ void TruncateInventoryFor(Inventory *Guns, Inventory *Drugs, Player *Play)
 int IsCarryingRandom(Player *Play, int amount)
 {
   int i, ind;
+
+  if (NumDrug <= 0)
+    return -1;
 
   for (i = 0; i < 5; i++) {
     ind = brandom(0, NumDrug);
