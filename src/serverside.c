@@ -1739,25 +1739,45 @@ void HighScoreTypeRead(struct HISCORE *HiScore, FILE *fp)
 /* 
  * Writes out a batch of NUMHISCORE high scores from "HiScore" to "fp".
  */
-void HighScoreTypeWrite(struct HISCORE *HiScore, FILE *fp)
+gboolean HighScoreTypeWrite(struct HISCORE *HiScore, FILE *fp)
 {
   int i;
   gchar *text;
 
   for (i = 0; i < NUMHISCORE; i++) {
     if (HiScore[i].Name) {
-      fwrite(HiScore[i].Name, strlen(HiScore[i].Name) + 1, 1, fp);
-    } else
-      fputc(0, fp);
+      if (fwrite(HiScore[i].Name, strlen(HiScore[i].Name) + 1, 1, fp) != 1)
+        goto error;
+    } else {
+      if (fputc(0, fp) == EOF)
+        goto error;
+    }
     if (HiScore[i].Time) {
-      fwrite(HiScore[i].Time, strlen(HiScore[i].Time) + 1, 1, fp);
-    } else
-      fputc(0, fp);
+      if (fwrite(HiScore[i].Time, strlen(HiScore[i].Time) + 1, 1, fp) != 1)
+        goto error;
+    } else {
+      if (fputc(0, fp) == EOF)
+        goto error;
+    }
     text = pricetostr(HiScore[i].Money);
-    fwrite(text, strlen(text) + 1, 1, fp);
+    if (fwrite(text, strlen(text) + 1, 1, fp) != 1) {
+      g_free(text);
+      goto error;
+    }
     g_free(text);
-    fputc(HiScore[i].Dead ? 1 : 0, fp);
+    if (fputc(HiScore[i].Dead ? 1 : 0, fp) == EOF)
+      goto error;
   }
+  return TRUE;
+
+ error:
+  {
+    gchar *errmsg = ErrStrFromErrno(errno);
+    g_log(NULL, G_LOG_LEVEL_CRITICAL,
+          _("Cannot write to high score file: %s."), errmsg);
+    g_free(errmsg);
+  }
+  return FALSE;
 }
 
 /* 
@@ -2096,17 +2116,20 @@ gboolean HighScoreWrite(FILE *fp, struct HISCORE *MultiScore,
             _("Cannot truncate high score file: %s."), errmsg);
       g_free(errmsg);
       ReleaseLock(fp);
-      return 0;
+      return FALSE;
     }
     rewind(fp);
     HighScoreWriteHeader(fp);
-    HighScoreTypeWrite(AntiqueScore, fp);
-    HighScoreTypeWrite(MultiScore, fp);
+    if (!HighScoreTypeWrite(AntiqueScore, fp) ||
+        !HighScoreTypeWrite(MultiScore, fp)) {
+      ReleaseLock(fp);
+      return FALSE;
+    }
     ReleaseLock(fp);
     fflush(fp);
   } else
-    return 0;
-  return 1;
+    return FALSE;
+  return TRUE;
 }
 
 /* 
