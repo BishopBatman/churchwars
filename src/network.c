@@ -821,9 +821,12 @@ gchar *GetWaitingMessage(NetworkBuffer *NetBuf)
     return NULL;
   *SepPt = '\0';
   MessageLen = SepPt - conn->Data + 1;
+  if (SepPt == conn->Data)
+    goto skip_strip;
   SepPt--;
   if (NetBuf->StripChar && *SepPt == NetBuf->StripChar)
     *SepPt = '\0';
+skip_strip:
   NewMessage = g_new(gchar, MessageLen);
 
   memcpy(NewMessage, conn->Data, MessageLen);
