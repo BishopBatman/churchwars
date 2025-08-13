@@ -1251,8 +1251,25 @@ void AddInventory(Inventory *Cumul, Inventory *Add, int Length)
 {
   int i;
 
-  for (i = 0; i < Length; i++)
-    Cumul[i].Carried += Add[i].Carried;
+  for (i = 0; i < Length; i++) {
+    int add = Add[i].Carried;
+
+    if (add < 0) {
+      g_warning("AddInventory: negative addition %d ignored", add);
+      add = 0;
+    }
+    if (Cumul[i].Carried < 0) {
+      g_warning("AddInventory: negative existing inventory %d reset to 0",
+                Cumul[i].Carried);
+      Cumul[i].Carried = 0;
+    }
+    if (add > 0 && Cumul[i].Carried > G_MAXINT - add) {
+      g_warning("AddInventory: addition overflow, capping at %d", G_MAXINT);
+      Cumul[i].Carried = G_MAXINT;
+    } else {
+      Cumul[i].Carried += add;
+    }
+  }
 }
 
 /* 
@@ -1267,12 +1284,46 @@ void ChangeSpaceForInventory(Inventory *Guns, Inventory *Drugs,
 
   if (Guns)
     for (i = 0; i < NumGun; i++) {
-      Play->CoatSize -= Guns[i].Carried * Gun[i].Space;
+      int carried = Guns[i].Carried;
+      gint64 need = (gint64) carried * Gun[i].Space;
+
+      if (carried < 0) {
+        g_warning("ChangeSpaceForInventory: negative gun count %d ignored",
+                  carried);
+        continue;
+      }
+      if (need > G_MAXINT) {
+        g_warning("ChangeSpaceForInventory: gun space overflow, capping");
+        need = G_MAXINT;
+      }
+      if (need > Play->CoatSize) {
+        g_warning("ChangeSpaceForInventory: guns exceed available space");
+        Play->CoatSize = 0;
+      } else {
+        Play->CoatSize -= need;
+      }
     }
   if (Drugs)
     for (i = 0; i < NumDrug; i++) {
-      Play->CoatSize -= Drugs[i].Carried;
+      int carried = Drugs[i].Carried;
+
+      if (carried < 0) {
+        g_warning("ChangeSpaceForInventory: negative drug count %d ignored",
+                  carried);
+        continue;
+      }
+      if (carried > Play->CoatSize) {
+        g_warning("ChangeSpaceForInventory: drugs exceed available space");
+        Play->CoatSize = 0;
+      } else {
+        Play->CoatSize -= carried;
+      }
     }
+
+  if (Play->CoatSize < 0) {
+    g_warning("ChangeSpaceForInventory: coat size became negative; resetting");
+    Play->CoatSize = 0;
+  }
 }
 
 /* 
