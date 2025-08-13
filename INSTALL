@@ -41,7 +41,8 @@ with a command similar to the following:-
 	LDFLAGS="-s" ./configure
 
 The churchwars high score file is written as /usr/local/var/churchwars.sco on
-Unix systems or ./churchwars.sco on Win32 systems by default. On Unix systems,
+Unix systems or ./churchwars.sco on Win32 systems by default. An alternative
+score file can be specified with the `-f` command-line option. On Unix systems,
 translations, documentation, sounds and graphics are installed in the
 locale, doc, churchwars and pixmaps directories respectively under
 /usr/local/share. (On Windows systems, these directories are under the
