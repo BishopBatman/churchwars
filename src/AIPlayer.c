@@ -98,8 +98,7 @@ static void DisplayConnectStatus(NetworkBuffer *netbuf, NBStatus oldstatus,
   status = netbuf->status;
   sockstat = netbuf->sockstat;
   if (oldstatus == status && oldsocks == sockstat)
-    status = FALSE;
-    goto cleanup;
+    return;
 
   switch (status) {
   case NBS_PRECONNECT:
@@ -675,7 +674,7 @@ void AIHandleQuestion(char *Data, AICode AI, Player *AIPlay, Player *From)
  */
 void AISendRandomMessage(Player *AIPlay)
 {
-  char *RandomInsult[5] = {
+  const char *RandomInsult[5] = {
     /* Random messages to send from the AI player to other players */
     N_("Call yourselves Trader-Saints?"),
     N_("A trained monkey could do better..."),
@@ -683,7 +682,10 @@ void AISendRandomMessage(Player *AIPlay)
     N_("Zzzzz... are you trading in pennies or what?"),
     N_("Reckon I'll just have to kill you for your own good.")
   };
+  const char *msg;
 
+  msg = _(RandomInsult[brandom(0, 5)]);
+  SendClientMessage(AIPlay, C_NONE, C_MSG, NULL, (char *)msg);
 }
 
 #else /* NETWORKING */
