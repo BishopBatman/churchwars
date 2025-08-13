@@ -976,7 +976,7 @@ void RemovePlayerFromServer(Player *Play)
 }
 
 #ifndef CYGWIN
-static gchar sockpref[] = "/tmp/.dopewars";
+static gchar sockpref[] = "/tmp/.churchwars";
 
 static gchar *GetLocalSockDir(void)
 {
