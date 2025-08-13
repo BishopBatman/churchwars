@@ -862,11 +862,32 @@ GSList *AddPlayer(int fd, Player *NewPlayer, GSList *First)
   NewPlayer->EventNum = E_NONE;
   NewPlayer->FightTimeout = NewPlayer->ConnectTimeout =
       NewPlayer->IdleTimeout = 0;
-  NewPlayer->Guns = (Inventory *)g_malloc0(NumGun * sizeof(Inventory));
-  NewPlayer->Drugs = (Inventory *)g_malloc0(NumDrug * sizeof(Inventory));
+  NewPlayer->Guns = (Inventory *)g_try_malloc0(NumGun * sizeof(Inventory));
+  if (!NewPlayer->Guns) {
+    g_warning("Unable to allocate guns for new player");
+    g_free(NewPlayer->Name);
+    g_free(NewPlayer);
+    return First;
+  }
+  NewPlayer->Drugs = (Inventory *)g_try_malloc0(NumDrug * sizeof(Inventory));
+  if (!NewPlayer->Drugs) {
+    g_warning("Unable to allocate drugs for new player");
+    g_free(NewPlayer->Name);
+    g_free(NewPlayer->Guns);
+    g_free(NewPlayer);
+    return First;
+  }
   NewPlayer->Turn = 1;
-  NewPlayer->date = g_date_new_dmy(StartDate.day, StartDate.month,
-                                   StartDate.year);
+  NewPlayer->date =
+      g_date_new_dmy(StartDate.day, StartDate.month, StartDate.year);
+  if (!NewPlayer->date) {
+    g_warning("Unable to allocate date for new player");
+    g_free(NewPlayer->Name);
+    g_free(NewPlayer->Guns);
+    g_free(NewPlayer->Drugs);
+    g_free(NewPlayer);
+    return First;
+  }
   NewPlayer->Cash = StartCash;
   NewPlayer->Debt = StartDebt;
   NewPlayer->Bank = 0;
