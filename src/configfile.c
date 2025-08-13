@@ -46,43 +46,52 @@ gchar *LocalCfgEncoding = NULL;
  * Prints the given string to a file, converting control characters
  * and escaping other special characters.
  */
-static void PrintEscaped(FILE *fp, gchar *str)
+static gboolean PrintEscaped(FILE *fp, gchar *str)
 {
   guint i;
   guint len = strlen(str);
 
   for (i = 0; i < len; i++) {
     int ch = (int)(guchar)str[i];
-    switch(ch) {
+    switch (ch) {
     case '"':
     case '\'':
     case '\\':
-      fputc('\\', fp);
-      fputc(ch, fp);
+      if (fputc('\\', fp) == EOF || fputc(ch, fp) == EOF)
+        return FALSE;
       break;
     case '\n':
-      fputs("\\n", fp);
+      if (fputs("\\n", fp) == EOF)
+        return FALSE;
       break;
     case '\t':
-      fputs("\\t", fp);
+      if (fputs("\\t", fp) == EOF)
+        return FALSE;
       break;
     case '\r':
-      fputs("\\r", fp);
+      if (fputs("\\r", fp) == EOF)
+        return FALSE;
       break;
     case '\b':
-      fputs("\\b", fp);
+      if (fputs("\\b", fp) == EOF)
+        return FALSE;
       break;
     case '\f':
-      fputs("\\f", fp);
+      if (fputs("\\f", fp) == EOF)
+        return FALSE;
       break;
     default:
       if (isascii(ch) && isprint(ch)) {
-        fputc(ch, fp);
+        if (fputc(ch, fp) == EOF)
+          return FALSE;
       } else {
-        fprintf(fp, "\\%o", ch);
+        if (fprintf(fp, "\\%o", ch) < 0)
+          return FALSE;
       }
     }
   }
+
+  return TRUE;
 }
 
 /*
@@ -90,10 +99,11 @@ static void PrintEscaped(FILE *fp, gchar *str)
  * and StructIndex) to the specified file, in a format suitable for reading
  * back in (via. ParseNextConfig and friends).
  */
-static void WriteConfigValue(FILE *fp, Converter *conv, int GlobalIndex,
-                             int StructIndex)
+static gboolean WriteConfigValue(FILE *fp, Converter *conv, int GlobalIndex,
+                                 int StructIndex)
 {
   gchar *GlobalName;
+  gboolean ok = TRUE;
 
   if (Globals[GlobalIndex].NameStruct[0]) {
     GlobalName =
@@ -104,50 +114,75 @@ static void WriteConfigValue(FILE *fp, Converter *conv, int GlobalIndex,
   }
 
   if (Globals[GlobalIndex].IntVal) {
-    fprintf(fp, "%s = %d\n", GlobalName,
-            *GetGlobalInt(GlobalIndex, StructIndex));
+    if (fprintf(fp, "%s = %d\n", GlobalName,
+                *GetGlobalInt(GlobalIndex, StructIndex)) < 0)
+      ok = FALSE;
   } else if (Globals[GlobalIndex].BoolVal) {
-    fprintf(fp, "%s = %s\n", GlobalName,
-            *GetGlobalBoolean(GlobalIndex, StructIndex) ?
-            "TRUE" : "FALSE");
+    if (fprintf(fp, "%s = %s\n", GlobalName,
+                *GetGlobalBoolean(GlobalIndex, StructIndex) ?
+                "TRUE" : "FALSE") < 0)
+      ok = FALSE;
   } else if (Globals[GlobalIndex].PriceVal) {
     gchar *prstr = pricetostr(*GetGlobalPrice(GlobalIndex, StructIndex));
 
-    fprintf(fp, "%s = %s\n", GlobalName, prstr);
+    if (fprintf(fp, "%s = %s\n", GlobalName, prstr) < 0)
+      ok = FALSE;
     g_free(prstr);
   } else if (Globals[GlobalIndex].StringVal) {
     gchar *convstr;
 
-    fprintf(fp, "%s = \"", GlobalName);
+    if (fprintf(fp, "%s = \"", GlobalName) < 0)
+      ok = FALSE;
     convstr = Conv_ToExternal(conv,
                               *GetGlobalString(GlobalIndex, StructIndex), -1);
-    PrintEscaped(fp, convstr);
+    if (ok && !PrintEscaped(fp, convstr))
+      ok = FALSE;
     g_free(convstr);
-    fputs("\"\n", fp);
+    if (ok && fputs("\"\n", fp) == EOF)
+      ok = FALSE;
   } else if (Globals[GlobalIndex].StringList) {
     int i;
     gchar *convstr;
 
-    fprintf(fp, "%s = { ", GlobalName);
-    for (i = 0; i < *Globals[GlobalIndex].MaxIndex; i++) {
-      if (i > 0)
-        fputs(", ", fp);
-      fputc('"', fp);
+    if (fprintf(fp, "%s = { ", GlobalName) < 0)
+      ok = FALSE;
+    for (i = 0; ok && i < *Globals[GlobalIndex].MaxIndex; i++) {
+      if (i > 0) {
+        if (fputs(", ", fp) == EOF) {
+          ok = FALSE;
+          break;
+        }
+      }
+      if (fputc('"', fp) == EOF) {
+        ok = FALSE;
+        break;
+      }
       convstr = Conv_ToExternal(conv,
                                 (*Globals[GlobalIndex].StringList)[i], -1);
-      PrintEscaped(fp, convstr);
+      if (!PrintEscaped(fp, convstr))
+        ok = FALSE;
       g_free(convstr);
-      fputc('"', fp);
+      if (ok && fputc('"', fp) == EOF)
+        ok = FALSE;
     }
-    fputs(" }\n", fp);
+    if (ok && fputs(" }\n", fp) == EOF)
+      ok = FALSE;
   }
 
   if (Globals[GlobalIndex].NameStruct[0])
     g_free(GlobalName);
+
+  if (!ok) {
+    gchar *errstr = ErrStrFromErrno(errno);
+    g_warning(_("Could not write to config file: %s"), errstr);
+    g_free(errstr);
+  }
+
+  return ok;
 }
 
 
-static void ReadFileToString(FILE *fp, gchar *str, int matchlen)
+static gboolean ReadFileToString(FILE *fp, gchar *str, int matchlen)
 {
   int len, mpos, ch;
   gchar *match;
@@ -185,45 +220,74 @@ static void ReadFileToString(FILE *fp, gchar *str, int matchlen)
   g_free(match);
 
   rewind(fp);
-  ftruncate(fileno(fp), 0);
-  fputs(file->str, fp);
+  if (ftruncate(fileno(fp), 0) != 0) {
+    gchar *errstr = ErrStrFromErrno(errno);
+    g_warning(_("Could not truncate config file: %s"), errstr);
+    g_free(errstr);
+    g_string_free(file, TRUE);
+    return FALSE;
+  }
+  if (fputs(file->str, fp) == EOF) {
+    gchar *errstr = ErrStrFromErrno(errno);
+    g_warning(_("Could not write to config file: %s"), errstr);
+    g_free(errstr);
+    g_string_free(file, TRUE);
+    return FALSE;
+  }
 
-  fputs(str, fp);
+  if (fputs(str, fp) == EOF) {
+    gchar *errstr = ErrStrFromErrno(errno);
+    g_warning(_("Could not write to config file: %s"), errstr);
+    g_free(errstr);
+    g_string_free(file, TRUE);
+    return FALSE;
+  }
 
   g_string_free(file, TRUE);
+  return TRUE;
 }
 
 /*
  * Writes all of the configuration file variables that have changed
  * (together with their values) to the given file.
  */
-static void WriteConfigFile(FILE *fp, gboolean ForceUTF8)
+static gboolean WriteConfigFile(FILE *fp, gboolean ForceUTF8)
 {
   int i, j;
   Converter *conv = Conv_New();
+  gboolean ok = TRUE;
 
   if (ForceUTF8 && !IsConfigFileUTF8()) {
     g_free(LocalCfgEncoding);
     LocalCfgEncoding = g_strdup("UTF-8");
-    fputs("encoding \"UTF-8\"\n", fp);
+    if (fputs("encoding \"UTF-8\"\n", fp) == EOF) {
+      gchar *errstr = ErrStrFromErrno(errno);
+      g_warning(_("Could not write to config file: %s"), errstr);
+      g_free(errstr);
+      Conv_Free(conv);
+      return FALSE;
+    }
   }
 
   if (LocalCfgEncoding && LocalCfgEncoding[0]) {
     Conv_SetCodeset(conv, LocalCfgEncoding);
   }
 
-  for (i = 0; i < NUMGLOB; i++) {
+  for (i = 0; i < NUMGLOB && ok; i++) {
     if (Globals[i].Modified) {
       if (Globals[i].NameStruct[0]) {
-        for (j = 1; j <= *Globals[i].MaxIndex; j++) {
-          WriteConfigValue(fp, conv, i, j);
+        for (j = 1; ok && j <= *Globals[i].MaxIndex; j++) {
+          if (!WriteConfigValue(fp, conv, i, j))
+            ok = FALSE;
         }
       } else {
-        WriteConfigValue(fp, conv, i, 0);
+        if (!WriteConfigValue(fp, conv, i, 0))
+          ok = FALSE;
       }
     }
   }
   Conv_Free(conv);
+  return ok;
 }
 
 gboolean UpdateConfigFile(const gchar *cfgfile, gboolean ForceUTF8)
@@ -257,8 +321,16 @@ gboolean UpdateConfigFile(const gchar *cfgfile, gboolean ForceUTF8)
     return FALSE;
   }
 
-  ReadFileToString(fp, header, 50);
-  WriteConfigFile(fp, ForceUTF8);
+  if (!ReadFileToString(fp, header, 50)) {
+    fclose(fp);
+    g_free(defaultfile);
+    return FALSE;
+  }
+  if (!WriteConfigFile(fp, ForceUTF8)) {
+    fclose(fp);
+    g_free(defaultfile);
+    return FALSE;
+  }
 
   fclose(fp);
   g_free(defaultfile);
