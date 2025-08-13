@@ -49,7 +49,7 @@
 
 #include <glib.h>
 #include <errno.h>              /* For errno and Unix error codes */
-#include <stdlib.h>             /* For exit() and atoi() */
+#include <stdlib.h>             /* For atoi() */
 #include <stdio.h>              /* For perror() */
 
 #include "error.h"
@@ -80,22 +80,15 @@ static gboolean StartConnect(int *fd, const gchar *bindaddr, gchar *RemoteHost,
 
 #ifdef CYGWIN
 
-void StartNetworking()
+gboolean StartNetworking(LastError **error)
 {
   WSADATA wsaData;
-  LastError *error;
-  GString *errstr;
 
   if (WSAStartup(MAKEWORD(1, 0), &wsaData) != 0) {
-    error = NewError(ET_WINSOCK, WSAGetLastError(), NULL);
-    errstr = g_string_new("");
-    g_string_assign_error(errstr, error);
-    g_log(NULL, G_LOG_LEVEL_CRITICAL, _("Cannot initialize WinSock (%s)!"),
-          errstr->str);
-    g_string_free(errstr, TRUE);
-    FreeError(error);
-    exit(EXIT_FAILURE);
+    SetError(error, ET_WINSOCK, WSAGetLastError(), NULL);
+    return FALSE;
   }
+  return TRUE;
 }
 
 void StopNetworking()
@@ -103,15 +96,17 @@ void StopNetworking()
   WSACleanup();
 }
 
-void SetReuse(SOCKET sock)
+gboolean SetReuse(SOCKET sock, LastError **error)
 {
   BOOL i = TRUE;
 
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *)&i,
                  sizeof(i)) == -1) {
-    perror("setsockopt");
-    exit(EXIT_FAILURE);
+    if (error)
+      SetError(error, ET_WINSOCK, WSAGetLastError(), NULL);
+    return FALSE;
   }
+  return TRUE;
 }
 
 gboolean SetBlocking(SOCKET sock, gboolean blocking)
@@ -124,22 +119,26 @@ gboolean SetBlocking(SOCKET sock, gboolean blocking)
 
 #else
 
-void StartNetworking()
+gboolean StartNetworking(LastError **error)
 {
+  (void)error;
+  return TRUE;
 }
 
 void StopNetworking()
 {
 }
 
-void SetReuse(int sock)
+gboolean SetReuse(int sock, LastError **error)
 {
   int i = 1;
 
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &i, sizeof(i)) == -1) {
-    perror("setsockopt");
-    exit(EXIT_FAILURE);
+    if (error)
+      SetError(error, ET_ERRNO, errno, NULL);
+    return FALSE;
   }
+  return TRUE;
 }
 
 gboolean SetBlocking(int sock, gboolean blocking)

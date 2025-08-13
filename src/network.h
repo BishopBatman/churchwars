@@ -219,16 +219,16 @@ void SetCurlCallback(CurlConnection *conn, GSourceFunc timer_cb,
 int CreateTCPSocket(LastError **error);
 gboolean BindTCPSocket(int sock, const gchar *addr, unsigned port,
                        LastError **error);
-void StartNetworking(void);
+gboolean StartNetworking(LastError **error);
 void StopNetworking(void);
 
 #ifdef CYGWIN
 #define CloseSocket(sock) closesocket(sock)
-void SetReuse(SOCKET sock);
+gboolean SetReuse(SOCKET sock, LastError **error);
 gboolean SetBlocking(SOCKET sock, gboolean blocking);
 #else
 #define CloseSocket(sock) close(sock)
-void SetReuse(int sock);
+gboolean SetReuse(int sock, LastError **error);
 gboolean SetBlocking(int sock, gboolean blocking);
 #endif
 
