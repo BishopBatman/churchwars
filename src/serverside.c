@@ -1714,23 +1714,54 @@ void FinishGame(Player *Play, char *Message)
   }
 }
 
-/* 
+/*
  * Reads a batch of NUMHISCORE high scores into "HiScore" from "fp".
+ * Returns TRUE on success, FALSE on failure.
  */
-void HighScoreTypeRead(struct HISCORE *HiScore, FILE *fp)
+gboolean HighScoreTypeRead(struct HISCORE *HiScore, FILE *fp)
 {
-  int i;
-  char *buf;
+  int i, c;
+  char *buf = NULL;
 
   for (i = 0; i < NUMHISCORE; i++) {
     if (read_string(fp, &HiScore[i].Name) == EOF)
-      break;
-    read_string(fp, &HiScore[i].Time);
-    read_string(fp, &buf);
+      goto fail;
+    if (read_string(fp, &HiScore[i].Time) == EOF) {
+      g_free(HiScore[i].Name);
+      HiScore[i].Name = NULL;
+      goto fail;
+    }
+    if (read_string(fp, &buf) == EOF) {
+      g_free(HiScore[i].Name);
+      g_free(HiScore[i].Time);
+      HiScore[i].Name = HiScore[i].Time = NULL;
+      goto fail;
+    }
     HiScore[i].Money = strtoprice(buf);
     g_free(buf);
-    HiScore[i].Dead = (fgetc(fp) > 0);
+    buf = NULL;
+    c = fgetc(fp);
+    if (c == EOF) {
+      g_free(HiScore[i].Name);
+      g_free(HiScore[i].Time);
+      HiScore[i].Name = HiScore[i].Time = NULL;
+      goto fail;
+    }
+    HiScore[i].Dead = (c > 0);
   }
+  return TRUE;
+
+fail:
+  g_free(buf);
+  for (; i >= 0; i--) {
+    g_free(HiScore[i].Name);
+    g_free(HiScore[i].Time);
+    HiScore[i].Name = NULL;
+    HiScore[i].Time = NULL;
+    HiScore[i].Money = 0;
+    HiScore[i].Dead = FALSE;
+  }
+  return FALSE;
 }
 
 /* 
@@ -2055,6 +2086,7 @@ gboolean HighScoreRead(FILE *fp, struct HISCORE *MultiScore,
                        struct HISCORE *AntiqueScore, gboolean ReadHeader)
 {
   gint ScoreVersion = 0;
+  int i;
   memset(MultiScore, 0, sizeof(struct HISCORE) * NUMHISCORE);
   memset(AntiqueScore, 0, sizeof(struct HISCORE) * NUMHISCORE);
   if (fp && ReadLock(fp) == 0) {
@@ -2063,8 +2095,19 @@ gboolean HighScoreRead(FILE *fp, struct HISCORE *MultiScore,
       ReleaseLock(fp);
       return FALSE;
     }
-    HighScoreTypeRead(AntiqueScore, fp);
-    HighScoreTypeRead(MultiScore, fp);
+    if (!HighScoreTypeRead(AntiqueScore, fp) ||
+        !HighScoreTypeRead(MultiScore, fp)) {
+      ReleaseLock(fp);
+      for (i = 0; i < NUMHISCORE; i++) {
+        g_free(AntiqueScore[i].Name);
+        g_free(AntiqueScore[i].Time);
+        g_free(MultiScore[i].Name);
+        g_free(MultiScore[i].Time);
+      }
+      memset(MultiScore, 0, sizeof(struct HISCORE) * NUMHISCORE);
+      memset(AntiqueScore, 0, sizeof(struct HISCORE) * NUMHISCORE);
+      return FALSE;
+    }
     ReleaseLock(fp);
   } else
     return FALSE;
