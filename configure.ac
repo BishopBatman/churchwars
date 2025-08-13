@@ -433,7 +433,12 @@ if test -n "$GCC"; then
 fi
 
 dnl Tell dopewars where the high scores, docs and locale files are
-DP_EXPAND_DIR(DPSCOREDIR, '${localstatedir}')
+AC_ARG_WITH([dpscoredir],
+  [AS_HELP_STRING([--with-dpscoredir=DIR],
+                  [Directory for the high score file [default: user data dir]])],
+  [DPSCOREDIR="$withval"],
+  [DPSCOREDIR="churchwars"])
+DP_EXPAND_DIR(DPSCOREDIR, "$DPSCOREDIR")
 AC_DEFINE_UNQUOTED(DPSCOREDIR, "$DPSCOREDIR",
                    [The directory containing the high score file])
 AC_SUBST(DPSCOREDIR)
