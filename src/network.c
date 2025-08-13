@@ -456,20 +456,30 @@ void SendSocks5UserPasswd(NetworkBuffer *NetBuf, gchar *user,
     NetBufCallBack(NetBuf, TRUE);
     return;
   }
-  conn = &NetBuf->negbuf;
+
   guint userlen = strlen(user);
   guint passlen = strlen(password);
-  addlen = 3 + userlen + passlen;
-  addpt = ExpandWriteBuffer(conn, addlen, &NetBuf->error);
-  if (!addpt || userlen > 255 || passlen > 255) {
+
+  /* Only continue if lengths are within SOCKS5 limits */
+  if (userlen > 255 || passlen > 255) {
     SetError(&NetBuf->error, ET_CUSTOM, E_FULLBUF, NULL);
     NetBufCallBack(NetBuf, TRUE);
     return;
   }
+
+  conn = &NetBuf->negbuf;
+  addlen = 3 + userlen + passlen;
+  addpt = ExpandWriteBuffer(conn, addlen, &NetBuf->error);
+  if (!addpt) {
+    SetError(&NetBuf->error, ET_CUSTOM, E_FULLBUF, NULL);
+    NetBufCallBack(NetBuf, TRUE);
+    return;
+  }
+
   addpt[0] = 1;                 /* Subnegotiation version code */
-  addpt[1] = userlen;
+  addpt[1] = (guchar)userlen;
   memcpy(&addpt[2], user, userlen);
-  addpt[2 + userlen] = passlen;
+  addpt[2 + userlen] = (guchar)passlen;
   memcpy(&addpt[3 + userlen], password, passlen);
 
   CommitWriteBuffer(NetBuf, conn, addpt, addlen);
