@@ -1762,16 +1762,12 @@ void DropPrivileges()
   if (issetugid() == 0) return;
 #endif
 
-  /* Ignore the return from setregid; we'll check it ourselves to be sure
-   * (this avoids problems when running under fakeroot) */
-  setregid(getgid(), getgid());
-  if (getgid() != getegid()) {
+  if (setregid(getgid(), getgid()) != 0) {
     perror("setregid");
     exit(EXIT_FAILURE);
   }
 
-  setreuid(getuid(), getuid());
-  if (getuid() != geteuid()) {
+  if (setreuid(getuid(), getuid()) != 0) {
     perror("setreuid");
     exit(EXIT_FAILURE);
   }
@@ -1831,7 +1827,17 @@ void ConvertHighScoreFile(const gchar *convertfile)
       FILE *backup = fopen(BackupFile, "w");
       if (backup) {
         /* Make a backup of the old file */
-        ftruncate(fileno(backup), 0);
+        if (ftruncate(fileno(backup), 0) != 0) {
+          gchar *errmsg = ErrStrFromErrno(errno);
+          g_log(NULL, G_LOG_LEVEL_CRITICAL,
+                _("Cannot truncate backup (%s) of the\nhigh score file: %s."),
+                BackupFile, errmsg);
+          g_free(errmsg);
+          fclose(backup);
+          fclose(old);
+          g_free(BackupFile);
+          return;
+        }
         rewind(backup);
         rewind(old);
         while (1) {
@@ -1850,12 +1856,19 @@ void ConvertHighScoreFile(const gchar *convertfile)
           g_log(NULL, G_LOG_LEVEL_CRITICAL,
                 _("Error reading scores from %s."), convertfile);
         } else {
-          ftruncate(fileno(old), 0);
-          rewind(old);
-          if (HighScoreWrite(old, MultiScore, AntiqueScore)) {
-            g_message(_("The high score file %s has been converted to the "
-                        "new format.\nA backup of the old file has been "
-                        "created as %s.\n"), convertfile, BackupFile);
+          if (ftruncate(fileno(old), 0) != 0) {
+            gchar *errmsg = ErrStrFromErrno(errno);
+            g_log(NULL, G_LOG_LEVEL_CRITICAL,
+                  _("Cannot truncate high score file %s: %s."),
+                  convertfile, errmsg);
+            g_free(errmsg);
+          } else {
+            rewind(old);
+            if (HighScoreWrite(old, MultiScore, AntiqueScore)) {
+              g_message(_("The high score file %s has been converted to the "
+                          "new format.\nA backup of the old file has been "
+                          "created as %s.\n"), convertfile, BackupFile);
+            }
           }
         }
       } else {
@@ -2047,7 +2060,14 @@ gboolean HighScoreWrite(FILE *fp, struct HISCORE *MultiScore,
                         struct HISCORE *AntiqueScore)
 {
   if (fp && WriteLock(fp) == 0) {
-    ftruncate(fileno(fp), 0);
+    if (ftruncate(fileno(fp), 0) != 0) {
+      gchar *errmsg = ErrStrFromErrno(errno);
+      g_log(NULL, G_LOG_LEVEL_CRITICAL,
+            _("Cannot truncate high score file: %s."), errmsg);
+      g_free(errmsg);
+      ReleaseLock(fp);
+      return 0;
+    }
     rewind(fp);
     HighScoreWriteHeader(fp);
     HighScoreTypeWrite(AntiqueScore, fp);
