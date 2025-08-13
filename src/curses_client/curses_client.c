@@ -390,6 +390,8 @@ void display_intro(void)
 static void SelectServerManually(void)
 {
   gchar *text, *PortText;
+  char *endptr;
+  long tmp_port;
   int top = get_ui_area_top();
 
   if (ServerName[0] == '(')
@@ -405,7 +407,12 @@ static void SelectServerManually(void)
   g_free(text);
   PortText = g_strdup_printf("%d", Port);
   text = nice_input(_("Port: "), top + 3, 1, TRUE, PortText, '\0');
-  Port = atoi(text);
+  tmp_port = strtol(text, &endptr, 10);
+  if (*endptr != '\0' || tmp_port <= 0 || tmp_port > 65535) {
+    g_warning(_("Invalid port '%s'; keeping previous port %d"), text, Port);
+  } else {
+    Port = (int) tmp_port;
+  }
   g_free(text);
   g_free(PortText);
 }
@@ -875,6 +882,8 @@ static void DropDrugs(Player *Play)
   int i, c, num, NumDrugs, top = get_ui_area_top();
   GString *text;
   gchar *buf;
+  char *endptr;
+  long tmp;
 
   attrset(TextAttr);
   clear_bottom();
@@ -907,12 +916,15 @@ static void DropDrugs(Player *Play)
         addstr(Drug[i].Name);
         buf = nice_input(_("How many do you drop? "), get_prompt_line() + 1,
                          8, TRUE, NULL, '\0');
-        num = atoi(buf);
-        g_free(buf);
-        if (num > 0) {
+        tmp = strtol(buf, &endptr, 10);
+        if (*endptr != '\0' || tmp <= 0 || tmp > G_MAXINT) {
+          g_warning(_("Invalid quantity '%s'"), buf);
+        } else {
+          num = (int) tmp;
           g_string_printf(text, "drug^%d^%d", i, -num);
           SendClientMessage(Play, C_NONE, C_BUYOBJECT, NULL, text->str);
         }
+        g_free(buf);
       }
     }
   }
@@ -931,6 +943,8 @@ static void DealDrugs(Player *Play, gboolean Buy)
   int i, c, NumDrugsHere;
   gchar *text, *input;
   int DrugNum, CanCarry, CanAfford;
+  char *endptr;
+  long tmp;
 
   NumDrugsHere = 0;
   for (c = 0; c < NumDrug; c++)
@@ -966,7 +980,13 @@ static void DealDrugs(Player *Play, gboolean Buy)
       mvaddstr(get_prompt_line() + 1, 2, text);
       input = nice_input(_("How many do you buy? "), get_prompt_line() + 1,
                          2 + strcharlen(text), TRUE, NULL, '\0');
-      c = atoi(input);
+      tmp = strtol(input, &endptr, 10);
+      if (*endptr != '\0' || tmp < 0 || tmp > G_MAXINT) {
+        g_warning(_("Invalid quantity '%s'"), input);
+        c = -1;
+      } else {
+        c = (int) tmp;
+      }
       g_free(input);
       g_free(text);
       if (c >= 0) {
@@ -982,7 +1002,13 @@ static void DealDrugs(Player *Play, gboolean Buy)
       mvaddstr(get_prompt_line() + 1, 2, text);
       input = nice_input(_("How many do you sell? "), get_prompt_line() + 1,
                          2 + strcharlen(text), TRUE, NULL, '\0');
-      c = atoi(input);
+      tmp = strtol(input, &endptr, 10);
+      if (*endptr != '\0' || tmp < 0 || tmp > G_MAXINT) {
+        g_warning(_("Invalid quantity '%s'"), input);
+        c = -1;
+      } else {
+        c = (int) tmp;
+      }
       g_free(input);
       g_free(text);
       if (c >= 0) {

@@ -432,14 +432,16 @@ void HandleServerMessage(gchar *buf, Player *Play)
       FinishGame(Play, NULL);
     }
     break;
-  case C_REQUESTJET:
-    i = atoi(Data);
+  case C_REQUESTJET: {
+    char *endptr;
+    long tmp = strtol(Data, &endptr, 10);
     /* Make sure value is within range */
-    if (i < 0 || i >= NumLocation) {
+    if (*endptr != '\0' || tmp < 0 || tmp >= NumLocation) {
       dopelog(3, LF_SERVER, _("%s: DENIED travel to invalid location %s"),
               GetPlayerName(Play), Data);
       break;
     }
+    i = (int) tmp;
     if (Play->EventNum == E_FIGHT || Play->EventNum == E_FIGHTASK) {
       if (CanRunHere(Play)) {
         break;
@@ -478,6 +480,7 @@ void HandleServerMessage(gchar *buf, Player *Play)
               GetPlayerName(Play), Location[i].Name);
     }
     break;
+  }
   case C_REQUESTSCORE:
     SendHighScores(Play, FALSE, NULL);
     break;
@@ -1800,14 +1803,22 @@ static const guint SCOREVERSION = 1;
 static gboolean HighScoreReadHeader(FILE *fp, gint *ScoreVersion)
 {
   gchar *header;
+  char *endptr;
+  long tmp;
 
   if (read_string(fp, &header) != EOF) {
     if (header && strlen(header) > SCOREHDRLEN &&
         strncmp(header, SCOREHEADER, SCOREHDRLEN) == 0) {
-      if (ScoreVersion)
-        *ScoreVersion = atoi(header + SCOREHDRLEN);
-      g_free(header);
-      return TRUE;
+      tmp = strtol(header + SCOREHDRLEN, &endptr, 10);
+      if (*endptr == '\0' && tmp >= 0 && tmp <= G_MAXINT) {
+        if (ScoreVersion)
+          *ScoreVersion = (gint) tmp;
+        g_free(header);
+        return TRUE;
+      } else {
+        g_warning(_("Invalid score file version '%s'"),
+                  header + SCOREHDRLEN);
+      }
     }
   }
   g_free(header);
