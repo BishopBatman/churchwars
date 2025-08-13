@@ -2704,7 +2704,7 @@ msgstr ""
 "Parece que está usando un cliente tremendamente viejo (versión 1.4.x)^ "
 "Aunque posiblemente funcione, muchas de las nuevas funcionalidades^ no "
 "estarán soportadas. Obtenga la última versión del sitio web de Church Wars,^ "
-"https://Church Wars.sourceforge.io/."
+"https://dopewars.sourceforge.io/."
 
 #: src/serverside.c:307
 msgid ""
@@ -2714,7 +2714,7 @@ msgid ""
 msgstr ""
 "Advertencia: su cliente es demasiado viejo para soportar todas las^ "
 "funcionalidades de este servidor. Para «vivir la experiencia» completa,^ "
-"consiga la última versión de Church Wars del servidor web,^ http://Church Wars."
+"consiga la última versión de Church Wars del servidor web,^ http://dopewars."
 "sourceforge.net/."
 
 #: src/serverside.c:392
