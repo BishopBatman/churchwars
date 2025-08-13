@@ -893,15 +893,20 @@ gboolean ReadDataFromWire(NetworkBuffer *NetBuf)
 
 gchar *ExpandWriteBuffer(ConnBuf *conn, size_t numbytes, LastError **error)
 {
-  int newlen;
+  size_t newlen;
 
-  newlen = conn->DataPresent + (int)numbytes;
-  if (newlen > conn->Length) {
+  newlen = (size_t)conn->DataPresent + numbytes;
+  if (newlen > MAXWRITEBUF) {
+    if (error)
+      SetError(error, ET_CUSTOM, E_FULLBUF, NULL);
+    return NULL;
+  }
+  if (newlen > (size_t)conn->Length) {
     conn->Length *= 2;
-    conn->Length = MAX(conn->Length, newlen);
+    conn->Length = MAX(conn->Length, (gint)newlen);
     if (conn->Length > MAXWRITEBUF)
       conn->Length = MAXWRITEBUF;
-    if (newlen > conn->Length) {
+    if (newlen > (size_t)conn->Length) {
       if (error)
         SetError(error, ET_CUSTOM, E_FULLBUF, NULL);
       return NULL;
