@@ -456,12 +456,25 @@ gboolean HandleWaitingMetaServerData(CurlConnection *conn, GSList **listpt,
     upsince = CurlNextLine(conn, comment);
     msg = CurlNextLine(conn, upsince);
     if (msg) {
+      char *endptr;
+      long portnum = strtol(port, &endptr, 10);
+      if (*endptr != '\0' || portnum < 0 || portnum > 65535)
+        continue;
+      long maxnum = strtol(maxplayers, &endptr, 10);
+      if (*endptr != '\0' || maxnum < 0 || maxnum > G_MAXINT)
+        continue;
+      long curnum = -1;
+      if (curplayers[0]) {
+        curnum = strtol(curplayers, &endptr, 10);
+        if (*endptr != '\0' || curnum < 0 || curnum > maxnum)
+          curnum = -1;
+      }
       ServerData *NewServer = g_new0(ServerData, 1);
       NewServer->Name = g_strdup(name);
-      NewServer->Port = atoi(port);
+      NewServer->Port = (guint)portnum;
       NewServer->Version = g_strdup(version);
-      NewServer->CurPlayers = curplayers[0] ? atoi(curplayers) : -1;
-      NewServer->MaxPlayers = atoi(maxplayers);
+      NewServer->CurPlayers = (int)curnum;
+      NewServer->MaxPlayers = (int)maxnum;
       NewServer->Update = g_strdup(update);
       NewServer->Comment = g_strdup(comment);
       NewServer->UpSince = g_strdup(upsince);
@@ -905,10 +918,13 @@ int GetNextInt(gchar **Data, int Default)
 {
   gchar *Word = GetNextWord(Data, NULL);
 
-  if (Word)
-    return atoi(Word);
-  else
-    return Default;
+  if (Word) {
+    char *endptr;
+    long val = strtol(Word, &endptr, 10);
+    if (*endptr == '\0' && val >= 0 && val <= G_MAXINT)
+      return (int)val;
+  }
+  return Default;
 }
 
 price_t GetNextPrice(gchar **Data, price_t Default)
@@ -999,7 +1015,11 @@ int ProcessMessage(char *Msg, Player *Play, Player **Other, AICode *AI,
   if (HaveAbility(Play, A_PLAYERID)) {
     buf = GetNextWord(&pt, NULL);
     if (buf && buf[0]) {
-      ID = atoi(buf);
+      char *endptr;
+      long id = strtol(buf, &endptr, 10);
+      if (*endptr != '\0' || id < 0 || id > G_MAXUINT)
+        return -1;
+      ID = (guint)id;
       *Other = GetPlayerByID(ID, First);
     }
   } else {
