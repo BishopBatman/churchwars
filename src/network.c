@@ -1592,11 +1592,13 @@ static void AddB64char(GString *str, int c)
 void AddB64Enc(GString *str, gchar *unenc)
 {
   guint i;
+  size_t len;
   long value = 0;
 
   if (!unenc || !str)
     return;
-  for (i = 0; i < strlen(unenc); i++) {
+  len = strlen(unenc);
+  for (i = 0; i < len; i++) {
     value <<= 8;
     value |= (unsigned char)unenc[i];
     if (i % 3 == 2) {
