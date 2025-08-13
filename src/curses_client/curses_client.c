@@ -44,6 +44,7 @@
 #include "serverside.h"
 #include "sound.h"
 #include "tstring.h"
+#include "log.h"
 
 static int ResizedFlag;
 static SCREEN *cur_screen;
@@ -460,7 +461,11 @@ static gboolean SelectServerFromMetaServer(Player *Play, GString *errstr)
         continue;
       }
       perror("bselect");
-      exit(EXIT_FAILURE);
+      dopelog(0, 0, "bselect failed: %s", g_strerror(errno));
+      CloseCurlConnection(&MetaConn);
+      end_curses();
+      g_string_assign(errstr, g_strerror(errno));
+      return FALSE;
     }
     if (FD_ISSET(0, &readfds)) {
       /* So that Ctrl-L works */
@@ -587,6 +592,7 @@ static void DisplayConnectStatus(NetworkBuffer *netbuf,
     refresh();
   }
   g_string_free(text, TRUE);
+  return TRUE;
 }
 
 void SocksAuthFunc(NetworkBuffer *netbuf, gpointer data)
@@ -643,7 +649,11 @@ static gboolean DoConnect(Player *Play, GString *errstr)
           continue;
         }
         perror("bselect");
-        exit(EXIT_FAILURE);
+        dopelog(0, 0, "bselect failed: %s", g_strerror(errno));
+        ShutdownNetworkBuffer(netbuf);
+        end_curses();
+        g_string_assign(errstr, g_strerror(errno));
+        return FALSE;
       }
       if (FD_ISSET(0, &readfds)) {
         /* So that Ctrl-L works */
@@ -679,6 +689,10 @@ static gboolean ConnectToServer(Player *Play)
   if (g_ascii_strncasecmp(ServerName, SN_META, strlen(SN_META)) == 0 || ConnectMethod == CM_META) {
     ConnectMethod = CM_META;
     MetaOK = SelectServerFromMetaServer(Play, errstr);
+    if (!MetaOK) {
+      g_string_free(errstr, TRUE);
+      return FALSE;
+    }
   } else if (g_ascii_strncasecmp(ServerName, SN_PROMPT, strlen(SN_PROMPT)) == 0 ||
              ConnectMethod == CM_PROMPT) {
     ConnectMethod = CM_PROMPT;
@@ -699,29 +713,15 @@ static gboolean ConnectToServer(Player *Play)
                              "Church Wars server..."));
       refresh();
       NetOK = DoConnect(Play, errstr);
+      if (!NetOK) {
+        g_string_free(errstr, TRUE);
+        return FALSE;
+      }
     }
-    if (!NetOK || !MetaOK || firstrun) {
+    if (firstrun) {
       firstrun = FALSE;
       clear_line(top);
       clear_line(top + 1);
-      if (!MetaOK) {
-        /* Display of an error while contacting the metaserver */
-        mvaddstr(top, 1, _("Cannot get metaserver details"));
-        text = g_strdup_printf("   (%s)", errstr->str);
-        mvaddstr(top + 1, 1, text);
-        g_free(text);
-      } else if (!NetOK) {
-        /* Display of an error message while trying to contact a dopewars
-           server (the error message itself is displayed on the next
-           screen line) */
-        mvaddstr(top, 1, _("Could not start multiplayer Church Wars"));
-        text = g_strdup_printf("   (%s)",
-                               errstr->str[0] ? errstr->str
-                                  : _("connection to server failed"));
-        mvaddstr(top + 1, 1, text);
-        g_free(text);
-      }
-      MetaOK = NetOK = TRUE;
       attrset(PromptAttr);
       mvaddstr(top + 2, 1,
                _("Will you... C>onnect to a named Church Wars server"));
@@ -746,6 +746,10 @@ static gboolean ConnectToServer(Player *Play)
         return TRUE;
       case 'L':
         MetaOK = SelectServerFromMetaServer(Play, errstr);
+        if (!MetaOK) {
+          g_string_free(errstr, TRUE);
+          return FALSE;
+        }
         break;
       case 'C':
         SelectServerManually();
@@ -2329,7 +2333,7 @@ static void DisplayDrugsHere(Player *Play)
  * make the screen look pretty, respond to user keypresses, and react
  * to messages from the server.
  */
-static void Curses_DoGame(Player *Play)
+static gboolean Curses_DoGame(Player *Play)
 {
   gchar *buf, *OldName;
   GString *text;
@@ -2381,8 +2385,9 @@ static void Curses_DoGame(Player *Play)
 #ifdef NETWORKING
   if (WantNetwork) {
     if (!ConnectToServer(Play)) {
+      dopelog(0, 0, "ConnectToServer failed");
       end_curses();
-      exit(1);
+      return FALSE;
     }
     justconnected = TRUE;
   }
@@ -2477,7 +2482,7 @@ static void Curses_DoGame(Player *Play)
     refresh();
 
     if (QuitRequest)
-      return;
+      return TRUE;
 #ifdef NETWORKING
     FD_ZERO(&readfs);
     FD_ZERO(&writefs);
@@ -2492,7 +2497,7 @@ static void Curses_DoGame(Player *Play)
           g_free(pt);
         }
         if (QuitRequest)
-          return;
+          return TRUE;
       }
       SetSelectForNetworkBuffer(&Play->NetBuf, &readfs, &writefs,
                                 NULL, &MaxSock);
@@ -2503,7 +2508,10 @@ static void Curses_DoGame(Player *Play)
         continue;
       }
       perror("bselect");
-      exit(1);
+      dopelog(0, 0, "bselect failed: %s", g_strerror(errno));
+      ShutdownNetwork(Play);
+      end_curses();
+      return FALSE;
     }
     if (Client) {
       if (RespondToSelect(&Play->NetBuf, &readfs, &writefs, NULL, &DoneOK)) {
@@ -2512,7 +2520,7 @@ static void Curses_DoGame(Player *Play)
           g_free(pt);
         }
         if (QuitRequest)
-          return;
+          return TRUE;
       }
       if (!DoneOK) {
         attrset(TextAttr);
@@ -2536,7 +2544,9 @@ static void Curses_DoGame(Player *Play)
         continue;
       }
       perror("bselect");
-      exit(1);
+      dopelog(0, 0, "bselect failed: %s", g_strerror(errno));
+      end_curses();
+      return FALSE;
     }
 #endif /* NETWORKING */
     if (DisplayMode == DM_STREET) {
@@ -2660,6 +2670,7 @@ void CursesLoop(struct CMDLINE *cmdline)
 {
   char c;
   Player *Play;
+  gboolean ok;
 
 #ifdef CYGWIN
   /* On Windows, force UTF-8 rather than the non-Unicode codepage */
@@ -2710,17 +2721,21 @@ void CursesLoop(struct CMDLINE *cmdline)
   Play = g_new(Player, 1);
   FirstClient = AddPlayer(0, Play, FirstClient);
   do {
-    Curses_DoGame(Play);
-    SoundPlay(Sounds.EndGame);
+    ok = Curses_DoGame(Play);
+    if (ok)
+      SoundPlay(Sounds.EndGame);
     ShutdownNetwork(Play);
     CleanUpServer();
     RestoreConfig();
+    if (!ok)
+      break;
     attrset(TextAttr);
     mvaddstr(get_prompt_line() + 1, 20, _("Play again? "));
     c = GetKey(N_("YN"), TRUE, TRUE, FALSE);
   } while (c == 'Y');
   FirstClient = RemovePlayer(Play, FirstClient);
-  end_curses();
+  if (ok)
+    end_curses();
 #ifdef NETWORKING
   if (MetaConn.h && MetaConn.multi)
     CurlCleanup(&MetaConn);
