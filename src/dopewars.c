@@ -2285,7 +2285,7 @@ gchar *GetGlobalConfigFile(void)
 gchar *GetLocalConfigFile(void)
 {
 #ifdef CYGWIN
-  return g_strdup_printf("%s/dopewars-config.txt",
+  return g_strdup_printf("%s/churchwars-config.txt",
                          appdata_path ? appdata_path : ".");
 #else
   gchar *home, *conf = NULL;
@@ -2293,7 +2293,7 @@ gchar *GetLocalConfigFile(void)
   /* Local config is in the user's home directory */
   home = getenv("HOME");
   if (home) {
-    conf = g_strdup_printf("%s/.dopewars", home);
+    conf = g_strdup_printf("%s/.churchwars", home);
   }
   return conf;
 #endif
