@@ -451,7 +451,7 @@ void SendSocks5UserPasswd(NetworkBuffer *NetBuf, gchar *user,
                           gchar *password)
 {
   gchar *addpt;
-  guint addlen;
+  size_t addlen;
   ConnBuf *conn;
 
   if (!user || !password || !user[0] || !password[0]) {
@@ -460,8 +460,8 @@ void SendSocks5UserPasswd(NetworkBuffer *NetBuf, gchar *user,
     return;
   }
 
-  guint userlen = strlen(user);
-  guint passlen = strlen(password);
+  size_t userlen = strlen(user);
+  size_t passlen = strlen(password);
 
   /* Only continue if lengths are within SOCKS5 limits */
   if (userlen > 255 || passlen > 255) {
@@ -491,7 +491,7 @@ void SendSocks5UserPasswd(NetworkBuffer *NetBuf, gchar *user,
 static gboolean Socks5Connect(NetworkBuffer *NetBuf)
 {
   gchar *addpt;
-  guint addlen, hostlen;
+  size_t addlen, hostlen;
   ConnBuf *conn;
   unsigned short int netport;
 
@@ -512,7 +512,7 @@ static gboolean Socks5Connect(NetworkBuffer *NetBuf)
   addpt[1] = 1;                 /* CONNECT */
   addpt[2] = 0;                 /* reserved - must be zero */
   addpt[3] = 3;                 /* Address type - FQDN */
-  addpt[4] = hostlen;           /* Length of address */
+  addpt[4] = (guchar)hostlen;           /* Length of address */
   memcpy(&addpt[5], NetBuf->host, hostlen);
   memcpy(&addpt[5 + hostlen], &netport, sizeof(netport));
   addpt[5 + hostlen + sizeof(netport)] = '\0';
@@ -528,12 +528,12 @@ static gboolean HandleSocksReply(NetworkBuffer *NetBuf)
 {
   gchar *data;
   guchar addrtype;
-  guint replylen;
+  size_t replylen;
   gboolean retval = TRUE;
 
   if (NetBuf->socks->version == 5) {
     if (NetBuf->sockstat == NBSS_METHODS) {
-      data = GetWaitingData(NetBuf, 2);
+      data = GetWaitingData(NetBuf, (size_t)2);
       if (data) {
         retval = FALSE;
         if (data[0] != 5) {
@@ -548,7 +548,7 @@ static gboolean HandleSocksReply(NetworkBuffer *NetBuf)
         g_free(data);
       }
     } else if (NetBuf->sockstat == NBSS_USERPASSWD) {
-      data = GetWaitingData(NetBuf, 2);
+      data = GetWaitingData(NetBuf, (size_t)2);
       if (data) {
         retval = FALSE;
         if (data[1] != 0) {
@@ -559,7 +559,7 @@ static gboolean HandleSocksReply(NetworkBuffer *NetBuf)
         g_free(data);
       }
     } else if (NetBuf->sockstat == NBSS_CONNECT) {
-      data = PeekWaitingData(NetBuf, 5);
+      data = PeekWaitingData(NetBuf, (size_t)5);
       if (data) {
         retval = FALSE;
         addrtype = data[3];
@@ -591,7 +591,7 @@ static gboolean HandleSocksReply(NetworkBuffer *NetBuf)
     }
     return retval;
   } else {
-    data = GetWaitingData(NetBuf, 8);
+    data = GetWaitingData(NetBuf, (size_t)8);
     if (data) {
       retval = FALSE;
       if (data[0] != 0) {
@@ -758,32 +758,44 @@ gint CountWaitingMessages(NetworkBuffer *NetBuf)
   return msgs;
 }
 
-gchar *PeekWaitingData(NetworkBuffer *NetBuf, int numbytes)
+gchar *PeekWaitingData(NetworkBuffer *NetBuf, size_t numbytes)
 {
   ConnBuf *conn;
 
+  if (numbytes == 0 || numbytes > MAXREADBUF) {
+    if (NetBuf)
+      SetError(&NetBuf->error, ET_CUSTOM, E_FULLBUF, NULL);
+    return NULL;
+  }
+
   conn = &NetBuf->ReadBuf;
-  if (!conn->Data || conn->DataPresent < numbytes)
+  if (!conn->Data || (size_t)conn->DataPresent < numbytes)
     return NULL;
   else
     return conn->Data;
 }
 
-gchar *GetWaitingData(NetworkBuffer *NetBuf, int numbytes)
+gchar *GetWaitingData(NetworkBuffer *NetBuf, size_t numbytes)
 {
   ConnBuf *conn;
   gchar *data;
 
+  if (numbytes == 0 || numbytes > MAXREADBUF) {
+    if (NetBuf)
+      SetError(&NetBuf->error, ET_CUSTOM, E_FULLBUF, NULL);
+    return NULL;
+  }
+
   conn = &NetBuf->ReadBuf;
-  if (!conn->Data || conn->DataPresent < numbytes)
+  if (!conn->Data || (size_t)conn->DataPresent < numbytes)
     return NULL;
 
   data = g_new(gchar, numbytes);
   memcpy(data, conn->Data, numbytes);
 
   memmove(&conn->Data[0], &conn->Data[numbytes],
-          conn->DataPresent - numbytes);
-  conn->DataPresent -= numbytes;
+          (size_t)conn->DataPresent - numbytes);
+  conn->DataPresent -= (gint)numbytes;
 
   return data;
 }
@@ -881,11 +893,11 @@ gboolean ReadDataFromWire(NetworkBuffer *NetBuf)
   return TRUE;
 }
 
-gchar *ExpandWriteBuffer(ConnBuf *conn, int numbytes, LastError **error)
+gchar *ExpandWriteBuffer(ConnBuf *conn, size_t numbytes, LastError **error)
 {
   int newlen;
 
-  newlen = conn->DataPresent + numbytes;
+  newlen = conn->DataPresent + (int)numbytes;
   if (newlen > conn->Length) {
     conn->Length *= 2;
     conn->Length = MAX(conn->Length, newlen);
@@ -903,9 +915,9 @@ gchar *ExpandWriteBuffer(ConnBuf *conn, int numbytes, LastError **error)
 }
 
 void CommitWriteBuffer(NetworkBuffer *NetBuf, ConnBuf *conn,
-                       gchar *addpt, guint addlen)
+                       gchar *addpt, size_t addlen)
 {
-  conn->DataPresent += addlen;
+  conn->DataPresent += (gint)addlen;
 
   /* If the buffer was empty before, we may need to tell the owner to
    * check the socket for write-ready status */
@@ -923,7 +935,7 @@ void CommitWriteBuffer(NetworkBuffer *NetBuf, ConnBuf *conn,
 gboolean QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data)
 {
   gchar *addpt;
-  guint addlen;
+  size_t addlen;
   ConnBuf *conn;
 
   conn = &NetBuf->WriteBuf;
@@ -964,11 +976,11 @@ static void SetAIError(LastError **error, int errcode)
 gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
                                unsigned RemotePort)
 {
-  guint num_methods;
+  size_t num_methods;
   ConnBuf *conn;
   struct addrinfo hints, *res;
   gchar *addpt;
-  guint addlen, i;
+  size_t addlen, i;
   struct in_addr haddr;
   unsigned short int netport;
   gchar *username = NULL;
@@ -992,7 +1004,7 @@ gboolean StartSocksNegotiation(NetworkBuffer *NetBuf, gchar *RemoteHost,
     if (!addpt)
       goto fail;
     addpt[0] = 5;               /* SOCKS version 5 */
-    addpt[1] = num_methods;
+    addpt[1] = (guchar)num_methods;
     i = 2;
     addpt[i++] = SM_NOAUTH;
     if (NetBuf->userpasswd)

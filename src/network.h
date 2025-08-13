@@ -51,6 +51,7 @@
 #endif
 #endif
 
+#include <stddef.h>
 #include <glib.h>
 
 #include "error.h"
@@ -189,11 +190,11 @@ gint CountWaitingMessages(NetworkBuffer *NetBuf);
 gchar *GetWaitingMessage(NetworkBuffer *NetBuf);
 void SendSocks5UserPasswd(NetworkBuffer *NetBuf, gchar *user,
                           gchar *password);
-gchar *GetWaitingData(NetworkBuffer *NetBuf, int numbytes);
-gchar *PeekWaitingData(NetworkBuffer *NetBuf, int numbytes);
-gchar *ExpandWriteBuffer(ConnBuf *conn, int numbytes, LastError **error);
+gchar *GetWaitingData(NetworkBuffer *NetBuf, size_t numbytes);
+gchar *PeekWaitingData(NetworkBuffer *NetBuf, size_t numbytes);
+gchar *ExpandWriteBuffer(ConnBuf *conn, size_t numbytes, LastError **error);
 void CommitWriteBuffer(NetworkBuffer *NetBuf, ConnBuf *conn, gchar *addpt,
-                       guint addlen);
+                       size_t addlen);
 
 #define DOPE_CURL_ERROR dope_curl_error_quark()
 GQuark dope_curl_error_quark(void);
