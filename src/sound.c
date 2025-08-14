@@ -194,7 +194,7 @@ static SoundDriver *GetPlugin(const gchar *drivername)
     SoundDriver *drivpt = (SoundDriver *)listpt->data;
 
     if (drivpt && drivpt->name
-        && (!drivername || strcmp(drivpt->name, drivername) == 0)) {
+        && (!drivername || g_ascii_strcasecmp(drivpt->name, drivername) == 0)) {
       return drivpt;
     }
   }
@@ -212,12 +212,13 @@ TryLoadPlugin(const gchar *name)
   driver = GetPlugin(name);
   if (!driver) {
     if (name) {
-      fprintf(stderr, "Sound plugin '%s' not found\n", name);
+      fprintf(stderr, "Sound plugin '%s' not found; falling back.\n", name);
     }
     return FALSE;
   }
   if (driver->open && !driver->open()) {
-    fprintf(stderr, "Sound plugin '%s' failed to initialize\n", name);
+    fprintf(stderr, "Sound plugin '%s' failed to initialize; falling back.\n",
+            name);
     driver = NULL;
     return FALSE;
   }
@@ -232,14 +233,12 @@ void SoundOpen(gchar *drivername)
   sound_enabled = FALSE;
 
   envplug = g_getenv("CHURCHWARS_SOUND_PLUGIN");
-  if (envplug && TryLoadPlugin(envplug)) {
+  if (envplug && envplug[0] && TryLoadPlugin(envplug)) {
     return;
   }
-  if (envplug && envplug[0]) {
-    fprintf(stderr, "Falling back from CHURCHWARS_SOUND_PLUGIN '%s'\n", envplug);
-  }
 
-  if (drivername && strcmp(drivername, NOPLUGIN) != 0 && TryLoadPlugin(drivername)) {
+  if (drivername && strcmp(drivername, NOPLUGIN) != 0 &&
+      TryLoadPlugin(drivername)) {
     return;
   }
 
@@ -254,8 +253,8 @@ void SoundOpen(gchar *drivername)
 #endif
 
   driver = GetPlugin(NULL);
-  if (driver && TryLoadPlugin(driver->name)) {
-    return;
+  if (driver) {
+    TryLoadPlugin(driver->name);
   }
 }
 

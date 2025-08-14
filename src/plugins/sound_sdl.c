@@ -33,10 +33,12 @@
 
 static GHashTable *sound_cache;
 static gboolean sdl_inited = FALSE;
+static gboolean audio_open = FALSE;
   
 static gboolean SoundOpen_SDL(void)
 {
-  int mix_flags = MIX_INIT_OGG | MIX_INIT_MP3 | MIX_INIT_FLAC;
+  int mix_flags = MIX_INIT_OGG | MIX_INIT_MP3;
+  int initted;
 
   if (sdl_inited) {
     return TRUE;
@@ -51,24 +53,25 @@ static gboolean SoundOpen_SDL(void)
   }
 
   if (!(SDL_WasInit(SDL_INIT_AUDIO) & SDL_INIT_AUDIO)) {
-    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
-      fprintf(stderr, "SDL_InitSubSystem failed: %s\n", SDL_GetError());
+    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+      fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
       return FALSE;
     }
   }
 
-  if ((Mix_Init(mix_flags) & mix_flags) != mix_flags) {
-    fprintf(stderr, "Mix_Init failed: %s\n", Mix_GetError());
-    Mix_Quit();
-    SDL_QuitSubSystem(SDL_INIT_AUDIO);
-    return FALSE;
+  initted = Mix_Init(mix_flags);
+  if ((initted & mix_flags) != mix_flags) {
+    fprintf(stderr, "Mix_Init warning: %s\n", Mix_GetError());
   }
 
-  if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
-    fprintf(stderr, "Mix_OpenAudio failed: %s\n", Mix_GetError());
-    Mix_Quit();
-    SDL_QuitSubSystem(SDL_INIT_AUDIO);
-    return FALSE;
+  if (!audio_open) {
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
+      fprintf(stderr, "Mix_OpenAudio failed: %s\n", Mix_GetError());
+      Mix_Quit();
+      SDL_QuitSubSystem(SDL_INIT_AUDIO);
+      return FALSE;
+    }
+    audio_open = TRUE;
   }
 
   Mix_AllocateChannels(32);
@@ -97,7 +100,10 @@ static void SoundClose_SDL(void)
     sound_cache = NULL;
   }
 
-  Mix_CloseAudio();
+  if (audio_open) {
+    Mix_CloseAudio();
+    audio_open = FALSE;
+  }
   Mix_Quit();
   SDL_QuitSubSystem(SDL_INIT_AUDIO);
   sdl_inited = FALSE;
