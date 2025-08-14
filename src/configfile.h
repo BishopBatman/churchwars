@@ -23,6 +23,8 @@
 #ifndef __DP_CONFIGFILE_H__
 #define __DP_CONFIGFILE_H__
 
+int ensure_scorefile_ready(const char *path);
+
 #include <glib.h>
 
 extern gchar *LocalCfgEncoding;

@@ -41,6 +41,44 @@
 #include "dopewars.h"           /* For struct GLOBALS etc. */
 #include "nls.h"                /* For _ function */
 #include "error.h"              /* For ErrStrFromErrno */
+#include <sys/stat.h>
+#include <errno.h>
+#include <string.h>
+#include <stdio.h>
+
+static int mkdir_p(const char *path) {
+    if (!path || !*path) return 0;
+    char tmp[1024];
+    size_t len = strlen(path);
+    if (len >= sizeof tmp) return -1;
+    strcpy(tmp, path);
+    for (char *p = tmp + 1; *p; ++p) {
+        if (*p == '/') {
+            *p = '\0';
+            if (mkdir(tmp, 0775) && errno != EEXIST) return -1;
+            *p = '/';
+        }
+    }
+    if (mkdir(tmp, 0775) && errno != EEXIST) return -1;
+    return 0;
+}
+
+int ensure_scorefile_ready(const char *path) {
+    if (!path || !*path) return -1;
+    const char *slash = strrchr(path, '/');
+    if (slash) {
+        char dir[1024];
+        size_t n = (size_t)(slash - path);
+        if (n >= sizeof dir) return -1;
+        memcpy(dir, path, n);
+        dir[n] = '\0';
+        if (mkdir_p(dir) != 0) return -1;
+    }
+    FILE *f = fopen(path, "ab+");
+    if (!f) return -1;
+    fclose(f);
+    return 0;
+}
 
 gchar *LocalCfgEncoding = NULL;
 
