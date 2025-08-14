@@ -54,6 +54,7 @@ static void SoundPlay_Cocoa(const gchar *snd)
     p = [[NSSound alloc] initWithContentsOfFile:sound byReference:YES];
     /* If the sound file doesn't exist, do nothing */
     if (!p) {
+      g_warning("Could not create NSSound for %s", snd);
       [sound release];
       return;
     }

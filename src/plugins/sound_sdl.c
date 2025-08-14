@@ -118,6 +118,7 @@ static void SoundPlay_SDL(const gchar *snd)
   if (!chunk) {
     chunk = Mix_LoadWAV(snd);
     if (!chunk) {
+      g_warning("Mix_LoadWAV failed for %s: %s", snd, Mix_GetError());
       return;
     }
     g_hash_table_insert(sound_cache, g_strdup(snd), chunk);
