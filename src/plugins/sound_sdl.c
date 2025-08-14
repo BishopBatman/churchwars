@@ -29,27 +29,55 @@
 #include <SDL_mixer.h>
 #include <glib.h>
 #include "../sound.h"
+#include <stdio.h>
 
 static GHashTable *sound_cache;
+static gboolean sdl_inited = FALSE;
+static gboolean audio_open = FALSE;
   
 static gboolean SoundOpen_SDL(void)
 {
-  const int audio_rate = MIX_DEFAULT_FREQUENCY;
-  const int audio_format = MIX_DEFAULT_FORMAT;
-  const int audio_channels = 2;
+  int mix_flags = MIX_INIT_OGG | MIX_INIT_MP3;
+  int initted;
 
-  if (SDL_Init(SDL_INIT_AUDIO) < 0) {
-    return FALSE;
+  if (sdl_inited) {
+    return TRUE;
   }
 
-  if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, 4096) < 0) {
-    SDL_Quit();
-    return FALSE;
+  if (!g_getenv("SDL_AUDIODRIVER")) {
+#ifdef __APPLE__
+    g_setenv("SDL_AUDIODRIVER", "coreaudio", TRUE);
+#elif defined(__linux__)
+    g_setenv("SDL_AUDIODRIVER", "pulseaudio", TRUE);
+#endif
   }
-  Mix_AllocateChannels(16);
+
+  if (!(SDL_WasInit(SDL_INIT_AUDIO) & SDL_INIT_AUDIO)) {
+    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+      fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
+      return FALSE;
+    }
+  }
+
+  initted = Mix_Init(mix_flags);
+  if ((initted & mix_flags) != mix_flags) {
+    fprintf(stderr, "Mix_Init warning: %s\n", Mix_GetError());
+  }
+
+  if (!audio_open) {
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
+      fprintf(stderr, "Mix_OpenAudio failed: %s\n", Mix_GetError());
+      Mix_Quit();
+      SDL_QuitSubSystem(SDL_INIT_AUDIO);
+      return FALSE;
+    }
+    audio_open = TRUE;
+  }
+
+  Mix_AllocateChannels(32);
 
   sound_cache = g_hash_table_new(g_str_hash, g_str_equal);
-
+  sdl_inited = TRUE;
   return TRUE;
 }
 
@@ -57,6 +85,10 @@ static void SoundClose_SDL(void)
 {
   GHashTableIter iter;
   gpointer key, value;
+
+  if (!sdl_inited) {
+    return;
+  }
 
   if (sound_cache) {
     g_hash_table_iter_init(&iter, sound_cache);
@@ -68,8 +100,13 @@ static void SoundClose_SDL(void)
     sound_cache = NULL;
   }
 
-  Mix_CloseAudio();
-  SDL_Quit();
+  if (audio_open) {
+    Mix_CloseAudio();
+    audio_open = FALSE;
+  }
+  Mix_Quit();
+  SDL_QuitSubSystem(SDL_INIT_AUDIO);
+  sdl_inited = FALSE;
 }
 
 static void SoundPlay_SDL(const gchar *snd)
@@ -101,7 +138,7 @@ static void SoundPlay_SDL(const gchar *snd)
       }
     }
     if (chan_num < 0) {
-      g_warning("Mix_PlayChannel failed for %s: %s", snd, Mix_GetError());
+      fprintf(stderr, "Mix_PlayChannel failed for %s: %s\n", snd, Mix_GetError());
     }
   }
 }
