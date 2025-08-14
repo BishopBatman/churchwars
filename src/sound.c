@@ -27,6 +27,7 @@
 #include <glib.h>
 #include <string.h>
 #include <errno.h>
+#include <stdio.h>
 
 #ifdef PLUGINS
 #include <sys/types.h>
@@ -205,34 +206,56 @@ SoundDriver *SoundGetPlugin(const gchar *drivername)
   return GetPlugin(drivername);
 }
 
+static gboolean
+TryLoadPlugin(const gchar *name)
+{
+  driver = GetPlugin(name);
+  if (!driver) {
+    if (name) {
+      fprintf(stderr, "Sound plugin '%s' not found\n", name);
+    }
+    return FALSE;
+  }
+  if (driver->open && !driver->open()) {
+    fprintf(stderr, "Sound plugin '%s' failed to initialize\n", name);
+    driver = NULL;
+    return FALSE;
+  }
+  fprintf(stderr, "Sound plugin '%s' selected\n", driver->name);
+  sound_enabled = TRUE;
+  return TRUE;
+}
+
 void SoundOpen(gchar *drivername)
 {
+  const gchar *envplug;
   sound_enabled = FALSE;
-  if (!drivername || strcmp(drivername, NOPLUGIN) != 0) {
-    driver = GetPlugin(drivername);
-    if (driver) {
-      gboolean opened = TRUE;
-      if (driver->open) {
-        dopelog(3, 0, "Using plugin %s", driver->name);
-        opened = driver->open();
-        if (!opened) {
-          g_log(NULL, G_LOG_LEVEL_CRITICAL,
-                _("Failed to open sound driver \"%s\"."), driver->name);
-          driver = NULL;
-        }
-      }
-      sound_enabled = opened && (driver != NULL);
-    } else if (drivername) {
-      gchar *plugins, *err;
 
-      plugins = GetPluginList();
-      err = g_strdup_printf(_("Invalid plugin \"%s\" selected.\n"
-                              "(%s available; now using \"%s\".)"),
-                            drivername, plugins, NOPLUGIN);
-      g_log(NULL, G_LOG_LEVEL_CRITICAL, "%s", err);
-      g_free(plugins);
-      g_free(err);
-    }
+  envplug = g_getenv("CHURCHWARS_SOUND_PLUGIN");
+  if (envplug && TryLoadPlugin(envplug)) {
+    return;
+  }
+  if (envplug && envplug[0]) {
+    fprintf(stderr, "Falling back from CHURCHWARS_SOUND_PLUGIN '%s'\n", envplug);
+  }
+
+  if (drivername && strcmp(drivername, NOPLUGIN) != 0 && TryLoadPlugin(drivername)) {
+    return;
+  }
+
+#ifdef _WIN32
+  if (TryLoadPlugin("winmm")) {
+    return;
+  }
+#else
+  if (TryLoadPlugin("sdl")) {
+    return;
+  }
+#endif
+
+  driver = GetPlugin(NULL);
+  if (driver && TryLoadPlugin(driver->name)) {
+    return;
   }
 }
 

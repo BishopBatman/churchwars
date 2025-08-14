@@ -29,27 +29,52 @@
 #include <SDL_mixer.h>
 #include <glib.h>
 #include "../sound.h"
+#include <stdio.h>
 
 static GHashTable *sound_cache;
+static gboolean sdl_inited = FALSE;
   
 static gboolean SoundOpen_SDL(void)
 {
-  const int audio_rate = MIX_DEFAULT_FREQUENCY;
-  const int audio_format = MIX_DEFAULT_FORMAT;
-  const int audio_channels = 2;
+  int mix_flags = MIX_INIT_OGG | MIX_INIT_MP3 | MIX_INIT_FLAC;
 
-  if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+  if (sdl_inited) {
+    return TRUE;
+  }
+
+  if (!g_getenv("SDL_AUDIODRIVER")) {
+#ifdef __APPLE__
+    g_setenv("SDL_AUDIODRIVER", "coreaudio", TRUE);
+#elif defined(__linux__)
+    g_setenv("SDL_AUDIODRIVER", "pulseaudio", TRUE);
+#endif
+  }
+
+  if (!(SDL_WasInit(SDL_INIT_AUDIO) & SDL_INIT_AUDIO)) {
+    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
+      fprintf(stderr, "SDL_InitSubSystem failed: %s\n", SDL_GetError());
+      return FALSE;
+    }
+  }
+
+  if ((Mix_Init(mix_flags) & mix_flags) != mix_flags) {
+    fprintf(stderr, "Mix_Init failed: %s\n", Mix_GetError());
+    Mix_Quit();
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
     return FALSE;
   }
 
-  if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, 4096) < 0) {
-    SDL_Quit();
+  if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
+    fprintf(stderr, "Mix_OpenAudio failed: %s\n", Mix_GetError());
+    Mix_Quit();
+    SDL_QuitSubSystem(SDL_INIT_AUDIO);
     return FALSE;
   }
-  Mix_AllocateChannels(16);
+
+  Mix_AllocateChannels(32);
 
   sound_cache = g_hash_table_new(g_str_hash, g_str_equal);
-
+  sdl_inited = TRUE;
   return TRUE;
 }
 
@@ -57,6 +82,10 @@ static void SoundClose_SDL(void)
 {
   GHashTableIter iter;
   gpointer key, value;
+
+  if (!sdl_inited) {
+    return;
+  }
 
   if (sound_cache) {
     g_hash_table_iter_init(&iter, sound_cache);
@@ -69,7 +98,9 @@ static void SoundClose_SDL(void)
   }
 
   Mix_CloseAudio();
-  SDL_Quit();
+  Mix_Quit();
+  SDL_QuitSubSystem(SDL_INIT_AUDIO);
+  sdl_inited = FALSE;
 }
 
 static void SoundPlay_SDL(const gchar *snd)
@@ -101,7 +132,7 @@ static void SoundPlay_SDL(const gchar *snd)
       }
     }
     if (chan_num < 0) {
-      g_warning("Mix_PlayChannel failed for %s: %s", snd, Mix_GetError());
+      fprintf(stderr, "Mix_PlayChannel failed for %s: %s\n", snd, Mix_GetError());
     }
   }
 }
