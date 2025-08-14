@@ -247,6 +247,11 @@ void SoundOpen(gchar *drivername)
     return;
   }
 #else
+#if defined(__APPLE__) || defined(HAVE_COCOA)
+  if (TryLoadPlugin("cocoa")) {
+    return;
+  }
+#endif
   if (TryLoadPlugin("sdl")) {
     return;
   }
