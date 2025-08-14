@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -e
-if [ ! -x tools/churchwars_audio_wrapper.sh ]; then
-  echo "Run from repo root: tools/churchwars_audio_wrapper.sh not found"
+set -euo pipefail
+if [ ! -f "tools/churchwars_audio_wrapper.sh" ]; then
+  echo "Run from repo root: tools/churchwars_audio_wrapper.sh not found" >&2
   exit 1
 fi
 if [ "$(id -u)" -ne 0 ]; then
