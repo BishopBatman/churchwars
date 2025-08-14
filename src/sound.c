@@ -194,7 +194,7 @@ static SoundDriver *GetPlugin(const gchar *drivername)
     SoundDriver *drivpt = (SoundDriver *)listpt->data;
 
     if (drivpt && drivpt->name
-        && (!drivername || strcmp(drivpt->name, drivername) == 0)) {
+        && (!drivername || g_ascii_strcasecmp(drivpt->name, drivername) == 0)) {
       return drivpt;
     }
   }
@@ -232,15 +232,25 @@ void SoundOpen(gchar *drivername)
   sound_enabled = FALSE;
 
   envplug = g_getenv("CHURCHWARS_SOUND_PLUGIN");
-  if (envplug && TryLoadPlugin(envplug)) {
-    return;
-  }
-  if (envplug && envplug[0]) {
-    fprintf(stderr, "Falling back from CHURCHWARS_SOUND_PLUGIN '%s'\n", envplug);
+  if (envplug) {
+    gchar *envnorm = g_ascii_strdown(envplug, -1);
+    if (TryLoadPlugin(envnorm)) {
+      g_free(envnorm);
+      return;
+    }
+    if (envnorm[0]) {
+      fprintf(stderr, "Falling back from CHURCHWARS_SOUND_PLUGIN '%s'\n", envplug);
+    }
+    g_free(envnorm);
   }
 
-  if (drivername && strcmp(drivername, NOPLUGIN) != 0 && TryLoadPlugin(drivername)) {
-    return;
+  if (drivername) {
+    gchar *drivernorm = g_ascii_strdown(drivername, -1);
+    if (strcmp(drivernorm, NOPLUGIN) != 0 && TryLoadPlugin(drivernorm)) {
+      g_free(drivernorm);
+      return;
+    }
+    g_free(drivernorm);
   }
 
 #ifdef _WIN32
