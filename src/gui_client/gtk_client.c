@@ -2172,7 +2172,6 @@ gboolean GtkLoop(int *argc, char **argv[],
 
   /* Title of main window in GTK+ client */
   gtk_window_set_title(GTK_WINDOW(window), _("Church Wars"));
-  codex/update-default-window-size-in-gtk_client.c
   gtk_window_set_default_size(GTK_WINDOW(window), 620, 450);
 
   g_signal_connect(G_OBJECT(window), "delete_event",
