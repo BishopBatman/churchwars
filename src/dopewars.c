@@ -908,13 +908,9 @@ GSList *AddPlayer(int fd, Player *NewPlayer, GSList *First)
   NewPlayer->Turn = 1;
   NewPlayer->date =
       g_date_new_dmy(StartDate.day, StartDate.month, StartDate.year);
-  if (!NewPlayer->date) {
-    g_warning("Unable to allocate date for new player");
-    g_free(NewPlayer->Name);
-    g_free(NewPlayer->Guns);
-    g_free(NewPlayer->Drugs);
-    g_free(NewPlayer);
-    return First;
+  if (!g_date_valid(NewPlayer->date)) {
+    g_warning("Invalid start date specified; resetting to 5 Jan 1900");
+    g_date_set_dmy(NewPlayer->date, 5, 1, 1900);
   }
   NewPlayer->Cash = StartCash;
   NewPlayer->Debt = StartDebt;
