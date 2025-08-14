@@ -37,4 +37,20 @@ fi
 SCORE_PATH="${CHURCHWARS_SCORE:-$HOME/.local/share/churchwars/churchwars.sco}"
 mkdir -p "$(dirname "$SCORE_PATH")"
 
+# When bundled as a macOS application, resources such as GTK data files,
+# icon themes and the gdk-pixbuf loader cache live inside the bundle under
+# "Contents/Resources".  Adjust a few environment variables so the bundled
+# binaries can locate these resources without additional configuration.
+if [[ "$(uname)" == "Darwin" ]]; then
+  RESOURCES_DIR="$ROOT/Resources"
+  if [[ -d "$RESOURCES_DIR" ]]; then
+    export GTK_DATA_PREFIX="$RESOURCES_DIR"
+    export GTK_EXE_PREFIX="$RESOURCES_DIR"
+    if CACHE_FILE=$(find "$RESOURCES_DIR" -path '*/gdk-pixbuf-2.0/*/loaders.cache' -print -quit 2>/dev/null); then
+      export GDK_PIXBUF_MODULE_FILE="$CACHE_FILE"
+    fi
+    export XDG_DATA_DIRS="$RESOURCES_DIR/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+  fi
+fi
+
 exec "$BIN" -f "$SCORE_PATH" "$@"
