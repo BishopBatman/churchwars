@@ -30,4 +30,7 @@
 /* Open the given URL using the system-configured web browser */
 void mac_open_url(const char *url);
 
+/* Return the path to the application's Resources directory */
+const char *mac_resource_path(void);
+
 #endif /* __DP_MAC_HELPERS_H__ */

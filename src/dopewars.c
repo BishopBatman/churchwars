@@ -60,6 +60,9 @@
 #include "util.h"
 #include "winmain.h"
 
+#ifdef APPLE
+#include "mac_helpers.h"
+#endif
 #ifdef CURSES_CLIENT
 #include "curses_client/curses_client.h"
 #endif
@@ -99,12 +102,6 @@ gboolean MinToSysTray = TRUE;
 gboolean Daemonize = TRUE;
 #endif
 
-#ifdef CYGWIN
-#define SNDPATH "sounds\\19.5degs\\"
-#else
-#define SNDPATH DPDATADIR"/dopewars/"
-#endif
-
 gint ConfigErrors = 0;
 gboolean LocaleIsUTF8 = FALSE;
 
@@ -119,6 +116,23 @@ int MaxClients = 20, AITurnPause = 5;
 price_t StartCash = 4000, StartDebt = 5500;
 int BaseCoatSize = 40;
 GSList *ServerList = NULL;
+
+static const gchar *GetSoundDir(void)
+{
+#ifdef APPLE
+  const char *path = mac_resource_path();
+  if (path)
+    return path;
+#endif
+  return DPDATADIR "/dopewars";
+}
+
+static void AssignSound(gchar **dest, const gchar *dir, const gchar *file)
+{
+  gchar *full = g_build_filename(dir, file, NULL);
+  AssignName(dest, full);
+  g_free(full);
+}
 
 GScannerConfig ScannerConfig = {
   " \t\n",                      /* Ignore these characters */
@@ -2426,16 +2440,17 @@ static void SetupParameters(GSList *extraconfigs, gboolean antique)
   AssignName(&ServerMOTD, "");
   AssignName(&BindAddress, "");
 
-  AssignName(&Sounds.FightHit, SNDPATH"colt.wav");
-  AssignName(&Sounds.EnemyBitchKilled, SNDPATH"shotdown.wav");
-  AssignName(&Sounds.BitchKilled, SNDPATH"losebitch.wav");
-  AssignName(&Sounds.EnemyKilled, SNDPATH"shotdown.wav");
-  AssignName(&Sounds.Killed, SNDPATH"die.wav");
-  AssignName(&Sounds.EnemyFlee, SNDPATH"run.wav");
-  AssignName(&Sounds.Flee, SNDPATH"run.wav");
-  AssignName(&Sounds.Jet, SNDPATH"train.wav");
-  AssignName(&Sounds.EndGame, SNDPATH"bye.wav");
-  AssignName(&Sounds.CoinBuy, SNDPATH"coinbuy.wav");
+  const gchar *snddir = GetSoundDir();
+  AssignSound(&Sounds.FightHit, snddir, "colt.wav");
+  AssignSound(&Sounds.EnemyBitchKilled, snddir, "shotdown.wav");
+  AssignSound(&Sounds.BitchKilled, snddir, "losebitch.wav");
+  AssignSound(&Sounds.EnemyKilled, snddir, "shotdown.wav");
+  AssignSound(&Sounds.Killed, snddir, "die.wav");
+  AssignSound(&Sounds.EnemyFlee, snddir, "run.wav");
+  AssignSound(&Sounds.Flee, snddir, "run.wav");
+  AssignSound(&Sounds.Jet, snddir, "train.wav");
+  AssignSound(&Sounds.EndGame, snddir, "bye.wav");
+  AssignSound(&Sounds.CoinBuy, snddir, "coinbuy.wav");
 
   LoanSharkLoc = DEFLOANSHARK;
   BankLoc = DEFBANK;
