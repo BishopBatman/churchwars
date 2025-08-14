@@ -27,9 +27,21 @@
 #import <AppKit/AppKit.h>
 
 #include "mac_helpers.h"
+#include <glib.h>
 
 void mac_open_url(const char *url)
 {
   NSString *urlstr = [[NSString alloc] initWithUTF8String:url];
   [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlstr]];
+}
+
+const char *mac_resource_path(void)
+{
+  static char *respath = NULL;
+  if (!respath) {
+    NSString *path = [[NSBundle mainBundle] resourcePath];
+    if (path)
+      respath = g_strdup([path UTF8String]);
+  }
+  return respath;
 }
