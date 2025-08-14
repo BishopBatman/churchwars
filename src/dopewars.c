@@ -2537,6 +2537,11 @@ void GetDateString(GString *str, Player *Play)
 {
   gchar buf[200], *turn, *pt;
 
+  if (StartDate.year < 1900) {
+    g_string_printf(str, "Turn %d", Play->Turn);
+    return;
+  }
+
   turn = g_strdup_printf("%d", Play->Turn);
   g_string_assign(str, Names.Date);
   while ((pt = strstr(str->str, "%T")) != NULL) {
