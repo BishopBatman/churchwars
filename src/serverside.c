@@ -64,26 +64,6 @@
 
 #include <sys/stat.h>
 #include <errno.h>
-
-int ensure_scorefile_ready(const char *path) {
-    struct stat st;
-
-    // Check if file exists
-    if (stat(path, &st) == 0) {
-        return 0; // File exists, all good
-    }
-
-    // Try to create the file if it doesn't exist
-    FILE *fp = fopen(path, "w");
-    if (!fp) {
-        g_warning("Unable to create score file: %s", path);
-        return -1;
-    }
-    fclose(fp);
-
-    return 0;
-}
-
 static const price_t MINTRENCHPRICE = 200, MAXTRENCHPRICE = 300;
 
 #define ESCAPE      0

@@ -72,25 +72,6 @@
 #include "gtkport/gtkport.h"
 #endif
 
-int ensure_scorefile_ready(const char *path) {
-    struct stat st;
-
-    // Check if file exists and is readable
-    if (stat(path, &st) == 0) {
-        return 0; // File exists
-    }
-
-    // Try to create the file if it doesn't exist
-    FILE *fp = fopen(path, "w");
-    if (!fp) {
-        g_warning("Unable to create score file: %s", path);
-        return -1;
-    }
-    fclose(fp);
-
-    return 0;
-}
-
 
 int ClientSock, ListenSock;
 gboolean Network, Client, Server, WantAntique = FALSE, UseSounds = TRUE;
