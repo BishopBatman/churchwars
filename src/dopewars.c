@@ -763,8 +763,8 @@ struct LOCATION DefaultLocation[] = {
 
 struct DRUGS Drugs = { NULL, NULL, 0, 0 };
 struct DRUGS DefaultDrugs = {
-  /* Messages displayed for drug busts, etc. */
-  N_("Seljuk Amirs made a big %tde bust! Prices are outrageous!"),
+  /* Messages displayed for drug raids, etc. */
+  N_("Seljuk Amirs pulled off a big %tde raid! Prices are outrageous!"),
   N_("Traders are buying %tde at ridiculous prices!"),
   4, 4
 };

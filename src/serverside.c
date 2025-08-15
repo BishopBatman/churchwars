@@ -3199,7 +3199,7 @@ enum DealType {
 };
 
 /* 
- * Generates drug prices and drug busts etc. for player "To"
+ * Generates drug prices and drug raids etc. for player "To"
  * "Deal" is an array of size NumDrug.
  */
 static void GenerateDrugsHere(Player *To, enum DealType *Deal)
@@ -3260,7 +3260,7 @@ static void GenerateDrugsHere(Player *To, enum DealType *Deal)
 /* 
  * Sends details of drug prices to player "To". If "DisplayBusts"
  * is TRUE, also regenerates drug prices and sends details of
- * special events such as drug busts.
+ * special events such as drug raids.
  */
 void SendDrugsHere(Player *To, gboolean DisplayBusts)
 {
