@@ -2209,7 +2209,18 @@ gboolean GtkLoop(int *argc, char **argv[],
 
   /* Create the main player */
   ClientData.Play = g_new(Player, 1);
-  FirstClient = AddPlayer(0, ClientData.Play, FirstClient);
+  {
+    GSList *tmp_list = AddPlayer(0, ClientData.Play, FirstClient);
+    if (!tmp_list) {
+      g_warning(_("Unable to allocate memory for new player"));
+      g_free(ClientData.Play->Guns);
+      g_free(ClientData.Play->Drugs);
+      g_free(ClientData.Play->Name);
+      g_free(ClientData.Play);
+      return TRUE;
+    }
+    FirstClient = tmp_list;
+  }
   if (PlayerName && PlayerName[0]) {
     SetPlayerName(ClientData.Play, PlayerName);
   }

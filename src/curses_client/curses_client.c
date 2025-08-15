@@ -2769,7 +2769,23 @@ void CursesLoop(struct CMDLINE *cmdline)
   display_intro();
 
   Play = g_new(Player, 1);
-  FirstClient = AddPlayer(0, Play, FirstClient);
+  {
+    GSList *tmp_list = AddPlayer(0, Play, FirstClient);
+    if (!tmp_list) {
+      g_warning(_("Unable to allocate memory for new player"));
+      g_free(Play->Guns);
+      g_free(Play->Drugs);
+      g_free(Play->Name);
+      g_free(Play);
+      end_curses();
+#ifdef NETWORKING
+      if (MetaConn.h && MetaConn.multi)
+        CurlCleanup(&MetaConn);
+#endif
+      return;
+    }
+    FirstClient = tmp_list;
+  }
   do {
     ok = Curses_DoGame(Play);
     if (ok)
