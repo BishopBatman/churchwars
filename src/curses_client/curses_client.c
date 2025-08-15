@@ -944,6 +944,7 @@ static void DealDrugs(Player *Play, gboolean Buy)
   int DrugNum, CanCarry, CanAfford;
   char *endptr;
   long tmp;
+  price_t profit = 0;
 
   NumDrugsHere = 0;
   for (c = 0; c < NumDrug; c++)
@@ -1011,9 +1012,27 @@ static void DealDrugs(Player *Play, gboolean Buy)
       g_free(input);
       g_free(text);
       if (c >= 0) {
+        if (HaveAbility(Play, A_DRUGVALUE) && c > 0 &&
+            Play->Drugs[DrugNum].Carried > 0) {
+          profit =
+              c * (Play->Drugs[DrugNum].Price -
+                   Play->Drugs[DrugNum].TotalValue /
+                       Play->Drugs[DrugNum].Carried);
+        }
         text = g_strdup_printf("drug^%d^%d", DrugNum, -c);
         SendClientMessage(Play, C_NONE, C_BUYOBJECT, NULL, text);
         g_free(text);
+        if (HaveAbility(Play, A_DRUGVALUE) && c > 0 &&
+            Play->Drugs[DrugNum].Carried > 0) {
+          clear_line(get_prompt_line() + 1);
+          attrset(TextAttr);
+          if (profit >= 0)
+            text = g_strdup_printf(_("Profit: $%d"), (int)profit);
+          else
+            text = g_strdup_printf(_("Loss: $%d"), (int)(-profit));
+          mvaddstr(get_prompt_line() + 1, 2, text);
+          g_free(text);
+        }
       }
     }
   }
