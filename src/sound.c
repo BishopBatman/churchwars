@@ -62,6 +62,7 @@ gchar *GetPluginList(void)
 {
   GSList *listpt;
   GString *plugins;
+  gchar *retstr;
 
   plugins = g_string_new("\""NOPLUGIN"\"");
   for (listpt = driverlist; listpt; listpt = g_slist_next(listpt)) {
@@ -71,7 +72,9 @@ gchar *GetPluginList(void)
       g_string_append_printf(plugins, ", \"%s\"", drivpt->name);
     }
   }
-  return g_string_free(plugins, FALSE);
+  retstr = plugins->str;
+  g_string_free(plugins, FALSE);
+  return retstr;
 }
 
 static void AddPlugin(InitFunc ifunc, void *module)
@@ -209,13 +212,12 @@ TryLoadPlugin(const gchar *name)
   driver = GetPlugin(name);
   if (!driver) {
     if (name) {
-      fprintf(stderr, "Sound plugin '%s' not found; falling back.\n", name);
+      fprintf(stderr, "Sound plugin '%s' not found\n", name);
     }
     return FALSE;
   }
   if (driver->open && !driver->open()) {
-    fprintf(stderr, "Sound plugin '%s' failed to initialize; falling back.\n",
-            name);
+    fprintf(stderr, "Sound plugin '%s' failed to initialize\n", name);
     driver = NULL;
     return FALSE;
   }
@@ -230,13 +232,25 @@ void SoundOpen(gchar *drivername)
   sound_enabled = FALSE;
 
   envplug = g_getenv("CHURCHWARS_SOUND_PLUGIN");
-  if (envplug && envplug[0] && TryLoadPlugin(envplug)) {
-    return;
+  if (envplug) {
+    gchar *envnorm = g_ascii_strdown(envplug, -1);
+    if (TryLoadPlugin(envnorm)) {
+      g_free(envnorm);
+      return;
+    }
+    if (envnorm[0]) {
+      fprintf(stderr, "Falling back from CHURCHWARS_SOUND_PLUGIN '%s'\n", envplug);
+    }
+    g_free(envnorm);
   }
 
-  if (drivername && strcmp(drivername, NOPLUGIN) != 0 &&
-      TryLoadPlugin(drivername)) {
-    return;
+  if (drivername) {
+    gchar *drivernorm = g_ascii_strdown(drivername, -1);
+    if (strcmp(drivernorm, NOPLUGIN) != 0 && TryLoadPlugin(drivernorm)) {
+      g_free(drivernorm);
+      return;
+    }
+    g_free(drivernorm);
   }
 
 #ifdef _WIN32
@@ -244,19 +258,14 @@ void SoundOpen(gchar *drivername)
     return;
   }
 #else
-#if defined(__APPLE__) || defined(HAVE_COCOA)
-  if (TryLoadPlugin("cocoa")) {
-    return;
-  }
-#endif
   if (TryLoadPlugin("sdl")) {
     return;
   }
 #endif
 
   driver = GetPlugin(NULL);
-  if (driver) {
-    TryLoadPlugin(driver->name);
+  if (driver && TryLoadPlugin(driver->name)) {
+    return;
   }
 }
 
