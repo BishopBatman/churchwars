@@ -2441,7 +2441,7 @@ void SendEvent(Player *To)
       break;
     case E_HIREBITCH:
       if (To->IsAt + 1 == RoughPubLoc) {
-        /* Random pub price for a cleric, defaults to 10k-20k. Prices
+        /* Random pub price for a cleric, defaults to 2k-5k. Prices
          * increase by 10% for each cleric already carried. */
         price_t base_price = prandom(Cleric.MinPrice, Cleric.MaxPrice);
         To->Bitches.Price = base_price +
@@ -3052,8 +3052,10 @@ void WithdrawFromCombat(Player *Play)
       } else if (CanRunHere(Defend)
                  && brandom(0, 100) > Location[Defend->IsAt].PolicePresence) {
         Defend->EventNum = E_DOCTOR;
-        /* Doctor price uses its own configurable price range */
-        Defend->DocPrice = prandom(Doctor.MinPrice, Doctor.MaxPrice) *
+
+        /* Doctor price scales from the cleric price range (2k-5k by default) */
+        Defend->DocPrice = prandom(Cleric.MinPrice, Cleric.MaxPrice) *
+  
             Defend->Health / 500;
         text =
             dpg_strdup_printf(_
@@ -3202,7 +3204,7 @@ int OfferObject(Player *To, gboolean ForceBitch)
       text = dpg_strdup_printf(_("YN^Would you like to buy a bigger "
                                  "trenchcoat for %P?"), To->Bitches.Price);
     } else {
-/* Street price is one-third of the shop price range (~3.3k–6.6k by default).
+/* Street price is one-third of the shop price range (~0.7k–1.7k by default).
  * Prices increase by 10% per cleric already carried. */
       price_t base_price =
           prandom(Cleric.MinPrice, Cleric.MaxPrice) / (price_t)3;
