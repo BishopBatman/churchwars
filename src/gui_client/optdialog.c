@@ -942,9 +942,9 @@ void OptDialog(GtkWidget *widget, gpointer data)
   label = gtk_label_new(_("Goods"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox2, label);
 
-  hbox = CreateList("Missing Pauline Letter", gunmembers);
+  hbox = CreateList("Gun", gunmembers);
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 7);
-  label = gtk_label_new(_("Missing Pauline Letters"));
+  label = gtk_label_new(_("Weapons"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), hbox, label);
 
   hbox = CreateList("Cop", copmembers);
