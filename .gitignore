@@ -33,3 +33,6 @@ compile
 doc/dopewars.6
 po/POTFILES
 /src/*.wav
+
+# User audio config
+.asoundrc
