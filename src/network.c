@@ -1377,6 +1377,10 @@ static gboolean SetCaInfo(CurlConnection *conn, GError **err)
 gboolean OpenCurlConnection(CurlConnection *conn, char *URL, char *body,
                             GError **err)
 {
+  gboolean ret = FALSE;
+  int still_running = 0;
+  CURLMcode mres;
+
   /* If the previous connect hung for so long that it's still active, then
    * break the connection before we start a new one */
   if (conn->running) {
@@ -1385,62 +1389,58 @@ gboolean OpenCurlConnection(CurlConnection *conn, char *URL, char *body,
 
   if (!conn->h || !conn->multi) {
     if (!CurlInit(conn, err)) {
-      CloseCurlConnection(conn);
-      ResetCurlConnection(conn);
-      return FALSE;
+      goto done;
     }
   }
 
-  if (conn->h) {
-    int still_running;
-    CURLMcode mres;
-    if (body && !CurlEasySetopt1(conn->h, CURLOPT_COPYPOSTFIELDS, body, err)) {
-      CloseCurlConnection(conn);
-      ResetCurlConnection(conn);
-      return FALSE;
-    }
-
-    if (!CurlEasySetopt1(conn->h, CURLOPT_URL, URL, err)
-        || !CurlEasySetopt1(conn->h, CURLOPT_WRITEFUNCTION, MetaConnWriteFunc,
-                            err)
-        || !CurlEasySetopt1(conn->h, CURLOPT_WRITEDATA, conn, err)
-        || !CurlEasySetopt1(conn->h, CURLOPT_HEADERFUNCTION,
-                            MetaConnHeaderFunc, err)
-#ifdef CYGWIN
-        || !SetCaInfo(conn, err)
-#endif
-        || !CurlEasySetopt1(conn->h, CURLOPT_HEADERDATA, conn, err)) {
-      CloseCurlConnection(conn);
-      ResetCurlConnection(conn);
-      return FALSE;
-    }
-
-      mres = curl_multi_add_handle(conn->multi, conn->h);
-      if (mres != CURLM_OK && mres != CURLM_CALL_MULTI_PERFORM) {
-        g_set_error_literal(err, DOPE_CURLM_ERROR, mres,
-                            curl_multi_strerror(mres));
-        CloseCurlConnection(conn);
-        ResetCurlConnection(conn);
-        return FALSE;
-      }
-      conn->data = g_malloc(1);
-      conn->data_size = 0;
-      conn->headers = g_ptr_array_new_with_free_func(g_free);
-      conn->header_size = 0;
-      conn->running = TRUE;
-      if (conn->timer_cb) {
-        /* If we set a callback, we must not do _perform, but wait for the cb */
-        return TRUE;
-      } else {
-      return CurlConnectionPerform(conn, &still_running, err);
-    }
-  } else {
+  if (!conn->h) {
     g_set_error_literal(err, DOPE_CURLM_ERROR, 0, _("Could not init curl"));
+    goto done;
+  }
+
+  if (body && !CurlEasySetopt1(conn->h, CURLOPT_COPYPOSTFIELDS, body, err)) {
+    goto done;
+  }
+
+  if (!CurlEasySetopt1(conn->h, CURLOPT_URL, URL, err)
+      || !CurlEasySetopt1(conn->h, CURLOPT_WRITEFUNCTION, MetaConnWriteFunc, err)
+      || !CurlEasySetopt1(conn->h, CURLOPT_WRITEDATA, conn, err)
+      || !CurlEasySetopt1(conn->h, CURLOPT_HEADERFUNCTION,
+                          MetaConnHeaderFunc, err)
+#ifdef CYGWIN
+      || !SetCaInfo(conn, err)
+#endif
+      || !CurlEasySetopt1(conn->h, CURLOPT_HEADERDATA, conn, err)) {
+    goto done;
+  }
+
+  mres = curl_multi_add_handle(conn->multi, conn->h);
+  if (mres != CURLM_OK && mres != CURLM_CALL_MULTI_PERFORM) {
+    g_set_error_literal(err, DOPE_CURLM_ERROR, mres,
+                        curl_multi_strerror(mres));
+    goto done;
+  }
+
+  conn->data = g_malloc(1);
+  conn->data_size = 0;
+  conn->headers = g_ptr_array_new_with_free_func(g_free);
+  conn->header_size = 0;
+  conn->running = TRUE;
+
+  if (conn->timer_cb) {
+    /* If we set a callback, we must not do _perform, but wait for the cb */
+    ret = TRUE;
+    goto done;
+  }
+
+  ret = CurlConnectionPerform(conn, &still_running, err);
+
+done:
+  if (!ret) {
     CloseCurlConnection(conn);
     ResetCurlConnection(conn);
-    return FALSE;
   }
-  return TRUE;
+  return ret;
 }
 
 char *CurlNextLine(CurlConnection *conn, char *ch)
