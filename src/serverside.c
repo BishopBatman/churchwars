@@ -3041,8 +3041,8 @@ void WithdrawFromCombat(Player *Play)
       } else if (CanRunHere(Defend)
                  && brandom(0, 100) > Location[Defend->IsAt].PolicePresence) {
         Defend->EventNum = E_DOCTOR;
-        /* Doctor price scales from the cleric price range (10k-20k by default) */
-        Defend->DocPrice = prandom(Cleric.MinPrice, Cleric.MaxPrice) *
+        /* Doctor price uses its own configurable price range */
+        Defend->DocPrice = prandom(Doctor.MinPrice, Doctor.MaxPrice) *
             Defend->Health / 500;
         text =
             dpg_strdup_printf(_
