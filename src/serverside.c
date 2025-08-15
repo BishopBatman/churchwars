@@ -774,7 +774,21 @@ static gboolean StartServer(void)
   }
 #endif
 
-  SetBlocking(ListenSock, FALSE);
+  if (!SetBlocking(ListenSock, FALSE)) {
+#ifdef CYGWIN
+    SetError(&sockerr, ET_WINSOCK, WSAGetLastError(), NULL);
+#else
+    SetError(&sockerr, ET_ERRNO, errno, NULL);
+#endif
+    errstr = g_string_new("");
+    g_string_assign_error(errstr, sockerr);
+    g_log(NULL, G_LOG_LEVEL_CRITICAL,
+          _("Cannot set listening socket non-blocking (%s)"), errstr->str);
+    g_string_free(errstr, TRUE);
+    FreeError(sockerr);
+    CloseSocket(ListenSock);
+    return FALSE;
+  }
 
   if (!BindTCPSocket(ListenSock, BindAddress, Port, &sockerr)) {
     errstr = g_string_new("");
@@ -1050,7 +1064,11 @@ static int SetupLocalSocket(void)
   if (sock == -1)
     goto cleanup;
 
-  SetBlocking(sock, FALSE);
+  if (!SetBlocking(sock, FALSE)) {
+    g_warning(_("Cannot set local socket non-blocking (%s)"),
+              g_strerror(errno));
+    goto cleanup;
+  }
 
   sockname = GetLocalSocket();
   sockdir = GetLocalSockDir();

@@ -285,7 +285,14 @@ void BindNetworkBufferToSocket(NetworkBuffer *NetBuf, int fd)
   NetBuf->ioch = g_io_channel_unix_new(fd);
 #endif
 
-  SetBlocking(fd, FALSE);       /* We only deal with non-blocking sockets */
+  if (!SetBlocking(fd, FALSE)) {
+    CloseSocket(fd);
+    g_io_channel_unref(NetBuf->ioch);
+    NetBuf->ioch = NULL;
+    NetBuf->fd = -1;
+    return;
+  }
+
   NetBuf->status = NBS_CONNECTED;       /* Assume the socket is connected */
 }
 
@@ -1640,7 +1647,12 @@ static gboolean StartConnect(int *fd, const gchar *bindaddr, gchar *RemoteHost,
       continue;
     }
 
-    SetBlocking(*fd, FALSE);
+    if (!SetBlocking(*fd, FALSE)) {
+      SetNetworkError(error);
+      CloseSocket(*fd);
+      *fd = -1;
+      continue;
+    }
 
     if (connect(*fd, rp->ai_addr, rp->ai_addrlen) == SOCKET_ERROR) {
 #ifdef CYGWIN
