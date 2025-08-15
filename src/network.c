@@ -199,6 +199,12 @@ static void FreeConnBuf(ConnBuf *buf)
   InitConnBuf(buf);
 }
 
+static void ClampConnBuf(ConnBuf *buf)
+{
+  if (buf->DataPresent < 0)
+    buf->DataPresent = 0;
+}
+
 /* 
  * Initializes the passed network buffer, ready for use. Messages sent
  * or received on the buffered connection will be terminated by the
@@ -747,6 +753,7 @@ gint CountWaitingMessages(NetworkBuffer *NetBuf)
     return 0;
 
   conn = &NetBuf->ReadBuf;
+  ClampConnBuf(conn);
 
   if (conn->Data)
     for (i = 0; i < conn->DataPresent; i++) {
@@ -767,6 +774,7 @@ gchar *PeekWaitingData(NetworkBuffer *NetBuf, size_t numbytes)
   }
 
   conn = &NetBuf->ReadBuf;
+  ClampConnBuf(conn);
   if (!conn->Data || (size_t)conn->DataPresent < numbytes)
     return NULL;
   else
@@ -785,6 +793,7 @@ gchar *GetWaitingData(NetworkBuffer *NetBuf, size_t numbytes)
   }
 
   conn = &NetBuf->ReadBuf;
+  ClampConnBuf(conn);
   if (!conn->Data || (size_t)conn->DataPresent < numbytes)
     return NULL;
 
@@ -813,6 +822,7 @@ gchar *GetWaitingMessage(NetworkBuffer *NetBuf)
   gchar *NewMessage;
 
   conn = &NetBuf->ReadBuf;
+  ClampConnBuf(conn);
   if (!conn->Data || !conn->DataPresent || NetBuf->status != NBS_CONNECTED) {
     return NULL;
   }
@@ -898,6 +908,7 @@ gchar *ExpandWriteBuffer(ConnBuf *conn, size_t numbytes, LastError **error)
 {
   size_t newlen;
 
+  ClampConnBuf(conn);
   newlen = (size_t)conn->DataPresent + numbytes;
   if (newlen > MAXWRITEBUF) {
     if (error)
@@ -1102,6 +1113,7 @@ static gboolean WriteBufToWire(NetworkBuffer *NetBuf, ConnBuf *conn)
 {
   int CurrentPosition, BytesSent;
 
+  ClampConnBuf(conn);
   if (!conn->Data || !conn->DataPresent)
     return TRUE;
   if (conn->Length == MAXWRITEBUF) {
