@@ -906,17 +906,12 @@ GSList *AddPlayer(int fd, Player *NewPlayer, GSList *First)
   NewPlayer->Guns = (Inventory *)g_try_malloc0(NumGun * sizeof(Inventory));
   if (!NewPlayer->Guns) {
     g_warning("Unable to allocate guns for new player");
-    g_free(NewPlayer->Name);
-    g_free(NewPlayer);
-    return First;
+    return NULL;
   }
   NewPlayer->Drugs = (Inventory *)g_try_malloc0(NumDrug * sizeof(Inventory));
   if (!NewPlayer->Drugs) {
     g_warning("Unable to allocate drugs for new player");
-    g_free(NewPlayer->Name);
-    g_free(NewPlayer->Guns);
-    g_free(NewPlayer);
-    return First;
+    return NULL;
   }
   NewPlayer->Turn = 1;
   NewPlayer->date =
