@@ -36,3 +36,8 @@ po/POTFILES
 
 # User audio config
 .asoundrc
+/src/churchwars
+/src/churchwars.bin
+/churchwars
+*.zip
+*.tgz
