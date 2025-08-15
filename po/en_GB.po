@@ -3153,8 +3153,8 @@ msgstr ""
 
 #: src/serverside.c:2364
 #, c-format
-msgid "The lady next to you in Holy Mass said,^ \"%s\"%s"
-msgstr ""
+msgid "The lady next to you in The Crusader's Arms said,^ \"%s\"%s"
+msgstr "The lady next to you in The Crusader's Arms said,^ \"%s\"%s"
 
 #: src/serverside.c:2368
 msgid "^    (at least, you -think- that's what she said)"
