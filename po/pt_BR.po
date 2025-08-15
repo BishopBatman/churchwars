@@ -33,12 +33,12 @@ msgstr ""
 #. Word used for a single gun
 #: src/dopewars.c:203
 msgid "Missing Pauline Letter"
-msgstr ""
+msgstr "Missing Pauline Letter"
 
 #. Word used for two or more guns
 #: src/dopewars.c:205
 msgid "Missing Pauline Letters"
-msgstr ""
+msgstr "Missing Pauline Letters"
 
 #. Word used for a single drug
 #. Word used for two or more drugs
@@ -470,19 +470,19 @@ msgstr "Multiplicador para para os preços da droga especialmente cara"
 
 #: src/dopewars.c:600
 msgid "Name of each Missing Pauline Letter"
-msgstr ""
+msgstr "Name of each Missing Pauline Letter"
 
 #: src/dopewars.c:604
 msgid "Price of each Missing Pauline Letter"
-msgstr ""
+msgstr "Price of each Missing Pauline Letter"
 
 #: src/dopewars.c:608
 msgid "Space taken by each Missing Pauline Letter"
-msgstr ""
+msgstr "Space taken by each Missing Pauline Letter"
 
 #: src/dopewars.c:612
 msgid "Damage done by each Missing Pauline Letter"
-msgstr ""
+msgstr "Damage done by each Missing Pauline Letter"
 
 #: src/dopewars.c:616
 msgid "Word used to denote a single \"cleric\""
@@ -736,7 +736,7 @@ msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
 msgid "Missing Pauline Letters"
-msgstr ""
+msgstr "Missing Pauline Letters"
 
 #: src/dopewars.c:740
 msgid "Horses"
@@ -3255,7 +3255,7 @@ msgstr "%s^%s está aqui!^Você Ataca, ou Evacua?"
 
 #: src/serverside.c:2500
 msgid "No Amirs or Missing Pauline Letters!"
-msgstr ""
+msgstr "No Amirs or Missing Pauline Letters!"
 
 #: src/serverside.c:2506
 msgid "Amirs cannot attack other amirs!"
@@ -3271,7 +3271,7 @@ msgstr "Jogadores estão em lutas separadas!"
 
 #: src/serverside.c:2555
 msgid "Cannot start fight - no Missing Pauline Letters to use!"
-msgstr ""
+msgstr "Cannot start fight - no Missing Pauline Letters to use!"
 
 #: src/serverside.c:2784
 msgid "You're dead! The Angels carry you home. Game over."
@@ -3584,7 +3584,7 @@ msgstr "Você fugiu!"
 
 #: src/message.c:1421
 msgid "Missing Pauline Letters readied..."
-msgstr ""
+msgstr "Missing Pauline Letters readied..."
 
 #: src/message.c:1426
 #, c-format
