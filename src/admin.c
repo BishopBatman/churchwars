@@ -57,6 +57,7 @@ static int OpenSocket(void)
     exit(EXIT_FAILURE);
   }
 
+  memset(&addr, 0, sizeof(addr));
   addr.sun_family = AF_UNIX;
   if (g_strlcpy(addr.sun_path, sockname, sizeof(addr.sun_path)) >
       sizeof(addr.sun_path) - 1) {
