@@ -32,12 +32,12 @@ msgstr ""
 #. Word used for a single gun
 #: src/dopewars.c:203
 msgid "Missing Pauline Letter"
-msgstr ""
+msgstr "Missing Pauline Letter"
 
 #. Word used for two or more guns
 #: src/dopewars.c:205
 msgid "Missing Pauline Letters"
-msgstr ""
+msgstr "Missing Pauline Letters"
 
 #. Word used for a single drug
 #. Word used for two or more drugs
@@ -469,19 +469,19 @@ msgstr "Mnożnik dla szczególnie drogich dragów"
 
 #: src/dopewars.c:600
 msgid "Name of each Missing Pauline Letter"
-msgstr ""
+msgstr "Name of each Missing Pauline Letter"
 
 #: src/dopewars.c:604
 msgid "Price of each Missing Pauline Letter"
-msgstr ""
+msgstr "Price of each Missing Pauline Letter"
 
 #: src/dopewars.c:608
 msgid "Space taken by each Missing Pauline Letter"
-msgstr ""
+msgstr "Space taken by each Missing Pauline Letter"
 
 #: src/dopewars.c:612
 msgid "Damage done by each Missing Pauline Letter"
-msgstr ""
+msgstr "Damage done by each Missing Pauline Letter"
 
 #: src/dopewars.c:616
 msgid "Word used to denote a single \"cleric\""
@@ -735,7 +735,7 @@ msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
 msgid "Missing Pauline Letters"
-msgstr ""
+msgstr "Missing Pauline Letters"
 
 #: src/dopewars.c:740
 msgid "Horses"
