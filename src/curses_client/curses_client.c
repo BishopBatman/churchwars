@@ -2045,6 +2045,14 @@ void print_status(Player *Play, gboolean DispDrug)
   g_string_append(text, p);
   g_free(p);
   mvaddstr(Network ? 7 : 11, 9, text->str);
+  mvaddstr(Network ? 8 : 13, 9, _("Spy"));
+  p = FormatPrice(GetDynamicPrice(Play, Prices.Spy));
+  mvaddrightstr(Network ? 8 : 13, 20, p);
+  g_free(p);
+  mvaddstr(Network ? 8 : 13, 21, _("Tip"));
+  p = FormatPrice(GetDynamicPrice(Play, Prices.Tipoff));
+  mvaddrightstr(Network ? 8 : 13, 30, p);
+  g_free(p);
   attrset(TitleAttr);
 
   /* Display of the player's trenchcoat size (antique mode only) */
