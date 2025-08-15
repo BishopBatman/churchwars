@@ -187,9 +187,10 @@ is set if the player is currently spying on one or more other players<br />
 <tt>GUNS</tt> = the numbers of each gun carried, separated by ^ characters
 (there should be NumGun numbers in this list - see the C_INIT message)<br />
 <tt>DRUGS</tt> = similar, for carried drugs<br />
-<tt>DRUGVALUE</tt> = similar, but contains the total cash value of each drug;
-N.B. this field is only sent if the ability
-<a href="#drugvalue">A_DRUGVALUE</a> is present<br />
+<tt>DRUGVALUE</tt> = similar, but contains the total cash value of each drug,
+used by clients to calculate profit or loss when a drug is sold; N.B. this
+field is only sent if the ability <a href="#drugvalue">A_DRUGVALUE</a> is
+present<br />
 <tt>clerics</tt> = number of accompanying clerics<br />
 <tt>ID</tt> = blank for a status update, otherwise the ID of the player that
 you're spying on<br />
@@ -397,9 +398,10 @@ sent using the old protocol. "Old" servers will ignore the C_ABILITIES
 message.) Ability name in Church Wars code: <b>A_PLAYERID</b></p>
 
 <p><a id="drugvalue"><tt>drugvalue</tt></a> = '1' if the server should keep
-track of how much players paid for their drugs, so that they can see whether
-they're getting a good deal when they come to sell them ('0' otherwise).
-Ability name in Church Wars code: <b>A_DRUGVALUE</b></p>
+track of how much players paid for their drugs, allowing clients to display
+the profit or loss on each sale ('0' otherwise). Profit is calculated from the
+stored average purchase price. Ability name in Church Wars code:
+<b>A_DRUGVALUE</b></p>
 
 <p><a id="newfight"><tt>newfight</tt></a> = '1' if we use the "new" fighting
 interface (documented here). Highly recommended. Ability name in Church Wars
