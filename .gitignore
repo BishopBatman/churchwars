@@ -32,3 +32,4 @@ autom4te.cache
 compile
 doc/dopewars.6
 po/POTFILES
+/src/*.wav

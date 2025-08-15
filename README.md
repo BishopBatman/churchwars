@@ -109,3 +109,15 @@ The Church Wars icons are copyright (C) Ocelot Mantis 2001.
 Church Wars is written and maintained by Ben Webb <benwebb@users.sf.net>  
 Enquiries about Church Wars may be sent to this address (keep them sensible 
 please ;) Bug fixes and reports, improvements and patches are also welcomed.
+
+### VM audio (VirtualBox/Linux)
+
+If sound stutters or crashes in a Linux VM:
+1) Copy our sample ALSA config:
+   cp docs/asoundrc.example ~/.asoundrc
+   sudo alsa force-reload || true
+2) Install our launcher wrapper (keeps using the 'churchwars' command):
+   sudo tools/install_vm_audio_wrapper.sh
+3) Run the game:
+   churchwars
+If heavy scenes still underrun, increase period/buffer in docs/asoundrc.example and re-copy it.
