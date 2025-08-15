@@ -745,7 +745,7 @@ void CompleteHighScoreDialog(gboolean AtEnd)
 
 /* 
  * Prints an information message in the display area of the GTK+ client.
- * This area is used for displaying drug busts, messages from other
+ * This area is used for displaying drug raids, messages from other
  * players, etc. The message is passed in as the string "text".
  */
 void PrintMessage(char *text, char *tagname)
