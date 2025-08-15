@@ -1567,6 +1567,24 @@ static void DealOKCallback(GtkWidget *widget, gpointer data)
   text = g_strdup_printf("drug^%d^%d", DealDialog.DrugInd,
                          data == BT_BUY ? amount : -amount);
 
+  if (data != BT_BUY && HaveAbility(ClientData.Play, A_DRUGVALUE)) {
+    Player *Play = ClientData.Play;
+    gint ind = DealDialog.DrugInd;
+    price_t avg = 0;
+    price_t sale_price = Play->Drugs[ind].Price;
+
+    if (Play->Drugs[ind].Carried > 0)
+      avg = Play->Drugs[ind].TotalValue / Play->Drugs[ind].Carried;
+
+    price_t profit = (price_t)amount * (sale_price - avg);
+    char *pstr = FormatPrice(profit >= 0 ? profit : -profit);
+    gchar *msg =
+        g_strdup_printf(profit >= 0 ? _("Profit: %s") : _("Loss: %s"), pstr);
+    PrintMessage(msg, NULL);
+    g_free(msg);
+    g_free(pstr);
+  }
+
   gtk_widget_destroy(DealDialog.dialog);
 
   SendClientMessage(ClientData.Play, C_NONE, C_BUYOBJECT, NULL, text);
