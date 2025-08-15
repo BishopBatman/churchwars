@@ -227,9 +227,10 @@ struct PRICES Prices = {
 };
 
 /* Default price range for hiring clerics.  Renamed from the old "Bitch"
- * terminology to reflect the updated in-game nomenclature. */
+ * terminology to reflect the updated in-game nomenclature. Lowered to make
+ * hiring a cleric feasible earlier in the game. */
 struct CLERIC Cleric = {
-  20000, 40000
+  10000, 20000
 };
 
 #ifdef NETWORKING
