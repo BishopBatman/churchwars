@@ -941,24 +941,33 @@ void CommitWriteBuffer(NetworkBuffer *NetBuf, ConnBuf *conn,
 gboolean QueueMessageForSend(NetworkBuffer *NetBuf, gchar *data)
 {
   gchar *addpt;
-  size_t addlen;
+  size_t msglen;
   ConnBuf *conn;
 
   conn = &NetBuf->WriteBuf;
 
   if (!data)
     return FALSE;
-  addlen = strlen(data) + 1;
-  addpt = ExpandWriteBuffer(conn, addlen, &NetBuf->error);
+
+  msglen = strlen(data);
+  /* Refuse excessively large messages which would overflow the
+   * write buffer or wrap around the size calculations. */
+  if (msglen >= MAXWRITEBUF ||
+      (size_t)conn->DataPresent + msglen + 1 > MAXWRITEBUF) {
+    SetError(&NetBuf->error, ET_CUSTOM, E_FULLBUF, NULL);
+    return FALSE;
+  }
+
+  addpt = ExpandWriteBuffer(conn, msglen + 1, &NetBuf->error);
   if (!addpt) {
     g_warning("Failed to expand write buffer for outgoing message");
     return FALSE;
   }
 
-  memcpy(addpt, data, addlen);
-  addpt[addlen - 1] = NetBuf->Terminator;
+  memcpy(addpt, data, msglen);
+  addpt[msglen] = NetBuf->Terminator;
 
-  CommitWriteBuffer(NetBuf, conn, addpt, addlen);
+  CommitWriteBuffer(NetBuf, conn, addpt, msglen + 1);
   return TRUE;
 }
 

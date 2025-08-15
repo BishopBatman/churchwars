@@ -2256,7 +2256,11 @@ void SendHighScores(Player *Play, gboolean EndGame, char *Message)
         g_free(HiScore[NUMHISCORE - 1].Name);
         g_free(HiScore[NUMHISCORE - 1].Time);
         for (j = NUMHISCORE - 1; j > i; j--) {
-          memcpy(&HiScore[j], &HiScore[j - 1], sizeof(struct HISCORE));
+          /* The source and destination ranges overlap when shifting
+           * existing scores down the table.  Use memmove rather than
+           * memcpy to avoid undefined behaviour and potential memory
+           * corruption under heavy load. */
+          memmove(&HiScore[j], &HiScore[j - 1], sizeof(struct HISCORE));
         }
         memcpy(&HiScore[i], &Score, sizeof(struct HISCORE));
         break;
