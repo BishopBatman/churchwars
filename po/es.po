@@ -40,12 +40,12 @@ msgstr ""
 
 #. Word used for a single gun
 #: src/dopewars.c:203
-msgid "weapon"
+msgid "Missing Pauline Letter"
 msgstr ""
 
 #. Word used for two or more guns
 #: src/dopewars.c:205
-msgid "weapons"
+msgid "Missing Pauline Letters"
 msgstr ""
 
 #. Word used for a single drug
@@ -486,20 +486,20 @@ msgid "Multiplier for specially expensive drug prices"
 msgstr "Multiplicador para las drogas especialmente caras"
 
 #: src/dopewars.c:600
-msgid "Name of each weapon"
-msgstr "Nombre de cada lugar"
+msgid "Name of each Missing Pauline Letter"
+msgstr ""
 
 #: src/dopewars.c:604
-msgid "Price of each weapon"
-msgstr "Precio de cada arma"
+msgid "Price of each Missing Pauline Letter"
+msgstr ""
 
 #: src/dopewars.c:608
-msgid "Space taken by each weapon"
-msgstr "Espacio que ocupa cada arma"
+msgid "Space taken by each Missing Pauline Letter"
+msgstr ""
 
 #: src/dopewars.c:612
-msgid "Damage done by each weapon"
-msgstr "Daño ocasionado por cada arma"
+msgid "Damage done by each Missing Pauline Letter"
+msgstr ""
 
 #: src/dopewars.c:616
 msgid "Word used to denote a single \"cleric\""
@@ -752,7 +752,7 @@ msgid "Exiled alchemists are selling cheap medicines!"
 msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
-msgid "Weapons"
+msgid "Missing Pauline Letters"
 msgstr ""
 
 #: src/dopewars.c:740
@@ -2397,7 +2397,7 @@ msgid ""
 "travels to survive and build a fortune for the Kingdom.\n"
 "\n"
 "Clerics in the Hagia Sophia add 20 space to\n"
-"your starting 40, grant one weapon slot, and\n"
+"your starting 40, grant one Missing Pauline Letter slot, and\n"
 "take damage for you in fights. The Hall of Arms,\n"
 "also there, prepares you for battle. The Merchant\n"
 "Bank in Jerusalem keeps your gold safe.\n"
@@ -3343,8 +3343,8 @@ msgid "%s^%s is already here!^Do you Attack, or Evade?"
 msgstr "%s^¡%s ya está aquí!^¿Quiere Atacar o Huir?"
 
 #: src/serverside.c:2500
-msgid "No Amirs or weapons!"
-msgstr "¡No hay armas ni polis!"
+msgid "No Amirs or Missing Pauline Letters!"
+msgstr ""
 
 #: src/serverside.c:2506
 msgid "Amirs cannot attack other amirs!"
@@ -3359,8 +3359,8 @@ msgid "Players are already in separate fights!"
 msgstr "¡Los jugadores ya están en sus propias peleas!"
 
 #: src/serverside.c:2555
-msgid "Cannot start fight - no weapons to use!"
-msgstr "No se puede empezar el enfrentamiento - ¡no hay ningún arma que usar!"
+msgid "Cannot start fight - no Missing Pauline Letters to use!"
+msgstr ""
 
 #: src/serverside.c:2784
 msgid "You're dead! The Angels carry you home. Game over."
@@ -3674,8 +3674,8 @@ msgid "You got away!"
 msgstr "¡Ha conseguido escapar!"
 
 #: src/message.c:1421
-msgid "Weapons readied..."
-msgstr "Armas recargadas..."
+msgid "Missing Pauline Letters readied..."
+msgstr ""
 
 #: src/message.c:1426
 #, c-format

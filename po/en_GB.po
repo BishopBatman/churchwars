@@ -31,12 +31,12 @@ msgstr ""
 
 #. Word used for a single gun
 #: src/dopewars.c:203
-msgid "weapon"
+msgid "Missing Pauline Letter"
 msgstr ""
 
 #. Word used for two or more guns
 #: src/dopewars.c:205
-msgid "weapons"
+msgid "Missing Pauline Letters"
 msgstr ""
 
 #. Word used for a single drug
@@ -468,19 +468,19 @@ msgid "Multiplier for specially expensive drug prices"
 msgstr ""
 
 #: src/dopewars.c:600
-msgid "Name of each weapon"
+msgid "Name of each Missing Pauline Letter"
 msgstr ""
 
 #: src/dopewars.c:604
-msgid "Price of each weapon"
+msgid "Price of each Missing Pauline Letter"
 msgstr ""
 
 #: src/dopewars.c:608
-msgid "Space taken by each weapon"
+msgid "Space taken by each Missing Pauline Letter"
 msgstr ""
 
 #: src/dopewars.c:612
-msgid "Damage done by each weapon"
+msgid "Damage done by each Missing Pauline Letter"
 msgstr ""
 
 #: src/dopewars.c:616
@@ -734,7 +734,7 @@ msgid "Exiled alchemists are selling cheap medicines!"
 msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
-msgid "Weapons"
+msgid "Missing Pauline Letters"
 msgstr ""
 
 #: src/dopewars.c:740
@@ -2315,7 +2315,7 @@ msgid ""
 "travels to survive and build a fortune for the Kingdom.\n"
 "\n"
 "Clerics in the Hagia Sophia add 20 space to\n"
-"your starting 40, grant one weapon slot, and\n"
+"your starting 40, grant one Missing Pauline Letter slot, and\n"
 "take damage for you in fights. The Hall of Arms,\n"
 "also there, prepares you for battle. The Merchant\n"
 "Bank in Jerusalem keeps your gold safe.\n"
@@ -3181,7 +3181,7 @@ msgid "%s^%s is already here!^Do you Attack, or Evade?"
 msgstr ""
 
 #: src/serverside.c:2500
-msgid "No Amirs or weapons!"
+msgid "No Amirs or Missing Pauline Letters!"
 msgstr ""
 
 #: src/serverside.c:2506
@@ -3197,7 +3197,7 @@ msgid "Players are already in separate fights!"
 msgstr ""
 
 #: src/serverside.c:2555
-msgid "Cannot start fight - no weapons to use!"
+msgid "Cannot start fight - no Missing Pauline Letters to use!"
 msgstr ""
 
 #: src/serverside.c:2784
@@ -3504,7 +3504,7 @@ msgid "You got away!"
 msgstr ""
 
 #: src/message.c:1421
-msgid "Weapons readied..."
+msgid "Missing Pauline Letters readied..."
 msgstr ""
 
 #: src/message.c:1426

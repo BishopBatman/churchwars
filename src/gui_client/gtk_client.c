@@ -2380,7 +2380,7 @@ void display_intro(GtkWidget *widget, gpointer data)
                           "travels to survive and build a fortune for the Kingdom.\n"
                           "\n"
                           "Clerics in the Hagia Sophia add 20 space to\n"
-                          "your starting 40, grant one weapon slot, and\n"
+                          "your starting 40, grant one Missing Pauline Letter slot, and\n"
                           "take damage for you in fights. The Hall of Arms,\n"
                           "also there, prepares you for battle. The Merchant\n"
                           "Bank in Jerusalem keeps your gold safe.\n"
