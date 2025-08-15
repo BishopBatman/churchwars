@@ -90,7 +90,7 @@ gboolean PlayerHandleNetwork(Player *Play, gboolean ReadReady,
                              gboolean WriteReady, gboolean ErrorReady,
                              gboolean *DoneOK);
 gboolean ReadPlayerDataFromWire(Player *Play);
-void QueuePlayerMessageForSend(Player *Play, gchar *data);
+gboolean QueuePlayerMessageForSend(Player *Play, gchar *data);
 gboolean WritePlayerDataToWire(Player *Play);
 gchar *GetWaitingPlayerMessage(Player *Play);
 

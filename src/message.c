@@ -390,15 +390,24 @@ gboolean ReadPlayerDataFromWire(Player *Play)
   return ReadDataFromWire(&Play->NetBuf);
 }
 
-void QueuePlayerMessageForSend(Player *Play, gchar *data)
+gboolean QueuePlayerMessageForSend(Player *Play, gchar *data)
 {
+  gboolean ok;
+
   if (Conv_Needed(netconv)) {
     gchar *conv = Conv_ToExternal(netconv, data, -1);
-    QueueMessageForSend(&Play->NetBuf, conv);
+    ok = QueueMessageForSend(&Play->NetBuf, conv);
     g_free(conv);
   } else {
-    QueueMessageForSend(&Play->NetBuf, data);
+    ok = QueueMessageForSend(&Play->NetBuf, data);
   }
+
+  if (!ok) {
+    g_warning("Failed to queue message for player %s",
+              Play ? GetPlayerName(Play) : "(unknown)");
+  }
+
+  return ok;
 }
 
 gboolean WritePlayerDataToWire(Player *Play)
