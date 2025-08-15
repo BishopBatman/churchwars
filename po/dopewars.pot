@@ -3082,7 +3082,7 @@ msgstr ""
 
 #: src/serverside.c:2364
 #, c-format
-msgid "The lady next to you in Holy Mass said,^ \"%s\"%s"
+msgid "The lady next to you in The Crusader's Arms said,^ \"%s\"%s"
 msgstr ""
 
 #: src/serverside.c:2368

@@ -3310,8 +3310,8 @@ msgstr "(R.I.P.)"
 
 #: src/serverside.c:2364
 #, c-format
-msgid "The lady next to you in Holy Mass said,^ \"%s\"%s"
-msgstr "La chavala que está junto a ti en el metro dice:^ «%s»%s"
+msgid "The lady next to you in The Crusader's Arms said,^ \"%s\"%s"
+msgstr "La chavala que está junto a ti en las Armas del Cruzado dice:^ «%s»%s"
 
 #: src/serverside.c:2368
 msgid "^    (at least, you -think- that's what she said)"

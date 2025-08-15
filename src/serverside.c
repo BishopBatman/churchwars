@@ -2361,7 +2361,7 @@ void SendEvent(Player *To)
         if (NumPlaying == 0)
           subwaychance = 100;
         if (brandom(0, 100) < subwaychance) {
-          text = g_strdup_printf(_("The lady next to you in Holy Mass "
+          text = g_strdup_printf(_("The lady next to you in The Crusader's Arms "
                                    "said,^ \"%s\"%s"),
                                  SubwaySaying[brandom(0, NumSubway)],
                                  brandom(0, 100) < 30 ?
