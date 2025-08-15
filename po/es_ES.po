@@ -40,13 +40,13 @@ msgstr ""
 
 #. Word used for a single gun
 #: src/dopewars.c:203
-msgid "Missing Pauline Letter"
-msgstr "Missing Pauline Letter"
+msgid "weapon"
+msgstr "arma"
 
 #. Word used for two or more guns
 #: src/dopewars.c:205
-msgid "Missing Pauline Letters"
-msgstr "Missing Pauline Letters"
+msgid "weapons"
+msgstr "armas"
 
 #. Word used for a single drug
 #. Word used for two or more drugs
@@ -483,20 +483,20 @@ msgid "Multiplier for specially expensive drug prices"
 msgstr "Multiplicador para las drogas especialmente caras"
 
 #: src/dopewars.c:600
-msgid "Name of each Missing Pauline Letter"
-msgstr "Name of each Missing Pauline Letter"
+msgid "Name of each weapon"
+msgstr "Nombre de cada arma"
 
 #: src/dopewars.c:604
-msgid "Price of each Missing Pauline Letter"
-msgstr "Price of each Missing Pauline Letter"
+msgid "Price of each weapon"
+msgstr "Precio de cada arma"
 
 #: src/dopewars.c:608
-msgid "Space taken by each Missing Pauline Letter"
-msgstr "Space taken by each Missing Pauline Letter"
+msgid "Space taken by each weapon"
+msgstr "Espacio ocupado por cada arma"
 
 #: src/dopewars.c:612
-msgid "Damage done by each Missing Pauline Letter"
-msgstr "Damage done by each Missing Pauline Letter"
+msgid "Damage done by each weapon"
+msgstr "Daño causado por cada arma"
 
 #: src/dopewars.c:616
 msgid "Word used to denote a single \"cleric\""
@@ -750,8 +750,8 @@ msgid "Exiled alchemists are selling cheap medicines!"
 msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
-msgid "Missing Pauline Letters"
-msgstr "Missing Pauline Letters"
+msgid "weapons"
+msgstr "armas"
 
 #: src/dopewars.c:740
 msgid "Horses"
@@ -2392,7 +2392,7 @@ msgid ""
 "travels to survive and build a fortune for the Kingdom.\n"
 "\n"
 "Clerics in the Hagia Sophia add 20 space to\n"
-"your starting 40, grant one Missing Pauline Letter slot, and\n"
+"your starting 40, grant one weapon slot, and\n"
 "take damage for you in fights. The Hall of Arms,\n"
 "also there, prepares you for battle. The Merchant\n"
 "Bank in Jerusalem keeps your gold safe.\n"
