@@ -1,3 +1,8 @@
+# Unreleased
+- Server checks for high score read failures and sends an empty score list if the
+  high score file cannot be read. The file is created automatically if it is
+  missing.
+
 # 1.6.2 - 2022-06-26
 - The text-mode client should now support Unicode input when in UTF-8
   locales, e.g. allowing player names containing accented characters
@@ -113,7 +118,7 @@
   shortcuts; now fixed.
 - configure should now work properly if GLib 2.0 is installed but
   GTK2.0 is not
-- Norwegian Nynorsk translation added by Åsmund
+- Norwegian Nynorsk translation added by smund
 - If dopewars is run setuid/setgid, it will now only use this privilege
   to open the default (hard-coded) high score file; it will not open
   a user-specified high score file with privilege

@@ -29,8 +29,9 @@ Once you're done, you can safely delete the RPM, tarball and churchwars
 directory. The churchwars binary is all you need!
 
 Church Wars stores its high score files by default in `/usr/local/var/churchwars.sco`.
-This will be created by `make install` or by RPM installation. Use the `-f`
-command-line option to specify an alternative score file.
+The server creates this file automatically if it is missing and sends an empty
+high score list if it cannot be read. Use the `-f` command-line option to
+specify an alternative score file.
 
 ## Windows installation
 

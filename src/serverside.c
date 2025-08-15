@@ -2207,8 +2207,18 @@ void SendHighScores(Player *Play, gboolean EndGame, char *Message)
   int i, j, InList = -1;
 
   text = g_string_new("");
+  ensure_scorefile_ready(HiScoreFile);
   if (!HighScoreRead(ScoreFP, MultiScore, AntiqueScore, TRUE)) {
     g_warning(_("Unable to read high score file %s"), HiScoreFile);
+    if (EndGame && Message)
+      SendPrintMessage(NULL, C_NONE, Play, Message);
+    SendServerMessage(NULL, C_NONE, C_STARTHISCORE, Play, NULL);
+    SendServerMessage(NULL, C_NONE, C_ENDHISCORE, Play,
+                      EndGame ? "end" : NULL);
+    if (!EndGame)
+      SendDrugsHere(Play, FALSE);
+    g_string_free(text, TRUE);
+    return;
   }
   if (Message) {
     g_string_assign(text, Message);
