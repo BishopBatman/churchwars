@@ -2376,7 +2376,7 @@ void display_intro(GtkWidget *widget, gpointer data)
                           "buying, selling, and financing the Holy Christian Empire.\n"
                           "Your first task is to clear your debt to\n"
                           "the Pope’s Loan Collector in Jerusalem - interest\n"
-                          "grows each turn until it’s paid. After that, you have 30\n"
+                          "grows each turn until it’s paid. After that, you have 31\n"
                           "travels to survive and build a fortune for the Kingdom.\n"
                           "\n"
                           "Clerics in the Hagia Sophia add 20 space to\n"
