@@ -66,6 +66,17 @@
 #include <errno.h>
 static const price_t MINTRENCHPRICE = 200, MAXTRENCHPRICE = 300;
 
+price_t GetDynamicPrice(Player *play, price_t base)
+{
+  price_t cost = base;
+  if (play) {
+    price_t scaled = play->Cash / 10;
+    if (scaled > cost)
+      cost = scaled;
+  }
+  return cost;
+}
+
 #define ESCAPE      0
 #define DEFECT      1
 #define SHOT        2

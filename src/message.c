@@ -760,8 +760,8 @@ void SendMiscData(Player *To)
     return;
   HaveTString = HaveAbility(To, A_TSTRING);
   text = g_strdup_printf("0^%c%s^%s^", DT_PRICES,
-                         (prstr[0] = pricetostr(Prices.Spy)),
-                         (prstr[1] = pricetostr(Prices.Tipoff)));
+                         (prstr[0] = pricetostr(GetDynamicPrice(To, Prices.Spy))),
+                         (prstr[1] = pricetostr(GetDynamicPrice(To, Prices.Tipoff))));
   SendServerMessage(NULL, C_NONE, C_DATA, To, text);
   g_free(prstr[0]);
   g_free(prstr[1]);
