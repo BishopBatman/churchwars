@@ -959,10 +959,25 @@ gboolean IsConnectedPlayer(Player *play)
  */
 void UpdatePlayer(Player *Play)
 {
-  Play->Guns =
-      (Inventory *)g_realloc(Play->Guns, NumGun * sizeof(Inventory));
-  Play->Drugs =
-      (Inventory *)g_realloc(Play->Drugs, NumDrug * sizeof(Inventory));
+  Inventory *tmp;
+
+  tmp = (Inventory *)g_realloc(Play->Guns, NumGun * sizeof(Inventory));
+  if (!tmp) {
+    dopelog(0, 0,
+            _("Failed to reallocate gun inventory for %s"),
+            GetPlayerName(Play));
+    return;
+  }
+  Play->Guns = tmp;
+
+  tmp = (Inventory *)g_realloc(Play->Drugs, NumDrug * sizeof(Inventory));
+  if (!tmp) {
+    dopelog(0, 0,
+            _("Failed to reallocate drug inventory for %s"),
+            GetPlayerName(Play));
+    return;
+  }
+  Play->Drugs = tmp;
 }
 
 /* 
@@ -1539,7 +1554,13 @@ void ResizeLocations(int NewNum)
     for (i = NewNum; i < NumLocation; i++) {
       g_free(Location[i].Name);
     }
-  Location = g_realloc(Location, sizeof(struct LOCATION) * NewNum);
+  struct LOCATION *tmploc =
+      g_realloc(Location, sizeof(struct LOCATION) * NewNum);
+  if (!tmploc) {
+    dopelog(0, 0, _("Failed to reallocate locations"));
+    return;
+  }
+  Location = tmploc;
   if (NewNum > NumLocation) {
     memset(&Location[NumLocation], 0,
            (NewNum - NumLocation) * sizeof(struct LOCATION));
@@ -1560,7 +1581,12 @@ void ResizeCops(int NewNum)
       g_free(Cop[i].DeputyName);
       g_free(Cop[i].DeputiesName);
     }
-  Cop = g_realloc(Cop, sizeof(struct COP) * NewNum);
+  struct COP *tmpcop = g_realloc(Cop, sizeof(struct COP) * NewNum);
+  if (!tmpcop) {
+    dopelog(0, 0, _("Failed to reallocate cops"));
+    return;
+  }
+  Cop = tmpcop;
   if (NewNum > NumCop) {
     memset(&Cop[NumCop], 0, (NewNum - NumCop) * sizeof(struct COP));
     for (i = NumCop; i < NewNum; i++) {
@@ -1580,7 +1606,12 @@ void ResizeGuns(int NewNum)
     for (i = NewNum; i < NumGun; i++) {
       g_free(Gun[i].Name);
     }
-  Gun = g_realloc(Gun, sizeof(struct GUN) * NewNum);
+  struct GUN *tmpgun = g_realloc(Gun, sizeof(struct GUN) * NewNum);
+  if (!tmpgun) {
+    dopelog(0, 0, _("Failed to reallocate guns"));
+    return;
+  }
+  Gun = tmpgun;
   if (NewNum > NumGun) {
     memset(&Gun[NumGun], 0, (NewNum - NumGun) * sizeof(struct GUN));
     for (i = NumGun; i < NewNum; i++) {
@@ -1599,7 +1630,12 @@ void ResizeDrugs(int NewNum)
       g_free(Drug[i].Name);
       g_free(Drug[i].CheapStr);
     }
-  Drug = g_realloc(Drug, sizeof(struct DRUG) * NewNum);
+  struct DRUG *tmpdrug = g_realloc(Drug, sizeof(struct DRUG) * NewNum);
+  if (!tmpdrug) {
+    dopelog(0, 0, _("Failed to reallocate drugs"));
+    return;
+  }
+  Drug = tmpdrug;
   if (NewNum > NumDrug) {
     memset(&Drug[NumDrug], 0, (NewNum - NumDrug) * sizeof(struct DRUG));
     for (i = NumDrug; i < NewNum; i++) {
@@ -1618,7 +1654,12 @@ void ResizeSubway(int NewNum)
     for (i = NewNum; i < NumSubway; i++) {
       g_free(SubwaySaying[i]);
     }
-  SubwaySaying = g_realloc(SubwaySaying, sizeof(char *) * NewNum);
+  char **tmpSubway = g_realloc(SubwaySaying, sizeof(char *) * NewNum);
+  if (!tmpSubway) {
+    dopelog(0, 0, _("Failed to reallocate subway sayings"));
+    return;
+  }
+  SubwaySaying = tmpSubway;
   if (NewNum > NumSubway)
     for (i = NumSubway; i < NewNum; i++) {
       SubwaySaying[i] = g_strdup("");
@@ -1634,7 +1675,12 @@ void ResizePlaying(int NewNum)
     for (i = NewNum; i < NumPlaying; i++) {
       g_free(Playing[i]);
     }
-  Playing = g_realloc(Playing, sizeof(char *) * NewNum);
+  char **tmpPlaying = g_realloc(Playing, sizeof(char *) * NewNum);
+  if (!tmpPlaying) {
+    dopelog(0, 0, _("Failed to reallocate playing list"));
+    return;
+  }
+  Playing = tmpPlaying;
   if (NewNum > NumPlaying)
     for (i = NumPlaying; i < NewNum; i++) {
       Playing[i] = g_strdup("");
@@ -1650,7 +1696,12 @@ void ResizeStoppedTo(int NewNum)
     for (i = NewNum; i < NumStoppedTo; i++) {
       g_free(StoppedTo[i]);
     }
-  StoppedTo = g_realloc(StoppedTo, sizeof(char *) * NewNum);
+  char **tmpStopped = g_realloc(StoppedTo, sizeof(char *) * NewNum);
+  if (!tmpStopped) {
+    dopelog(0, 0, _("Failed to reallocate stopped-to list"));
+    return;
+  }
+  StoppedTo = tmpStopped;
   if (NewNum > NumStoppedTo)
     for (i = NumStoppedTo; i < NewNum; i++) {
       StoppedTo[i] = g_strdup("");
