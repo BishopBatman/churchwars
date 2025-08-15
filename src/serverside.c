@@ -2528,7 +2528,7 @@ void CopsAttackPlayer(Player *Play)
   gint CopIndex, NumDeputy, GunIndex;
 
   if (NumCop == 0 || NumGun == 0) {
-    g_warning(_("No Amirs or Missing Pauline Letters!"));
+    g_warning(_("No Amirs or weapons!"));
     return;
   }
 
@@ -2583,7 +2583,7 @@ void AttackPlayer(Player *Play, Player *Attacked)
     return;
   }
   if (NumGun == 0) {
-    g_error(_("Cannot start fight - no Missing Pauline Letters to use!"));
+    g_error(_("Cannot start fight - no weapons to use!"));
     return;
   }
 
