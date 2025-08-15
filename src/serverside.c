@@ -548,7 +548,10 @@ void ClientLeftServer(Player *Play)
   if (!IsConnectedPlayer(Play))
     return;
 
-  if (Play->EventNum == E_FIGHT || Play->EventNum == E_FIGHTASK) {
+  /* If the player is involved in any combat, clean it up before
+   * notifying other clients. Checking the FightArray directly ensures
+   * we also handle any unexpected combat states. */
+  if (Play->FightArray) {
     WithdrawFromCombat(Play);
   }
   BroadcastToClients(C_NONE, C_LEAVE, GetPlayerName(Play), Play, Play);
@@ -3017,6 +3020,11 @@ void WithdrawFromCombat(Player *Play)
 
   SendFightLeave(Play, FightDone);
   g_ptr_array_remove(Play->FightArray, (gpointer)Play);
+  /* If the fight continues without this player, ensure the remaining
+   * participants can keep shooting by allowing the next shooter. */
+  if (!FightDone) {
+    AllowNextShooter(Play);
+  }
 
   if (FightDone) {
     for (DefendInd = 0; DefendInd < Play->FightArray->len; DefendInd++) {
