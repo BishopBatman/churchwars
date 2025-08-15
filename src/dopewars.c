@@ -2606,6 +2606,21 @@ void GetDateString(GString *str, Player *Play)
     return;
   }
 
+  if (!Play->date || !g_date_valid(Play->date)) {
+    if (g_date_valid_dmy(StartDate.day, StartDate.month, StartDate.year)) {
+      if (Play->date == NULL) {
+        Play->date =
+            g_date_new_dmy(StartDate.day, StartDate.month, StartDate.year);
+      } else {
+        g_date_set_dmy(Play->date, StartDate.day, StartDate.month,
+                       StartDate.year);
+      }
+    } else {
+      g_string_printf(str, "Turn %d", Play->Turn);
+      return;
+    }
+  }
+
   turn = g_strdup_printf("%d", Play->Turn);
   g_string_assign(str, Names.Date);
   while ((pt = strstr(str->str, "%T")) != NULL) {
