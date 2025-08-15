@@ -233,6 +233,12 @@ struct CLERIC Cleric = {
   2000, 5000
 };
 
+/* Default price range for doctors who patch you up after a fight.  By default
+ * this mirrors the cleric price range but can be configured separately. */
+struct DOCTOR Doctor = {
+  10000, 20000
+};
+
 #ifdef NETWORKING
 struct METASERVER MetaServer = {
   FALSE, NULL, NULL, NULL, NULL
@@ -635,10 +641,16 @@ struct GLOBALS Globals[] = {
    N_("strftime() format string for displaying the game turn"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, 0},
 {NULL, NULL, &Prices.Spy, NULL, NULL, "Prices.Spy",
-   N_("Cost for a cleric to spy on the enemy"),
+   N_("Base cost for a cleric to spy on the enemy"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
 {NULL, NULL, &Prices.Tipoff, NULL, NULL, "Prices.Tipoff",
-   N_("Cost for a cleric to tipoff the cops to an enemy"),
+   N_("Base cost for a cleric to tipoff the cops to an enemy"),
+   NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
+{NULL, NULL, &Doctor.MinPrice, NULL, NULL, "Doctor.MinPrice",
+   N_("Minimum base price to visit a doctor"),
+   NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
+{NULL, NULL, &Doctor.MaxPrice, NULL, NULL, "Doctor.MaxPrice",
+   N_("Maximum base price to visit a doctor"),
    NULL, NULL, 0, "", NULL, NULL, FALSE, 0, -1},
 {NULL, NULL, &Cleric.MinPrice, NULL, NULL, "Cleric.MinPrice",
    N_("Minimum price to hire a cleric"),

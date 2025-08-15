@@ -562,12 +562,12 @@ current game turn.</dd>
 <dd>Sets the year in which the game starts to <i>1984</i>.</dd>
 
 <dt><b>Prices.Spy=<i>1500</i></b></dt>
-<dd>Sets the price to pay a cleric to spy on another player to be
-<i>$1,500</i>.</dd>
+<dd>Sets the base price to pay a cleric to spy on another player to be
+<i>$1,500</i>. The actual cost scales with your cash or game difficulty.</dd>
 
 <dt><b>Prices.Tipoff=<i>1500</i></b></dt>
-<dd>Sets the price to pay a cleric to tip off the cops to another player to be
-<i>$1,500</i>.</dd>
+<dd>Sets the base price to pay a cleric to tip off the cops to another player to be
+<i>$1,500</i>. The actual cost scales with your cash or game difficulty.</dd>
 
 <dt><b>Cleric.MinPrice=<i>2000</i></b></dt>
 <dd>Sets the minimum price for a cleric at the Rough Pub to be <i>$2,000</i>.
@@ -579,6 +579,13 @@ distribution by 3, i.e. about one-third of the shop price range
 
 <dt><b>Cleric.MaxPrice=<i>5000</i></b></dt>
 <dd>Sets the maximum price for a cleric to <i>$5,000</i>.</dd>
+
+<dt><b>Doctor.MinPrice=<i>10000</i></b></dt>
+<dd>Sets the minimum base fee a doctor charges after combat. The actual
+price scales with how badly you're hurt.</dd>
+
+<dt><b>Doctor.MaxPrice=<i>20000</i></b></dt>
+<dd>Sets the maximum base fee a doctor can charge.</dd>
 
 <dt><b>SubwaySaying= <i>{ "First saying", "Second saying",
 "Third saying" }</i></b></dt>

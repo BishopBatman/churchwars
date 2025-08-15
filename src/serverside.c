@@ -66,6 +66,17 @@
 #include <errno.h>
 static const price_t MINTRENCHPRICE = 200, MAXTRENCHPRICE = 300;
 
+price_t GetDynamicPrice(Player *play, price_t base)
+{
+  price_t cost = base;
+  if (play) {
+    price_t scaled = play->Cash / 10;
+    if (scaled > cost)
+      cost = scaled;
+  }
+  return cost;
+}
+
 #define ESCAPE      0
 #define DEFECT      1
 #define SHOT        2
@@ -548,7 +559,10 @@ void ClientLeftServer(Player *Play)
   if (!IsConnectedPlayer(Play))
     return;
 
-  if (Play->EventNum == E_FIGHT || Play->EventNum == E_FIGHTASK) {
+  /* If the player is involved in any combat, clean it up before
+   * notifying other clients. Checking the FightArray directly ensures
+   * we also handle any unexpected combat states. */
+  if (Play->FightArray) {
     WithdrawFromCombat(Play);
   }
   BroadcastToClients(C_NONE, C_LEAVE, GetPlayerName(Play), Play, Play);
@@ -2253,7 +2267,11 @@ void SendHighScores(Player *Play, gboolean EndGame, char *Message)
         g_free(HiScore[NUMHISCORE - 1].Name);
         g_free(HiScore[NUMHISCORE - 1].Time);
         for (j = NUMHISCORE - 1; j > i; j--) {
-          memcpy(&HiScore[j], &HiScore[j - 1], sizeof(struct HISCORE));
+          /* The source and destination ranges overlap when shifting
+           * existing scores down the table.  Use memmove rather than
+           * memcpy to avoid undefined behaviour and potential memory
+           * corruption under heavy load. */
+          memmove(&HiScore[j], &HiScore[j - 1], sizeof(struct HISCORE));
         }
         memcpy(&HiScore[i], &Score, sizeof(struct HISCORE));
         break;
@@ -3017,6 +3035,11 @@ void WithdrawFromCombat(Player *Play)
 
   SendFightLeave(Play, FightDone);
   g_ptr_array_remove(Play->FightArray, (gpointer)Play);
+  /* If the fight continues without this player, ensure the remaining
+   * participants can keep shooting by allowing the next shooter. */
+  if (!FightDone) {
+    AllowNextShooter(Play);
+  }
 
   if (FightDone) {
     for (DefendInd = 0; DefendInd < Play->FightArray->len; DefendInd++) {
@@ -3029,8 +3052,10 @@ void WithdrawFromCombat(Player *Play)
       } else if (CanRunHere(Defend)
                  && brandom(0, 100) > Location[Defend->IsAt].PolicePresence) {
         Defend->EventNum = E_DOCTOR;
+
         /* Doctor price scales from the cleric price range (2k-5k by default) */
         Defend->DocPrice = prandom(Cleric.MinPrice, Cleric.MaxPrice) *
+  
             Defend->Health / 500;
         text =
             dpg_strdup_printf(_
