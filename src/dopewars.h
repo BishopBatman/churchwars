@@ -124,6 +124,16 @@ struct CLERIC {
   price_t MinPrice, MaxPrice;
 };
 
+/*
+ * Configuration for fees charged by doctors after combat.
+ * The structure mirrors the cleric pricing range but is
+ * maintained separately so that medical costs can be tuned
+ * independently of cleric hire prices.
+ */
+struct DOCTOR {
+  price_t MinPrice, MaxPrice;
+};
+
 typedef enum {
   CLIENT_AUTO, CLIENT_WINDOW, CLIENT_CURSES
 } ClientType;
@@ -192,6 +202,7 @@ extern int MaxClients, AITurnPause;
 extern struct CURRENCY Currency;
 extern struct PRICES Prices;
 extern struct CLERIC Cleric;
+extern struct DOCTOR Doctor;
 extern price_t StartCash, StartDebt;
 extern struct NAMES Names;
 extern struct SOUNDS Sounds;
