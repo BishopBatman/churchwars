@@ -3234,8 +3234,8 @@ msgid "%s^%s is already here!^Do you Attack, or Evade?"
 msgstr "%s^%s est deja la!^Tu Attaque, or t'Evade?"
 
 #: src/serverside.c:2500
-msgid "No Amirs or Missing Pauline Letters!"
-msgstr "No Amirs or Missing Pauline Letters!"
+msgid "No Amirs or weapons!"
+msgstr ""
 
 #: src/serverside.c:2506
 msgid "Amirs cannot attack other amirs!"
@@ -3250,8 +3250,8 @@ msgid "Players are already in separate fights!"
 msgstr "Les joueurs sont deja dans des bastons separees!"
 
 #: src/serverside.c:2555
-msgid "Cannot start fight - no Missing Pauline Letters to use!"
-msgstr "Cannot start fight - no Missing Pauline Letters to use!"
+msgid "Cannot start fight - no weapons to use!"
+msgstr ""
 
 #: src/serverside.c:2784
 msgid "You're dead! The Angels carry you home. Game over."
@@ -3563,8 +3563,8 @@ msgid "You got away!"
 msgstr "Tu t'est echappe!"
 
 #: src/message.c:1421
-msgid "Missing Pauline Letters readied..."
-msgstr "Missing Pauline Letters readied..."
+msgid "Weapons readied..."
+msgstr ""
 
 #: src/message.c:1426
 #, c-format
