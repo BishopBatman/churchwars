@@ -733,7 +733,7 @@ struct COP DefaultCop[] = {
 struct GUN DefaultGun[] = {
   /* The names of the default guns */
   {N_("Mace"), 3000, 4, 5},
-  {N_("Crossbow"), 5400, 6, 9},
+  {N_("Crossbow"), 5400, 6, 8},
   {N_("Spear"), 2400, 3, 4},
   {N_("Battle Axe"), 4200, 5, 7}
 };
