@@ -2,6 +2,9 @@
 - Server checks for high score read failures and sends an empty score list if the
   high score file cannot be read. The file is created automatically if it is
   missing.
+- Combat now terminates or continues appropriately when a participant
+  disconnects, preventing stuck fights. Automated tests simulate these
+  disconnects to guard against regressions.
 
 # 1.6.2 - 2022-06-26
 - The text-mode client should now support Unicode input when in UTF-8
