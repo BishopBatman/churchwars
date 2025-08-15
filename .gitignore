@@ -41,3 +41,8 @@ po/POTFILES
 /churchwars
 *.zip
 *.tgz
+/src/churchwars
+/src/churchwars.bin
+/churchwars
+*.zip
+*.tgz
