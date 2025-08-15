@@ -36,3 +36,4 @@ po/POTFILES
 
 # User audio config
 .asoundrc
+*.zip
