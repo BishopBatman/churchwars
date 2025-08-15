@@ -1418,7 +1418,7 @@ void FormatFightMessage(Player *To, GString *text, Player *Attacker,
     break;
   case F_RELOAD:
     if (!AttackName[0]) {
-      g_string_append(text, _("Missing Pauline Letters readied..."));
+      g_string_append(text, _("Weapons readied..."));
     }
     break;
   case F_MISS:
