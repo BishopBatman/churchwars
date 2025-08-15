@@ -32,12 +32,12 @@ msgstr ""
 #. Word used for a single gun
 #: src/dopewars.c:203
 msgid "weapon"
-msgstr "weapon"
+msgstr ""
 
 #. Word used for two or more guns
 #: src/dopewars.c:205
 msgid "weapons"
-msgstr "weapons"
+msgstr ""
 
 #. Word used for a single drug
 #. Word used for two or more drugs
@@ -469,19 +469,19 @@ msgstr ""
 
 #: src/dopewars.c:600
 msgid "Name of each weapon"
-msgstr "Name of each weapon"
+msgstr ""
 
 #: src/dopewars.c:604
 msgid "Price of each weapon"
-msgstr "Price of each weapon"
+msgstr ""
 
 #: src/dopewars.c:608
 msgid "Space taken by each weapon"
-msgstr "Space taken by each weapon"
+msgstr ""
 
 #: src/dopewars.c:612
 msgid "Damage done by each weapon"
-msgstr "Damage done by each weapon"
+msgstr ""
 
 #: src/dopewars.c:616
 msgid "Word used to denote a single \"cleric\""
@@ -734,8 +734,8 @@ msgid "Exiled alchemists are selling cheap medicines!"
 msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
-msgid "weapons"
-msgstr "weapons"
+msgid "Weapons"
+msgstr ""
 
 #: src/dopewars.c:740
 msgid "Horses"

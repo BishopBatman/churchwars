@@ -46,12 +46,12 @@ msgstr ""
 #. Word used for a single gun
 #: src/dopewars.c:203
 msgid "weapon"
-msgstr "våpen"
+msgstr ""
 
 #. Word used for two or more guns
 #: src/dopewars.c:205
 msgid "weapons"
-msgstr "våpen"
+msgstr ""
 
 #. Word used for a single drug
 #. Word used for two or more drugs
@@ -485,19 +485,19 @@ msgstr "Tal som prisen på dopet skal gangast med når det er ekstra dyrt"
 
 #: src/dopewars.c:600
 msgid "Name of each weapon"
-msgstr "Namn på kvart våpen"
+msgstr "Namn på kvar stad"
 
 #: src/dopewars.c:604
 msgid "Price of each weapon"
-msgstr "Pris på kvart våpen"
+msgstr "Prisen på kvart våpen"
 
 #: src/dopewars.c:608
 msgid "Space taken by each weapon"
-msgstr "Plass teke av kvart våpen"
+msgstr "Plassen kvart våpen tek"
 
 #: src/dopewars.c:612
 msgid "Damage done by each weapon"
-msgstr "Skade gjort av kvart våpen"
+msgstr "Skaden kvart våpen gjer"
 
 #: src/dopewars.c:616
 msgid "Word used to denote a single \"cleric\""
@@ -750,8 +750,8 @@ msgid "Exiled alchemists are selling cheap medicines!"
 msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
-msgid "weapons"
-msgstr "våpen"
+msgid "Weapons"
+msgstr ""
 
 #: src/dopewars.c:740
 msgid "Horses"
@@ -3301,7 +3301,7 @@ msgstr "%s^%s er alt her!^Vil du gå til Angrep, eller Stikka av?"
 
 #: src/serverside.c:2500
 msgid "No Amirs or weapons!"
-msgstr ""
+msgstr "Ingen politi eller våpen!"
 
 #: src/serverside.c:2506
 msgid "Amirs cannot attack other amirs!"
@@ -3317,7 +3317,7 @@ msgstr "Spelarane er alt i kvar sine kampar!"
 
 #: src/serverside.c:2555
 msgid "Cannot start fight - no weapons to use!"
-msgstr ""
+msgstr "Kan ikkje starta kamp - har ingen våpen!"
 
 #: src/serverside.c:2784
 msgid "You're dead! The Angels carry you home. Game over."
@@ -3629,7 +3629,7 @@ msgstr "Du kom deg unna!"
 
 #: src/message.c:1421
 msgid "Weapons readied..."
-msgstr ""
+msgstr "Våpna lada..."
 
 #: src/message.c:1426
 #, c-format

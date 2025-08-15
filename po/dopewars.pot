@@ -736,7 +736,7 @@ msgid "Exiled alchemists are selling cheap medicines!"
 msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
-msgid "weapons"
+msgid "Weapons"
 msgstr ""
 
 #: src/dopewars.c:740

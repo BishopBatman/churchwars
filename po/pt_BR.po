@@ -33,12 +33,12 @@ msgstr ""
 #. Word used for a single gun
 #: src/dopewars.c:203
 msgid "weapon"
-msgstr "arma"
+msgstr ""
 
 #. Word used for two or more guns
 #: src/dopewars.c:205
 msgid "weapons"
-msgstr "armas"
+msgstr ""
 
 #. Word used for a single drug
 #. Word used for two or more drugs
@@ -470,7 +470,7 @@ msgstr "Multiplicador para para os preços da droga especialmente cara"
 
 #: src/dopewars.c:600
 msgid "Name of each weapon"
-msgstr "Nome de cada arma"
+msgstr "Nome de cada local"
 
 #: src/dopewars.c:604
 msgid "Price of each weapon"
@@ -478,11 +478,11 @@ msgstr "Preço de cada arma"
 
 #: src/dopewars.c:608
 msgid "Space taken by each weapon"
-msgstr "Espaço ocupado por cada arma"
+msgstr "Espaço tomado por cada arma"
 
 #: src/dopewars.c:612
 msgid "Damage done by each weapon"
-msgstr "Dano causado por cada arma"
+msgstr "Dano de cada arma"
 
 #: src/dopewars.c:616
 msgid "Word used to denote a single \"cleric\""
@@ -735,8 +735,8 @@ msgid "Exiled alchemists are selling cheap medicines!"
 msgstr ""
 
 #: src/dopewars.c:739 src/gui_client/optdialog.c:947
-msgid "weapons"
-msgstr "armas"
+msgid "Weapons"
+msgstr ""
 
 #: src/dopewars.c:740
 msgid "Horses"
@@ -3255,7 +3255,7 @@ msgstr "%s^%s está aqui!^Você Ataca, ou Evacua?"
 
 #: src/serverside.c:2500
 msgid "No Amirs or weapons!"
-msgstr ""
+msgstr "Nenhum policial ou armas!"
 
 #: src/serverside.c:2506
 msgid "Amirs cannot attack other amirs!"
@@ -3271,7 +3271,7 @@ msgstr "Jogadores estão em lutas separadas!"
 
 #: src/serverside.c:2555
 msgid "Cannot start fight - no weapons to use!"
-msgstr ""
+msgstr "Não é possível começar briga - nenhuma arma para usar!"
 
 #: src/serverside.c:2784
 msgid "You're dead! The Angels carry you home. Game over."
@@ -3584,7 +3584,7 @@ msgstr "Você fugiu!"
 
 #: src/message.c:1421
 msgid "Weapons readied..."
-msgstr ""
+msgstr "Armas recarregadas..."
 
 #: src/message.c:1426
 #, c-format
