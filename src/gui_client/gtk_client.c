@@ -47,6 +47,9 @@
 #define BT_SELL (GINT_TO_POINTER(2))
 #define BT_DROP (GINT_TO_POINTER(3))
 
+/* Minimum height for inventory lists to avoid excessive scrolling */
+#define INVENTORY_MIN_HEIGHT 220
+
 struct InventoryWidgets {
   GtkWidget *HereList, *CarriedList;
   GtkWidget *HereFrame, *CarriedFrame;
@@ -2916,6 +2919,7 @@ void CreateInventory(GtkWidget *hbox, gchar *Objects,
     gtk_container_set_border_width(GTK_CONTAINER(frame[i]), 3);
 
     tv = gtk_scrolled_tree_view_new(&scrollwin);
+    gtk_widget_set_size_request(scrollwin, -1, INVENTORY_MIN_HEIGHT);
     renderer = gtk_cell_renderer_text_new();
     store = gtk_list_store_new(INVEN_NUM_COLS, G_TYPE_STRING,
                                G_TYPE_STRING, G_TYPE_INT);
