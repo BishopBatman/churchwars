@@ -2271,10 +2271,17 @@ void SendHighScores(Player *Play, gboolean EndGame, char *Message)
 #else
     timep = gmtime(&tim);
 #endif
-    Score.Time = g_new(char, 80);       /* Yuck! */
+    size_t tlen;
+    Score.Time = g_new0(char, 80);      /* Yuck! */
 
-    strftime(Score.Time, 80, "%d-%m-%Y", timep);
-    Score.Time[79] = '\0';
+    tlen = strftime(Score.Time, 80, "%d-%m-%Y", timep);
+    if (tlen == 0) {
+      /* Skip recording the date if conversion failed */
+      Score.Time[0] = '\0';
+    } else {
+      /* Ensure the string is explicitly NUL terminated */
+      Score.Time[tlen] = '\0';
+    }
     for (i = 0; i < NUMHISCORE; i++) {
       if (InList == -1 && (Score.Money > HiScore[i].Money ||
                            !HiScore[i].Time || HiScore[i].Time[0] == 0)) {
