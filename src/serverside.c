@@ -2193,8 +2193,15 @@ gboolean HighScoreWrite(FILE *fp, struct HISCORE *MultiScore,
       ReleaseLock(fp);
       return FALSE;
     }
+    if (fflush(fp) != 0) {
+      gchar *errmsg = ErrStrFromErrno(errno);
+      g_log(NULL, G_LOG_LEVEL_CRITICAL,
+            _("Cannot flush high score file: %s."), errmsg);
+      g_free(errmsg);
+      ReleaseLock(fp);
+      return FALSE;
+    }
     ReleaseLock(fp);
-    fflush(fp);
   } else
     return FALSE;
   return TRUE;
