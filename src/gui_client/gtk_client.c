@@ -48,7 +48,7 @@
 #define BT_DROP (GINT_TO_POINTER(3))
 
 /* Minimum height for inventory lists to avoid excessive scrolling */
-#define INVENTORY_MIN_HEIGHT 220
+#define INVENTORY_MIN_HEIGHT 300
 
 struct InventoryWidgets {
   GtkWidget *HereList, *CarriedList;
@@ -315,7 +315,7 @@ void ListInventory(GtkWidget *widget, gpointer data)
   if (IsShowingInventory)
     return;
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_default_size(GTK_WINDOW(window), 550, 120);
+  gtk_window_set_default_size(GTK_WINDOW(window), 500, 320);
   accel_group = gtk_accel_group_new();
   gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 
