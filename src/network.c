@@ -899,7 +899,18 @@ gboolean ReadDataFromWire(NetworkBuffer *NetBuf)
         conn->Length *= 2;
       if (conn->Length > MAXREADBUF)
         conn->Length = MAXREADBUF;
-      conn->Data = g_realloc(conn->Data, conn->Length);
+      {
+        gchar *tmp;
+
+        tmp = g_try_realloc(conn->Data, conn->Length);
+        if (!tmp) {
+          SetError(&NetBuf->error, ET_ERRNO, ENOMEM, NULL);
+          CloseSocket(NetBuf->fd);
+          NetBuf->fd = -1;
+          return FALSE;
+        }
+        conn->Data = tmp;
+      }
     }
     BytesRead = recv(NetBuf->fd, &conn->Data[CurrentPosition],
                      conn->Length - CurrentPosition, 0);
