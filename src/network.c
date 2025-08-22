@@ -78,6 +78,14 @@ static gboolean StartConnect(int *fd, const gchar *bindaddr, gchar *RemoteHost,
                              unsigned RemotePort, gboolean *doneOK,
                              LastError **error);
 
+/* Error type for reporting libcurl initialization failures */
+static void CurlAppendError(GString *str, LastError *error)
+{
+  g_string_append(str, curl_easy_strerror((CURLcode)error->code));
+}
+
+static ErrorType ETCurl = { CurlAppendError, NULL };
+
 #ifdef CYGWIN
 
 gboolean StartNetworking(LastError **error)
@@ -88,11 +96,18 @@ gboolean StartNetworking(LastError **error)
     SetError(error, ET_WINSOCK, WSAGetLastError(), NULL);
     return FALSE;
   }
+  CURLcode res = curl_global_init(CURL_GLOBAL_DEFAULT);
+  if (res != CURLE_OK) {
+    WSACleanup();
+    SetError(error, &ETCurl, res, NULL);
+    return FALSE;
+  }
   return TRUE;
 }
 
 void StopNetworking()
 {
+  curl_global_cleanup();
   WSACleanup();
 }
 
@@ -121,12 +136,17 @@ gboolean SetBlocking(SOCKET sock, gboolean blocking)
 
 gboolean StartNetworking(LastError **error)
 {
-  (void)error;
+  CURLcode res = curl_global_init(CURL_GLOBAL_DEFAULT);
+  if (res != CURLE_OK) {
+    SetError(error, &ETCurl, res, NULL);
+    return FALSE;
+  }
   return TRUE;
 }
 
 void StopNetworking()
 {
+  curl_global_cleanup();
 }
 
 gboolean SetReuse(int sock, LastError **error)
@@ -1215,8 +1235,6 @@ static size_t MetaConnHeaderFunc(char *contents, size_t size, size_t nmemb,
 
 gboolean CurlInit(CurlConnection *conn, GError **err)
 {
-  CURLcode res;
-
   conn->multi = NULL;
   conn->h = NULL;
   conn->running = FALSE;
@@ -1229,17 +1247,10 @@ gboolean CurlInit(CurlConnection *conn, GError **err)
   conn->timer_cb = NULL;
   conn->socket_cb = NULL;
 
-  res = curl_global_init(CURL_GLOBAL_DEFAULT);
-  if (res != CURLE_OK) {
-    g_set_error_literal(err, DOPE_CURL_ERROR, res, curl_easy_strerror(res));
-    return FALSE;
-  }
-
   conn->multi = curl_multi_init();
   if (!conn->multi) {
     g_set_error_literal(err, DOPE_CURLM_ERROR, 0,
                         _("curl_multi_init failed"));
-    curl_global_cleanup();
     return FALSE;
   }
 
@@ -1249,7 +1260,6 @@ gboolean CurlInit(CurlConnection *conn, GError **err)
                         _("curl_easy_init failed"));
     curl_multi_cleanup(conn->multi);
     conn->multi = NULL;
-    curl_global_cleanup();
     return FALSE;
   }
 
@@ -1281,7 +1291,6 @@ static void ResetCurlConnection(CurlConnection *conn)
     curl_multi_cleanup(conn->multi);
     conn->multi = NULL;
   }
-  curl_global_cleanup();
 }
 
 void CurlCleanup(CurlConnection *conn)
