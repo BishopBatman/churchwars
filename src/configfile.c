@@ -35,6 +35,7 @@
 #include <unistd.h>
 #endif
 #include <glib.h>
+#include <glib/gstdio.h>
 
 #include "configfile.h"
 #include "convert.h"            /* For Converter */
@@ -60,16 +61,17 @@ static int mkdir_p(const char *path) {
         return -1;
     }
     for (gchar *p = tmp + 1; *p; ++p) {
-        if (*p == '/') {
+        if (G_IS_DIR_SEPARATOR(*p)) {
+            gchar sep = *p;
             *p = '\0';
-            if (mkdir(tmp, 0775) && errno != EEXIST) {
+            if (g_mkdir(tmp, 0775) != 0 && errno != EEXIST) {
                 g_free(tmp);
                 return -1;
             }
-            *p = '/';
+            *p = sep;
         }
     }
-    if (mkdir(tmp, 0775) && errno != EEXIST) {
+    if (g_mkdir(tmp, 0775) != 0 && errno != EEXIST) {
         g_free(tmp);
         return -1;
     }
@@ -79,19 +81,14 @@ static int mkdir_p(const char *path) {
 
 int ensure_scorefile_ready(const char *path) {
     if (!path || !*path) return -1;
-    const char *slash = strrchr(path, '/');
-    if (slash) {
-        size_t n = (size_t)(slash - path);
-        gchar *dir = g_malloc(n + 1);
-        if (!dir) {
-            errno = ENOMEM;
-            return -1;
-        }
-        g_strlcpy(dir, path, n + 1);
+    gchar *dir = g_path_get_dirname(path);
+    if (dir && strcmp(dir, ".") != 0) {
         if (mkdir_p(dir) != 0) {
             g_free(dir);
             return -1;
         }
+        g_free(dir);
+    } else {
         g_free(dir);
     }
     FILE *f = fopen(path, "ab+");
