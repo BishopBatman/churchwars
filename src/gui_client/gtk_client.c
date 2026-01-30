@@ -2363,8 +2363,6 @@ void display_intro(GtkWidget *widget, gpointer data)
     {N_("Sounds"), "freesound.org, 19.5degs.com", NULL},
     {N_("History and Research"), "O Batstone", NULL},
     {N_("Play Testing"), "L Evans", "O Batstone"},
-    {N_("Extensive Play Testing"), "L Evans",
-     "O Batstone"},
     {N_("Constructive Criticism"), "L Evans",
      "O Batstone"},
     {N_("Unconstructive Criticism"), "R Batstone", NULL}
@@ -2387,8 +2385,8 @@ void display_intro(GtkWidget *widget, gpointer data)
 
     /* Main content of GTK+ 'about' dialog */
   label = gtk_label_new(_("It’s AD 1095, and the Crusades are about to begin.\n"
-                          "As a famed Trader-Saint, Pope Urban II has\n"
-                          "charged you with a sacred mission—cross the medieval\n"
+                          "As a famed Christian Trader, Pope Urban II has\n"
+                          "charged you with a sacred mission - cross the medieval\n"
                           "world, trade valuable goods, and amass wealth to fund\n"
                           "the Holy Christian Church’s coming crusade. The Empire\n"
                           "of the Holy Trinity depends on you.\n"
@@ -2414,7 +2412,7 @@ void display_intro(GtkWidget *widget, gpointer data)
 
   /* Version and copyright notice in GTK+ 'about' dialog */
   VersionStr = g_strdup_printf(_("Version %s     "
-                                 "Copyright (C) 2024  "
+                                 "Copyright (C) 2026  "
                                  "O Batstone theprawn26@gmail.com\n"
                                  "Church Wars is released under the "
                                  "GNU General Public License\n"), VERSION);
@@ -2441,7 +2439,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   }
   gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
-  PackCentredURL(vbox, _("Original Church Wars information here"),
+  PackCentredURL(vbox, _("Previous game information here"),
                  "https://dopewars.sourceforge.io/");
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);

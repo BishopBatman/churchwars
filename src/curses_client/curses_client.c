@@ -365,8 +365,6 @@ void display_intro(void)
   mvaddstr(15, 7, _("History and Research    O Batstone"));
   mvaddstr(16, 7, _("Play Testing                  L Evans           "
                     "O Batstone"));
-  mvaddstr(17, 7, _("Extensive Play Testing        L Evans       "
-                    "O Batstone"));
   mvaddstr(18, 7, _("Constructive Criticism        L Evans  "
                     "O Batstone"));
   mvaddstr(19, 7, _("Unconstructive Criticism      R Batstone"));
