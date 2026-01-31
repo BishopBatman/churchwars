@@ -1208,6 +1208,7 @@ void DisplayStats(Player *Play, struct StatusWidgets *Status)
   g_string_printf(text, "%d", Play->Health);
   gtk_label_set_text(GTK_LABEL(Status->HealthValue), text->str);
 
+  /* Spy / Tipoff status update (disabled)
   gtk_label_set_text(GTK_LABEL(Status->SpyName), _("Spy"));
   prstr = FormatPrice(GetDynamicPrice(Play, Prices.Spy));
   gtk_label_set_text(GTK_LABEL(Status->SpyValue), prstr);
@@ -1216,6 +1217,7 @@ void DisplayStats(Player *Play, struct StatusWidgets *Status)
   prstr = FormatPrice(GetDynamicPrice(Play, Prices.Tipoff));
   gtk_label_set_text(GTK_LABEL(Status->TipoffValue), prstr);
   g_free(prstr);
+  */
 
   g_string_free(text, TRUE);
 }
@@ -2094,6 +2096,8 @@ GtkWidget *CreateStatusWidgets(struct StatusWidgets *Status)
   label = Status->HealthValue = gtk_label_new(NULL);
   dp_gtk_grid_attach(GTK_GRID(grid), label, 5, 2, 1, 1, TRUE);
 
+  /* Spy / Tipoff status (disabled) */
+  /*
   label = Status->SpyName = gtk_label_new(_("Spy"));
   dp_gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1, TRUE);
   label = Status->SpyValue = gtk_label_new(NULL);
@@ -2102,6 +2106,8 @@ GtkWidget *CreateStatusWidgets(struct StatusWidgets *Status)
   dp_gtk_grid_attach(GTK_GRID(grid), label, 2, 3, 1, 1, TRUE);
   label = Status->TipoffValue = gtk_label_new(NULL);
   dp_gtk_grid_attach(GTK_GRID(grid), label, 3, 3, 1, 1, TRUE);
+  */
+
   return grid;
 }
 
