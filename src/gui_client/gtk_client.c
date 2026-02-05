@@ -62,7 +62,7 @@ struct StatusWidgets {
   GtkWidget *CashValue, *DebtName, *DebtValue, *BankName, *BankValue;
   GtkWidget *GunsName, *GunsValue, *BitchesName, *BitchesValue;
   GtkWidget *HealthName, *HealthValue;
-  GtkWidget *SpyName, *SpyValue, *TipoffName, *TipoffValue;
+  /*GtkWidget *SpyName, *SpyValue, *TipoffName, *TipoffValue;*/
 };
 
 struct ClientDataStruct {
@@ -1208,7 +1208,7 @@ void DisplayStats(Player *Play, struct StatusWidgets *Status)
   g_string_printf(text, "%d", Play->Health);
   gtk_label_set_text(GTK_LABEL(Status->HealthValue), text->str);
 
-  /* Spy / Tipoff status update (disabled)
+  /*
   gtk_label_set_text(GTK_LABEL(Status->SpyName), _("Spy"));
   prstr = FormatPrice(GetDynamicPrice(Play, Prices.Spy));
   gtk_label_set_text(GTK_LABEL(Status->SpyValue), prstr);
@@ -2096,7 +2096,6 @@ GtkWidget *CreateStatusWidgets(struct StatusWidgets *Status)
   label = Status->HealthValue = gtk_label_new(NULL);
   dp_gtk_grid_attach(GTK_GRID(grid), label, 5, 2, 1, 1, TRUE);
 
-  /* Spy / Tipoff status (disabled) */
   /*
   label = Status->SpyName = gtk_label_new(_("Spy"));
   dp_gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1, TRUE);
@@ -2107,7 +2106,6 @@ GtkWidget *CreateStatusWidgets(struct StatusWidgets *Status)
   label = Status->TipoffValue = gtk_label_new(NULL);
   dp_gtk_grid_attach(GTK_GRID(grid), label, 3, 3, 1, 1, TRUE);
   */
-
   return grid;
 }
 
@@ -2209,18 +2207,7 @@ gboolean GtkLoop(int *argc, char **argv[],
 
   /* Create the main player */
   ClientData.Play = g_new(Player, 1);
-  {
-    GSList *tmp_list = AddPlayer(0, ClientData.Play, FirstClient);
-    if (!tmp_list) {
-      g_warning(_("Unable to allocate memory for new player"));
-      g_free(ClientData.Play->Guns);
-      g_free(ClientData.Play->Drugs);
-      g_free(ClientData.Play->Name);
-      g_free(ClientData.Play);
-      return TRUE;
-    }
-    FirstClient = tmp_list;
-  }
+  FirstClient = AddPlayer(0, ClientData.Play, FirstClient);
   if (PlayerName && PlayerName[0]) {
     SetPlayerName(ClientData.Play, PlayerName);
   }
@@ -2276,7 +2263,7 @@ gboolean GtkLoop(int *argc, char **argv[],
 
   text = ClientData.messages = gtk_scrolled_text_view_new(&hbox);
   make_tags(GTK_TEXT_VIEW(text));
-  gtk_widget_set_size_request(text, 100, 80);
+  gtk_widget_set_size_request(text, 100, 110);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_paned_pack1(GTK_PANED(vpaned), hbox, TRUE, TRUE);
@@ -2380,6 +2367,8 @@ void display_intro(GtkWidget *widget, gpointer data)
     {N_("Sounds"), "freesound.org, 19.5degs.com", NULL},
     {N_("History and Research"), "O Batstone", NULL},
     {N_("Play Testing"), "L Evans", "O Batstone"},
+    {N_("Extensive Play Testing"), "L Evans",
+     "O Batstone"},
     {N_("Constructive Criticism"), "L Evans",
      "O Batstone"},
     {N_("Unconstructive Criticism"), "R Batstone", NULL}
@@ -2402,8 +2391,8 @@ void display_intro(GtkWidget *widget, gpointer data)
 
     /* Main content of GTK+ 'about' dialog */
   label = gtk_label_new(_("It’s AD 1095, and the Crusades are about to begin.\n"
-                          "As a famed Christian Trader, Pope Urban II has\n"
-                          "charged you with a sacred mission - cross the medieval\n"
+                          "As a famed Trader-Saint, Pope Urban II has\n"
+                          "charged you with a sacred mission—cross the medieval\n"
                           "world, trade valuable goods, and amass wealth to fund\n"
                           "the Holy Christian Church’s coming crusade. The Empire\n"
                           "of the Holy Trinity depends on you.\n"
@@ -2429,7 +2418,7 @@ void display_intro(GtkWidget *widget, gpointer data)
 
   /* Version and copyright notice in GTK+ 'about' dialog */
   VersionStr = g_strdup_printf(_("Version %s     "
-                                 "Copyright (C) 2026  "
+                                 "Copyright (C) 2024  "
                                  "O Batstone theprawn26@gmail.com\n"
                                  "Church Wars is released under the "
                                  "GNU General Public License\n"), VERSION);
@@ -2456,7 +2445,7 @@ void display_intro(GtkWidget *widget, gpointer data)
   }
   gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 0);
 
-  PackCentredURL(vbox, _("Previous game information here"),
+  PackCentredURL(vbox, _("Original Church Wars information here"),
                  "https://dopewars.sourceforge.io/");
 
   hsep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
